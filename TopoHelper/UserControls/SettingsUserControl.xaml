@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="TopoHelper.UserControls.SettingsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TopoHelper.UserControls"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding Path=DataGridView.View,
+                  UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserSortColumns="True"
+                  CanUserReorderColumns="True"
+                  AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                  x:Name="dataGrid">
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Background="LightGray">
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Cancel</Button>
+
+            <TextBox  Padding="5" Margin="5,3" x:Name="TxtFilter" FlowDirection="LeftToRight"
+                      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
+                      Width="200"></TextBox>
+            <TextBlock Padding="0,5" Margin="0,3" Text="Search" FlowDirection="LeftToRight"></TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

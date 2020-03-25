@@ -90,6 +90,10 @@ ipch/
 *.vspx
 *.sap
 
+# Installer
+[Ii]nstaller
+*.msi
+
 # TFS 2012 Local Workspace
 $tf/
 

@@ -6,7 +6,7 @@ namespace TopoHelper.UserControls
     /// <summary>
     /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class SettingsUserControl : UserControl
+    public partial class SettingsUserControl
     {
         public SettingsUserControl()
         {

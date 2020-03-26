@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TopoHelper.Autocad;
+using TopoHelper.AutoCAD;
 using TopoHelper.Model.Results;
+using TopoHelper.Properties;
 
 namespace TopoHelper.Model.Calculations
 {
@@ -12,8 +13,8 @@ namespace TopoHelper.Model.Calculations
     {
         #region Private Fields
 
-        private static readonly object _AcadLock = 1;
-        private static readonly object _ArrayLock = 1;
+        private static readonly object AcadLock = 1;
+        private static readonly object ArrayLock = 1;
 
         #endregion
 
@@ -21,21 +22,22 @@ namespace TopoHelper.Model.Calculations
 
         internal static IEnumerable<CalculateDisplacementSectionResult> CalculateDisplacement(IEnumerable<Point3d> leftRailPoints, IEnumerable<Point3d> rightRailPoints)
         {
-            var itemCount = leftRailPoints.Count();
+            var leftRailArr = leftRailPoints as Point3d[] ?? leftRailPoints.ToArray();
+            var itemCount = leftRailArr.Count();
             var result = new CalculateDisplacementSectionResult[itemCount];
 
-            Parallel.For(0, itemCount, (i) =>
+            Parallel.For(0, itemCount, i =>
             //for (int i = 0; i < itemCount; i++)
             {
                 var rrp = rightRailPoints.ElementAt(i);
-                var lrp = leftRailPoints.ElementAt(i);
+                var lrp = leftRailArr.ElementAt(i);
 
                 var h = Math.Abs(rrp.Z - lrp.Z);
                 var gauge = rrp.DistanceTo(lrp);
                 // no need to calculate if there is no cant
-                if (h <= Properties.Settings.Default.CSD_MIN_CANT_VAL)
+                if (h <= Settings.Default.CSD_MIN_CANT_VAL)
                 {
-                    lock (_ArrayLock)
+                    lock (ArrayLock)
                         result[i] = new CalculateDisplacementSectionResult
                         {
                             LeftRailPoint = lrp,
@@ -44,7 +46,7 @@ namespace TopoHelper.Model.Calculations
                             OriginalRightRailPoint = rrp,
                             Cant = h,
                             Gauge = gauge,
-                            DisplacementSectionXY = 0,
+                            DisplacementSectionXy = 0,
                             DisplacementSectionZ = 0
                         };
                     return;
@@ -61,46 +63,46 @@ namespace TopoHelper.Model.Calculations
                 var zDisp = Math.Abs(displacement.Y);
                 var xyDisp = Math.Abs(displacement.X);
 
-                double new_lrp_Z, new_rrp_Z;
+                double newLrpZ, newRrpZ;
                 // Low rail needs to go up, high rail needs to go down
                 if (lrp.Z < rrp.Z)
                 {
-                    new_lrp_Z = lrp.Z + zDisp;
-                    new_rrp_Z = rrp.Z - zDisp;
+                    newLrpZ = lrp.Z + zDisp;
+                    newRrpZ = rrp.Z - zDisp;
                 }
                 else
                 {
-                    new_lrp_Z = lrp.Z - zDisp;
-                    new_rrp_Z = rrp.Z + zDisp;
+                    newLrpZ = lrp.Z - zDisp;
+                    newRrpZ = rrp.Z + zDisp;
                 }
 
                 // Calculate new x and y values by using the projected xy line
                 using (var line = new Line2d(lrp.T2d(), rrp.T2d()))
                 {
                     Point2d projLPoint, projRpoint;
-                    lock (_AcadLock)
+                    lock (AcadLock)
                     {
                         projLPoint = line.EvaluatePoint(line.GetParameterAtLength(0, -xyDisp, true));
                         projRpoint = line.EvaluatePoint(line.GetParameterAtLength(1, -xyDisp, true));
                     }
 
-                    lock (_ArrayLock)
+                    lock (ArrayLock)
                         result[i] = new CalculateDisplacementSectionResult
                         {
-                            LeftRailPoint = projLPoint.T3d(new_lrp_Z),
-                            RightRailPoint = projRpoint.T3d(new_rrp_Z),
+                            LeftRailPoint = projLPoint.T3d(newLrpZ),
+                            RightRailPoint = projRpoint.T3d(newRrpZ),
                             OriginalLeftRailPoint = lrp,
                             OriginalRightRailPoint = rrp,
                             Gauge = gauge,
                             Cant = h,
                             DisplacementSectionZ = zDisp,
-                            DisplacementSectionXY = xyDisp,
+                            DisplacementSectionXy = xyDisp,
                         };
                 }
             });
 
             var chain = 0.0;
-            for (int i = 0; i < itemCount; i++)
+            for (var i = 0; i < itemCount; i++)
             {
                 // calculate chainage to the previously calculated point in the
                 // 2-dimensional space.
@@ -124,9 +126,7 @@ namespace TopoHelper.Model.Calculations
         /// fault caused by rotating the angle around the lower rail to be able
         /// to measure the tracks cant
         /// </summary>
-        /// <param name="h">        
-        /// This is the measured cant. In Meters
-        /// </param>
+        /// <param name="h">         This is the measured cant. In Meters </param>
         /// <param name="railGauge"> This is the rail gauge. In Meters </param>
         /// <returns> The displacement to execute for rectifying. </returns>
         private static Point CalculateDisplacementForSurveyCorrecting(double h, double railGauge)
@@ -134,15 +134,15 @@ namespace TopoHelper.Model.Calculations
             var a = new Point();
 
             // pt(a) is low rail
-            const double RR = 0.0796;
+            const double rr = 0.0796;
 
-            var c_t = new Point { X = a.X, Y = a.Y - RR };
+            var cT = new Point { X = a.X, Y = a.Y - rr };
             var α = Math.Asin(h / railGauge);
 
-            var c = Point.RotatePoint(c_t, a, -α /* Negative for CW */);
-            var a_new = Point.RotatePoint(a, c, α /* Positive for CW */);
+            var c = Point.RotatePoint(cT, a, -α /* Negative for CW */);
+            var aNew = Point.RotatePoint(a, c, α /* Positive for CW */);
 
-            return a_new;
+            return aNew;
         }
 
         #endregion
@@ -165,12 +165,6 @@ namespace TopoHelper.Model.Calculations
                 X = 0; Y = 0;
             }
 
-            public Point(double X, double Y)
-            {
-                this.X = X;
-                this.Y = Y;
-            }
-
             #endregion
 
             #region Public Methods
@@ -183,34 +177,34 @@ namespace TopoHelper.Model.Calculations
                 if (angle < 0)
                     angle = (Math.PI * 2) - Math.Abs(angle);
 
-                double s = Math.Sin(angle);
-                double c = Math.Cos(angle);
+                var s = Math.Sin(angle);
+                var c = Math.Cos(angle);
                 // translate point back to origin:
                 p.X -= origin.X;
                 p.Y -= origin.Y;
                 // rotate point
-                double Xnew = p.X * c - p.Y * s;
-                double Ynew = p.X * s + p.Y * c;
+                var xnew = p.X * c - p.Y * s;
+                var ynew = p.X * s + p.Y * c;
                 // translate point back:
-                p.X = Xnew + origin.X;
-                p.Y = Ynew + origin.Y;
+                p.X = xnew + origin.X;
+                p.Y = ynew + origin.Y;
                 return p;
             }
 
-            public Point Print(string prefix = "", string suffix = "")
-            {
-                Console.WriteLine($"{prefix}{X},{Y}{suffix}");
-                return this;
-            }
+            //public Point Print(string prefix = "", string suffix = "")
+            //{
+            //    Console.WriteLine($"{prefix}{X},{Y}{suffix}");
+            //    return this;
+            //}
 
             #endregion
 
             #region Internal Methods
 
-            internal static double CalculatePoweredDistance(double x1, double y1, double z1, double x2, double y2, double z2)
-            {
-                return Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2) + Math.Pow(z2 - z1, 2);
-            }
+            //internal static double CalculatePoweredDistance(double x1, double y1, double z1, double x2, double y2, double z2)
+            //{
+            //    return Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2) + Math.Pow(z2 - z1, 2);
+            //}
 
             #endregion
         }

@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
+﻿using System.Globalization;
+using Autodesk.AutoCAD.Geometry;
 
 namespace TopoHelper.Model.Geometry
 {
@@ -38,7 +39,7 @@ namespace TopoHelper.Model.Geometry
 
         public override string ToString()
         {
-            return $"{X.ToString()};{Y.ToString()};{Z.ToString()}";
+            return $"{X.ToString(CultureInfo.CurrentCulture)};{Y.ToString(CultureInfo.CurrentCulture)};{Z.ToString(CultureInfo.CurrentCulture)}";
         }
 
         #endregion

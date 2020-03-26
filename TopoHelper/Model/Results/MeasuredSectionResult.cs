@@ -1,5 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
+using Autodesk.AutoCAD.Geometry;
 using TopoHelper.Model.Enums;
 
 namespace TopoHelper.Model.Results
@@ -8,7 +8,8 @@ namespace TopoHelper.Model.Results
     {
         #region Private Fields
 
-        private static readonly Plane myPlaneWCS = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
+        // ReSharper disable once UnusedMember.Local
+        private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
         #endregion
 

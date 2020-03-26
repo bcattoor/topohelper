@@ -2,10 +2,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using TopoHelper.Properties;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace TopoHelper.UserControls.ViewModels
 {
@@ -13,12 +17,12 @@ namespace TopoHelper.UserControls.ViewModels
     {
         #region Private Fields
 
-        private static readonly Properties.Settings settings_default = Properties.Settings.Default;
+        private static readonly Settings SettingsDefault = Settings.Default;
         private RelayCommand _cancel;
         private RelayCommand _reloadSettings;
         private RelayCommand _save;
         private string _filter;
-        private CollectionViewSource dataGridView;
+        private CollectionViewSource _dataGridView;
 
         #endregion
 
@@ -51,7 +55,7 @@ namespace TopoHelper.UserControls.ViewModels
             if (string.IsNullOrWhiteSpace(value))
                 DataGridView.View.Filter = null;
             else
-                DataGridView.View.Filter = (item) =>
+                DataGridView.View.Filter = item =>
                 {
                     if (item == null) return false;
                     if (item is SettingsEntryViewModel)
@@ -74,7 +78,7 @@ namespace TopoHelper.UserControls.ViewModels
             }
         }
 
-        public CollectionViewSource DataGridView { get { return dataGridView; } set { dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); } }
+        public CollectionViewSource DataGridView { get { return _dataGridView; } set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); } }
 
         public Action OnCancel { get; set; }
 
@@ -112,15 +116,15 @@ namespace TopoHelper.UserControls.ViewModels
         public void Cancel(object parameter)
         {
             /*Cancel Stuff*/
-            if ((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Where(p => p.IsDirty).Any())
+            if (((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>) ?? throw new InvalidOperationException()).Any(p => p.IsDirty))
             {
                 // Warn user there are still changes pending to be saved.
-                var res = MessageBox.Show("Some changes have not yet been saved, do you really want to cancel.", "Cancel changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning); ;
+                var res = MessageBox.Show("Some changes have not yet been saved, do you really want to cancel.", "Cancel changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (res == MessageBoxResult.No)
                     return;
             }
 
-            settings_default.Reload();
+            SettingsDefault.Reload();
             OnCancel?.Invoke();
         }
 
@@ -129,13 +133,8 @@ namespace TopoHelper.UserControls.ViewModels
             if (DataGridView.Source == null)
                 return false;
             var collection = DataGridView.Source as ObservableCollection<SettingsEntryViewModel>;
-            if (collection.Where(p => p.HasErrors).Any())
-                return true;
-
-            if (collection.Where(p => p.IsDirty).Any())
-                return true;
-
-            return false;
+            Debug.Assert(collection != null, nameof(collection) + " != null");
+            return collection.Any(p => p.HasErrors) || collection.Any(p => p.IsDirty);
         }
 
         public bool CanSave(object parameter)
@@ -143,19 +142,15 @@ namespace TopoHelper.UserControls.ViewModels
             if ((DataGridView.Source) == null)
                 return false;
             var collection = DataGridView.Source as ObservableCollection<SettingsEntryViewModel>;
-            if (collection.Where(p => p.HasErrors).Any())
-                return false;
-
-            if (collection.Where(p => p.IsDirty).Any())
-                return true;
-            return false;
+            Debug.Assert(collection != null, nameof(collection) + " != null");
+            return !collection.Any(p => p.HasErrors) && collection.Any(p => p.IsDirty);
         }
 
         public void RefreshView()
         {
-            var collection = settings_default.Properties;
+            var collection = SettingsDefault.Properties;
 
-            var type = typeof(Properties.Settings);
+            var type = typeof(Settings);
 
             if (DataGridView == null)
             {
@@ -167,18 +162,19 @@ namespace TopoHelper.UserControls.ViewModels
             }
 
             // Remove items from collection.
-            if ((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Count != 0)
-                (DataGridView.Source as ObservableCollection<SettingsEntryViewModel>)?.Clear();
+            if (((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source).Count != 0)
+                ((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source)?.Clear();
 
             foreach (SettingsProperty item in collection)
             {
                 var property = type.GetProperty(item.Name);
                 // Don't add read-only Properties
+                Debug.Assert(property != null, nameof(property) + " != null");
                 if (!property.CanWrite) continue;
-                var val = type.GetProperty(item.Name).GetValue(settings_default);
-                var t = type.GetProperty(item.Name).PropertyType;
+                var val = type.GetProperty(item.Name)?.GetValue(SettingsDefault);
+                var t = type.GetProperty(item.Name)?.PropertyType;
 
-                (DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Add(new SettingsEntryViewModel(t, val) { Name = item.Name });
+                ((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source)?.Add(new SettingsEntryViewModel(t, val) { Name = item.Name });
             }
         }
 
@@ -191,19 +187,19 @@ namespace TopoHelper.UserControls.ViewModels
         {
             if (!(DataGridView.Source is ObservableCollection<SettingsEntryViewModel> collection)) return;
 
-            bool saved = false;
+            var saved = false;
             /*Save Stuff*/
             foreach (var item in collection)
             {
                 if (item.IsDirty && !item.HasErrors)
                 {
-                    item.SaveValueToObject(settings_default);
+                    item.SaveValueToObject(SettingsDefault);
                     saved = true;
                 }
             }
             if (saved)
             {
-                settings_default.Save(); settings_default.Reload(); RefreshView();
+                SettingsDefault.Save(); SettingsDefault.Reload(); RefreshView();
             }
         }
 

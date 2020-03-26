@@ -1,10 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using PostSharp.Patterns.Contracts;
-using System;
-using System.Collections.Generic;
 
-namespace TopoHelper.Autocad
+namespace TopoHelper.AutoCAD
 {
     internal static class Exstensions
     {
@@ -12,7 +12,7 @@ namespace TopoHelper.Autocad
 
         public static IEnumerable<Point3d> GetPointsFromPolyline([NotNull]this Database database, ObjectId id)
         {
-            using (OpenCloseTransaction transAction = database.TransactionManager.StartOpenCloseTransaction())
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
                 object objectX = transAction.GetObject(id, OpenMode.ForRead);
                 switch (objectX.GetType().ToString())
@@ -20,7 +20,7 @@ namespace TopoHelper.Autocad
                     case "Autodesk.AutoCAD.DatabaseServices.Polyline3d":
                         {
                             //Get a list of 3D points in parameter order
-                            using (Polyline3d pl1 = (Polyline3d)objectX)
+                            using (var pl1 = (Polyline3d)objectX)
                             {
                                 // We get curve here, its faster to get the
                                 // parameters and point on a non database object
@@ -28,9 +28,9 @@ namespace TopoHelper.Autocad
                                 var polylineEndParam = (int)pl1.EndParam;
 
                                 // Initialize list with dimensions specified (speed)
-                                Point3d[] arrRes = new Point3d[polylineEndParam + 1];
+                                var arrRes = new Point3d[polylineEndParam + 1];
 
-                                for (int i = 0; i <= polylineEndParam; i++)
+                                for (var i = 0; i <= polylineEndParam; i++)
                                 {
                                     var distOnPl = pl1.GetDistanceAtParameter(i);
                                     arrRes[i] = curve.EvaluatePoint(curve.GetParameterAtLength(0, distOnPl, true, 1e-10));
@@ -48,7 +48,7 @@ namespace TopoHelper.Autocad
         {
             // Weeding, we only add the point when weeding factor has been satisfied.
 
-            using (OpenCloseTransaction transAction = database.TransactionManager.StartOpenCloseTransaction())
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
                 object objectX = transAction.GetObject(id, OpenMode.ForRead);
                 switch (objectX.GetType().ToString())
@@ -56,7 +56,7 @@ namespace TopoHelper.Autocad
                     case "Autodesk.AutoCAD.DatabaseServices.Polyline3d":
                         {
                             //Get a list of 3D points in parameter order
-                            using (Polyline3d pl1 = (Polyline3d)objectX)
+                            using (var pl1 = (Polyline3d)objectX)
                             {
                                 // We get curve here, its faster to get the
                                 // parameters and point on a non database object
@@ -64,10 +64,10 @@ namespace TopoHelper.Autocad
 
                                 // Initialize list with dimensions specified (speed)
                                 var bounds = (int)Math.Ceiling(pl1.Length / weeding) + 1;
-                                Point3d[] arrRes = new Point3d[bounds];
+                                var arrRes = new Point3d[bounds];
                                 var arrCounter = 0;
 
-                                for (double i = 0.0; i < pl1.Length; i += weeding)
+                                for (var i = 0.0; i < pl1.Length; i += weeding)
                                 {
                                     var x = curve.EvaluatePoint(curve.GetParameterAtLength(0, i, true, 1e-10));
                                     arrRes[arrCounter++] = x;
@@ -86,7 +86,7 @@ namespace TopoHelper.Autocad
         {
             // Weeding, we only add the point when weeding factor has been satisfied.
 
-            using (OpenCloseTransaction transAction = database.TransactionManager.StartOpenCloseTransaction())
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
                 object object1 = transAction.GetObject(id1, OpenMode.ForRead);
                 object object2 = transAction.GetObject(id2, OpenMode.ForRead);
@@ -96,8 +96,8 @@ namespace TopoHelper.Autocad
                     throw new Exception("\r\n\t=> Selected object is not supported for this function.");
 
                 //Get a list of 3D points in parameter order
-                using (Polyline3d pl1 = (Polyline3d)object1)
-                using (Polyline3d pl2 = (Polyline3d)object2)
+                using (var pl1 = (Polyline3d)object1)
+                using (var pl2 = (Polyline3d)object2)
                 {
                     // We get curve here, its faster to get the parameters and
                     // point on a non database object
@@ -106,13 +106,13 @@ namespace TopoHelper.Autocad
 
                     // Initialize list with dimensions specified (speed)
                     var bounds = (int)Math.Ceiling(pl1.Length / weeding) + 1;
-                    Point3d[] arrRes1 = new Point3d[bounds];
-                    Point3d[] arrRes2 = new Point3d[bounds];
+                    var arrRes1 = new Point3d[bounds];
+                    var arrRes2 = new Point3d[bounds];
                     var arrCounter = 0;
 
                     // For each point on PL1 we find the closest point on PL2
                     // and create a tuple of the result.
-                    for (double i = 0.0; i < pl1.Length; i += weeding)
+                    for (var i = 0.0; i < pl1.Length; i += weeding)
                     {
                         var p1 = curve1.EvaluatePoint(curve1.GetParameterAtLength(0, i, true, 1e-10));
                         var p2 = curve2.GetClosestPointTo(p1, new Tolerance(1e-10, 1e-10)).Point;

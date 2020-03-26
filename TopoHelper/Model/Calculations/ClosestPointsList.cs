@@ -1,7 +1,7 @@
-﻿using MoreLinq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using TopoHelper.Model.Geometry;
 
 namespace TopoHelper.Model.Calculations
@@ -48,12 +48,12 @@ namespace TopoHelper.Model.Calculations
                     break;
 
                 // Find point closest to the start-point
-                var x = localPoints.MinBy(listPoint =>
-                {
-                    return Calculations.CalculatePoweredDistance(
-                        startPoint.X, startPoint.Y, startPoint.Z,
-                        listPoint.X, listPoint.Y, listPoint.Z);
-                }).First();
+                var point = startPoint;
+                var x = localPoints.MinBy(
+                    listPoint => Calculations.CalculatePoweredDistance(
+                    point.X, point.Y, point.Z,
+                    listPoint.X, listPoint.Y, listPoint.Z)
+                    ).First();
 
                 // add it as vertex
                 vertexList.Add(x);

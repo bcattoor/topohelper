@@ -1,7 +1,7 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.AutoCAD.Geometry;
 
 namespace TopoHelper.Normalizer
 {
@@ -33,37 +33,37 @@ namespace TopoHelper.Normalizer
             return pointsList.Select(point => point.DeNormalize(minX, minY));
         }
 
-        public static Point2d DivideAnamorphosis(this Point2d point, int Anamorphosis)
+        public static Point2d DivideAnamorphosis(this Point2d point, int anamorphosis)
         {
-            return new Point2d(point.X, point.Y / Anamorphosis);
+            return new Point2d(point.X, point.Y / anamorphosis);
         }
 
-        public static Point3d DivideAnamorphosis(this Point3d point, int Anamorphosis)
+        public static Point3d DivideAnamorphosis(this Point3d point, int anamorphosis)
         {
-            return new Point3d(point.X, point.Y / Anamorphosis, 0);
+            return new Point3d(point.X, point.Y / anamorphosis, 0);
         }
 
-        public static IEnumerable<Point2d> DivideAnamorphosis(this IEnumerable<Point2d> unsegmentedInput, int Anamorphosis)
+        public static IEnumerable<Point2d> DivideAnamorphosis(this IEnumerable<Point2d> unsegmentedInput, int anamorphosis)
         {
-            return unsegmentedInput.Select(x => x.DivideAnamorphosis(Anamorphosis));
+            return unsegmentedInput.Select(x => x.DivideAnamorphosis(anamorphosis));
         }
 
-        public static Point2d MultiplyAnamorphosis(this Point2d point, int Anamorphosis)
+        public static Point2d MultiplyAnamorphosis(this Point2d point, int anamorphosis)
         {
-            return new Point2d(point.X, point.Y * Anamorphosis);
+            return new Point2d(point.X, point.Y * anamorphosis);
         }
 
-        public static Point3d MultiplyAnamorphosis(this Point3d point, int Anamorphosis)
+        public static Point3d MultiplyAnamorphosis(this Point3d point, int anamorphosis)
         {
-            return new Point3d(point.X, point.Y * Anamorphosis, 0);
+            return new Point3d(point.X, point.Y * anamorphosis, 0);
         }
 
-        public static IEnumerable<Point2d> MultiplyAnamorphosis(this IEnumerable<Point2d> unsegmentedInput, int Anamorphosis)
+        public static IEnumerable<Point2d> MultiplyAnamorphosis(this IEnumerable<Point2d> unsegmentedInput, int anamorphosis)
         {
-            return unsegmentedInput.Select(x => x.MultiplyAnamorphosis(Anamorphosis));
+            return unsegmentedInput.Select(x => x.MultiplyAnamorphosis(anamorphosis));
         }
 
-        public static IEnumerable<NormalizerPoint> Normalize(this IEnumerable<NormalizerPoint> pointsList, out double minX, out double minY,
+        public static IEnumerable<NormalizerPoint> Normalize(this IList<NormalizerPoint> pointsList, out double minX, out double minY,
                            double offset = .0)
         {
             offset = Math.Abs(offset);
@@ -78,7 +78,7 @@ namespace TopoHelper.Normalizer
             return pointsList.Select(point => new NormalizerPoint(point.X - x, point.Y - y, point.Z));
         }
 
-        public static IEnumerable<Point2d> Normalize2d(this IEnumerable<NormalizerPoint> pointsList, out double minX, out double minY,
+        public static IEnumerable<Point2d> Normalize2d(this IList<NormalizerPoint> pointsList, out double minX, out double minY,
                            double offset = .0)
         {
             offset = Math.Abs(offset);
@@ -93,7 +93,7 @@ namespace TopoHelper.Normalizer
             return pointsList.Select(point => new Point2d(point.X - x, point.Y - y));
         }
 
-        public static IEnumerable<NormalizerPoint> RotatePointsList(this IEnumerable<NormalizerPoint> pointsList, double proposedRotation)
+        public static IEnumerable<NormalizerPoint> RotatePointsList(this IList<NormalizerPoint> pointsList, double proposedRotation)
         {
             return pointsList.Select(point => point.RotateAroundOrigin(proposedRotation));
         }

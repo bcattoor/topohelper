@@ -1,5 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
+using Autodesk.AutoCAD.Geometry;
 using TopoHelper.Properties;
 
 namespace TopoHelper.Normalizer
@@ -8,7 +8,7 @@ namespace TopoHelper.Normalizer
     {
         #region Private Fields
 
-        private static Settings settings_default = Properties.Settings.Default;
+        private static Settings _settingsDefault = Settings.Default;
 
         #endregion
 
@@ -59,12 +59,12 @@ namespace TopoHelper.Normalizer
             const double halfPi = Math.PI / 2d;
 
             // When the point is laying on the origin, return 0.0
-            if (Math.Abs(X) < settings_default.APP_EPSILON && Math.Abs(Y) < settings_default.APP_EPSILON)
+            if (Math.Abs(X) < _settingsDefault.APP_EPSILON && Math.Abs(Y) < _settingsDefault.APP_EPSILON)
             {
                 throw new ArgumentException("You can not measure an angle of a point that is laying on the origin.");
             }
 
-            if (Math.Abs(X) < settings_default.APP_EPSILON)
+            if (Math.Abs(X) < _settingsDefault.APP_EPSILON)
             {
                 if (Y > 0.0d)
 
@@ -74,7 +74,7 @@ namespace TopoHelper.Normalizer
                 // 270 degrees
                 return Math.PI + halfPi;
             }
-            if (!(Math.Abs(Y) < settings_default.APP_EPSILON)) return Math.Atan2(Y, X);
+            if (!(Math.Abs(Y) < _settingsDefault.APP_EPSILON)) return Math.Atan2(Y, X);
             // 180 degrees of 90
             return X > 0.0d ? halfPi : Math.PI;
         }
@@ -82,7 +82,7 @@ namespace TopoHelper.Normalizer
         public NormalizerPoint RotateAroundOrigin(double angle)
         {
             // When the point is laying on the origin, return 0.0
-            if (Math.Abs(X) < settings_default.APP_EPSILON && Math.Abs(Y) < settings_default.APP_EPSILON)
+            if (Math.Abs(X) < _settingsDefault.APP_EPSILON && Math.Abs(Y) < _settingsDefault.APP_EPSILON)
             {
                 throw new ArgumentException("You can not rotate a point that is on the origin.");
             }

@@ -1,19 +1,20 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using PostSharp.Patterns.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace TopoHelper.Autocad
+namespace TopoHelper.AutoCAD
 {
     internal static class UserInteraction
     {
         public static ObjectId Select3dPolyline([NotNull] this Editor editor, [NotEmpty] string message)
         {
             //Setting some options
-            PromptEntityOptions mypromptOption = new PromptEntityOptions(message)
+            var mypromptOption = new PromptEntityOptions(message)
             {
                 AllowNone = false,
                 AllowObjectOnLockedLayer = true
@@ -22,7 +23,7 @@ namespace TopoHelper.Autocad
             mypromptOption.AddAllowedClass(typeof(Polyline3d), false);
 
             //Making a new result and adding options to it
-            PromptEntityResult res = editor.GetEntity(mypromptOption);
+            var res = editor.GetEntity(mypromptOption);
 
             if (res.Status == PromptStatus.OK)
             {
@@ -36,43 +37,45 @@ namespace TopoHelper.Autocad
             IEnumerable<Point3d> arrRes = null;
 
             //' Start a transaction
-            using (OpenCloseTransaction transAction = editor.Document.Database.TransactionManager.StartOpenCloseTransaction())
+            using (/*var transAction =*/ editor.Document.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 //Setting some options
-                PromptEntityOptions mypromptOption = new PromptEntityOptions(message)
+                var myPromptOption = new PromptEntityOptions(message)
                 {
                     AllowNone = false,
                     AllowObjectOnLockedLayer = true
                 };
-                mypromptOption.SetRejectMessage("\r\n\t=>Only objects of type <Polyline 3D> are allowed.");
-                mypromptOption.AddAllowedClass(typeof(Polyline3d), false);
+                myPromptOption.SetRejectMessage("\r\n\t=>Only objects of type <Polyline 3D> are allowed.");
+                myPromptOption.AddAllowedClass(typeof(Polyline3d), false);
 
                 //Making a new result and adding options to it
-                PromptEntityResult res = editor.GetEntity(mypromptOption);
+                var res = editor.GetEntity(myPromptOption);
 
                 if (res.Status == PromptStatus.OK)
                 {
                     arrRes = editor.Document.Database.GetPointsFromPolyline(res.ObjectId);
                 }
-                if (arrRes != null && arrRes.Any())
-                    editor.WriteMessage("\r\n\t=>Polyline3d has been selected with " + arrRes.Count() + " vertices's.");
+
+                Debug.Assert(arrRes != null, nameof(arrRes) + " != null");
+
+                var point3ds = arrRes as Point3d[] ?? arrRes.ToArray();
+                if (point3ds.Any())
+                    editor.WriteMessage("\r\n\t=>Polyline3d has been selected with " + point3ds.Count() + " vertices.");
 
                 id = res.ObjectId;
-                return arrRes;
+                return point3ds;
             }
-
-            throw new InvalidOperationException("Something went wrong when handling the selection.");
         }
 
         public static IEnumerable<Point3d> Select3dPoints([NotNull] this Editor editor, out List<ObjectId> ids)
         {
-            List<Point3d> myPLlist = new List<Point3d>();
+            var myPLlist = new List<Point3d>();
             ids = new List<ObjectId>();
             //' Start a transaction
-            using (OpenCloseTransaction transAction = editor.Document.Database.TransactionManager.StartOpenCloseTransaction())
+            using (var transAction = editor.Document.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 //Setting some options
-                PromptSelectionOptions mypromptOption = new PromptSelectionOptions()
+                var mypromptOption = new PromptSelectionOptions
                 {
                     AllowDuplicates = false,
                     RejectObjectsFromNonCurrentSpace = true,
@@ -92,20 +95,17 @@ namespace TopoHelper.Autocad
                     foreach (var id in selectedObjects.GetObjectIds())
                     {
                         var objectX = transAction.GetObject(id, OpenMode.ForRead);
-                        if (objectX is DBPoint)
-                        {
-                            DBPoint dBPoint = objectX as DBPoint;
-                            myPLlist.Add(dBPoint.Position);
-                            ids.Add(dBPoint.ObjectId);
-                        }
+                        if (!(objectX is DBPoint)) continue;
+
+                        var dBPoint = objectX as DBPoint;
+                        myPLlist.Add(dBPoint.Position);
+                        ids.Add(dBPoint.ObjectId);
                     }
                 }
-                if (myPLlist != null && myPLlist.Any())
+                if (myPLlist.Any())
                     editor.WriteMessage("\r\n\t=>A set has been selected with " + myPLlist.Count + " points.");
                 return myPLlist;
             }
-
-            throw new InvalidOperationException("Something went wrong when handling the selection.");
         }
     }
 }

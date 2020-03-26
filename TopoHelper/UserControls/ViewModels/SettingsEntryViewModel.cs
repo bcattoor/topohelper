@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TopoHelper.Properties;
 
 namespace TopoHelper.UserControls.ViewModels
 {
@@ -7,7 +8,7 @@ namespace TopoHelper.UserControls.ViewModels
     {
         #region Private Fields
 
-        private readonly object _originalValue = null;
+        private readonly object _originalValue;
         private string _name;
         private Type _type;
         private string _valueString;
@@ -54,18 +55,18 @@ namespace TopoHelper.UserControls.ViewModels
 
         #region Internal Methods
 
-        internal void SaveValueToObject(Properties.Settings properties)
+        internal void SaveValueToObject(Settings properties)
         {
-            var type = typeof(Properties.Settings);
+            var type = typeof(Settings);
             // var propertyList = type.GetProperties();
             if (Type == typeof(short))
-                type.GetProperty(Name).SetValue(properties, Convert.ToInt16(Value));
+                type.GetProperty(Name)?.SetValue(properties, Convert.ToInt16(Value));
             else if (Type == typeof(bool))
-                type.GetProperty(Name).SetValue(properties, Convert.ToBoolean(Value));
+                type.GetProperty(Name)?.SetValue(properties, Convert.ToBoolean(Value));
             else if (Type == typeof(double))
-                type.GetProperty(Name).SetValue(properties, Convert.ToDouble(Value));
+                type.GetProperty(Name)?.SetValue(properties, Convert.ToDouble(Value));
             else if (Type == typeof(string))
-                type.GetProperty(Name).SetValue(properties, Value.ToString());
+                type.GetProperty(Name)?.SetValue(properties, Value.ToString());
             else
                 throw new NotImplementedException("Unknown type encountered, type not yet implemented.");
         }
@@ -77,7 +78,7 @@ namespace TopoHelper.UserControls.ViewModels
         private void AddError(string propertyName, string errorMessage)
         {
             if (Errors.ContainsKey(propertyName))
-                _ = Errors.Remove(propertyName);
+                Errors.Remove(propertyName);
             Errors.Add(propertyName, errorMessage);
             RaisePropertyChanged(nameof(HasErrors));
             RaisePropertyChanged(nameof(Errors));
@@ -110,7 +111,7 @@ namespace TopoHelper.UserControls.ViewModels
 
             if (Type == typeof(bool))
             {
-                if (bool.TryParse(value.ToString(), out bool result))
+                if (bool.TryParse(value, out var result))
                 {
                     RemoveError(nameof(Value));
                     Value = result;
@@ -123,7 +124,7 @@ namespace TopoHelper.UserControls.ViewModels
             }
             else if (Type == typeof(short))
             {
-                if (short.TryParse(value.ToString(), out short result))
+                if (short.TryParse(value, out var result))
                 {
                     RemoveError(nameof(Value));
                     Value = result;
@@ -136,7 +137,7 @@ namespace TopoHelper.UserControls.ViewModels
             }
             else if (Type == typeof(double))
             {
-                if (double.TryParse(value.ToString(), out double result))
+                if (double.TryParse(value, out var result))
                 {
                     RemoveError(nameof(Value));
                     Value = result;
@@ -150,7 +151,7 @@ namespace TopoHelper.UserControls.ViewModels
             else if (Type == typeof(string))
             {
                 RemoveError(nameof(Value));
-                Value = value.ToString();
+                Value = value;
             }
             else
                 AddError(nameof(Value), $"Invalid value provided for type: {Type.FullName}");

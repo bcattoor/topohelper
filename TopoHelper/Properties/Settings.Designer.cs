@@ -8,14 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.CodeDom.Compiler;
+using System.Configuration;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 namespace TopoHelper.Properties {
     
     
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [CompilerGenerated()]
+    [GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
+    internal sealed partial class Settings : ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Settings defaultInstance = ((Settings)(Synchronized(new Settings())));
         
         public static Settings Default {
             get {
@@ -23,18 +28,18 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1E-06")]
+        [ApplicationScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("1E-06")]
         public double APP_EPSILON {
             get {
                 return ((double)(this["APP_EPSILON"]));
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0.01")]
         public double DV_LRTRR_TOLERANCE {
             get {
                 return ((double)(this["DV_LRTRR_TOLERANCE"]));
@@ -44,9 +49,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2D-")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("2D-")]
         public string LAY_NAME_PREFIX_2D {
             get {
                 return ((string)(this["LAY_NAME_PREFIX_2D"]));
@@ -56,9 +61,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3D-")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("3D-")]
         public string LAY_NAME_PREFIX_3D {
             get {
                 return ((string)(this["LAY_NAME_PREFIX_3D"]));
@@ -68,9 +73,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("811")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("811")]
         public string LAY_NAME_R2R_CL {
             get {
                 return ((string)(this["LAY_NAME_R2R_CL"]));
@@ -80,9 +85,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("253")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("253")]
         public short LAY_COL_R2R_CL_PL {
             get {
                 return ((short)(this["LAY_COL_R2R_CL_PL"]));
@@ -92,9 +97,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DRAW_3D_R2R_CL_PNTS {
             get {
                 return ((bool)(this["DRAW_3D_R2R_CL_PNTS"]));
@@ -104,9 +109,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("811-Points")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("811-Points")]
         public string LAY_NAME_R2R_CL_PNTS {
             get {
                 return ((string)(this["LAY_NAME_R2R_CL_PNTS"]));
@@ -116,9 +121,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("251")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("251")]
         public short LAY_COL_R2D_CL_PNTS {
             get {
                 return ((short)(this["LAY_COL_R2D_CL_PNTS"]));
@@ -128,9 +133,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.6")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("1.6")]
         public double DV_LRTRR_MAX_VALUE {
             get {
                 return ((double)(this["DV_LRTRR_MAX_VALUE"]));
@@ -140,9 +145,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DRAW_2D_R2R_CL_PL {
             get {
                 return ((bool)(this["DRAW_2D_R2R_CL_PL"]));
@@ -152,9 +157,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DRAW_3D_R2R_CL_PL {
             get {
                 return ((bool)(this["DRAW_3D_R2R_CL_PL"]));
@@ -164,9 +169,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.R2R.csv")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("c:\\Data\\track.R2R.csv")]
         public string IO_FILE_R2R_CSV {
             get {
                 return ((string)(this["IO_FILE_R2R_CSV"]));
@@ -176,9 +181,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool CALCULATE_CSD {
             get {
                 return ((bool)(this["CALCULATE_CSD"]));
@@ -188,9 +193,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DRAW_3D_CSD_RAILS_PL {
             get {
                 return ((bool)(this["DRAW_3D_CSD_RAILS_PL"]));
@@ -200,9 +205,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRail")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("IAMTopo_CorrectSurveyDisplacementRail")]
         public string LAY_NAME_CSD_RAILS_PL {
             get {
                 return ((string)(this["LAY_NAME_CSD_RAILS_PL"]));
@@ -212,9 +217,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool DRAW_2D_R2R_CL_PNTS {
             get {
                 return ((bool)(this["DRAW_2D_R2R_CL_PNTS"]));
@@ -224,9 +229,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("False")]
         public bool LOG_R2R_CSV {
             get {
                 return ((bool)(this["LOG_R2R_CSV"]));
@@ -236,9 +241,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue(";")]
         public string IO_FILE_R2R_CSV_DELIMITER {
             get {
                 return ((string)(this["IO_FILE_R2R_CSV_DELIMITER"]));
@@ -248,9 +253,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("110")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("110")]
         public short LAY_COL_CSD_RAILS_PL {
             get {
                 return ((short)(this["LAY_COL_CSD_RAILS_PL"]));
@@ -260,9 +265,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DRAW_3D_CSD_RAILS_PNTS {
             get {
                 return ((bool)(this["DRAW_3D_CSD_RAILS_PNTS"]));
@@ -272,9 +277,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRailPoints")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("IAMTopo_CorrectSurveyDisplacementRailPoints")]
         public string LAY_NAME_CSD_RAILS_PNTS {
             get {
                 return ((string)(this["LAY_NAME_CSD_RAILS_PNTS"]));
@@ -284,9 +289,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("115")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("115")]
         public short LAY_COL_CSD_RAILS_PNTS {
             get {
                 return ((short)(this["LAY_COL_CSD_RAILS_PNTS"]));
@@ -296,9 +301,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool DELETE_JPL_ENTITIES {
             get {
                 return ((bool)(this["DELETE_JPL_ENTITIES"]));
@@ -308,9 +313,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.005")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0.005")]
         public double DIST_MIN_PTP {
             get {
                 return ((double)(this["DIST_MIN_PTP"]));
@@ -320,9 +325,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0.5")]
         public double DIST_MAX_PTP {
             get {
                 return ((double)(this["DIST_MAX_PTP"]));
@@ -332,9 +337,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.CSD.csv")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("c:\\Data\\track.CSD.csv")]
         public string IO_FILE_CSD_CSV {
             get {
                 return ((string)(this["IO_FILE_CSD_CSV"]));
@@ -344,9 +349,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue(";")]
         public string IO_FILE_CSD_CSV_DELIMITER {
             get {
                 return ((string)(this["IO_FILE_CSD_CSV_DELIMITER"]));
@@ -356,9 +361,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.DBPL.csv")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("c:\\Data\\track.DBPL.csv")]
         public string IO_FILE_DBPL_CSV {
             get {
                 return ((string)(this["IO_FILE_DBPL_CSV"]));
@@ -368,9 +373,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue(";")]
         public string IO_FILE_DBPL_CSV_DELIMITER {
             get {
                 return ((string)(this["IO_FILE_DBPL_CSV_DELIMITER"]));
@@ -380,9 +385,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(",")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue(",")]
         public string IO_CSV_NUMBER_DECIMAL_SEPERATOR {
             get {
                 return ((string)(this["IO_CSV_NUMBER_DECIMAL_SEPERATOR"]));
@@ -392,9 +397,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0.001")]
         public double CSD_MIN_CANT_VAL {
             get {
                 return ((double)(this["CSD_MIN_CANT_VAL"]));
@@ -404,9 +409,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("0.01")]
         public double SYMPPL_TOLERANCE {
             get {
                 return ((double)(this["SYMPPL_TOLERANCE"]));
@@ -416,9 +421,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("True")]
         public bool SYMPPL_HIGH_PRICISION {
             get {
                 return ((bool)(this["SYMPPL_HIGH_PRICISION"]));
@@ -428,9 +433,9 @@ namespace TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("10")]
         public double PLW_WEEDING_DISTANCE {
             get {
                 return ((double)(this["PLW_WEEDING_DISTANCE"]));

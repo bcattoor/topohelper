@@ -8,7 +8,7 @@ namespace TopoHelper.Model.Results
 
         public double Cant { get; internal set; }
         public double Chainage { get; internal set; }
-        public double DisplacementSectionXY { get; internal set; }
+        public double DisplacementSectionXy { get; internal set; }
         public double DisplacementSectionZ { get; internal set; }
         public double Gauge { get; internal set; }
         public Point3d LeftRailPoint { get; set; }

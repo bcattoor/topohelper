@@ -1,7 +1,8 @@
-﻿using CsvHelper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using CsvHelper;
 using TopoHelper.Csv.Mapping;
+using TopoHelper.Properties;
 
 namespace TopoHelper.Csv
 {
@@ -18,7 +19,7 @@ namespace TopoHelper.Csv
                 using (var csv = new CsvWriter(writer))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Properties.Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
                     csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
                     csv.Configuration.RegisterClassMap<MeasuredSectionMap>();
                     csv.WriteRecords(records);
@@ -34,7 +35,7 @@ namespace TopoHelper.Csv
                 using (var csv = new CsvWriter(writer))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Properties.Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
                     csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
                     csv.Configuration.RegisterClassMap<CalculateDisplacementResultMap>();
                     csv.WriteRecords(records);
@@ -50,7 +51,7 @@ namespace TopoHelper.Csv
                 using (var csv = new CsvWriter(writer))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Properties.Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
                     csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
                     csv.Configuration.RegisterClassMap<DistanceBetween2PolylinesResultMap>();
                     csv.WriteRecords(records);

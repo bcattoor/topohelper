@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
-using PostSharp.Patterns.Contracts;
 using TopoHelper.Model.Results;
 using TopoHelper.Normalizer;
 

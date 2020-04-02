@@ -90,10 +90,6 @@ ipch/
 *.vspx
 *.sap
 
-# Installer
-[Ii]nstaller
-*.msi
-
 # TFS 2012 Local Workspace
 $tf/
 
@@ -263,3 +259,14 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+#unotes
+.unotes/
+
+#wiki
+wiki/
+
+
+# Installer
+[Ii]nstaller/
+*.msi

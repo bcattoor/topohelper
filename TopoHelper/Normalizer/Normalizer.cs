@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.AutoCAD.Geometry;
 
 namespace TopoHelper.Normalizer
 {

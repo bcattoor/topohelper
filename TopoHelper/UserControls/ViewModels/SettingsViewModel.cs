@@ -38,9 +38,7 @@ namespace TopoHelper.UserControls.ViewModels
         #region Public Properties
 
         public string Filter {
-            get {
-                return _filter;
-            }
+            get => _filter;
             set {
                 if (!value.Equals(_filter))
                 {
@@ -58,51 +56,30 @@ namespace TopoHelper.UserControls.ViewModels
                 DataGridView.View.Filter = item =>
                 {
                     if (item == null) return false;
-                    if (item is SettingsEntryViewModel)
-                    {
-                        if ((item as SettingsEntryViewModel).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                        if ((item as SettingsEntryViewModel).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                    }
-                    return false;
+                    if (!(item is SettingsEntryViewModel)) return false;
+                    if (((SettingsEntryViewModel)item).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                    return ((SettingsEntryViewModel)item).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
                 };
         }
 
-        public ICommand CancelCommand {
-            get {
-                if (_cancel == null)
-                {
-                    _cancel = new RelayCommand(p => Cancel(p),
-                        p => CanCancel(p));
-                }
-                return _cancel;
-            }
-        }
+        public ICommand CancelCommand =>
+            _cancel ?? (_cancel = new RelayCommand(Cancel,
+                CanCancel));
 
-        public CollectionViewSource DataGridView { get { return _dataGridView; } set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); } }
+        public CollectionViewSource DataGridView {
+            get => _dataGridView;
+            set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); }
+        }
 
         public Action OnCancel { get; set; }
 
-        public ICommand ReloadSettingsCommand {
-            get {
-                if (_reloadSettings == null)
-                {
-                    _reloadSettings = new RelayCommand(p => ReloadSettings(p),
-                        p => CanReloadSettings(p));
-                }
-                return _reloadSettings;
-            }
-        }
+        public ICommand ReloadSettingsCommand =>
+            _reloadSettings ?? (_reloadSettings = new RelayCommand(ReloadSettings,
+                CanReloadSettings));
 
-        public ICommand SaveCommand {
-            get {
-                if (_save == null)
-                {
-                    _save = new RelayCommand(p => Save(p),
-                        p => CanSave(p));
-                }
-                return _save;
-            }
-        }
+        public ICommand SaveCommand =>
+            _save ?? (_save = new RelayCommand(Save,
+                CanSave));
 
         #endregion
 
@@ -191,16 +168,13 @@ namespace TopoHelper.UserControls.ViewModels
             /*Save Stuff*/
             foreach (var item in collection)
             {
-                if (item.IsDirty && !item.HasErrors)
-                {
-                    item.SaveValueToObject(SettingsDefault);
-                    saved = true;
-                }
+                if (!item.IsDirty || item.HasErrors) continue;
+                item.SaveValueToObject(SettingsDefault);
+                saved = true;
             }
-            if (saved)
-            {
-                SettingsDefault.Save(); SettingsDefault.Reload(); RefreshView();
-            }
+
+            if (!saved) return;
+            SettingsDefault.Save(); SettingsDefault.Reload(); RefreshView();
         }
 
         #endregion

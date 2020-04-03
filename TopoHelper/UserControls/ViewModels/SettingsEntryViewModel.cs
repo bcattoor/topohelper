@@ -30,24 +30,20 @@ namespace TopoHelper.UserControls.ViewModels
         #region Public Properties
 
         public Dictionary<string, string> Errors { get; } = new Dictionary<string, string>();
-        public bool HasErrors { get => Errors.Count > 0; }
+        public bool HasErrors => Errors.Count > 0;
         public string Name { get => _name; internal set => SetName(value); }
         public Type Type { get => _type; internal set => SetType(value); }
         protected object Value { get; private set; }
 
         public string ValueString {
-            get {
-                return _valueString;
-            }
+            get => _valueString;
             set {
                 _valueString = value;
                 SetObjectValueFromString(_valueString);
                 RaisePropertyChanged(nameof(Value));
 
                 // Set Dirty State
-                if (Value.Equals(_originalValue))
-                { IsDirty = false; }
-                else { IsDirty = true; }
+                IsDirty = !Value.Equals(_originalValue);
             }
         }
 
@@ -86,12 +82,10 @@ namespace TopoHelper.UserControls.ViewModels
 
         private void RemoveError(string propertyName)
         {
-            if (Errors.ContainsKey(propertyName))
-            {
-                Errors.Remove(propertyName);
-                RaisePropertyChanged(nameof(HasErrors));
-                RaisePropertyChanged(nameof(Errors));
-            }
+            if (!Errors.ContainsKey(propertyName)) return;
+            Errors.Remove(propertyName);
+            RaisePropertyChanged(nameof(HasErrors));
+            RaisePropertyChanged(nameof(Errors));
         }
 
         private void SetName(string value)

@@ -65,10 +65,8 @@ namespace TopoHelper.Model.Results
         {
             Cant = Math.Abs(leftRailHeight - rightRailHeight);
             // Set cant direction
-            if (leftRailHeight >= rightRailHeight)
-                CantDirection = CantDirection.Clockwise;
-            else
-                CantDirection = CantDirection.CounterClockwise;
+            CantDirection = leftRailHeight >= rightRailHeight ?
+                CantDirection.Clockwise : CantDirection.CounterClockwise;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 # TopoHelper
 
-[![Latest Version](wiki/images/download-cloud.svg)Download de laatste versie door hier te klikken.](http://example.com "TODO: add actual link.")
+[![Latest Version](https://bitbucket.org/cadsmurfs/topohelper/wiki/images/download-cloud.svg)
+  Download de laatste versie door hier te klikken.](https://bitbucket.org/cadsmurfs/topohelper/latest.release.zip "Download latest release from the downloads page directly.")
 
 ## Waarom
 

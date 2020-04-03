@@ -1,16 +1,15 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using PostSharp.Patterns.Contracts;
 using System;
 using System.Collections.Generic;
 
 namespace TopoHelper.AutoCAD
 {
-    internal static class Exstensions
+    internal static class Extensions
     {
         #region Public Methods
 
-        public static IEnumerable<Point3d> GetPointsFromPolyline([NotNull]this Database database, ObjectId id)
+        public static IEnumerable<Point3d> GetPointsFromPolyline(this Database database, ObjectId id)
         {
             using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
@@ -44,7 +43,7 @@ namespace TopoHelper.AutoCAD
             }
         }
 
-        public static IEnumerable<Point3d> GetPointsFromPolylineWithPointWeeding([NotNull] this Database database, ObjectId id, [GreaterThan(.0)] double weeding)
+        public static IEnumerable<Point3d> GetPointsFromPolylineWithPointWeeding(this Database database, ObjectId id, double weeding)
         {
             // Weeding, we only add the point when weeding factor has been satisfied.
 
@@ -82,7 +81,7 @@ namespace TopoHelper.AutoCAD
             }
         }
 
-        public static Tuple<IEnumerable<Point3d>, IEnumerable<Point3d>> GetPointsFrom2PolylinesWithPointWeeding([NotNull] this Database database, ObjectId id1, ObjectId id2, [GreaterThan(.0)] double weeding)
+        public static Tuple<IEnumerable<Point3d>, IEnumerable<Point3d>> GetPointsFrom2PolylinesWithPointWeeding(this Database database, ObjectId id1, ObjectId id2, double weeding)
         {
             // Weeding, we only add the point when weeding factor has been satisfied.
 

@@ -400,7 +400,7 @@ namespace TopoHelper
 
                 var points = database.GetPointsFromPolyline(selectedObjectId);
                 var enumerable = points as Point3d[] ?? points.ToArray();
-                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + enumerable.Count() + " vertices's.\r\n");
+                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + enumerable.Length + " vertices's.\r\n");
 
                 // Make up our list
                 var simplePoints = enumerable.Select(p => new Simplifynet.Point(p.X, p.Y, p.Z)).ToArray();
@@ -409,13 +409,13 @@ namespace TopoHelper
                 var utility = new SimplifyUtility3D();
 
                 var r = utility.Simplify(simplePoints, SettingsDefault.SYMPPL_TOLERANCE, SettingsDefault.SYMPPL_HIGH_PRICISION);
-                if (r == null || r.Count() <= 2)
+                if (r == null || r.Count <= 2)
                     throw new InvalidOperationException("We could not calculate sufficient points.");
 
                 database.Create3dPolyline(r.Select(x => new Point3d(x.X, x.Y, x.Z)));
 
                 // Report
-                editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count() + " vertices's.");
+                editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count + " vertices's.");
             }
             catch (Exception exception)
             {

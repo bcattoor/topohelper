@@ -23,7 +23,7 @@ namespace TopoHelper.Model.Calculations
         internal static IEnumerable<CalculateDisplacementSectionResult> CalculateDisplacement(IEnumerable<Point3d> leftRailPoints, IEnumerable<Point3d> rightRailPoints)
         {
             var leftRailArr = leftRailPoints as Point3d[] ?? leftRailPoints.ToArray();
-            var itemCount = leftRailArr.Count();
+            var itemCount = leftRailArr.Length;
             var result = new CalculateDisplacementSectionResult[itemCount];
 
             Parallel.For(0, itemCount, i =>

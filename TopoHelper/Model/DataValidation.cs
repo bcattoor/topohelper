@@ -45,10 +45,10 @@ namespace TopoHelper.Model
                 throw new ArgumentNullException(nameof(firstList));
             }
 
-            if (firstList.Count() != secondList.Count())
+            if (firstList.Count != secondList.Count)
             { exceptionMessage = CountNotEqual; return false; }
 
-            if (firstList.Count() < 2)
+            if (firstList.Count < 2)
             { exceptionMessage = ItemCount; return false; }
 
             if (!ValidateInputApparentVectorAngles(firstList, secondList))
@@ -82,7 +82,7 @@ namespace TopoHelper.Model
 
         public static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList)
         {
-            for (var i = 0; i < firstList.Count(); i++)
+            for (var i = 0; i < firstList.Count; i++)
             {
                 var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
                 if (railToRailLine > _settingsDefault.DV_LRTRR_MAX_VALUE)
@@ -93,7 +93,7 @@ namespace TopoHelper.Model
 
         public static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList)
         {
-            for (var i = 0; i < firstList.Count(); i++)
+            for (var i = 0; i < firstList.Count; i++)
             {
                 var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
                 if (railToRailLine < 1.435 - _settingsDefault.DV_LRTRR_TOLERANCE)

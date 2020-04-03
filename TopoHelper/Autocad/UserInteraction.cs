@@ -60,7 +60,7 @@ namespace TopoHelper.AutoCAD
 
                 var point3ds = arrRes as Point3d[] ?? arrRes.ToArray();
                 if (point3ds.Any())
-                    editor.WriteMessage("\r\n\t=>Polyline3d has been selected with " + point3ds.Count() + " vertices.");
+                    editor.WriteMessage("\r\n\t=>Polyline3d has been selected with " + point3ds.Length + " vertices.");
 
                 id = res.ObjectId;
                 return point3ds;

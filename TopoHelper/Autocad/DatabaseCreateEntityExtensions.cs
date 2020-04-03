@@ -34,7 +34,7 @@ namespace TopoHelper.AutoCAD
                     {
                         pl2d.SetDatabaseDefaults();
                         var point3ds = points as Point3d[] ?? points.ToArray();
-                        for (var i = 0; i < point3ds.Count(); i++)
+                        for (var i = 0; i < point3ds.Length; i++)
                         {
                             pl2d.AddVertexAt(i, point3ds.ElementAt(i).T2d(), .0, startwidth, endwidth);
                         }
@@ -177,7 +177,7 @@ namespace TopoHelper.AutoCAD
                 {
                     var blockTableRecord = (BlockTableRecord)transAction.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
                     var point3ds = points as Point3d[] ?? points.ToArray();
-                    var count = point3ds.Count();
+                    var count = point3ds.Length;
                     var ids = new ObjectId[count];
                     //create the layer
                     for (var i = 0; i < count; i++)

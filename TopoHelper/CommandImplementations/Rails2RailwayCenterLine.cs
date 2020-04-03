@@ -41,7 +41,7 @@ namespace TopoHelper.CommandImplementations
             //+ Calculate data for all sections
             double centerLineChainage = 0;
 
-            var itemCount = leftRailPoints.Count();
+            var itemCount = leftRailPoints.Count;
             var sections = new MeasuredSectionResult[itemCount];
 
             Parallel.For(0, itemCount, i =>

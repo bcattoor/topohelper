@@ -1,7 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using PostSharp.Patterns.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +10,7 @@ namespace TopoHelper.AutoCAD
 {
     internal static class UserInteraction
     {
-        public static ObjectId Select3dPolyline([NotNull] this Editor editor, [NotEmpty] string message)
+        public static ObjectId Select3dPolyline(this Editor editor, string message)
         {
             //Setting some options
             var mypromptOption = new PromptEntityOptions(message)
@@ -32,7 +31,7 @@ namespace TopoHelper.AutoCAD
             throw new Exception("\r\n\t=> Selected object is not supported for this function.");
         }
 
-        public static IEnumerable<Point3d> Select3dPolyline([NotNull] this Editor editor, [NotEmpty]string message, out ObjectId id)
+        public static IEnumerable<Point3d> Select3dPolyline(this Editor editor, string message, out ObjectId id)
         {
             IEnumerable<Point3d> arrRes = null;
 
@@ -67,7 +66,7 @@ namespace TopoHelper.AutoCAD
             }
         }
 
-        public static IEnumerable<Point3d> Select3dPoints([NotNull] this Editor editor, out List<ObjectId> ids)
+        public static IEnumerable<Point3d> Select3dPoints(this Editor editor, out List<ObjectId> ids)
         {
             var myPLlist = new List<Point3d>();
             ids = new List<ObjectId>();

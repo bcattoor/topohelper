@@ -6,7 +6,8 @@ using System;
 
 namespace TopoHelper.Csv.Converters
 {
-    internal abstract class Point3dConverter<T> : DefaultTypeConverter
+    // ReSharper disable once ClassNeverInstantiated.Global
+    internal class Point3dConverter<T> : DefaultTypeConverter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {

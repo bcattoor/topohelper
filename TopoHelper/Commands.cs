@@ -53,6 +53,9 @@ namespace TopoHelper
 
         #region Public Methods
 
+        /// <summary>
+        /// This method calculates the distance between 2 selected 3D polylines.
+        /// </summary>
         [CommandMethod("IAMTopo_DistanceBetween2Polylines", CommandFlags.DocReadLock | CommandFlags.NoUndoMarker)]
         public static void IAMTopo_DistanceBetween2Polylines()
         {
@@ -99,11 +102,9 @@ namespace TopoHelper
 
                 #region Write Result
 
-                var csv = new ReadWrite
-                {
-                    FilePath = SettingsDefault.IO_FILE_DBPL_CSV,
-                    Delimiter = SettingsDefault.IO_FILE_DBPL_CSV_DELIMITER
-                };
+                var csv = ReadWrite.Instance;
+                csv.FilePath = SettingsDefault.IO_FILE_DBPL_CSV;
+                csv.Delimiter = SettingsDefault.IO_FILE_DBPL_CSV_DELIMITER;
                 // create csv from result
                 csv.WriteDistanceBetween2PolylinesResult(distanceBetween2PolylinesSectionResults);
 
@@ -337,7 +338,7 @@ namespace TopoHelper
         /// <summary>
         /// This command is used by user to generate a 3d-polyline from a set of
         /// selected points, it will connect the points with that line, using
-        /// points found inside buffer, wit a min, and max buffer radius.
+        /// points found inside buffer, with a min, and max buffer radius.
         /// </summary>
         [CommandMethod("IAMTopo_Settings", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_Settings()
@@ -382,8 +383,8 @@ namespace TopoHelper
             }
         }
 
-        [CommandMethod("IAMTopo_SimplefyPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
-        public static void IAMTopo_SimplefyPolyline()
+        [CommandMethod("IAMTopo_SimplifyPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_SimplifyPolyline()
         {
             var document = Application.DocumentManager.MdiActiveDocument;
 
@@ -428,6 +429,10 @@ namespace TopoHelper
             }
         }
 
+        /// <summary>
+        /// This command weeds two polylines so that the resulting polylines
+        /// have fewer vertexes, but all vertexes are perpendicular
+        /// </summary>
         [CommandMethod("IAMTopo_WeedPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_WeedPolyline()
         {
@@ -444,7 +449,7 @@ namespace TopoHelper
                 var plId1 = editor.Select3dPolyline(Select3dPolyLine);
                 var plId2 = editor.Select3dPolyline(Select3dPolyLine);
                 editor.WriteMessage(Calculating);
-                var points = database.GetPointsFrom2PolylinesWithPointWeeding(plId1, plId2, SettingsDefault.PLW_WEEDING_DISTANCE);
+                var points = database.GetPointsFrom2PolylinesWithPointWeeding(plId1, plId2, SettingsDefault.WeedPolyline_MinDistance);
 
                 if (points.Item1 is null)
                 {
@@ -457,7 +462,7 @@ namespace TopoHelper
                     return;
                 }
 
-                // create a 3-dimensional polyline for track-centerline 3D
+                // create a 3D polyline
                 database.Create3dPolyline(points.Item1);
 
                 database.Create3dPolyline(points.Item2);
@@ -473,13 +478,13 @@ namespace TopoHelper
             }
         }
 
-        [CommandMethod("IAMTopo_JoinPline")]
-        static public void JoinPolylines()
+        [CommandMethod("IAMTopo_JoinPolyline")]
+        public static void JoinPolylines()
         {
             var document = Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;
             var db = document.Database;
-            var peo1 = new PromptEntityOptions("\nSelect source polyline : ");
+            var peo1 = new PromptEntityOptions("\nSelect source polyline (select a point close to gap!): ");
             peo1.SetRejectMessage("\nInvalid selection...");
             peo1.AddAllowedClass(typeof(Polyline), true);
             peo1.AddAllowedClass(typeof(Polyline2d), true);
@@ -491,31 +496,35 @@ namespace TopoHelper
             // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we can equal elevation to source and join them as 2D polyline
             peo1.AddAllowedClass(typeof(Line), true);
 
-            var pEntrs = ed.GetEntity(peo1);
-            if (PromptStatus.OK != pEntrs.Status)
+            var promptResult = ed.GetEntity(peo1);
+            if (PromptStatus.OK != promptResult.Status)
                 return;
-            var srcId = pEntrs.ObjectId;
-            var peo2 = new PromptEntityOptions("\nSelect polyline to join : ");
+
+            var selectedEntityObjectId = promptResult.ObjectId;
+            ed.SetImpliedSelection(new[] { selectedEntityObjectId });
+            var peo2 = new PromptEntityOptions("\nSelect polyline to join (select a point close to gap!): ");
             peo2.SetRejectMessage("\nInvalid selection...");
             peo2.AddAllowedClass(typeof(Line), true);
             peo2.AddAllowedClass(typeof(Polyline), true);
             peo2.AddAllowedClass(typeof(Polyline), true);
             peo2.AddAllowedClass(typeof(Polyline2d), true);
             peo2.AddAllowedClass(typeof(Polyline3d), true);
-            pEntrs = ed.GetEntity(peo2);
-            if (PromptStatus.OK != pEntrs.Status)
+            promptResult = ed.GetEntity(peo2);
+            if (PromptStatus.OK != promptResult.Status)
                 return;
-            var joinId = pEntrs.ObjectId;
+            // clear selection Implication
+            ed.SetImpliedSelection(new ObjectId[] { });
+            var joinId = promptResult.ObjectId;
             try
             {
                 using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
                 {
-                    using (var sourcePolyline = transaction.GetObject(srcId, OpenMode.ForWrite) as Curve)
+                    using (var sourcePolyline = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Curve)
                     using (var polylineToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Curve)
                     {
-                        Debug.Assert(sourcePolyline != null, nameof(sourcePolyline) + " != null");
+                        if (sourcePolyline == null || polylineToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
+
                         var startPointCurve1 = sourcePolyline.StartPoint;
-                        Debug.Assert(polylineToAdd != null, nameof(polylineToAdd) + " != null");
                         var startPointCurve2 = polylineToAdd.StartPoint;
                         var endPointCurve1 = sourcePolyline.EndPoint;
                         var endPointCurve2 = polylineToAdd.EndPoint;
@@ -549,7 +558,7 @@ namespace TopoHelper
                         if (SettingsDefault.DELETE_JPL_ENTITIES) polylineToAdd.Erase();
 
                         transaction.Commit();
-                        ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2.ToString("F6")}");
+                        ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2:F6}");
                     }
                 }
             }
@@ -567,25 +576,19 @@ namespace TopoHelper
         {
             if (SettingsDefault.LOG_R2R_CSV)
             {
-                var csv = new ReadWrite
-                {
-                    FilePath = SettingsDefault.IO_FILE_R2R_CSV,
-                    Delimiter = SettingsDefault.IO_FILE_R2R_CSV_DELIMITER
-                };
+                var csv = ReadWrite.Instance;
+                csv.FilePath = SettingsDefault.IO_FILE_R2R_CSV;
+                csv.Delimiter = SettingsDefault.IO_FILE_R2R_CSV_DELIMITER;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
             }
 
-            if (SettingsDefault.CALCULATE_CSD)
-            {
-                var csv2 = new ReadWrite
-                {
-                    FilePath = SettingsDefault.IO_FILE_CSD_CSV,
-                    Delimiter = SettingsDefault.IO_FILE_CSD_CSV_DELIMITER
-                };
-                // create csv from result
-                csv2.WriteCalculateDisplacementResult(correctedResult);
-            }
+            if (!SettingsDefault.CALCULATE_CSD) return;
+            var csv2 = ReadWrite.Instance;
+            csv2.FilePath = SettingsDefault.IO_FILE_CSD_CSV;
+            csv2.Delimiter = SettingsDefault.IO_FILE_CSD_CSV_DELIMITER;
+            // create csv from result
+            csv2.WriteCalculateDisplacementResult(correctedResult);
         }
 
         #endregion

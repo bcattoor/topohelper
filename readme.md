@@ -4,13 +4,13 @@ Een plugin voor AutoCAD, die hulpmiddelen aanbied om berekeningen op het opgemet
 
 ## Waar te downloaden
 
-[![Latest Version](wiki/images/download-cloud.svg)Download de laatse versie door hier te klikken.](http://example.com "TODO: add actual link.")
+[![Latest Version](wiki/images/download-cloud.svg)Download de laatste versie door hier te klikken.](http://example.com "TODO: add actual link.")
 
-Alle beschikbare versies van de plugin kunnen steeds [hier](https://bitbucket.org/cadsmurfs/topohelper/downloads/ "Verzammeling van alle downloads op BitBucket.") worden gedownload.
+Alle beschikbare versies van de plugin kunnen steeds [hier](https://bitbucket.org/cadsmurfs/topohelper/downloads/ "Verzameling van alle downloads op BitBucket.") worden gedownload.
 
 ## Installatie
 
-Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbel klikken op het bestand zou alles moeten instaleren.
+Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbel klikken op het bestand zou alles moeten instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
 
 ### Voorwaarden
 
@@ -19,10 +19,10 @@ Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de
 
 | Product naam | Key |
 | ------------ | --- |
-| <span class="colour" style="color:rgb(191, 38, 0)">AutoCAD 2019</span> | <span class="colour" style="color:rgb(191, 38, 0)">R23.0\ACAD-2001:409</span> |
-| <span class="colour" style="color:rgb(191, 38, 0)">AutoCAD 2019 Civil 3D</span> | <span class="colour" style="color:rgb(191, 38, 0)">R23.0\ACAD-2000:409</span> |
+| AutoCAD 2019 | R23.0\ACAD-2001:409 |
+| AutoCAD 2019 Civil 3D | R23.0\ACAD-2000:409 |
 
-Indien ondersteuning voor andere versies van AutoCAD moeten worden tegevoegd, gelieve [een issue aan te maken hiervoor](https://bitbucket.org/cadsmurfs/autocad.trusted.locations/issues/new "Aanmaken van een nieuwe issue.").
+Indien ondersteuning voor andere versies van AutoCAD moeten worden toegevoegd, gelieve [een issue aan te maken hiervoor](https://bitbucket.org/cadsmurfs/autocad.trusted.locations/issues/new "Aanmaken van een nieuwe issue.").
 
 ## Gebruik in AutoCAD
 
@@ -37,10 +37,10 @@ Er wordt gekozen om met het C# .NET Framework 4.6 een oplossing aan te bieden in
 
 De uitgewerkte oplossing wordt beheerd op een BitBucket GIT-versiebeheersysteem. [Een overzicht van alle commits kan je hier vinden.](https://bitbucket.org/cadsmurfs/topohelper/commits/)
 
+De volledig broncode is alsook beschikbaar [hier](https://bitbucket.org/cadsmurfs/topohelper/src/master/).
+
 ## Verdeling van de gecompileerde bestanden
 
-Deze kan dan onder de tekenaars worden verdeeld aan de hand van een downloadlink. De downloadlink is beschikbaar op de BitBucket server.
-
-## Definities gebruikt in de tekst
+Deze kan dan onder de tekenaars worden verdeeld aan de hand van een downloadlink. De downloadlink is beschikbaar op de BitBucket server. [Zie ook waar te downloaden eerder in de text.](#markdown-header-waar-te-downloaden)
 
 Tabel met de gebruikte definities

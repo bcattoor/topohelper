@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using CsvHelper;
+using System.Collections.Generic;
 using System.IO;
-using CsvHelper;
 using TopoHelper.Csv.Mapping;
 using TopoHelper.Properties;
 

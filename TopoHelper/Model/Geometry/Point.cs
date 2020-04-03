@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.Geometry;
+using System.Globalization;
 
 namespace TopoHelper.Model.Geometry
 {

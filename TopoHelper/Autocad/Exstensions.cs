@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using PostSharp.Patterns.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace TopoHelper.AutoCAD
 {

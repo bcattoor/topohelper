@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Deployment.WindowsInstaller;
+using System;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;
-using Microsoft.Deployment.WindowsInstaller;
 using WixSharp;
 using WixSharp.CommonTasks;
 using Assembly = System.Reflection.Assembly;

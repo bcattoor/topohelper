@@ -1,8 +1,8 @@
-﻿using System;
-using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.Geometry;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
+using System;
 
 namespace TopoHelper.Csv.Converters
 {

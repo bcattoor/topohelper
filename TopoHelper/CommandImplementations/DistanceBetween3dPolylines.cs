@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TopoHelper.AutoCAD;
 using TopoHelper.Model.Results;
 

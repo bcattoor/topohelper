@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Autodesk.AutoCAD.Geometry;
 using TopoHelper.Model.Results;
 using TopoHelper.Normalizer;
 

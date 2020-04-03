@@ -1,5 +1,5 @@
-﻿using System;
-using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.Geometry;
+using System;
 using TopoHelper.Model.Enums;
 
 namespace TopoHelper.Model.Results

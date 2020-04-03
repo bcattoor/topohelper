@@ -1,6 +1,23 @@
 # TopoHelper
 
-Een plugin voor AutoCAD, die hulpmiddelen aanbied om berekeningen op het opgemeten spoor uit te voeren.
+[![Latest Version](wiki/images/download-cloud.svg)Download de laatste versie door hier te klikken.](http://example.com "TODO: add actual link.")
+
+## Waarom
+
+Deze commando's zijn ontwikkeld voor bepaald specifiek gebruik op (opgemeten) samengestelde lijnen (3D POLYLINES in AutoCAD). Tijdens het werken met deze specifieke lijnen zijn noden onstaan die in een AutoCAD niet worden opgelost. Deze plugin biedt daar zoveel mogelijk een antwoord op.
+
+### Meewerken aan deze plugin
+
+Deze bibliotheek is een groeiend werk, en opmerkingen, vragen, voorstellen zijn meer dan welkom. Aarzel dan ook niet om een "issue" (onderwerp) aan te maken wanneer u iets wenst te wijzigen. Ook voorstellen voor nieuwe functies zijn welkom.
+
+Om een opmerking na te laten dient u niet te beschikken over een account hier op BitBucket, maar indien je wenst op de hoogte te worden gehouden over het verdere verloop van je "issue", dan is een account noodzakelijk.
+
+Een account kan worden aangemaakt [hier.](https://bitbucket.org/account/signup/)
+
+Indien je een nieuwe "issue" wenst aan te maken, dan kan je dat [hier.](https://bitbucket.org/cadsmurfs/autocad.trusted.locations/issues/new "Aanmaken van een nieuwe issue.")
+
+Voor de mensen die zelf wat code kunnen kloppen, voel je vrij om een voorstel tot samenwerken.
+De volledig broncode is alsook beschikbaar [hier](https://bitbucket.org/cadsmurfs/topohelper/src/master/).
 
 ## Waar te downloaden
 

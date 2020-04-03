@@ -1,11 +1,13 @@
 # TopoHelper
 
-[![Latest Version](https://bitbucket.org/cadsmurfs/topohelper/wiki/images/download-cloud.svg)
-  Download de laatste versie door hier te klikken.](https://bitbucket.org/cadsmurfs/topohelper/latest.release.zip "Download latest release from the downloads page directly.")
+[![Latest Version](https://bitbucket.org/cadsmurfs/topohelper/wiki/images/download-cloud.svg)](https://bitbucket.org/cadsmurfs/topohelper/latest.release.zip "Download latest release from the downloads page directly.")
+[Download de laatste versie door hier te klikken.](https://bitbucket.org/cadsmurfs/topohelper/latest.release.zip "Download latest release from the downloads page directly.")
 
 ## Waarom
 
 Deze commando's zijn ontwikkeld voor bepaald specifiek gebruik op (opgemeten) samengestelde lijnen (3D POLYLINES in AutoCAD). Tijdens het werken met deze specifieke lijnen zijn noden onstaan die in een AutoCAD niet worden opgelost. Deze plugin biedt daar zoveel mogelijk een antwoord op.
+
+In de [Wiki](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home) ga ik verder in op *het waarom* een bepaalde functie nodig is.
 
 ### Meewerken aan deze plugin
 
@@ -44,8 +46,8 @@ Indien ondersteuning voor andere versies van AutoCAD moeten worden toegevoegd, g
 
 ## Gebruik in AutoCAD
 
-Voor het gebruik van de plugin binnen AutoCAD raad ik u aan het Wiki te gebruiken.
-[Deze kan je hier vinden](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home "Wiki: Home: Welkom")
+Voor het gebruik van de plugin binnen AutoCAD raad ik u aan gebruik te maken van de Wiki op deze site.
+[Deze kan je hier terug vinden](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home "Wiki: Home: Welkom")
 
 ## Gebruikte technologie voor het ontwikkelen van de software
 

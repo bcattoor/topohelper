@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using TopoHelper.Csv.Mapping;
 using TopoHelper.Properties;
@@ -8,6 +9,16 @@ namespace TopoHelper.Csv
 {
     internal class ReadWrite
     {
+        private readonly CultureInfo _culture = CultureInfo.CurrentCulture;
+
+        private ReadWrite()
+        {
+            _culture.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+            _culture.NumberFormat.NumberGroupSeparator = "";
+        }
+
+        public static ReadWrite Instance { get; } = new ReadWrite();
+
         public string FilePath { get; set; }
         public string Delimiter { get; set; }
 
@@ -16,11 +27,10 @@ namespace TopoHelper.Csv
             using (var writer = new StreamWriter(FilePath))
 
             {
-                using (var csv = new CsvWriter(writer))
+                using (var csv = new CsvWriter(writer, _culture))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
+
                     csv.Configuration.RegisterClassMap<MeasuredSectionMap>();
                     csv.WriteRecords(records);
                 }
@@ -32,7 +42,7 @@ namespace TopoHelper.Csv
             using (var writer = new StreamWriter(FilePath))
 
             {
-                using (var csv = new CsvWriter(writer))
+                using (var csv = new CsvWriter(writer, _culture))
                 {
                     csv.Configuration.Delimiter = Delimiter;
                     csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
@@ -48,7 +58,7 @@ namespace TopoHelper.Csv
             using (var writer = new StreamWriter(FilePath))
 
             {
-                using (var csv = new CsvWriter(writer))
+                using (var csv = new CsvWriter(writer, _culture))
                 {
                     csv.Configuration.Delimiter = Delimiter;
                     csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;

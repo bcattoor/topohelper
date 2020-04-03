@@ -11,7 +11,7 @@ In de [Wiki](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home) ga ik verder 
 
 ### Meewerken aan deze plugin
 
-Deze bibliotheek is een groeiend werk, en opmerkingen, vragen, voorstellen zijn meer dan welkom. Aarzel dan ook niet om een "issue" (onderwerp) aan te maken wanneer u iets wenst te wijzigen. Ook voorstellen voor nieuwe functies zijn welkom.
+Deze bibliotheek is een groeiend werk, en opmerkingen, vragen, voorstellen zijn meer dan welkom. Aarzel dan ook niet om een "issue" of "onderwerp" aan te maken [hier.](https://bitbucket.org/cadsmurfs/autocad.trusted.locations/issues/new "Aanmaken van een nieuwe issue.") wanneer u iets wenst te mee te delen. Ook voorstellen voor nieuwe functies zijn welkom.
 
 Om een opmerking na te laten dient u niet te beschikken over een account hier op BitBucket, maar indien je wenst op de hoogte te worden gehouden over het verdere verloop van je "issue", dan is een account noodzakelijk.
 

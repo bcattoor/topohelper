@@ -30,12 +30,14 @@ Alle beschikbare versies van de plugin kunnen steeds [hier](https://bitbucket.or
 
 ## Installatie
 
-Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbel klikken op het bestand zou alles moeten instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
+Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbelklikken op het bestand zou alles moeten op de correcte plaats instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
 
 ### Voorwaarden
 
 * U dient te beschikken over het .NET Framework V4.6 .( [download hier -> .NET](https://dotnet.microsoft.com/download/dotnet-framework "klik hier om deze te downloaden") )
 * AutoCAD moet geinstaleerd staan op het systeem
+
+De ondersteude AutoCAD vesies zijn:
 
 | Product naam | Key |
 | ------------ | --- |
@@ -61,6 +63,4 @@ De volledig broncode is alsook beschikbaar [hier](https://bitbucket.org/cadsmurf
 
 ## Verdeling van de gecompileerde bestanden
 
-Deze kan dan onder de tekenaars worden verdeeld aan de hand van een downloadlink. De downloadlink is beschikbaar op de BitBucket server. [Zie ook waar te downloaden eerder in de text.](#markdown-header-waar-te-downloaden)
-
-Tabel met de gebruikte definities
+Deze kan dan onder de tekenaars worden verdeeld door een downloadlink. De downloadlink is beschikbaar op de Bitbucket server. [Zie ook waar te downloaden eerder in de text.](#markdown-header-waar-te-downloaden) Als bepaalde collega's niet over internetoegang beschikken, dan kan de software ook worden verdeeld door het gedownloade bestand te verspreiden via de interne file servers.

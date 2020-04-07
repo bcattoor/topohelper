@@ -35,7 +35,7 @@ namespace TopoHelper.Model.Calculations
                 var h = Math.Abs(rrp.Z - lrp.Z);
                 var gauge = rrp.DistanceTo(lrp);
                 // no need to calculate if there is no cant
-                if (h <= Settings.Default.CSD_MIN_CANT_VAL)
+                if (h <= Settings.Default.CalculateSurveyCorrection_MinimumCantValue)
                 {
                     lock (ArrayLock)
                         result[i] = new CalculateDisplacementSectionResult

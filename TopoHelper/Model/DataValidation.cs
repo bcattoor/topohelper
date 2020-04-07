@@ -85,7 +85,7 @@ namespace TopoHelper.Model
             for (var i = 0; i < firstList.Count; i++)
             {
                 var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railToRailLine > _settingsDefault.DV_LRTRR_MAX_VALUE)
+                if (railToRailLine > _settingsDefault.DataValidation_LeftrailToRightRail_Maximum)
                     return false;
             }
             return true;
@@ -96,7 +96,7 @@ namespace TopoHelper.Model
             for (var i = 0; i < firstList.Count; i++)
             {
                 var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railToRailLine < 1.435 - _settingsDefault.DV_LRTRR_TOLERANCE)
+                if (railToRailLine < 1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance)
                     return false;
             }
 
@@ -105,15 +105,15 @@ namespace TopoHelper.Model
 
         public static bool ValidatePointsToPolylineSettings(out string message)
         {
-            if (_settingsDefault.DIST_MIN_PTP < 0)
+            if (_settingsDefault.PointsTo3DPolyline_MinimumPointDistance < 0)
             {
-                message = $"The variable {nameof(_settingsDefault.DIST_MIN_PTP)} should not be smaller than 0.";
+                message = $"The variable {nameof(_settingsDefault.PointsTo3DPolyline_MinimumPointDistance)} should not be smaller than 0.";
                 return false;
             }
 
-            if (_settingsDefault.DIST_MAX_PTP < _settingsDefault.DIST_MIN_PTP + _settingsDefault.APP_EPSILON)
+            if (_settingsDefault.PointsTo3DPolyline_MaximumPointDistance < _settingsDefault.PointsTo3DPolyline_MinimumPointDistance + _settingsDefault.__APP_EPSILON)
             {
-                message = $"The variable {nameof(_settingsDefault.DIST_MAX_PTP)} should not be smaller than variable {nameof(_settingsDefault.DIST_MIN_PTP)}.";
+                message = $"The variable {nameof(_settingsDefault.PointsTo3DPolyline_MaximumPointDistance)} should not be smaller than variable {nameof(_settingsDefault.PointsTo3DPolyline_MinimumPointDistance)}.";
                 return false;
             }
 

@@ -26,292 +26,292 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1E-06")]
-        public double APP_EPSILON {
+        public double @__APP_EPSILON {
             get {
-                return ((double)(this["APP_EPSILON"]));
+                return ((double)(this["__APP_EPSILON"]));
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
-        public double DV_LRTRR_TOLERANCE {
+        public double DataValidation_LeftrailToRightRail_Tolerance {
             get {
-                return ((double)(this["DV_LRTRR_TOLERANCE"]));
+                return ((double)(this["DataValidation_LeftrailToRightRail_Tolerance"]));
             }
             set {
-                this["DV_LRTRR_TOLERANCE"] = value;
+                this["DataValidation_LeftrailToRightRail_Tolerance"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2D-")]
-        public string LAY_NAME_PREFIX_2D {
+        public string LayerNamePrefix_2DObjects {
             get {
-                return ((string)(this["LAY_NAME_PREFIX_2D"]));
+                return ((string)(this["LayerNamePrefix_2DObjects"]));
             }
             set {
-                this["LAY_NAME_PREFIX_2D"] = value;
+                this["LayerNamePrefix_2DObjects"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3D-")]
-        public string LAY_NAME_PREFIX_3D {
+        public string LayerNamePrefix_3DObjects {
             get {
-                return ((string)(this["LAY_NAME_PREFIX_3D"]));
+                return ((string)(this["LayerNamePrefix_3DObjects"]));
             }
             set {
-                this["LAY_NAME_PREFIX_3D"] = value;
+                this["LayerNamePrefix_3DObjects"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("811")]
-        public string LAY_NAME_R2R_CL {
+        public string Rails2RailwayCenterLine_LayerNameCenterline {
             get {
-                return ((string)(this["LAY_NAME_R2R_CL"]));
+                return ((string)(this["Rails2RailwayCenterLine_LayerNameCenterline"]));
             }
             set {
-                this["LAY_NAME_R2R_CL"] = value;
+                this["Rails2RailwayCenterLine_LayerNameCenterline"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("253")]
-        public short LAY_COL_R2R_CL_PL {
+        public short Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine {
             get {
-                return ((short)(this["LAY_COL_R2R_CL_PL"]));
+                return ((short)(this["Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine"]));
             }
             set {
-                this["LAY_COL_R2R_CL_PL"] = value;
+                this["Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DRAW_3D_R2R_CL_PNTS {
+        public bool Rails2RailwayCenterLine_DrawCenterline3DPoints {
             get {
-                return ((bool)(this["DRAW_3D_R2R_CL_PNTS"]));
+                return ((bool)(this["Rails2RailwayCenterLine_DrawCenterline3DPoints"]));
             }
             set {
-                this["DRAW_3D_R2R_CL_PNTS"] = value;
+                this["Rails2RailwayCenterLine_DrawCenterline3DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("811-Points")]
-        public string LAY_NAME_R2R_CL_PNTS {
+        public string Rails2RailwayCenterLine_LayerNameCenterLine3DPoints {
             get {
-                return ((string)(this["LAY_NAME_R2R_CL_PNTS"]));
+                return ((string)(this["Rails2RailwayCenterLine_LayerNameCenterLine3DPoints"]));
             }
             set {
-                this["LAY_NAME_R2R_CL_PNTS"] = value;
+                this["Rails2RailwayCenterLine_LayerNameCenterLine3DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("251")]
-        public short LAY_COL_R2D_CL_PNTS {
+        public short Rails2RailwayCenterLine_LayerColorCenterline3DPoints {
             get {
-                return ((short)(this["LAY_COL_R2D_CL_PNTS"]));
+                return ((short)(this["Rails2RailwayCenterLine_LayerColorCenterline3DPoints"]));
             }
             set {
-                this["LAY_COL_R2D_CL_PNTS"] = value;
+                this["Rails2RailwayCenterLine_LayerColorCenterline3DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.6")]
-        public double DV_LRTRR_MAX_VALUE {
+        [global::System.Configuration.DefaultSettingValueAttribute("1.52")]
+        public double DataValidation_LeftrailToRightRail_Maximum {
             get {
-                return ((double)(this["DV_LRTRR_MAX_VALUE"]));
+                return ((double)(this["DataValidation_LeftrailToRightRail_Maximum"]));
             }
             set {
-                this["DV_LRTRR_MAX_VALUE"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DRAW_2D_R2R_CL_PL {
-            get {
-                return ((bool)(this["DRAW_2D_R2R_CL_PL"]));
-            }
-            set {
-                this["DRAW_2D_R2R_CL_PL"] = value;
+                this["DataValidation_LeftrailToRightRail_Maximum"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DRAW_3D_R2R_CL_PL {
+        public bool Rails2RailwayCenterLine_Draw2DPolyline_CenterLine {
             get {
-                return ((bool)(this["DRAW_3D_R2R_CL_PL"]));
+                return ((bool)(this["Rails2RailwayCenterLine_Draw2DPolyline_CenterLine"]));
             }
             set {
-                this["DRAW_3D_R2R_CL_PL"] = value;
+                this["Rails2RailwayCenterLine_Draw2DPolyline_CenterLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Rails2RailwayCenterLine_Draw3DPolyline_CenterLine {
+            get {
+                return ((bool)(this["Rails2RailwayCenterLine_Draw3DPolyline_CenterLine"]));
+            }
+            set {
+                this["Rails2RailwayCenterLine_Draw3DPolyline_CenterLine"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.R2R.csv")]
-        public string IO_FILE_R2R_CSV {
+        public string Rails2RailwayCenterLine_PathToCSVFile {
             get {
-                return ((string)(this["IO_FILE_R2R_CSV"]));
+                return ((string)(this["Rails2RailwayCenterLine_PathToCSVFile"]));
             }
             set {
-                this["IO_FILE_R2R_CSV"] = value;
+                this["Rails2RailwayCenterLine_PathToCSVFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool CALCULATE_CSD {
+        public bool Rails2RailwayCenterLine_Use_CalculateSurveyCorrection {
             get {
-                return ((bool)(this["CALCULATE_CSD"]));
+                return ((bool)(this["Rails2RailwayCenterLine_Use_CalculateSurveyCorrection"]));
             }
             set {
-                this["CALCULATE_CSD"] = value;
+                this["Rails2RailwayCenterLine_Use_CalculateSurveyCorrection"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DRAW_3D_CSD_RAILS_PL {
+        public bool CalculateSurveyCorrection_Draw3DPolyline_Rails {
             get {
-                return ((bool)(this["DRAW_3D_CSD_RAILS_PL"]));
+                return ((bool)(this["CalculateSurveyCorrection_Draw3DPolyline_Rails"]));
             }
             set {
-                this["DRAW_3D_CSD_RAILS_PL"] = value;
+                this["CalculateSurveyCorrection_Draw3DPolyline_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRail")]
-        public string LAY_NAME_CSD_RAILS_PL {
+        public string CalculateSurveyCorrection_LayerNamePolylines_Rails {
             get {
-                return ((string)(this["LAY_NAME_CSD_RAILS_PL"]));
+                return ((string)(this["CalculateSurveyCorrection_LayerNamePolylines_Rails"]));
             }
             set {
-                this["LAY_NAME_CSD_RAILS_PL"] = value;
+                this["CalculateSurveyCorrection_LayerNamePolylines_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DRAW_2D_R2R_CL_PNTS {
+        public bool Rails2RailwayCenterLine_DrawCenterline2DPoints {
             get {
-                return ((bool)(this["DRAW_2D_R2R_CL_PNTS"]));
+                return ((bool)(this["Rails2RailwayCenterLine_DrawCenterline2DPoints"]));
             }
             set {
-                this["DRAW_2D_R2R_CL_PNTS"] = value;
+                this["Rails2RailwayCenterLine_DrawCenterline2DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LOG_R2R_CSV {
+        public bool Rails2RailwayCenterLine_WriteResultToCSVFile {
             get {
-                return ((bool)(this["LOG_R2R_CSV"]));
+                return ((bool)(this["Rails2RailwayCenterLine_WriteResultToCSVFile"]));
             }
             set {
-                this["LOG_R2R_CSV"] = value;
+                this["Rails2RailwayCenterLine_WriteResultToCSVFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string IO_FILE_R2R_CSV_DELIMITER {
+        public string Rails2RailwayCenterLine_CSVFile_Delimiter {
             get {
-                return ((string)(this["IO_FILE_R2R_CSV_DELIMITER"]));
+                return ((string)(this["Rails2RailwayCenterLine_CSVFile_Delimiter"]));
             }
             set {
-                this["IO_FILE_R2R_CSV_DELIMITER"] = value;
+                this["Rails2RailwayCenterLine_CSVFile_Delimiter"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("110")]
-        public short LAY_COL_CSD_RAILS_PL {
+        public short CalculateSurveyCorrection_LayerColorPolyline_Rails {
             get {
-                return ((short)(this["LAY_COL_CSD_RAILS_PL"]));
+                return ((short)(this["CalculateSurveyCorrection_LayerColorPolyline_Rails"]));
             }
             set {
-                this["LAY_COL_CSD_RAILS_PL"] = value;
+                this["CalculateSurveyCorrection_LayerColorPolyline_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DRAW_3D_CSD_RAILS_PNTS {
+        public bool CalculateSurveyCorrection_Draw3DPoints_Rails {
             get {
-                return ((bool)(this["DRAW_3D_CSD_RAILS_PNTS"]));
+                return ((bool)(this["CalculateSurveyCorrection_Draw3DPoints_Rails"]));
             }
             set {
-                this["DRAW_3D_CSD_RAILS_PNTS"] = value;
+                this["CalculateSurveyCorrection_Draw3DPoints_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRailPoints")]
-        public string LAY_NAME_CSD_RAILS_PNTS {
+        public string CalculateSurveyCorrection_LayerNamePoints_Rails {
             get {
-                return ((string)(this["LAY_NAME_CSD_RAILS_PNTS"]));
+                return ((string)(this["CalculateSurveyCorrection_LayerNamePoints_Rails"]));
             }
             set {
-                this["LAY_NAME_CSD_RAILS_PNTS"] = value;
+                this["CalculateSurveyCorrection_LayerNamePoints_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("115")]
-        public short LAY_COL_CSD_RAILS_PNTS {
+        public short CalculateSurveyCorrection_LayerColorPoints_Rails {
             get {
-                return ((short)(this["LAY_COL_CSD_RAILS_PNTS"]));
+                return ((short)(this["CalculateSurveyCorrection_LayerColorPoints_Rails"]));
             }
             set {
-                this["LAY_COL_CSD_RAILS_PNTS"] = value;
+                this["CalculateSurveyCorrection_LayerColorPoints_Rails"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DELETE_JPL_ENTITIES {
+        public bool JoinPolyline_DeleteSelectedEntities {
             get {
-                return ((bool)(this["DELETE_JPL_ENTITIES"]));
+                return ((bool)(this["JoinPolyline_DeleteSelectedEntities"]));
             }
             set {
-                this["DELETE_JPL_ENTITIES"] = value;
+                this["JoinPolyline_DeleteSelectedEntities"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.005")]
-        public double DIST_MIN_PTP {
+        public double PointsTo3DPolyline_MinimumPointDistance {
             get {
                 return ((double)(this["DIST_MIN_PTP"]));
             }
@@ -323,7 +323,7 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
-        public double DIST_MAX_PTP {
+        public double PointsTo3DPolyline_MaximumPointDistance {
             get {
                 return ((double)(this["DIST_MAX_PTP"]));
             }
@@ -335,72 +335,72 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.CSD.csv")]
-        public string IO_FILE_CSD_CSV {
+        public string CalculateSurveyCorrection_PathToCsvFile {
             get {
-                return ((string)(this["IO_FILE_CSD_CSV"]));
+                return ((string)(this["CalculateSurveyCorrection_PathToCsvFile"]));
             }
             set {
-                this["IO_FILE_CSD_CSV"] = value;
+                this["CalculateSurveyCorrection_PathToCsvFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string IO_FILE_CSD_CSV_DELIMITER {
+        public string CalculateSurveyCorrection_CSVFile_Delimiter {
             get {
-                return ((string)(this["IO_FILE_CSD_CSV_DELIMITER"]));
+                return ((string)(this["CalculateSurveyCorrection_CSVFile_Delimiter"]));
             }
             set {
-                this["IO_FILE_CSD_CSV_DELIMITER"] = value;
+                this["CalculateSurveyCorrection_CSVFile_Delimiter"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.DBPL.csv")]
-        public string IO_FILE_DBPL_CSV {
+        public string DistanceBetween2Polylines_PathToCsvFile {
             get {
-                return ((string)(this["IO_FILE_DBPL_CSV"]));
+                return ((string)(this["DistanceBetween2Polylines_PathToCsvFile"]));
             }
             set {
-                this["IO_FILE_DBPL_CSV"] = value;
+                this["DistanceBetween2Polylines_PathToCsvFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string IO_FILE_DBPL_CSV_DELIMITER {
+        public string DistanceBetween2Polylines_CSVFile_Delimiter {
             get {
-                return ((string)(this["IO_FILE_DBPL_CSV_DELIMITER"]));
+                return ((string)(this["DistanceBetween2Polylines_CSVFile_Delimiter"]));
             }
             set {
-                this["IO_FILE_DBPL_CSV_DELIMITER"] = value;
+                this["DistanceBetween2Polylines_CSVFile_Delimiter"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(",")]
-        public string IO_CSV_NUMBER_DECIMAL_SEPERATOR {
+        public string NumberDecimalSeperator_ForAllCSVFiles {
             get {
-                return ((string)(this["IO_CSV_NUMBER_DECIMAL_SEPERATOR"]));
+                return ((string)(this["NumberDecimalSeperator_ForAllCSVFiles"]));
             }
             set {
-                this["IO_CSV_NUMBER_DECIMAL_SEPERATOR"] = value;
+                this["NumberDecimalSeperator_ForAllCSVFiles"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
-        public double CSD_MIN_CANT_VAL {
+        public double CalculateSurveyCorrection_MinimumCantValue {
             get {
-                return ((double)(this["CSD_MIN_CANT_VAL"]));
+                return ((double)(this["CalculateSurveyCorrection_MinimumCantValue"]));
             }
             set {
-                this["CSD_MIN_CANT_VAL"] = value;
+                this["CalculateSurveyCorrection_MinimumCantValue"] = value;
             }
         }
         

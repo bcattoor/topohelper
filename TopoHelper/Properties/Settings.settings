@@ -14,49 +14,49 @@
     <Setting Name="LAY_NAME_PREFIX_3D" Type="System.String" Scope="User">
       <Value Profile="(Default)">3D-</Value>
     </Setting>
-    <Setting Name="LAY_NAME_R2R_CL" Type="System.String" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_LayerNameCenterline" Type="System.String" Scope="User">
       <Value Profile="(Default)">811</Value>
     </Setting>
-    <Setting Name="LAY_COL_R2R_CL_PL" Type="System.Int16" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">253</Value>
     </Setting>
-    <Setting Name="DRAW_3D_R2R_CL_PNTS" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_DrawCenterline3DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LAY_NAME_R2R_CL_PNTS" Type="System.String" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_LayerNameCenterLine3DPoints" Type="System.String" Scope="User">
       <Value Profile="(Default)">811-Points</Value>
     </Setting>
-    <Setting Name="LAY_COL_R2D_CL_PNTS" Type="System.Int16" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_LayerColorCenterline3DPoints" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">251</Value>
     </Setting>
     <Setting Name="DV_LRTRR_MAX_VALUE" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1.6</Value>
     </Setting>
-    <Setting Name="DRAW_2D_R2R_CL_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_Draw2DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DRAW_3D_R2R_CL_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_Draw3DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="IO_FILE_R2R_CSV" Type="System.String" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_PathToCSVFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Data\track.R2R.csv</Value>
     </Setting>
-    <Setting Name="CALCULATE_CSD" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_Use_CalculateSurveyCorrection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DRAW_3D_CSD_RAILS_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_Draw3DPolyline_Rails" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LAY_NAME_CSD_RAILS_PL" Type="System.String" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_LayerNamePolylines_Rails" Type="System.String" Scope="User">
       <Value Profile="(Default)">IAMTopo_CorrectSurveyDisplacementRail</Value>
     </Setting>
-    <Setting Name="DRAW_2D_R2R_CL_PNTS" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_DrawCenterline2DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="LOG_R2R_CSV" Type="System.Boolean" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="IO_FILE_R2R_CSV_DELIMITER" Type="System.String" Scope="User">
+    <Setting Name="Rails2RailwayCenterLine_CSVFileDelimiter" Type="System.String" Scope="User">
       <Value Profile="(Default)">;</Value>
     </Setting>
     <Setting Name="LAY_COL_CSD_RAILS_PL" Type="System.Int16" Scope="User">

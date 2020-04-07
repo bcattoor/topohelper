@@ -234,7 +234,7 @@ namespace TopoHelper
 
                 IEnumerable<CalculateDisplacementSectionResult> correctedResult = null;
                 // take away the survey errors of the points
-                if (SettingsDefault.CALCULATE_CSD)
+                if (SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection)
                     correctedResult = SurveyCorrecting.CalculateDisplacement(point3dsLeft, point3dsRight);
 
                 #endregion
@@ -247,7 +247,7 @@ namespace TopoHelper
 
                 var calculateDisplacementSectionResults = correctedResult as CalculateDisplacementSectionResult[] ?? correctedResult.ToArray();
 
-                var sections = SettingsDefault.CALCULATE_CSD ?
+                var sections = SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection ?
                     Rails2RailwayCenterLine.CalculateRailwayCenterLine(
                         calculateDisplacementSectionResults.Select(s => s.LeftRailPoint).ToList(),
                         calculateDisplacementSectionResults.Select(s => s.RightRailPoint).ToList())
@@ -260,45 +260,45 @@ namespace TopoHelper
                 var trackAxis3DPoints = sections.Select(x => x.TrackAxisPoint).ToArray();
 
                 // DRAW CENTERLINE POLYLINES AND POINTS
-                if (SettingsDefault.DRAW_2D_R2R_CL_PL)
+                if (SettingsDefault.Rails2RailwayCenterLine_Draw2DPolyline_CenterLine)
                     // create a 2-dimensional polyline for track-center-line 2D
                     database.Create2dPolyline(
                         points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.LAY_NAME_R2R_CL,
-                        layerColor: SettingsDefault.LAY_COL_R2R_CL_PL);
+                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
+                        layerColor: SettingsDefault.Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
-                if (SettingsDefault.DRAW_3D_R2R_CL_PL)
+                if (SettingsDefault.Rails2RailwayCenterLine_Draw3DPolyline_CenterLine)
                     // create a 3-dimensional polyline for track-center-line 3D
                     database.Create3dPolyline(trackAxis3DPoints,
-                    SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_R2R_CL,
-                    SettingsDefault.LAY_COL_R2R_CL_PL);
+                    SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
+                    SettingsDefault.Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
-                if (SettingsDefault.DRAW_3D_R2R_CL_PNTS)
+                if (SettingsDefault.Rails2RailwayCenterLine_DrawCenterline3DPoints)
                     // create 3-dimensional points
                     database.CreatePoints(
                         points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_R2R_CL_PNTS,
-                        layerColor: SettingsDefault.LAY_COL_R2D_CL_PNTS);
+                        layerName: SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints,
+                        layerColor: SettingsDefault.Rails2RailwayCenterLine_LayerColorCenterline3DPoints);
 
-                if (SettingsDefault.DRAW_2D_R2R_CL_PNTS)
+                if (SettingsDefault.Rails2RailwayCenterLine_DrawCenterline2DPoints)
                     // create 2-dimensional points
                     database.CreatePoints(
                         points: trackAxis3DPoints.Select(p => p.T2d().T3d(0)).ToArray(),
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.LAY_NAME_R2R_CL_PNTS);
+                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints);
 
-                if (SettingsDefault.CALCULATE_CSD)
+                if (SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection)
                 {
                     // DRAW CSD - RAILS
-                    if (SettingsDefault.DRAW_3D_CSD_RAILS_PL)
+                    if (SettingsDefault.CalculateSurveyCorrection_Draw3DPolyline_Rails)
                     {
                         // RIGHT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
-                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_CSD_RAILS_PL,
+                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
                         SettingsDefault.LAY_COL_CSD_RAILS_PL);
 
                         // LEFT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
-                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_CSD_RAILS_PL,
+                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
                         SettingsDefault.LAY_COL_CSD_RAILS_PL);
                     }
 
@@ -574,16 +574,16 @@ namespace TopoHelper
 
         private static void WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
         {
-            if (SettingsDefault.LOG_R2R_CSV)
+            if (SettingsDefault.Rails2RailwayCenterLine_WriteResultToCSVFile)
             {
                 var csv = ReadWrite.Instance;
-                csv.FilePath = SettingsDefault.IO_FILE_R2R_CSV;
-                csv.Delimiter = SettingsDefault.IO_FILE_R2R_CSV_DELIMITER;
+                csv.FilePath = SettingsDefault.Rails2RailwayCenterLine_PathToCSVFile;
+                csv.Delimiter = SettingsDefault.Rails2RailwayCenterLine_CSVFileDelimiter;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
             }
 
-            if (!SettingsDefault.CALCULATE_CSD) return;
+            if (!SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection) return;
             var csv2 = ReadWrite.Instance;
             csv2.FilePath = SettingsDefault.IO_FILE_CSD_CSV;
             csv2.Delimiter = SettingsDefault.IO_FILE_CSD_CSV_DELIMITER;

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using TopoHelper;
 using TopoHelper.AutoCAD;
 using TopoHelper.CommandImplementations;
@@ -107,6 +108,7 @@ namespace TopoHelper
                 csv.Delimiter = SettingsDefault.IO_FILE_DBPL_CSV_DELIMITER;
                 // create csv from result
                 csv.WriteDistanceBetween2PolylinesResult(distanceBetween2PolylinesSectionResults);
+                editor.WriteMessage($"Result was written to CSV file {csv.FilePath}");
 
                 #endregion
             }
@@ -320,7 +322,8 @@ namespace TopoHelper
 
                 #region Write Result
 
-                WriteResultToFile(calculateDisplacementSectionResults, sections);
+                var result = WriteResultToFile(calculateDisplacementSectionResults, sections);
+                editor.WriteMessage(result);
 
                 #endregion
             }
@@ -572,23 +575,27 @@ namespace TopoHelper
 
         #region Private Methods
 
-        private static void WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
+        private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
         {
+            var result = new StringBuilder("");
             if (SettingsDefault.Rails2RailwayCenterLine_WriteResultToCSVFile)
             {
                 var csv = ReadWrite.Instance;
                 csv.FilePath = SettingsDefault.Rails2RailwayCenterLine_PathToCSVFile;
-                csv.Delimiter = SettingsDefault.Rails2RailwayCenterLine_CSVFileDelimiter;
+                csv.Delimiter = SettingsDefault.Rails2RailwayCenterLine_CSVFile_Delimiter;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
+                result.AppendLine($"Rails2RailwayCenterLine resulting CSV-file has been written to: {csv.FilePath}");
             }
 
-            if (!SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection) return;
+            if (!SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection) return result.ToString();
             var csv2 = ReadWrite.Instance;
-            csv2.FilePath = SettingsDefault.IO_FILE_CSD_CSV;
-            csv2.Delimiter = SettingsDefault.IO_FILE_CSD_CSV_DELIMITER;
+            csv2.FilePath = SettingsDefault.CalculateSurveyCorrection_PathToCsvFile;
+            csv2.Delimiter = SettingsDefault.CalculateSurveyCorrection_CSVFile_Delimiter;
             // create csv from result
             csv2.WriteCalculateDisplacementResult(correctedResult);
+            result.AppendLine($"Rails2RailwayCenterLine resulting CSV-file has been written to: {csv2.FilePath}");
+            return result.ToString();
         }
 
         #endregion

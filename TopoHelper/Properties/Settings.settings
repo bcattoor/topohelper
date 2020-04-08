@@ -54,7 +54,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Rails2RailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Rails2RailwayCenterLine_CSVFile_Delimiter" Type="System.String" Scope="User">
       <Value Profile="(Default)">;</Value>

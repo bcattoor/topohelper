@@ -13,7 +13,7 @@ namespace TopoHelper.Csv
 
         private ReadWrite()
         {
-            _culture.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+            _culture.NumberFormat.NumberDecimalSeparator = Settings.Default.NumberDecimalSeperator_ForAllCSVFiles;
             _culture.NumberFormat.NumberGroupSeparator = "";
         }
 
@@ -45,7 +45,7 @@ namespace TopoHelper.Csv
                 using (var csv = new CsvWriter(writer, _culture))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.NumberDecimalSeperator_ForAllCSVFiles;
                     csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
                     csv.Configuration.RegisterClassMap<CalculateDisplacementResultMap>();
                     csv.WriteRecords(records);
@@ -61,7 +61,7 @@ namespace TopoHelper.Csv
                 using (var csv = new CsvWriter(writer, _culture))
                 {
                     csv.Configuration.Delimiter = Delimiter;
-                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.IO_CSV_NUMBER_DECIMAL_SEPERATOR;
+                    csv.Configuration.CultureInfo.NumberFormat.NumberDecimalSeparator = Settings.Default.NumberDecimalSeperator_ForAllCSVFiles;
                     csv.Configuration.CultureInfo.NumberFormat.NumberGroupSeparator = "";
                     csv.Configuration.RegisterClassMap<DistanceBetween2PolylinesResultMap>();
                     csv.WriteRecords(records);

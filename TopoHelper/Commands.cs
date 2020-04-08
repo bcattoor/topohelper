@@ -104,8 +104,8 @@ namespace TopoHelper
                 #region Write Result
 
                 var csv = ReadWrite.Instance;
-                csv.FilePath = SettingsDefault.IO_FILE_DBPL_CSV;
-                csv.Delimiter = SettingsDefault.IO_FILE_DBPL_CSV_DELIMITER;
+                csv.FilePath = SettingsDefault.DistanceBetween2Polylines_PathToCsvFile;
+                csv.Delimiter = SettingsDefault.DistanceBetween2Polylines_CSVFile_Delimiter;
                 // create csv from result
                 csv.WriteDistanceBetween2PolylinesResult(distanceBetween2PolylinesSectionResults);
                 editor.WriteMessage($"Result was written to CSV file {csv.FilePath}");
@@ -139,8 +139,8 @@ namespace TopoHelper
             try
             {
                 // lets set some basic values
-                var minimumDistance = SettingsDefault.DIST_MIN_PTP; // drawing units
-                var maxDistance = SettingsDefault.DIST_MIN_PTP; // drawing units
+                var minimumDistance = SettingsDefault.PointsTo3DPolyline_MinimumPointDistance; // drawing units
+                var maxDistance = SettingsDefault.PointsTo3DPolyline_MinimumPointDistance; // drawing units
 
                 if (!DataValidation.ValidatePointsToPolylineSettings(out var msg))
                 {
@@ -261,32 +261,32 @@ namespace TopoHelper
 
                 var trackAxis3DPoints = sections.Select(x => x.TrackAxisPoint).ToArray();
 
-                // DRAW CENTERLINE POLYLINES AND POINTS
+                // DRAW CENTER-LINE POLYLINES AND POINTS
                 if (SettingsDefault.Rails2RailwayCenterLine_Draw2DPolyline_CenterLine)
                     // create a 2-dimensional polyline for track-center-line 2D
                     database.Create2dPolyline(
                         points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
+                        layerName: SettingsDefault.LayerNamePrefix_2DObjects + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
                         layerColor: SettingsDefault.Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
                 if (SettingsDefault.Rails2RailwayCenterLine_Draw3DPolyline_CenterLine)
                     // create a 3-dimensional polyline for track-center-line 3D
                     database.Create3dPolyline(trackAxis3DPoints,
-                    SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
+                    SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterline,
                     SettingsDefault.Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
                 if (SettingsDefault.Rails2RailwayCenterLine_DrawCenterline3DPoints)
                     // create 3-dimensional points
                     database.CreatePoints(
                         points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints,
+                        layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints,
                         layerColor: SettingsDefault.Rails2RailwayCenterLine_LayerColorCenterline3DPoints);
 
                 if (SettingsDefault.Rails2RailwayCenterLine_DrawCenterline2DPoints)
                     // create 2-dimensional points
                     database.CreatePoints(
                         points: trackAxis3DPoints.Select(p => p.T2d().T3d(0)).ToArray(),
-                        layerName: SettingsDefault.LAY_NAME_PREFIX_2D + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints);
+                        layerName: SettingsDefault.LayerNamePrefix_2DObjects + SettingsDefault.Rails2RailwayCenterLine_LayerNameCenterLine3DPoints);
 
                 if (SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection)
                 {
@@ -295,26 +295,26 @@ namespace TopoHelper
                     {
                         // RIGHT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
-                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
-                        SettingsDefault.LAY_COL_CSD_RAILS_PL);
+                        SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
+                        SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
 
                         // LEFT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
-                        SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
-                        SettingsDefault.LAY_COL_CSD_RAILS_PL);
+                        SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
+                        SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
                     }
 
-                    if (SettingsDefault.DRAW_3D_CSD_RAILS_PNTS)
+                    if (SettingsDefault.CalculateSurveyCorrection_Draw3DPoints_Rails)
                     { // create 3-dimensional points
                         database.CreatePoints(
                             points: calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
-                            layerName: SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_CSD_RAILS_PNTS,
-                            layerColor: SettingsDefault.LAY_COL_CSD_RAILS_PNTS);
+                            layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
+                            layerColor: SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
 
                         database.CreatePoints(
                              points: calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
-                             layerName: SettingsDefault.LAY_NAME_PREFIX_3D + SettingsDefault.LAY_NAME_CSD_RAILS_PNTS,
-                             layerColor: SettingsDefault.LAY_COL_CSD_RAILS_PNTS);
+                             layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
+                             layerColor: SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
                     }
                 }
 
@@ -558,7 +558,7 @@ namespace TopoHelper
                         sourcePolyline.JoinEntity(polylineToAdd);
 
                         // If user wants to delete source entities
-                        if (SettingsDefault.DELETE_JPL_ENTITIES) polylineToAdd.Erase();
+                        if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polylineToAdd.Erase();
 
                         transaction.Commit();
                         ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2:F6}");

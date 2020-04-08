@@ -226,7 +226,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Rails2RailwayCenterLine_WriteResultToCSVFile {
             get {
                 return ((bool)(this["Rails2RailwayCenterLine_WriteResultToCSVFile"]));

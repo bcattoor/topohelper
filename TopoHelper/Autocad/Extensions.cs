@@ -2,12 +2,66 @@
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Windows.Documents;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace TopoHelper.AutoCAD
 {
     internal static class Extensions
     {
         #region Public Methods
+
+        public static ObjectId GetLayerIdFromEntityObjectId(this Database database, ObjectId id)
+        {
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                object objectX = transAction.GetObject(id, OpenMode.ForRead);
+
+                if (objectX is Entity entity)
+
+                    return entity.LayerId;
+
+                throw new Exception("\r\n\t=> Selected object is not supported for this function.");
+            }
+        }
+
+        public static string GetLayerNameFromEntityObjectId(this Database database, ObjectId id)
+        {
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                object objectX = transAction.GetObject(id, OpenMode.ForRead);
+
+                if (objectX is Entity entity)
+
+                    return entity.Layer;
+
+                throw new Exception("\r\n\t=> Selected object is not supported for this function.");
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="editor">    Current editor </param>
+        /// <param name="layerName"> Layer to filter by </param>
+        /// <param name="spaceName"> Space to filter by: Paper or Model </param>
+        /// <param name="dxfName">   Dxf type to filter by: INSERT or POINT </param>
+        /// <returns> Object id's of filtered result. </returns>
+        public static ObjectIdCollection GetEntityIdsOnLayer(this Editor editor, string layerName, string spaceName, string dxfName)
+        {
+            // Build a filter list so that only entities on the specified layer
+            // are selected
+
+            var psr = editor.SelectAll(new SelectionFilter(new[]
+            {
+                new TypedValue((int)DxfCode.Start, dxfName),
+                new TypedValue((int)DxfCode.LayerName, layerName),
+                new TypedValue((int)DxfCode.LayoutName, spaceName)
+            }));
+            return psr.Status == PromptStatus.OK ?
+                new ObjectIdCollection(psr.Value.GetObjectIds())
+                : new ObjectIdCollection();
+        }
 
         public static IEnumerable<Point3d> GetPointsFromPolyline(this Database database, ObjectId id)
         {
@@ -41,6 +95,43 @@ namespace TopoHelper.AutoCAD
                     default: throw new Exception("\r\n\t=> Selected object is not supported for this function.");
                 }
             }
+        }
+
+        public static List<Point3d> GetPoints(this Database database, ObjectIdCollection ids)
+        {
+            var result = new List<Point3d>();
+
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                foreach (ObjectId id in ids)
+                {
+                    object objectX = transAction.GetObject(id, OpenMode.ForRead);
+                    switch (objectX.GetType().ToString())
+                    {
+                        case "Autodesk.AutoCAD.DatabaseServices.BlockReference":
+                            {
+                                //Get a list of 3D points in parameter order
+                                using (var insert = (BlockReference)objectX)
+                                {
+                                    result.Add(insert.Position);
+                                }
+                                break;
+                            }
+                        case "Autodesk.AutoCAD.DatabaseServices.DBPoint":
+                            {
+                                //Get a list of 3D points in parameter order
+                                using (var insert = (DBPoint)objectX)
+                                {
+                                    result.Add(insert.Position);
+                                }
+                                break;
+                            }
+                        default: throw new Exception("\r\n\t=> Selected object is not supported for this function.");
+                    }
+                }
+            }
+
+            return result;
         }
 
         public static IEnumerable<Point3d> GetPointsFromPolylineWithPointWeeding(this Database database, ObjectId id, double weeding)

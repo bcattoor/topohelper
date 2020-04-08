@@ -432,6 +432,74 @@ namespace TopoHelper
             }
         }
 
+        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+
+            var database = document.Database;
+            var editor = document.Editor;
+            try
+            {
+                //Clear selection
+                editor.SetImpliedSelection(new ObjectId[0]);
+
+                // Select an entity that is on the points-layer
+                var promptEntityResult = editor.GetEntity("Please select one of the points that are on the polyline to clean.");
+
+                if (promptEntityResult.Status == PromptStatus.Cancel)
+                    throw new Exception(FunctionCanceled);
+                if (promptEntityResult.Status != PromptStatus.OK)
+                    throw new Exception("Something went wrong during the selection.");
+
+                // Read the layer info from the selected entity
+                var layerName = database.GetLayerNameFromEntityObjectId(promptEntityResult.ObjectId);
+
+                // Make sure object is supported (we support points and block inserts
+                if (!promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("INSERT", StringComparison.OrdinalIgnoreCase)
+                    && !promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("POINT", StringComparison.OrdinalIgnoreCase))
+                    throw new Exception("Selected object not supported by function.");
+                // Get all entities on that layer, of selected type, in model-space
+                var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL", promptEntityResult.ObjectId.ObjectClass.DxfName);
+
+                // Go get the positions of all those points/inserts
+                var pointToUseAsFilter = database.GetPoints(pointIdsOnLayer);
+
+                // Making a new list of points, filtered by available points
+
+                // Select what polyline to clean
+                var selectedObjectId = editor.Select3dPolyline(Select3dPolyLine);
+                editor.SetImpliedSelection(new[] { selectedObjectId });
+
+                var pointsFromPolyline = database.GetPointsFromPolyline(selectedObjectId);
+                var pointsFromPolylineEArray = pointsFromPolyline as Point3d[] ?? pointsFromPolyline.ToArray();
+
+                var newPolylineListOfPoint = pointsFromPolylineEArray.ToList().FindAll(vertex =>
+                {
+                    var res = pointToUseAsFilter.Find(x => x.IsEqualTo(vertex,
+                        new Tolerance(Settings.Default.__APP_EPSILON,
+                            Settings.Default.__APP_EPSILON)));
+                    return !res.Equals(Point3d.Origin);
+                });
+
+                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + pointsFromPolylineEArray.Length + " vertices's.\r\n");
+
+                database.Create3dPolyline(newPolylineListOfPoint);
+
+                // Report
+                editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count + " vertices's.");
+            }
+            catch (Exception exception)
+            {
+                editor.WriteMessage("\r\n" + exception.Message);
+            }
+            finally
+            {
+                // clear selection
+                editor.SetImpliedSelection(Array.Empty<ObjectId>());
+            }
+        }
+
         /// <summary>
         /// This command weeds two polylines so that the resulting polylines
         /// have fewer vertexes, but all vertexes are perpendicular
@@ -577,7 +645,7 @@ namespace TopoHelper
 
         private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
         {
-            var result = new StringBuilder("");
+            var result = new StringBuilder(Environment.NewLine);
             if (SettingsDefault.Rails2RailwayCenterLine_WriteResultToCSVFile)
             {
                 var csv = ReadWrite.Instance;
@@ -585,7 +653,7 @@ namespace TopoHelper
                 csv.Delimiter = SettingsDefault.Rails2RailwayCenterLine_CSVFile_Delimiter;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
-                result.AppendLine($"Rails2RailwayCenterLine resulting CSV-file has been written to: {csv.FilePath}");
+                result.AppendLine($"Rails to Railway Center-Line, result: CSV-file has been written to: {csv.FilePath}");
             }
 
             if (!SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection) return result.ToString();
@@ -594,7 +662,7 @@ namespace TopoHelper
             csv2.Delimiter = SettingsDefault.CalculateSurveyCorrection_CSVFile_Delimiter;
             // create csv from result
             csv2.WriteCalculateDisplacementResult(correctedResult);
-            result.AppendLine($"Rails2RailwayCenterLine resulting CSV-file has been written to: {csv2.FilePath}");
+            result.AppendLine($"\nCalculate survey correction, result: CSV-file has been written to: {csv2.FilePath}");
             return result.ToString();
         }
 

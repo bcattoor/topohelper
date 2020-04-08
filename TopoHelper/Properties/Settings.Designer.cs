@@ -166,7 +166,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.R2R.csv")]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.Rails2RailwayCenterLine.csv")]
         public string Rails2RailwayCenterLine_PathToCSVFile {
             get {
                 return ((string)(this["Rails2RailwayCenterLine_PathToCSVFile"]));
@@ -202,7 +202,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRail")]
+        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CalculateSurveyCorrection_Rail")]
         public string CalculateSurveyCorrection_LayerNamePolylines_Rails {
             get {
                 return ((string)(this["CalculateSurveyCorrection_LayerNamePolylines_Rails"]));
@@ -274,7 +274,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CorrectSurveyDisplacementRailPoints")]
+        [global::System.Configuration.DefaultSettingValueAttribute("IAMTopo_CalculateSurveyCorrection_Rail-Points")]
         public string CalculateSurveyCorrection_LayerNamePoints_Rails {
             get {
                 return ((string)(this["CalculateSurveyCorrection_LayerNamePoints_Rails"]));
@@ -313,10 +313,10 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("0.005")]
         public double PointsTo3DPolyline_MinimumPointDistance {
             get {
-                return ((double)(this["DIST_MIN_PTP"]));
+                return ((double)(this["PointsTo3DPolyline_MinimumPointDistance"]));
             }
             set {
-                this["DIST_MIN_PTP"] = value;
+                this["PointsTo3DPolyline_MinimumPointDistance"] = value;
             }
         }
         
@@ -325,16 +325,16 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
         public double PointsTo3DPolyline_MaximumPointDistance {
             get {
-                return ((double)(this["DIST_MAX_PTP"]));
+                return ((double)(this["PointsTo3DPolyline_MaximumPointDistance"]));
             }
             set {
-                this["DIST_MAX_PTP"] = value;
+                this["PointsTo3DPolyline_MaximumPointDistance"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.CSD.csv")]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.CalculateSurveyCorrection.csv")]
         public string CalculateSurveyCorrection_PathToCsvFile {
             get {
                 return ((string)(this["CalculateSurveyCorrection_PathToCsvFile"]));
@@ -358,7 +358,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.DBPL.csv")]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.DistanceBetween2Polylines.csv")]
         public string DistanceBetween2Polylines_PathToCsvFile {
             get {
                 return ((string)(this["DistanceBetween2Polylines_PathToCsvFile"]));
@@ -406,7 +406,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.005")]
         public double SYMPPL_TOLERANCE {
             get {
                 return ((double)(this["SYMPPL_TOLERANCE"]));
@@ -430,7 +430,7 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public double WeedPolyline_MinDistance {
             get {
                 return ((double)(this["WeedPolyline_MinDistance"]));

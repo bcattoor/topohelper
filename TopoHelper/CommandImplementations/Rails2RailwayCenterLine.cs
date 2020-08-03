@@ -22,8 +22,8 @@ namespace TopoHelper.CommandImplementations
         /// This function calculates a <seealso cref="IList{MeasuredSection}" />
         /// of Type <see cref="MeasuredSectionResult" />.
         /// </summary>
-        /// <param name="leftRailPoints">  Points lying on the right rail. </param>
-        /// <param name="rightRailPoints"> Points lying on the right rail. </param>
+        /// <param name="leftRailPoints">  Points laying on the right rail. </param>
+        /// <param name="rightRailPoints"> Points laying on the right rail. </param>
         /// <returns> A <seealso cref="IList{MeasuredSectionResult}" /> </returns>
         internal static IList<MeasuredSectionResult> CalculateRailwayCenterLine(
             IList<Point3d> leftRailPoints,

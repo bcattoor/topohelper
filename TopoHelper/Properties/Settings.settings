@@ -9,10 +9,10 @@
       <Value Profile="(Default)">0.01</Value>
     </Setting>
     <Setting Name="LayerNamePrefix_2DObjects" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2D-</Value>
+      <Value Profile="(Default)">IAMTopo_2D-</Value>
     </Setting>
     <Setting Name="LayerNamePrefix_3DObjects" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3D-</Value>
+      <Value Profile="(Default)">IAMTopo_3D-</Value>
     </Setting>
     <Setting Name="Rails2RailwayCenterLine_LayerNameCenterline" Type="System.String" Scope="User">
       <Value Profile="(Default)">811</Value>
@@ -106,6 +106,27 @@
     </Setting>
     <Setting Name="WeedPolyline_MinDistance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="WeedPolyline_LayerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WeededPolyline</Value>
+    </Setting>
+    <Setting Name="WeedPolyline_LayerColor" Type="System.Int16" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="AlignAngleOfBlock_DynamicPropertyName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Angle1</Value>
+    </Setting>
+    <Setting Name="AlignAngleOfBlock_AddAngleValue_TimesPI" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_Pattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HM 45 000~100</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HM_XX_XXX</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_ChainAlign" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

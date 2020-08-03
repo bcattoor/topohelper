@@ -6,30 +6,62 @@
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Path=DataGridView.View,
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Reload" Command="{Binding Path=ReloadSettingsCommand}" />
+                <MenuItem Header="_Save" Command="{Binding Path=SaveCommand}" />
+                <MenuItem Header="_Close" Command="{Binding Path=CancelCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Commands">
+                <MenuItem Header="_AlignAngleOfBlock" />
+                <MenuItem Header="_IncrementAttribute" />
+                <MenuItem Header="_JoinPolyline" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid ItemsSource="{Binding Path=DataGridView.View,
                   UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="True"
+                  Grid.Row="1"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserSortColumns="True"
                   CanUserReorderColumns="True"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   x:Name="DataGrid">
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Background="LightGray">
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Cancel</Button>
-
-            <TextBox  Padding="5" Margin="5,3" x:Name="TxtFilter" FlowDirection="LeftToRight"
-                      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
-                      Width="200"></TextBox>
-            <TextBlock Padding="0,5" Margin="0,3" Text="Search" FlowDirection="LeftToRight"></TextBlock>
-        </StackPanel>
-    </Grid>
+            </DataGrid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="#44bcd8" BorderBrush="CadetBlue" BorderThickness="2">
+                    <Grid>
+                        <TextBox   Margin="5,3" x:Name="TxtFilter"
+                      HorizontalAlignment="Right" TextChanged="TxtFilter_TextChanged"
+                      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"
+                      MinWidth="100"></TextBox>
+                        <TextBlock x:Name="txtSearch"
+                                IsHitTestVisible="False"
+                                Margin="5,3" VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                FlowDirection="LeftToRight">
+                         Lorum Ipsum
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1" Background="LightGray">
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Close</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </UserControl>

@@ -33,14 +33,21 @@ namespace TopoHelper
     {
         #region Private Fields
 
+        private const string Calculating = "\r\nCalculating, please wait ...";
         private const string DataValuationErrorOccurred = "\r\n\t=> A data validation error has occurred: ";
         private const string FunctionCanceled = "\r\n\t=> Function has been canceled.";
         private const string LeftRail = "\r\nPlease select the polyline3d you would like to use for the left rail.";
         private const string RightRail = "\r\nPlease select the polyline3d you would like to use for the right rail.";
         private const string Select3dPolyLine = "\r\nSelect a 3d-polyline: ";
         private const string SelectionNotUnique = "\r\nYou selected the same polyline twice, why?";
-        private const string Calculating = "\r\nCalculating, please wait ...";
+        public const double Tolerance = 0.000000001d;
+        private static string Patern;
+
+        // ReSharper disable once UnusedMember.Local
+        private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
+
         private static readonly Settings SettingsDefault = Settings.Default;
+        private static ObjectId IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = ObjectId.Null;
 
         #endregion
 
@@ -53,6 +60,192 @@ namespace TopoHelper
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// This command is used by user to align an inserted blocks angle
+        /// property to a selected polyline.
+        /// </summary>
+        [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_IncrementAttribute()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+            var ed = document.Editor;
+            var db = document.Database;
+
+            // Select the blockreference to set angle
+            var peo2 = new PromptEntityOptions("\nSelect the BlockReference.");
+            peo2.SetRejectMessage("\nInvalid selection...");
+            peo2.AddAllowedClass(typeof(BlockReference), true);
+
+            var blockSelection = ed.GetEntity(peo2);
+
+            while (blockSelection.Status == PromptStatus.OK)
+            {
+                if (PromptStatus.OK != blockSelection.Status)
+                    return;
+
+                Patern = SettingsDefault.IncrementAttribute_Pattern;
+                try
+                {
+                    using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
+                    {
+                        IncrementAttribute.ExecuteIncrementsByPatern(transaction, blockSelection.ObjectId, ref Patern, SettingsDefault.IncrementAttribute_Name);
+                        transaction.Commit();
+                        // Save used pater to settings
+                        SettingsDefault.IncrementAttribute_Pattern = Patern;
+                        SettingsDefault.Save();
+
+                        if (SettingsDefault.IncrementAttribute_ChainAlign)
+                            if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId != null)
+                                AlignAngleOfBlock.IAMTopo_AlignAngleOfBlock(
+                                    transaction,
+                                    blockSelection.ObjectId,
+                                    IAMTopo_AlignAngleOfBlockLastSelectedPolylineId,
+                                    SettingsDefault.AlignAngleOfBlock_AddAngleValue_TimesPI,
+                                    SettingsDefault.AlignAngleOfBlock_DynamicPropertyName);
+                            else throw new Exception("You cannot chain the allign command, without setting the polyline first. Use the [IAMTopo_AlignAngleOfBlock] command to set this.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ed.WriteMessage(ex.Message);
+                }
+                // reselect next block
+                blockSelection = ed.GetEntity(peo2);
+            }
+        }
+
+        /// <summary>
+        /// This command is used by user to align an inserted blocks angle
+        /// property to a selected polyline.
+        /// </summary>
+        [CommandMethod("IAMTopo_AlignAngleOfBlock", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_AlignAngleOfBlock()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+            var ed = document.Editor;
+            var db = document.Database;
+
+            try
+            {
+                if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId == ObjectId.Null)
+                {// Select the polyline
+                    var peo1 = new PromptEntityOptions("\nSelect 3D-polyline to align to.");
+                    peo1.SetRejectMessage("\nInvalid selection...");
+                    peo1.AddAllowedClass(typeof(Polyline3d), true);
+                    peo1.AllowObjectOnLockedLayer = true;
+                    var promptResult = ed.GetEntity(peo1);
+                    if (PromptStatus.OK != promptResult.Status)
+                        return;
+
+                    IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = promptResult.ObjectId;
+                }
+                else
+                {
+                    ed.WriteMessage("Using last selected entity..., use the [IAMTopo_AlignAngleOfBlock_ResetEntity] to reset this.\r\n");
+                }
+
+                // Select the blockreference to set angle
+                var peo2 = new PromptEntityOptions("\nSelect the BlockReference.");
+                peo2.SetRejectMessage("\nInvalid selection...");
+                peo2.AddAllowedClass(typeof(BlockReference), true);
+                var promptResult2 = ed.GetEntity(peo2);
+                if (PromptStatus.OK != promptResult2.Status)
+                    return;
+
+                using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
+                {
+                    AlignAngleOfBlock.IAMTopo_AlignAngleOfBlock(
+                        transaction,
+                        promptResult2.ObjectId,
+                        IAMTopo_AlignAngleOfBlockLastSelectedPolylineId,
+                        SettingsDefault.AlignAngleOfBlock_AddAngleValue_TimesPI,
+                        SettingsDefault.AlignAngleOfBlock_DynamicPropertyName);
+                    transaction.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                ed.WriteMessage(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This command is used by user to reset the objectid
+        /// </summary>
+        [CommandMethod("IAMTopo_AlignAngleOfBlock_ResetEntity", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_AlignAngleOfBlock_ResetEntity()
+        {
+            IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = ObjectId.Null;
+        }
+
+        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+
+            var database = document.Database;
+            var editor = document.Editor;
+            try
+            {
+                //Clear selection
+                editor.SetImpliedSelection(Array.Empty<ObjectId>());
+
+                // Select an entity that is on the points-layer
+                var promptEntityResult = editor.GetEntity("Please select one of the points that are on the polyline to clean.");
+
+                if (promptEntityResult.Status == PromptStatus.Cancel)
+                    throw new Exception(FunctionCanceled);
+                if (promptEntityResult.Status != PromptStatus.OK)
+                    throw new Exception("Something went wrong during the selection.");
+
+                // Read the layer info from the selected entity
+                var layerName = database.GetLayerNameFromEntityObjectId(promptEntityResult.ObjectId);
+
+                // Make sure object is supported (we support points and block inserts
+                if (!promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("INSERT", StringComparison.OrdinalIgnoreCase)
+                    && !promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("POINT", StringComparison.OrdinalIgnoreCase))
+                    throw new Exception("Selected object not supported by function.");
+                // Get all entities on that layer, of selected type, in model-space
+                var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL", promptEntityResult.ObjectId.ObjectClass.DxfName);
+
+                // Go get the positions of all those points/inserts
+                var pointToUseAsFilter = database.GetPoints(pointIdsOnLayer);
+
+                // Making a new list of points, filtered by available points
+
+                // Select what polyline to clean
+                var selectedObjectId = editor.Select3dPolyline(Select3dPolyLine);
+                editor.SetImpliedSelection(new[] { selectedObjectId });
+
+                var pointsFromPolyline = database.GetPointsFromPolyline(selectedObjectId);
+                var pointsFromPolylineEArray = pointsFromPolyline as Point3d[] ?? pointsFromPolyline.ToArray();
+
+                var newPolylineListOfPoint = pointsFromPolylineEArray.ToList().FindAll(vertex =>
+                {
+                    var res = pointToUseAsFilter.Find(x => x.IsEqualTo(vertex,
+                        new Tolerance(Settings.Default.__APP_EPSILON,
+                            Settings.Default.__APP_EPSILON)));
+                    return !res.Equals(Point3d.Origin);
+                });
+
+                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + pointsFromPolylineEArray.Length + " vertices's.\r\n");
+
+                database.Create3dPolyline(newPolylineListOfPoint);
+
+                // Report
+                editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count + " vertices's.");
+            }
+            catch (Exception exception)
+            {
+                editor.WriteMessage("\r\n" + exception.Message);
+            }
+            finally
+            {
+                // clear selection
+                editor.SetImpliedSelection(Array.Empty<ObjectId>());
+            }
+        }
 
         /// <summary>
         /// This method calculates the distance between 2 selected 3D polylines.
@@ -120,6 +313,96 @@ namespace TopoHelper
             {
                 // clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
+            }
+        }
+
+        [CommandMethod("IAMTopo_JoinPolyline")]
+        public static void IAMTopo_JoinPolyline()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+            var ed = document.Editor;
+            var db = document.Database;
+            var peo1 = new PromptEntityOptions("\nSelect source polyline (select a point close to gap!): ");
+            peo1.SetRejectMessage("\nInvalid selection...");
+            peo1.AddAllowedClass(typeof(Polyline), true);
+            peo1.AddAllowedClass(typeof(Polyline2d), true);
+            peo1.AddAllowedClass(typeof(Polyline3d), true);
+
+            // TODO: When the first selected entity is a line, we need to convert it to a polyline before we can continue.
+            // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we need to convert both objects to a 3d-polyline
+            // TODO: When 2D polyline is converted to a 3D polyline we need to make sure arc's in that polyline are segmented!
+            // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we can equal elevation to source and join them as 2D polyline
+            peo1.AddAllowedClass(typeof(Line), true);
+
+            var promptResult = ed.GetEntity(peo1);
+            if (PromptStatus.OK != promptResult.Status)
+                return;
+
+            var selectedEntityObjectId = promptResult.ObjectId;
+            ed.SetImpliedSelection(new[] { selectedEntityObjectId });
+            var peo2 = new PromptEntityOptions("\nSelect polyline to join (select a point close to gap!): ");
+            peo2.SetRejectMessage("\nInvalid selection...");
+            peo2.AddAllowedClass(typeof(Line), true);
+            peo2.AddAllowedClass(typeof(Polyline), true);
+            peo2.AddAllowedClass(typeof(Polyline), true);
+            peo2.AddAllowedClass(typeof(Polyline2d), true);
+            peo2.AddAllowedClass(typeof(Polyline3d), true);
+            promptResult = ed.GetEntity(peo2);
+            if (PromptStatus.OK != promptResult.Status)
+                return;
+            // clear selection Implication
+            ed.SetImpliedSelection(new ObjectId[] { });
+            var joinId = promptResult.ObjectId;
+            try
+            {
+                using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
+                {
+                    using (var sourcePolyline = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Curve)
+                    using (var polylineToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Curve)
+                    {
+                        if (sourcePolyline == null || polylineToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
+
+                        var startPointCurve1 = sourcePolyline.StartPoint;
+                        var startPointCurve2 = polylineToAdd.StartPoint;
+                        var endPointCurve1 = sourcePolyline.EndPoint;
+                        var endPointCurve2 = polylineToAdd.EndPoint;
+
+                        var distance = new List<Tuple<string, double>>
+                        {
+                            new Tuple<string, double>("sp1:sp2", startPointCurve1.DistanceTo(startPointCurve2)),
+                            new Tuple<string, double>("sp1:ep2", startPointCurve1.DistanceTo(endPointCurve2)),
+                            new Tuple<string, double>("ep1:sp2", endPointCurve1.DistanceTo(startPointCurve2)),
+                            new Tuple<string, double>("ep1:ep2", endPointCurve1.DistanceTo(endPointCurve2))
+                        };
+
+                        var result = distance.OrderBy(i => i.Item2).FirstOrDefault();
+
+                        Debug.Assert(result != null, nameof(result) + " != null");
+                        switch (result.Item1)
+                        {
+                            case "sp1:sp2":
+                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, startPointCurve2)); break; }
+                            case "sp1:ep2":
+                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, endPointCurve2)); break; }
+                            case "ep1:sp2":
+                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, startPointCurve2)); break; }
+                            case "ep1:ep2":
+                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, endPointCurve2)); break; }
+                        }
+
+                        sourcePolyline.JoinEntity(polylineToAdd);
+
+                        // If user wants to delete source entities
+                        if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polylineToAdd.Erase();
+
+                        transaction.Commit();
+                        ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2:F6}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ed.WriteMessage(ex.Message);
             }
         }
 
@@ -244,16 +527,22 @@ namespace TopoHelper
                 #region Calculate Centerline
 
                 // Calculate railway-alignment-center-line
+                IList<MeasuredSectionResult> sections = null;
+                IEnumerable<CalculateDisplacementSectionResult> calculateDisplacementSectionResults = null;
+                if (correctedResult != null)
+                {
+                    calculateDisplacementSectionResults = correctedResult as CalculateDisplacementSectionResult[] ?? correctedResult.ToArray();
 
-                Debug.Assert(correctedResult != null, nameof(correctedResult) + " != null");
-
-                var calculateDisplacementSectionResults = correctedResult as CalculateDisplacementSectionResult[] ?? correctedResult.ToArray();
-
-                var sections = SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection ?
-                    Rails2RailwayCenterLine.CalculateRailwayCenterLine(
-                        calculateDisplacementSectionResults.Select(s => s.LeftRailPoint).ToList(),
-                        calculateDisplacementSectionResults.Select(s => s.RightRailPoint).ToList())
-                    : Rails2RailwayCenterLine.CalculateRailwayCenterLine(point3dsLeft, point3dsRight);
+                    sections =
+                       Rails2RailwayCenterLine.CalculateRailwayCenterLine(
+                           calculateDisplacementSectionResults.Select(s => s.LeftRailPoint).ToList(),
+                           calculateDisplacementSectionResults.Select(s => s.RightRailPoint).ToList())
+                       ;
+                }
+                else
+                {
+                    sections = Rails2RailwayCenterLine.CalculateRailwayCenterLine(point3dsLeft, point3dsRight);
+                }
 
                 #endregion
 
@@ -379,6 +668,8 @@ namespace TopoHelper
 
                 // now display the palette set if not yet visible, else hide
                 PaletteSet.Visible = !PaletteSet.Visible;
+                if (PaletteSet.Visible && MySettingsViewModel.ReloadSettingsCommand.CanExecute(null))
+                    MySettingsViewModel.ReloadSettingsCommand.Execute(null);
             }
             catch (Exception exception)
             {
@@ -432,77 +723,12 @@ namespace TopoHelper
             }
         }
 
-        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
-        public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
-        {
-            var document = Application.DocumentManager.MdiActiveDocument;
-
-            var database = document.Database;
-            var editor = document.Editor;
-            try
-            {
-                //Clear selection
-                editor.SetImpliedSelection(new ObjectId[0]);
-
-                // Select an entity that is on the points-layer
-                var promptEntityResult = editor.GetEntity("Please select one of the points that are on the polyline to clean.");
-
-                if (promptEntityResult.Status == PromptStatus.Cancel)
-                    throw new Exception(FunctionCanceled);
-                if (promptEntityResult.Status != PromptStatus.OK)
-                    throw new Exception("Something went wrong during the selection.");
-
-                // Read the layer info from the selected entity
-                var layerName = database.GetLayerNameFromEntityObjectId(promptEntityResult.ObjectId);
-
-                // Make sure object is supported (we support points and block inserts
-                if (!promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("INSERT", StringComparison.OrdinalIgnoreCase)
-                    && !promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("POINT", StringComparison.OrdinalIgnoreCase))
-                    throw new Exception("Selected object not supported by function.");
-                // Get all entities on that layer, of selected type, in model-space
-                var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL", promptEntityResult.ObjectId.ObjectClass.DxfName);
-
-                // Go get the positions of all those points/inserts
-                var pointToUseAsFilter = database.GetPoints(pointIdsOnLayer);
-
-                // Making a new list of points, filtered by available points
-
-                // Select what polyline to clean
-                var selectedObjectId = editor.Select3dPolyline(Select3dPolyLine);
-                editor.SetImpliedSelection(new[] { selectedObjectId });
-
-                var pointsFromPolyline = database.GetPointsFromPolyline(selectedObjectId);
-                var pointsFromPolylineEArray = pointsFromPolyline as Point3d[] ?? pointsFromPolyline.ToArray();
-
-                var newPolylineListOfPoint = pointsFromPolylineEArray.ToList().FindAll(vertex =>
-                {
-                    var res = pointToUseAsFilter.Find(x => x.IsEqualTo(vertex,
-                        new Tolerance(Settings.Default.__APP_EPSILON,
-                            Settings.Default.__APP_EPSILON)));
-                    return !res.Equals(Point3d.Origin);
-                });
-
-                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + pointsFromPolylineEArray.Length + " vertices's.\r\n");
-
-                database.Create3dPolyline(newPolylineListOfPoint);
-
-                // Report
-                editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count + " vertices's.");
-            }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
-            finally
-            {
-                // clear selection
-                editor.SetImpliedSelection(Array.Empty<ObjectId>());
-            }
-        }
-
         /// <summary>
         /// This command weeds two polylines so that the resulting polylines
-        /// have fewer vertexes, but all vertexes are perpendicular
+        /// have fewer vertexes, but all vertexes are perpendiculary projected
+        /// from one polyline to the other, also a minimum distance is used to
+        /// make sure a point exists per minimum distance value (aka:
+        /// "WeedPolyline_MinDistance" in settings).
         /// </summary>
         [CommandMethod("IAMTopo_WeedPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_WeedPolyline()
@@ -534,9 +760,9 @@ namespace TopoHelper
                 }
 
                 // create a 3D polyline
-                database.Create3dPolyline(points.Item1);
+                database.Create3dPolyline(points.Item1, SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
 
-                database.Create3dPolyline(points.Item2);
+                database.Create3dPolyline(points.Item2, SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
             }
             catch (Exception exception)
             {
@@ -546,96 +772,6 @@ namespace TopoHelper
             {
                 // clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
-            }
-        }
-
-        [CommandMethod("IAMTopo_JoinPolyline")]
-        public static void JoinPolylines()
-        {
-            var document = Application.DocumentManager.MdiActiveDocument;
-            var ed = document.Editor;
-            var db = document.Database;
-            var peo1 = new PromptEntityOptions("\nSelect source polyline (select a point close to gap!): ");
-            peo1.SetRejectMessage("\nInvalid selection...");
-            peo1.AddAllowedClass(typeof(Polyline), true);
-            peo1.AddAllowedClass(typeof(Polyline2d), true);
-            peo1.AddAllowedClass(typeof(Polyline3d), true);
-
-            // TODO: When the first selected entity is a line, we need to convert it to a polyline before we can continue.
-            // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we need to convert both objects to a 3d-polyline
-            // TODO: When 2D polyline is converted to a 3D polyline we need to make sure arc's in that polyline are segmented!
-            // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we can equal elevation to source and join them as 2D polyline
-            peo1.AddAllowedClass(typeof(Line), true);
-
-            var promptResult = ed.GetEntity(peo1);
-            if (PromptStatus.OK != promptResult.Status)
-                return;
-
-            var selectedEntityObjectId = promptResult.ObjectId;
-            ed.SetImpliedSelection(new[] { selectedEntityObjectId });
-            var peo2 = new PromptEntityOptions("\nSelect polyline to join (select a point close to gap!): ");
-            peo2.SetRejectMessage("\nInvalid selection...");
-            peo2.AddAllowedClass(typeof(Line), true);
-            peo2.AddAllowedClass(typeof(Polyline), true);
-            peo2.AddAllowedClass(typeof(Polyline), true);
-            peo2.AddAllowedClass(typeof(Polyline2d), true);
-            peo2.AddAllowedClass(typeof(Polyline3d), true);
-            promptResult = ed.GetEntity(peo2);
-            if (PromptStatus.OK != promptResult.Status)
-                return;
-            // clear selection Implication
-            ed.SetImpliedSelection(new ObjectId[] { });
-            var joinId = promptResult.ObjectId;
-            try
-            {
-                using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
-                {
-                    using (var sourcePolyline = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Curve)
-                    using (var polylineToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Curve)
-                    {
-                        if (sourcePolyline == null || polylineToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
-
-                        var startPointCurve1 = sourcePolyline.StartPoint;
-                        var startPointCurve2 = polylineToAdd.StartPoint;
-                        var endPointCurve1 = sourcePolyline.EndPoint;
-                        var endPointCurve2 = polylineToAdd.EndPoint;
-
-                        var distance = new List<Tuple<string, double>>
-                        {
-                            new Tuple<string, double>("sp1:sp2", startPointCurve1.DistanceTo(startPointCurve2)),
-                            new Tuple<string, double>("sp1:ep2", startPointCurve1.DistanceTo(endPointCurve2)),
-                            new Tuple<string, double>("ep1:sp2", endPointCurve1.DistanceTo(startPointCurve2)),
-                            new Tuple<string, double>("ep1:ep2", endPointCurve1.DistanceTo(endPointCurve2))
-                        };
-
-                        var result = distance.OrderBy(i => i.Item2).FirstOrDefault();
-
-                        Debug.Assert(result != null, nameof(result) + " != null");
-                        switch (result.Item1)
-                        {
-                            case "sp1:sp2":
-                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, startPointCurve2)); break; }
-                            case "sp1:ep2":
-                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, endPointCurve2)); break; }
-                            case "ep1:sp2":
-                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, startPointCurve2)); break; }
-                            case "ep1:ep2":
-                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, endPointCurve2)); break; }
-                        }
-
-                        sourcePolyline.JoinEntity(polylineToAdd);
-
-                        // If user wants to delete source entities
-                        if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polylineToAdd.Erase();
-
-                        transaction.Commit();
-                        ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2:F6}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ed.WriteMessage(ex.Message);
             }
         }
 

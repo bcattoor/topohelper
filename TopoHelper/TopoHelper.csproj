@@ -139,7 +139,9 @@
   <ItemGroup>
     <Compile Include="Autocad\DatabaseCreateEntityExtensions.cs" />
     <Compile Include="Autocad\Extensions.cs" />
+    <Compile Include="CommandImplementations\AlignAngleOfBlock.cs" />
     <Compile Include="CommandImplementations\DistanceBetween3dPolylines.cs" />
+    <Compile Include="CommandImplementations\IncrementAttribute.cs" />
     <Compile Include="Csv\Converters\Point3dConverter.cs" />
     <Compile Include="Model\Results\DistanceBetween2PolylinesSectionResult.cs" />
     <Compile Include="Model\Enums\CantDirection.cs" />
@@ -188,7 +190,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="2000/1/1" BuildVersion_UseGlobalSettings="False" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
+      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UseGlobalSettings="False" BuildVersion_StartDate="2000/1/1" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

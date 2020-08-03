@@ -37,9 +37,11 @@ namespace TopoHelper.UserControls.ViewModels
 
         #region Public Properties
 
-        public string Filter {
+        public string Filter
+        {
             get => _filter;
-            set {
+            set
+            {
                 if (!value.Equals(_filter))
                 {
                     FilterView(value);
@@ -66,7 +68,8 @@ namespace TopoHelper.UserControls.ViewModels
             _cancel ?? (_cancel = new RelayCommand(Cancel,
                 CanCancel));
 
-        public CollectionViewSource DataGridView {
+        public CollectionViewSource DataGridView
+        {
             get => _dataGridView;
             set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); }
         }
@@ -109,9 +112,7 @@ namespace TopoHelper.UserControls.ViewModels
         {
             if (DataGridView.Source == null)
                 return false;
-            var collection = DataGridView.Source as ObservableCollection<SettingsEntryViewModel>;
-            Debug.Assert(collection != null, nameof(collection) + " != null");
-            return collection.Any(p => p.HasErrors) || collection.Any(p => p.IsDirty);
+            return true;
         }
 
         public bool CanSave(object parameter)

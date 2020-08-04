@@ -1,0 +1,1 @@
+[IAMTopo\_SimplifyPolyline](commands/IAMTopo_SimplifyPolyline)

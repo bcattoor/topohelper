@@ -1,6 +1,6 @@
 # Welcome
 
-Op deze wiki gaan we dieper in op enkele onderwerpen in verband met het gebruik van de tool/plugin.
+Op deze wiki gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin.
 
 ## Gebruik
 

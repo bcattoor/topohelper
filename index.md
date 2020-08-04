@@ -10,7 +10,8 @@ De applicatie kan worden gebruikt door middel van het uitvoeren van de commando'
 
 ### Workflows
 
-[Calculating Railway Center Line](./workflow/Calculating.Railway.Center.Line.md)
+1. Berekenen van de as van het spoor aan de hand van de opgemeten rails.
+    [Calculating Railway Center Line](./workflow/Calculating.Railway.Center.Line.md)
 
 Hieronder vind u een overzicht van alle beschikbare commando's.
 

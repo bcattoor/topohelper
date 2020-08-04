@@ -1,10 +1,12 @@
-# Welcome
+# Welkom
 
-Op deze wiki gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin.
+Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin.
 
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de commando's via de [commandoregel in autoCAD](https://knowledge.autodesk.com/support/autocad/learn-explore/caas/video/youtube/watch-v-lSVhWsGU6DQ.html "Engelse screencast met uitleg over het gebruik van de commandoregel.").
+De applicatie kan worden gebruikt door middel van het uitvoeren van de commando's via de commandoregel in autoCAD.
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lSVhWsGU6DQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Workflows
 
@@ -69,4 +71,4 @@ Een overzicht van alle beschikbare in te stellen variabelen. Om deze waarden aan
 | WeedPolyline\_MinDistance | Een punt zal worden gecreëerd om de X aantal meter. | 5 |
 | SYMPPL\_HIGH\_PRICISION | Gebruikt door het SimplifyPolyline commando, hier kan worden gewisseld van een accuraat traag algoritme, naar een sneller minder accuraat algoritme. | True |
 | SYMPPL\_TOLERANCE | Dit is de maximale afwijking die wordt toegestaan bij het heropbouwen van een polylijn. | 0,005 |
-| \_\_APP\_EPSILON | Dit is een varaibele voor intern gebruik. This value **is used internally** to compare doubles, it represents the precision of the calculations\*\*. It can not be altered at runtime\*\*, if changes are needed, they should be implemented by the developer. | 1E-06 |
+| __APP\_EPSILON__ | Dit is een varaibele voor intern gebruik. This value **is used internally** to compare doubles, it represents the precision of the calculations\*\*. It can not be altered at runtime\*\*, if changes are needed, they should be implemented by the developer. | 1E-06 |

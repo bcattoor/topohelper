@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
-title: [The title of your site]
-description: [A short description of your site's purpose]
+title: [TopoHelper]
+description: [Een AutoCAD invoeg toepassing om te werken met opgemeten data.]
 show_downloads: ["true"]
 # google_analytics: [Your Google Analytics tracking ID]

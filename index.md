@@ -4,9 +4,9 @@ Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebru
 
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de commando's via de commandoregel in autoCAD.
+De applicatie kan worden gebruikt door middel van het uitvoeren van de commando's via de commandoregel in autoCAD. Hieronder een video die een overzicht geeft van deze comadoregel.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lSVhWsGU6DQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{% include youtubePlayer.html id="4EU7vvSvV-0" %}
 
 ### Workflows
 

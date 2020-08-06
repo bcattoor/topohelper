@@ -74,4 +74,4 @@ Een overzicht van alle beschikbare in te stellen variabelen. Om deze waarden aan
 | SYMPPL\_TOLERANCE | Dit is de maximale afwijking die wordt toegestaan bij het heropbouwen van een polylijn. | 0,005 |
 | __APP\_EPSILON__ | Dit is een varaibele voor intern gebruik. This value **is used internally** to compare doubles, it represents the precision of the calculations\*\*. It can not be altered at runtime\*\*, if changes are needed, they should be implemented by the developer. | 1E-06 |
 
-<!--- Some placeholder to trigger Jekyll refresh *1 ---/>
+<!--- Some placeholder to trigger Jekyll refresh *2 ---/>

@@ -322,8 +322,9 @@ namespace TopoHelper
             var document = Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;
             var db = document.Database;
-            var peo1 = new PromptEntityOptions("\nSelect source polyline (select a point close to gap!): ");
-            peo1.SetRejectMessage("\nInvalid selection...");
+            var peo1 = new PromptEntityOptions(Select3dPolyLine);
+            const string InvalidSelection = "\nInvalid selection...";
+            peo1.SetRejectMessage(InvalidSelection);
             peo1.AddAllowedClass(typeof(Polyline), true);
             peo1.AddAllowedClass(typeof(Polyline2d), true);
             peo1.AddAllowedClass(typeof(Polyline3d), true);
@@ -340,8 +341,8 @@ namespace TopoHelper
 
             var selectedEntityObjectId = promptResult.ObjectId;
             ed.SetImpliedSelection(new[] { selectedEntityObjectId });
-            var peo2 = new PromptEntityOptions("\nSelect polyline to join (select a point close to gap!): ");
-            peo2.SetRejectMessage("\nInvalid selection...");
+            var peo2 = new PromptEntityOptions(Select3dPolyLine);
+            peo2.SetRejectMessage(InvalidSelection);
             peo2.AddAllowedClass(typeof(Line), true);
             peo2.AddAllowedClass(typeof(Polyline), true);
             peo2.AddAllowedClass(typeof(Polyline), true);

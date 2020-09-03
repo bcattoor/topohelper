@@ -11,8 +11,6 @@ Hieronder een video die een overzicht geeft van deze comadoregel.
 
 {% include youtubePlayer.html id="4EU7vvSvV-0" %}
 
-{% include toc.html html=text ordered=true %}
-
 ### Workflows
 
 - [Instaleren van de applicatie.](./insert.link)

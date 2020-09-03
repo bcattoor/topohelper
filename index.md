@@ -1,24 +1,30 @@
 # Welkom
 
-Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin.
+Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's.
 
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de commando's via de commandoregel in autoCAD. Hieronder een video die een overzicht geeft van deze comadoregel.
+De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten via de commandoregel in autoCAD.
+
+<!-- TODO: place this tip to its own page. -->
+Hieronder een video die een overzicht geeft van deze comadoregel.
 
 {% include youtubePlayer.html id="4EU7vvSvV-0" %}
 
+{% include toc.html html=text ordered=true %}
+
 ### Workflows
 
-1. Berekenen van de as van het spoor aan de hand van de opgemeten rails.
-    [Calculating Railway Center Line](./workflow/Calculating.Railway.Center.Line.md)
+- [Instaleren van de applicatie.](./insert.link)
+- [Berekenen van de as van het spoor aan de hand van de opgemeten rails.](./workflow/Calculating.Railway.Center.Line.md)
+
+## Commando's beschikbaar in de plugin
 
 Hieronder vind u een overzicht van alle beschikbare commando's.
 
 Wanneer u **in de lijst op de naam van het commando klikt**, brengt uw browser u naar de detail-pagina van het desbetreffende commando.
 
-## Commando's beschikbaar in de plugin
-
+<!-- TODO: update link to actual content -->
 Om onderstaande commando's uit te voeren maakt u gebruik van de AutoCAD commando regel. Natuurlijk dient de plugin dan al te zijn geinstaleerd op uw systeem. (Indien dit niet zo is lees dan eerst [hier](https://bitbucket.org/cadsmurfs/topohelper/src/master/readme.md) verder.)
 
 | Command name | Description |

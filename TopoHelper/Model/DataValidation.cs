@@ -53,12 +53,14 @@ namespace TopoHelper.Model
 
             if (!ValidateInputApparentVectorAngles(firstList, secondList))
             { exceptionMessage = DirectionNotEqual; return false; }
+            int error;
 
-            if (!ValidateInputGaugeMinDistances(firstList, secondList))
-            { exceptionMessage = RailMinDistance; return false; }
+            if (!ValidateInputGaugeMinDistances(firstList, secondList, out error))
+            { exceptionMessage = RailMinDistance + $" Index on first polyline: {error}"; return false; }
 
-            if (!ValidateInputGaugeMaxDistances(firstList, secondList))
-            { exceptionMessage = RailMaxDistance; return false; }
+
+            if (!ValidateInputGaugeMaxDistances(firstList, secondList, out error))
+            { exceptionMessage = RailMaxDistance + $" Index on first polyline: {error}"; return false; }
 
             exceptionMessage = null;
             return true;
@@ -80,23 +82,31 @@ namespace TopoHelper.Model
             return false;
         }
 
-        public static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList)
+        public static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
+            indexErrorFirstList = -1;
             for (var i = 0; i < firstList.Count; i++)
             {
-                var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railToRailLine > _settingsDefault.DataValidation_LeftrailToRightRail_Maximum)
+                indexErrorFirstList = i;
+                var leftpoint = firstList.ElementAt(i);
+                var rightpoint = secondList.ElementAt(i);
+                var distance = leftpoint.DistanceTo(rightpoint);
+                if (distance > _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance + _settingsDefault.DataValidation_LeftrailToRightRail_Maximum)
                     return false;
             }
             return true;
         }
 
-        public static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList)
+        public static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
+            indexErrorFirstList = -1;
             for (var i = 0; i < firstList.Count; i++)
             {
-                var railToRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railToRailLine < 1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance)
+                indexErrorFirstList = i;
+                var leftpoint = firstList.ElementAt(i);
+                var rightpoint = secondList.ElementAt(i);
+                var distance = leftpoint.DistanceTo(rightpoint);
+                if (distance < 1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance)
                     return false;
             }
 

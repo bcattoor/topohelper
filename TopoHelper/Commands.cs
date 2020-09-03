@@ -396,7 +396,11 @@ namespace TopoHelper
                         if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polylineToAdd.Erase();
 
                         transaction.Commit();
-                        ed.WriteMessage($"\n\rBoth lines were joined together.\n\r\t Distance measured between start-point and end-point is {result.Item2:F6}");
+
+                        var vertexCount = sourcePolyline.EndParam + 1;
+                        ed.WriteMessage($"\n\rBoth lines were joined together." +
+                            $"\n\r\tVertexes: {vertexCount}\n\r\t" +
+                            $"Gap distance: {result.Item2:F6}");
                     }
                 }
             }

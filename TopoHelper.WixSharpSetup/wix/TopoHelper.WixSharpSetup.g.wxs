@@ -10,7 +10,7 @@
     <Package InstallerVersion="200" Compressed="yes" Description="This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment." SummaryCodepage="Windows-1252" InstallPrivileges="limited" InstallScope="perUser" Languages="1033" />
     <Media Id="1" Cabinet="Topo_Helper__AutoCAD_plugin._.cab" EmbedCab="yes" />
 
-    <Condition Message="Please install .NET 4.7.2 first. Contact your system administrator to install."><![CDATA[ (NETFRAMEWORK45 >= "#393295") ]]></Condition>
+    <Condition Message="Please install .NET 4.6 first. Contact your system administrator to install."><![CDATA[ (NETFRAMEWORK45 >= "#393295") ]]></Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="LocalAppDataFolder" Name="LocalAppDataFolder">
@@ -76,168 +76,136 @@
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.AdUIMgd.dll_3961701226" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a57218dc">
-              <File Id="AdUIMgd.dll_3961701226" Source="release\AdUIMgd.dll" />
+            <Component Id="Component.AdUIMgd.dll_523107112" Guid="1eb1d6f2-8704-4d6f-9bde-83d02d0cfdb2">
+              <File Id="AdUIMgd.dll_523107112" Source="release\AdUIMgd.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.CsvHelper.dll_746067185" Guid="1eb1d6f2-8704-4d6f-9bde-83d01f5b7852">
-              <File Id="CsvHelper.dll_746067185" Source="release\CsvHelper.dll" />
+            <Component Id="Component.CsvHelper.dll_1945647540" Guid="1eb1d6f2-8704-4d6f-9bde-83d059bc5913">
+              <File Id="CsvHelper.dll_1945647540" Source="release\CsvHelper.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.CsvHelper.xml_746132709" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e9bf67bc">
-              <File Id="CsvHelper.xml_746132709" Source="release\CsvHelper.xml" />
+            <Component Id="Component.CsvHelper.xml_1945582008" Guid="1eb1d6f2-8704-4d6f-9bde-83d0520b8bc4">
+              <File Id="CsvHelper.xml_1945582008" Source="release\CsvHelper.xml" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.MoreLinq.dll_553316603" Guid="1eb1d6f2-8704-4d6f-9bde-83d092c5a8a2">
-              <File Id="MoreLinq.dll_553316603" Source="release\MoreLinq.dll" />
+            <Component Id="Component.MoreLinq.dll_2280842566" Guid="1eb1d6f2-8704-4d6f-9bde-83d092b37025">
+              <File Id="MoreLinq.dll_2280842566" Source="release\MoreLinq.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.MoreLinq.pdb_2847207667" Guid="1eb1d6f2-8704-4d6f-9bde-83d0bb88ee78">
-              <File Id="MoreLinq.pdb_2847207667" Source="release\MoreLinq.pdb" />
+            <Component Id="Component.MoreLinq.pdb_280814910" Guid="1eb1d6f2-8704-4d6f-9bde-83d06ee4b99e">
+              <File Id="MoreLinq.pdb_280814910" Source="release\MoreLinq.pdb" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.MoreLinq.xml_81719546" Guid="1eb1d6f2-8704-4d6f-9bde-83d01fb699e4">
-              <File Id="MoreLinq.xml_81719546" Source="release\MoreLinq.xml" />
+            <Component Id="Component.MoreLinq.xml_3045516613" Guid="1eb1d6f2-8704-4d6f-9bde-83d0bf81d614">
+              <File Id="MoreLinq.xml_3045516613" Source="release\MoreLinq.xml" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.PostSharp.dll_4028372168" Guid="1eb1d6f2-8704-4d6f-9bde-83d0cfb5dbee">
-              <File Id="PostSharp.dll_4028372168" Source="release\PostSharp.dll" />
+            <Component Id="Component.Simplifynet.dll_901348541" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e242f5ee">
+              <File Id="Simplifynet.dll_901348541" Source="release\Simplifynet.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.PostSharp.Patterns.Common.dll_3479369279" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e1e6f387">
-              <File Id="PostSharp.Patterns.Common.dll_3479369279" Source="release\PostSharp.Patterns.Common.dll" />
+            <Component Id="Component.Simplifynet.pdb_985138563" Guid="1eb1d6f2-8704-4d6f-9bde-83d026ee7565">
+              <File Id="Simplifynet.pdb_985138563" Source="release\Simplifynet.pdb" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.PostSharp.Patterns.Common.xml_3479434811" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e995e8c8">
-              <File Id="PostSharp.Patterns.Common.xml_3479434811" Source="release\PostSharp.Patterns.Common.xml" />
+            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_21255063" Guid="1eb1d6f2-8704-4d6f-9bde-83d0dc67b886">
+              <File Id="System.Runtime.CompilerServices.Unsafe.dll_21255063" Source="release\System.Runtime.CompilerServices.Unsafe.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.PostSharp.xml_4028306612" Guid="1eb1d6f2-8704-4d6f-9bde-83d06d04d615">
-              <File Id="PostSharp.xml_4028306612" Source="release\PostSharp.xml" />
+            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.xml_2751973426" Guid="1eb1d6f2-8704-4d6f-9bde-83d0af3bcf95">
+              <File Id="System.Runtime.CompilerServices.Unsafe.xml_2751973426" Source="release\System.Runtime.CompilerServices.Unsafe.xml" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.Simplifynet.dll_3463215036" Guid="1eb1d6f2-8704-4d6f-9bde-83d010ce38cb">
-              <File Id="Simplifynet.dll_3463215036" Source="release\Simplifynet.dll" />
+            <Component Id="Component.System.Threading.Tasks.Extensions.dll_3202610244" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f8a1cebc">
+              <File Id="System.Threading.Tasks.Extensions.dll_3202610244" Source="release\System.Threading.Tasks.Extensions.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.Simplifynet.pdb_3735655398" Guid="1eb1d6f2-8704-4d6f-9bde-83d07b01930e">
-              <File Id="Simplifynet.pdb_3735655398" Source="release\Simplifynet.pdb" />
+            <Component Id="Component.System.Threading.Tasks.Extensions.xml_3202544680" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a4d69c7a">
+              <File Id="System.Threading.Tasks.Extensions.xml_3202544680" Source="release\System.Threading.Tasks.Extensions.xml" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_215117448" Guid="1eb1d6f2-8704-4d6f-9bde-83d041db15d8">
-              <File Id="System.Runtime.CompilerServices.Unsafe.dll_215117448" Source="release\System.Runtime.CompilerServices.Unsafe.dll" />
+            <Component Id="Component.System.ValueTuple.dll_929777685" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ae54f87f">
+              <File Id="System.ValueTuple.dll_929777685" Source="release\System.ValueTuple.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.System.Runtime.CompilerServices.Unsafe.xml_1780939245" Guid="1eb1d6f2-8704-4d6f-9bde-83d04e449657">
-              <File Id="System.Runtime.CompilerServices.Unsafe.xml_1780939245" Source="release\System.Runtime.CompilerServices.Unsafe.xml" />
+            <Component Id="Component.System.ValueTuple.xml_929843233" Guid="1eb1d6f2-8704-4d6f-9bde-83d0adb556ad">
+              <File Id="System.ValueTuple.xml_929843233" Source="release\System.ValueTuple.xml" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.System.Threading.Tasks.Extensions.dll_1276860709" Guid="1eb1d6f2-8704-4d6f-9bde-83d052c77665">
-              <File Id="System.Threading.Tasks.Extensions.dll_1276860709" Source="release\System.Threading.Tasks.Extensions.dll" />
+            <Component Id="Component.TopoHelper.dll_504535309" Guid="1eb1d6f2-8704-4d6f-9bde-83d086580433">
+              <File Id="TopoHelper.dll_504535309" Source="release\TopoHelper.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.System.Threading.Tasks.Extensions.xml_1276795193" Guid="1eb1d6f2-8704-4d6f-9bde-83d059e075cf">
-              <File Id="System.Threading.Tasks.Extensions.xml_1276795193" Source="release\System.Threading.Tasks.Extensions.xml" />
+            <Component Id="Component.TopoHelper.dll.config_2435786058" Guid="1eb1d6f2-8704-4d6f-9bde-83d013c8218b">
+              <File Id="TopoHelper.dll.config_2435786058" Source="release\TopoHelper.dll.config" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.System.ValueTuple.dll_21051050" Guid="1eb1d6f2-8704-4d6f-9bde-83d0cba59883">
-              <File Id="System.ValueTuple.dll_21051050" Source="release\System.ValueTuple.dll" />
-
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
-
-            <Component Id="Component.System.ValueTuple.xml_21116598" Guid="1eb1d6f2-8704-4d6f-9bde-83d0b30a2a41">
-              <File Id="System.ValueTuple.xml_21116598" Source="release\System.ValueTuple.xml" />
-
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
-
-            <Component Id="Component.TopoHelper.dll_2781925508" Guid="1eb1d6f2-8704-4d6f-9bde-83d0dbc6c74c">
-              <File Id="TopoHelper.dll_2781925508" Source="release\TopoHelper.dll" />
-
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
-
-            <Component Id="Component.TopoHelper.dll.config_3828321840" Guid="1eb1d6f2-8704-4d6f-9bde-83d0d034555d">
-              <File Id="TopoHelper.dll.config_3828321840" Source="release\TopoHelper.dll.config" />
-
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
-
-            <Component Id="Component.TopoHelper.pdb_2042047404" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a7e6be17">
-              <File Id="TopoHelper.pdb_2042047404" Source="release\TopoHelper.pdb" />
+            <Component Id="Component.TopoHelper.pdb_2825974837" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a7fb2d0c">
+              <File Id="TopoHelper.pdb_2825974837" Source="release\TopoHelper.pdb" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
@@ -322,7 +290,7 @@
 
     <UI />
 
-    <WixVariable Id="WixUILicenseRtf" Value="C:\Users\cwn8400\Documents\Source\Repos\concepts\TopoHelper\TopoHelper.WixSharpSetup\files\license.rtf" />
+    <WixVariable Id="WixUILicenseRtf" Value="E:\Source\Repos\concepts\TopoHelper\TopoHelper.WixSharpSetup\files\license.rtf" />
 
     <Upgrade Id="1eb1d6f2-8704-4d6f-9bde-83d07308d140">
       <UpgradeVersion Minimum="0.0.0.0" Maximum="1.1.1.0" IncludeMinimum="yes" IncludeMaximum="no" Property="UPGRADEFOUND" />
@@ -373,27 +341,23 @@
       <ComponentRef Id="Component.ATL" />
       <ComponentRef Id="Component.CommandLineArgumentsParser.dll_3014265501" />
       <ComponentRef Id="Component.AutocadTrustedLocations.exe.config_3323726735" />
-      <ComponentRef Id="Component.AdUIMgd.dll_3961701226" />
-      <ComponentRef Id="Component.CsvHelper.dll_746067185" />
-      <ComponentRef Id="Component.CsvHelper.xml_746132709" />
-      <ComponentRef Id="Component.MoreLinq.dll_553316603" />
-      <ComponentRef Id="Component.MoreLinq.pdb_2847207667" />
-      <ComponentRef Id="Component.MoreLinq.xml_81719546" />
-      <ComponentRef Id="Component.PostSharp.dll_4028372168" />
-      <ComponentRef Id="Component.PostSharp.Patterns.Common.dll_3479369279" />
-      <ComponentRef Id="Component.PostSharp.Patterns.Common.xml_3479434811" />
-      <ComponentRef Id="Component.PostSharp.xml_4028306612" />
-      <ComponentRef Id="Component.Simplifynet.dll_3463215036" />
-      <ComponentRef Id="Component.Simplifynet.pdb_3735655398" />
-      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_215117448" />
-      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.xml_1780939245" />
-      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_1276860709" />
-      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.xml_1276795193" />
-      <ComponentRef Id="Component.System.ValueTuple.dll_21051050" />
-      <ComponentRef Id="Component.System.ValueTuple.xml_21116598" />
-      <ComponentRef Id="Component.TopoHelper.dll_2781925508" />
-      <ComponentRef Id="Component.TopoHelper.dll.config_3828321840" />
-      <ComponentRef Id="Component.TopoHelper.pdb_2042047404" />
+      <ComponentRef Id="Component.AdUIMgd.dll_523107112" />
+      <ComponentRef Id="Component.CsvHelper.dll_1945647540" />
+      <ComponentRef Id="Component.CsvHelper.xml_1945582008" />
+      <ComponentRef Id="Component.MoreLinq.dll_2280842566" />
+      <ComponentRef Id="Component.MoreLinq.pdb_280814910" />
+      <ComponentRef Id="Component.MoreLinq.xml_3045516613" />
+      <ComponentRef Id="Component.Simplifynet.dll_901348541" />
+      <ComponentRef Id="Component.Simplifynet.pdb_985138563" />
+      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_21255063" />
+      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.xml_2751973426" />
+      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_3202610244" />
+      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.xml_3202544680" />
+      <ComponentRef Id="Component.System.ValueTuple.dll_929777685" />
+      <ComponentRef Id="Component.System.ValueTuple.xml_929843233" />
+      <ComponentRef Id="Component.TopoHelper.dll_504535309" />
+      <ComponentRef Id="Component.TopoHelper.dll.config_2435786058" />
+      <ComponentRef Id="Component.TopoHelper.pdb_2825974837" />
     </Feature>
 
     <InstallExecuteSequence>

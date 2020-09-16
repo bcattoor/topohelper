@@ -428,7 +428,7 @@ namespace TopoHelper
             {
                 // lets set some basic values
                 var minimumDistance = SettingsDefault.PointsTo3DPolyline_MinimumPointDistance; // drawing units
-                var maxDistance = SettingsDefault.PointsTo3DPolyline_MinimumPointDistance; // drawing units
+                var maxDistance = SettingsDefault.PointsTo3DPolyline_MaximumPointDistance; // drawing units
 
                 if (!DataValidation.ValidatePointsToPolylineSettings(out var msg))
                 {

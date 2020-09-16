@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using TopoHelper;
 using TopoHelper.AutoCAD;
@@ -448,8 +449,17 @@ namespace TopoHelper
                 var point3ds = points as Point3d[] ?? points.ToArray();
                 var result = ClosestPointsList.Calculate(point3ds.Select(a => new Point(a)).ToList(), new Point(point3ds.First()), minimumDistance, maxDistance);
 
+                if (result.Count() < 2)
+                {
+                    editor.WriteMessage($"\r\nPolyline was not created, too few with vertices's {result.Count()} were found.");
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
+
                 // create a 3-dimensional polyline for track-center-line
                 database.Create3dPolyline(result.Select(x => x.ToPoint3d()).ToArray());
+
+                editor.WriteMessage($"\r\nPolyline created with {result.Count()} vertices's.");
             }
             catch (Exception exception)
             {

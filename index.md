@@ -1,21 +1,18 @@
 # Welkom
 
-Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's.
+Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's. Voor meer informatie over het project zelf, bv hoe instaleren, waar downloaden, [melden van een probleem](https://github.com/bcattoor/topohelper/issues/new), de code zelf inkijken dan kan je [hier op de github pagina](https://github.com/bcattoor/topohelper/) terecht.
 
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten via de commandoregel in autoCAD.
+De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten [via de commandoregel in autoCAD]("/../workflow/Working.With.Commandline.md").
 
-<!-- TODO: place this tip to its own page. -->
-Hieronder een video die een overzicht geeft van deze comadoregel.
+### De instellingen
 
-{% include youtubePlayer.html id="4EU7vvSvV-0" %}
-
-{% include toc.html html=text ordered=true %}
+De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je [hier](commands/IAMTopo_Settings.md). 
 
 ### Workflows
 
-- [Instaleren van de applicatie.](./insert.link)
+- [TODO: - Instaleren van de applicatie.](./insert.link)
 - [Berekenen van de as van het spoor aan de hand van de opgemeten rails.](./workflow/Calculating.Railway.Center.Line.md)
 
 ## Commando's beschikbaar in de plugin
@@ -25,11 +22,11 @@ Hieronder vind u een overzicht van alle beschikbare commando's.
 Wanneer u **in de lijst op de naam van het commando klikt**, brengt uw browser u naar de detail-pagina van het desbetreffende commando.
 
 <!-- TODO: update link to actual content -->
-Om onderstaande commando's uit te voeren maakt u gebruik van de AutoCAD commando regel. Natuurlijk dient de plugin dan al te zijn geinstaleerd op uw systeem. (Indien dit niet zo is lees dan eerst [hier](https://bitbucket.org/cadsmurfs/topohelper/src/master/readme.md) verder.)
+Om onderstaande commando's uit te voeren maakt u gebruik van de AutoCAD commando regel. Natuurlijk dient de plugin dan al te zijn geinstaleerd op uw systeem. (Indien dit niet zo is lees dan eerst [hier](https://github.com/bcattoor/topohelper) verder.)
 
 | Command name | Description |
 | ------------ | ----------- |
-| [IAMTopo\_DistanceBetween2Polylines](commands/IAMTopo_DistanceBetween2Polylines) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
+| [IAMTopo\_DistanceBetween2Polylines](commands/IAMTopo_DistanceBetween2Polylines.md)) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
 | [IAMTopo\_PointsToPolyline](commands/IAMTopo_PointsToPolyline) | Maakt van de geselecteerde AutoCAD punten een samengestelde lijn (3D-POLYLIJN). |
 | [IAMTopo\_Rails2RailwayCenterLine](commands/IAMTopo_Rails2RailwayCenterLine) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
 | [IAMTopo\_Settings](commands/IAMTopo_Settings) | Opent een paneel waarop de instellingen kunnen worden afgelezen, en indien nodig worden aangepast. |

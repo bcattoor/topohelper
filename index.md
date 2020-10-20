@@ -4,7 +4,7 @@ Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebru
 
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten [via de commandoregel in autoCAD]("workflow/Working.With.Commandline.md").
+De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten [via de commandoregel in autoCAD](workflow/Working.With.Commandline.md).
 
 ### De instellingen
 

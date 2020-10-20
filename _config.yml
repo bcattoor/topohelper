@@ -1,4 +1,4 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman
 title: [TopoHelper]
 description: [Een AutoCAD invoeg toepassing om te werken met opgemeten data.]
 show_downloads: ["false"]

@@ -451,7 +451,7 @@ namespace TopoHelper
 
                 if (result.Count() < 2)
                 {
-                    editor.WriteMessage($"\r\nPolyline was not created, too few with vertices's {result.Count()} were found.");
+                    editor.WriteMessage($"\r\nPolyline was not created, too few vertices's ({result.Count()}) found.");
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }

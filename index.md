@@ -40,7 +40,7 @@ Om onderstaande commando's uit te voeren maakt u gebruik van de AutoCAD commando
 Een overzicht van alle beschikbare in te stellen variabelen. Om deze waarden aan te passen, [kijk dan even hier.](./commands/IAMTopo_Settings)
 
 | Name | Description | Standaard waarde |
-| ---- | :---------: | ---------------: |
+| :---- | :--------- | :--------------- |
 | Rails2RailwayCenterLine\_CSVFile\_Delimiter | Delimiter gebruikt voor het schrijven van CSV bestand. | ; |
 | Rails2RailwayCenterLine\_Draw2DPolyline\_CenterLine | Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verdere planafwerking. | True |
 | Rails2RailwayCenterLine\_Draw3DPolyline\_CenterLine | Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verder spoorontwerp. | True |

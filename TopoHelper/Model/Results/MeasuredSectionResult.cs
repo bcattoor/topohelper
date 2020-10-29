@@ -19,8 +19,6 @@ namespace TopoHelper.Model.Results
         {
             LeftRailMeasuredPoint = leftRailMeasuredPoint;
             RightRailMeasuredPoint = rightRailMeasuredPoint;
-            //CurvatureCurveLeft = curvatureCurveLeft;
-            //CurvatureCurveRight = curvatureCurveRight;
         }
 
         #endregion
@@ -40,8 +38,6 @@ namespace TopoHelper.Model.Results
         public CantDirection CantDirection { get; private set; }
 
         public double Chainage { get; set; }
-        //public CircularArc2d CurvatureCurveLeft { get; private set; }
-        //public CircularArc2d CurvatureCurveRight { get; private set; }
 
         /// <summary>
         /// Gauge is the distance measured between the two points provided by
@@ -51,8 +47,6 @@ namespace TopoHelper.Model.Results
 
         public Point3d LeftRailMeasuredPoint { get; }
 
-        //public bool RailIsInsideRailOfCurveLeft { get; set; } = false;
-        //public bool RailIsInsideRailOfCurveRight { get; set; } = false;
         public Point3d RightRailMeasuredPoint { get; }
 
         public Point3d TrackAxisPoint { get; set; }

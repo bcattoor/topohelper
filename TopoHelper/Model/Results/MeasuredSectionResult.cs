@@ -58,7 +58,7 @@ namespace TopoHelper.Model.Results
         public void SetCant(double leftRailHeight, double rightRailHeight)
         {
             Cant = Math.Abs(leftRailHeight - rightRailHeight);
-            // Set cant direction
+            //- Here we assume that when heights (z-value's) are equal the direction defaults to clockwise
             CantDirection = leftRailHeight >= rightRailHeight ?
                 CantDirection.Clockwise : CantDirection.CounterClockwise;
         }

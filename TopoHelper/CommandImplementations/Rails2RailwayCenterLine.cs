@@ -1,7 +1,6 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,8 +39,6 @@ namespace TopoHelper.CommandImplementations
             Contract.Requires<InvalidOperationException>(leftRailPoints.Count != rightRailPoints.Count, "We should have the same amount of points in both lists.");
             var sectionsCount = leftRailPoints.Count;
             Contract.Requires<ArgumentNullException>(sectionsCount > 0, "We should at least be given 1 item count to work with.");
-
-
 
             //+ Normalize input before calculation
             var normalizerInput = new List<Point3d>();
@@ -82,12 +79,12 @@ namespace TopoHelper.CommandImplementations
                     //?(dutch='gemeten spoorbreedte')
                     section.Gauge = r2RLineSeg3d.Length;
 
-                    //? We use the midpoint from the 3d line, and project it onto our 2d plane.
+                    //! We use **the midpoint** from the **3d line**, and **project it** onto our **2d plane**.
                     //- Don't forget to inverse normalization of the point!
                     var trackCenterLinePoint = r2RLineSeg3d.EvaluatePoint(.5).DeNormalize(minX, minY);
 
                     //? Here we have the real axis calculated!
-                    // notice how we use the Z-value of the _lowest rail_ to create _the height (z-value)_ center point.
+                    //! notice how we use the Z-value of the **lowest rail** to create **the height (z-value)** center point.
                     section.TrackAxisPoint = new Point3d(
                         trackCenterLinePoint.X, trackCenterLinePoint.Y,
                         r2RLineSeg3d.StartPoint.Z < r2RLineSeg3d.EndPoint.Z ?
@@ -95,6 +92,7 @@ namespace TopoHelper.CommandImplementations
                 }
                 lock (SectionsLock)
                 {
+                    //-- add our calculated section to the results, make sure to do it tread-safe
                     sections[i] = section;
                 }
             });

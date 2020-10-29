@@ -27,14 +27,15 @@ namespace TopoHelper.Model.Calculations
             var result = new CalculateDisplacementSectionResult[itemCount];
 
             Parallel.For(0, itemCount, i =>
-            //for (int i = 0; i < itemCount; i++)
+            //- for (int i = 0; i < itemCount; i++)
             {
                 var rrp = rightRailPoints.ElementAt(i);
                 var lrp = leftRailArr.ElementAt(i);
 
                 var h = Math.Abs(rrp.Z - lrp.Z);
                 var gauge = rrp.DistanceTo(lrp);
-                // no need to calculate if there is no cant
+
+                //- --> There is no need to calculate if there is no cant
                 if (h <= Settings.Default.CalculateSurveyCorrection_MinimumCantValue)
                 {
                     lock (ArrayLock)
@@ -50,21 +51,22 @@ namespace TopoHelper.Model.Calculations
                             DisplacementSectionZ = 0
                         };
                     return;
-                    //continue;
+                    //-continue;
                 }
 
-                // The displacement-point returned is a 2d point that needs to
-                // be interpreted whenever returned, the Y value is the
-                // displacement in Z 3d-space, the X value is the displacement
-                // in the xy-plane, in the direction of the vector between the
-                // left and the right rail.
+                //+ Interpretation of the actual result:
+                //? The displacement-point returned is a **2d point** that needs to
+                //? be **interpreted** whenever returned, the **Y value** is the
+                //? displacement in **Z - 3d-space**, the X value is the displacement
+                //? in the xy-plane, in the direction of the vector between the
+                //? left and the right rail.
 
                 var displacement = CalculateDisplacementForSurveyCorrecting(h, gauge);
                 var zDisp = Math.Abs(displacement.Y);
                 var xyDisp = Math.Abs(displacement.X);
 
                 double newLrpZ, newRrpZ;
-                // Low rail needs to go up, high rail needs to go down
+                //! Low rail needs to go up, high rail needs to go down
                 if (lrp.Z < rrp.Z)
                 {
                     newLrpZ = lrp.Z + zDisp;
@@ -76,7 +78,7 @@ namespace TopoHelper.Model.Calculations
                     newRrpZ = rrp.Z + zDisp;
                 }
 
-                // Calculate new x and y values by using the projected xy line
+                //! Calculate new x and y values by using the projected xy line
                 using (var line = new Line2d(lrp.T2d(), rrp.T2d()))
                 {
                     Point2d projLPoint, projRpoint;
@@ -101,6 +103,8 @@ namespace TopoHelper.Model.Calculations
                 }
             });
 
+
+            //+ Chainage
             var chain = 0.0;
             for (var i = 0; i < itemCount; i++)
             {

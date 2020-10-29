@@ -53,9 +53,8 @@ namespace TopoHelper.Model
 
             if (!ValidateInputApparentVectorAngles(firstList, secondList))
             { exceptionMessage = DirectionNotEqual; return false; }
-            int error;
 
-            if (!ValidateInputGaugeMinDistances(firstList, secondList, out error))
+            if (!ValidateInputGaugeMinDistances(firstList, secondList, out int error))
             { exceptionMessage = RailMinDistance + $" Index on first polyline: {error}"; return false; }
 
 

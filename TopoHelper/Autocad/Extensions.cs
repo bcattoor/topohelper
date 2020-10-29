@@ -175,6 +175,8 @@ namespace TopoHelper.AutoCAD
         public static Tuple<IEnumerable<Point3d>, IEnumerable<Point3d>> GetPointsFrom2PolylinesWithPointWeeding(this Database database, ObjectId id1, ObjectId id2, double weeding)
         {
             // Weeding, we only add the point when weeding factor has been satisfied.
+            throw new NotImplementedException("This function has not yet been properly implemented." +
+                " It lacks definition and a well described purpose.");
 
             using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {

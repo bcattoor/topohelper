@@ -27,7 +27,7 @@ namespace TopoHelper.Model
         /// </summary>
         private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
-        private static Settings _settingsDefault = Settings.Default;
+        private static readonly Settings _settingsDefault = Settings.Default;
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace TopoHelper.Model
             return true;
         }
 
-        public static bool ValidateInputApparentVectorAngles(IList<Point3d> firstList, IList<Point3d> secondList)
+        private static bool ValidateInputApparentVectorAngles(IList<Point3d> firstList, IList<Point3d> secondList)
         {
             var l1Sp = firstList.ElementAt(0).Convert2d(MyPlaneWcs);
             // var l1_ep = firstList.Last().Convert2d(myPlaneWCS);
@@ -81,7 +81,7 @@ namespace TopoHelper.Model
             return false;
         }
 
-        public static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
+        private static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
             indexErrorFirstList = -1;
             for (var i = 0; i < firstList.Count; i++)
@@ -96,7 +96,7 @@ namespace TopoHelper.Model
             return true;
         }
 
-        public static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
+        private static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
             indexErrorFirstList = -1;
             for (var i = 0; i < firstList.Count; i++)

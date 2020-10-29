@@ -1,5 +1,8 @@
 ﻿using Autodesk.AutoCAD.Geometry;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using TopoHelper.Model.Results;
@@ -22,59 +25,73 @@ namespace TopoHelper.CommandImplementations
         /// This function calculates a <seealso cref="IList{MeasuredSection}" />
         /// of Type <see cref="MeasuredSectionResult" />.
         /// </summary>
-        /// <param name="leftRailPoints">  Points laying on the right rail. </param>
+        /// <param name="leftRailPoints">  Points laying on the left rail. </param>
         /// <param name="rightRailPoints"> Points laying on the right rail. </param>
         /// <returns> A <seealso cref="IList{MeasuredSectionResult}" /> </returns>
         internal static IList<MeasuredSectionResult> CalculateRailwayCenterLine(
             IList<Point3d> leftRailPoints,
             IList<Point3d> rightRailPoints)
         {
+            // Contracts assumptions
+            //- more info: https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/code-contracts?redirectedfrom=MSDN
+
+            Contract.Requires<ArgumentNullException>(leftRailPoints != null);
+            Contract.Requires<ArgumentNullException>(rightRailPoints != null);
+            Contract.Requires<InvalidOperationException>(leftRailPoints.Count != rightRailPoints.Count, "We should have the same amount of points in both lists.");
+            var sectionsCount = leftRailPoints.Count;
+            Contract.Requires<ArgumentNullException>(sectionsCount > 0, "We should at least be given 1 item count to work with.");
+
+
+
             //+ Normalize input before calculation
             var normalizerInput = new List<Point3d>();
 
             normalizerInput.AddRange(leftRailPoints);
-
             normalizerInput.AddRange(rightRailPoints);
+
             var normalizerOutput = normalizerInput.Select(point =>
                 new NormalizerPoint(point)).ToList().Normalize(out var minX, out var minY).ToList();
 
             //+ Calculate data for all sections
             double centerLineChainage = 0;
 
-            var itemCount = leftRailPoints.Count;
-            var sections = new MeasuredSectionResult[itemCount];
 
-            Parallel.For(0, itemCount, i =>
-            //for (int i = 0; i < itemCount; i++)
+            var sections = new MeasuredSectionResult[sectionsCount];
+
+            Parallel.For(0, sectionsCount, i =>
+            //- for (int i = 0; i < itemCount; i++)
             {
-                var rightI = itemCount + i;
                 //? The n_ prefix is used to clarify we are using a normalized variable.
                 var nLeftRailPoint = normalizerOutput[i];
-                var nRightRailPoint = normalizerOutput[rightI];
+                var nRightRailPoint = normalizerOutput[sectionsCount + i];
 
+                //? here we make sure to add the original rail-points to the section
+                //? these are immutably implemented in the class.
                 var section = new MeasuredSectionResult(leftRailPoints.ElementAt(i), rightRailPoints.ElementAt(i));
 
                 section.SetCant(section.LeftRailMeasuredPoint.Z, section.RightRailMeasuredPoint.Z);
 
-                //+ line0 calculation, and set cant direction
+                //+ Line0 calculation, and set cant direction
+                //- | ⚊ ⚊ Line0 = 3D line connecting left rail point with right rail point
                 // to find our x-and-y- coordinates we need a 3d line
-                // starting at the highest rail, and ending at lowest rail.
+                // *starting* at the **highest rail**, and *ending* at **lowest rail**.
                 // railHead2RailHeadLineSegment3d = short-name variable r2rLineSeg3d
                 using (var r2RLineSeg3d = new LineSegment3d(nLeftRailPoint.ToPoint3d(), nRightRailPoint.ToPoint3d()))
                 {
-                    // Set Gauge
+                    // Set Gauge 
+                    //?(dutch='gemeten spoorbreedte')
                     section.Gauge = r2RLineSeg3d.Length;
 
-                    //? De-normalize point!
+                    //? We use the midpoint from the 3d line, and project it onto our 2d plane.
+                    //- Don't forget to inverse normalization of the point!
                     var trackCenterLinePoint = r2RLineSeg3d.EvaluatePoint(.5).DeNormalize(minX, minY);
 
                     //? Here we have the real axis calculated!
-                    //- notice how we use the Z-value of the lowest rail to create the height center point.
+                    // notice how we use the Z-value of the _lowest rail_ to create _the height (z-value)_ center point.
                     section.TrackAxisPoint = new Point3d(
                         trackCenterLinePoint.X, trackCenterLinePoint.Y,
                         r2RLineSeg3d.StartPoint.Z < r2RLineSeg3d.EndPoint.Z ?
-                        r2RLineSeg3d.StartPoint.Z :
-                        r2RLineSeg3d.EndPoint.Z);
+                        r2RLineSeg3d.StartPoint.Z : r2RLineSeg3d.EndPoint.Z);
                 }
                 lock (SectionsLock)
                 {
@@ -82,7 +99,7 @@ namespace TopoHelper.CommandImplementations
                 }
             });
 
-            for (var i = 0; i < itemCount; i++)
+            for (var i = 0; i < sectionsCount; i++)
             {
                 // calculate chainage to the previously calculated point in the
                 // 2-dimensional space.

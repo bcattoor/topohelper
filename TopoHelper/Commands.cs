@@ -484,7 +484,7 @@ namespace TopoHelper
             {
                 #region Selection
 
-                // Let user select a right rail end a left rail
+                // Let user select a right rail and a left rail
                 editor.SetImpliedSelection(Array.Empty<ObjectId>()); // clear selection
 
                 var leftRailId1 = editor.Select3dPolyline(LeftRail);

@@ -1,4 +1,4 @@
-# Berekenen van de as van het spoor adhv de opgemeten rails
+# Berekenen van de as van het spoor a.d.h.v. de opgemeten rails
 
 Berekenen van de spooras aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).
 

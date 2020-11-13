@@ -9,7 +9,7 @@ Hoe werken met de commandoregel
 Nederlandstalige uitleg
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Hieronder een video die een overzicht geeft van deze comadoregel. Deze is wel engelstalig. Indien dit een probleem is, dan kan je hier `een nederlandstalige help pagina conculteren`_.
+Hieronder een video die een overzicht geeft van deze commandoregel. Deze is wel engelstalig. Indien dit een probleem is, dan kan je hier `een nederlandstalige help pagina conculteren`_.
 
 .. _een nederlandstalige help pagina conculteren: https://autocad.cadstunter.nl/opdrachten-invoeren-op-de-opdrachtregel
 

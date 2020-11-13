@@ -20,11 +20,11 @@ Aan de hand van dit paneel kan je de instellingen, die worden gebruikt door de v
 6. Herladen van de op de hardeschijf opgeslagen waarden van variabelen.
 7. Opslaan van de wijzigingen. **Belangrijk: wanneer je de aanpassingen niet bewaard a.d.h.v. de knop, gaan de aanpassingen verloren!**
 
-![Afbeelding instellingen-paneel](settingspanel.png)
+![Afbeelding instellingen-paneel](./../_static/images/settingspanel.png)
 
 ## Gebruik maken van het zoekveld
 
-De zoekfunctie of filter zal enkel variabelen weergeven die een stukje van de zoektekst bevatten. Om de ongefilterde resultaten terug te kunnen zien verwijder je de al opgegeven waarde.
+De zoekfunctie of het filter zal enkel de variabelen weergeven die een stukje van de zoektekst bevatten. Om de ongefilterde resultaten terug te kunnen zien verwijder je de al opgegeven tekst.
 
 ## Naamgeving van de instellingen
 

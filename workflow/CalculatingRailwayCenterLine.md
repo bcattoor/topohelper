@@ -1,6 +1,6 @@
-# Workflow: Calculating Railway Center Line
+# Berekenen van de as van het spoor adhv de opgemeten rails
 
-*Berekenen van de spooras aan de hand van twee opgemeten sporen.*
+Berekenen van de spooras aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).
 
 ## De verkregen bestanden
 
@@ -12,7 +12,7 @@ In de laag `binnenkant rail` vinden we vier samengestelde lijnen *(aka enkele 
 
 ## Workflow
 
-#### JOIN (AutoCAD commando)
+### JOIN (AutoCAD commando)
 
 Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando `join`. Was dit niet het geval dan zou dit met dat commando niet lukken. Om de polylijnen in één enkelvoudige beweging te kunnen joinen, zorg ik ervoor dat enkel de laag van de lijnen `Unlocked` staat.
 
@@ -42,9 +42,9 @@ Het instellingen paneel kunnen we oproepen aan de hand van het commando `IAMTo
 
 In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We kunnen deze dan ook uitschakkelen in het `SettingsPanel.`
 
-
 ### Controle
 
-Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opperator. In een [ander AutoCAD bestand](L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) `IAMTOPO_JOINPOLYLINE`. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn copieren naar onze vorige tekening.Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines) `IAMTopo_DistanceBetween2Polylines`.
+Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) `IAMTOPO_JOINPOLYLINE`. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+De controle kunnen we nu uitvoeren adhv [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines) `IAMTopo_DistanceBetween2Polylines`.
 
 ### IAMTopo\_DistanceBetween2Polylines

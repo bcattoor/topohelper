@@ -1,4 +1,4 @@
-# IAMTopo\_Settings
+#  Instellingen
 
 Door gebruik te maken van deze opdracht `IAMTopo_Settings,` kan je de interne variabelen gebruikt in deze tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
 

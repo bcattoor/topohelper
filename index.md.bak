@@ -2,18 +2,27 @@
 
 Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's. Voor meer informatie over het project zelf, bv hoe instaleren, waar downloaden, [melden van een probleem](https://github.com/bcattoor/topohelper/issues/new), de code zelf inkijken dan kan je [hier op de github pagina](https://github.com/bcattoor/topohelper/) terecht.
 
+
 ## Gebruik
 
-De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten [via de commandoregel in autoCAD](workflow/Working.With.Commandline.md).
+De applicatie kan worden gebruikt door middel van het uitvoeren van de opdrachten [via de commandoregel in autoCAD](./workflow/WorkingWithTheCommandline.md).
 
-### De instellingen
+### Aanpassen van de instellingen
 
-De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je [hier](commands/IAMTopo_Settings.md). 
+De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je [hier](./commands/IAMTopo_Settings.md). 
+
+```{note}
+This note is written in [markdown](https://example.com)
+```
+
+```cmd
+This note is written in [markdown](https://example.com)
+```
 
 ### Workflows
 
 - [TODO: - Instaleren van de applicatie.](./insert.link)
-- [Berekenen van de as van het spoor aan de hand van de opgemeten rails.](./workflow/Calculating.Railway.Center.Line.md)
+- [Berekenen van de as van het spoor aan de hand van de opgemeten rails.](./workflow/CalculatingRailwayCenterLine.md)
 
 ## Commando's beschikbaar in de plugin
 
@@ -26,7 +35,7 @@ Om onderstaande commando's uit te voeren maakt u gebruik van de AutoCAD commando
 
 | Command name | Description |
 | ------------ | ----------- |
-| [IAMTopo\_DistanceBetween2Polylines](commands/IAMTopo_DistanceBetween2Polylines.md)) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
+| [IAMTopo\_DistanceBetween2Polylines](commands/IAMTopo_DistanceBetween2Polylines.md) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
 | [IAMTopo\_PointsToPolyline](commands/IAMTopo_PointsToPolyline) | Maakt van de geselecteerde AutoCAD punten een samengestelde lijn (3D-POLYLIJN). |
 | [IAMTopo\_Rails2RailwayCenterLine](commands/IAMTopo_Rails2RailwayCenterLine) | Leest een lijst van punten in komende van een selectie van twee samengestelde lijnen (3D-POLYLINE). |
 | [IAMTopo\_Settings](commands/IAMTopo_Settings) | Opent een paneel waarop de instellingen kunnen worden afgelezen, en indien nodig worden aangepast. |

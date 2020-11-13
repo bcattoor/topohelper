@@ -1,7 +1,7 @@
-# IAMTopo\_CleanNonSurveyVertexFromPolyline
+# Clean Non Survey Verteces From Polyline
 
 Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten, en een nieuwe lijn creëren.
-<br>
+
 ## Gebruik
 
 1. Selecteer een punt of block die bij de desbetreffende polylijn hoort. Filteren gebeurt op basis van de laagnaam.

@@ -1,1 +1,3 @@
-[IAMTopo\_PointsToPolyline](commands/IAMTopo_PointsToPolyline)
+# Points to Polyline
+
+Commandname: IAMTopo\_PointsToPolyline

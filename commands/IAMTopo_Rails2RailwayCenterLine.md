@@ -1,4 +1,4 @@
-# IAMTopo\_Rails2RailwayCenterLine
+# Rails to Railway Center Line
 
 ## Gebruik
 
@@ -8,18 +8,18 @@
 4. Een controle wordt uitgevoerd om te kijken of de functie kan worden verder gezet:
     * zijn de geselecteerde polylijnen uniek t.o.v. elkaar
     * zijn het aantal definieërende(*in AutoCAD noemen we dit Vertexten*) punten gelijk
-    * zijn er genoeg punten op de ploylijnen, lees meer dan 2
+    * zijn er genoeg punten op de ploylijnen, lees meer dan 2 punten per polylijn
     * is de richting t.o.v. elkaar gelijk
     * voldoen de spoorwijdtes aan de minimum opgegeven waarde
         * zie [DataValidation\_LeftrailToRightRail\_Tolerance](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home) in de tabel van de variabelen.
     * voldoen de spoorwijdtes aan de maximum opgegeven waarde
         * zie [DataValidation\_LeftrailToRightRail\_Maximum](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home) in de tabel van de variabelen.
-    * Wanneer alle controles ok zijn kan er verder worden gegaan.
-5. Wanneer de waarde van `Rails2RailwayCenterLine_Use_CalculateSurveyCorrection` waar is (True), dan wordt de correctie berekend voor het rekening houden met de scheefstand van de bolprisma’s.
+    * Wanneer alle controles in orde zijn kan er verder worden gegaan.
+5. Wanneer de waarde van `Rails2RailwayCenterLine_Use_CalculateSurveyCorrection` is ingesteld als waar(True), dan wordt de correctie berekend voor het rekening houden met de scheefstand van de bolprisma’s.
     * TODO: Lees hier hoe dit in zijn werk gaat.
 6. Aan de hand van de sporen berekenen we nu de centerlijn van het spoor.
     * TODO: Lees hier hoe dit in zijn werk gaat
-7. Alle lijnen/punten worden uitgetekend volgens de ingestelde instellingen.
+7. Alle lijnen/punten worden uitgetekend in de DWG en dat volgens de ingestelde standaarden.
     * Om deze instellingen aan te passen: zie [alle instellignen hier.](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home)
 8. Indien zo ingesteld worden de CSV-bestanden weggeschreven naar de in de [instellingen](https://bitbucket.org/cadsmurfs/topohelper/wiki/Home) opgegeven locaties.
     * TODO: Lees hier hoe je deze CSV bestanden makkelijk zelf gebruikt.

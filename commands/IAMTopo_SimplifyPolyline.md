@@ -1,1 +1,4 @@
-[IAMTopo\_SimplifyPolyline](commands/IAMTopo_SimplifyPolyline)
+Simplify Polyline
+=================
+
+Command name: IAMTopo_SimplifyPolyline

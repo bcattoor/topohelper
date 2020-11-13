@@ -1,9 +1,0 @@
-{
-    "cSpell.words": [
-        "Jekyll"
-    ],
-    "restructuredtext.confPath": "${workspaceFolder}",
-    "cSpell.enableFiletypes": [
-        "restructuredtext"
-    ]
-}

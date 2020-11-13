@@ -20,7 +20,7 @@ Aan de hand van dit paneel kan je de instellingen, die worden gebruikt door de v
 6. Herladen van de op de hardeschijf opgeslagen waarden van variabelen.
 7. Opslaan van de wijzigingen. **Belangrijk: wanneer je de aanpassingen niet bewaard a.d.h.v. de knop, gaan de aanpassingen verloren!**
 
-![Voorbeeld afbeelding instellingen-paneel](../_static/images/settingspanel.png)
+![Afbeelding instellingen-paneel](settingspanel.png)
 
 ## Gebruik maken van het zoekveld
 

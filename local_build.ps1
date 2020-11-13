@@ -1,4 +1,4 @@
-Stop-Process -Name "msedge"
+Get-Process msedge | ForEach-Object { $_.CloseMainWindow() }
 ./make clean
 ./make html
-explorer "E:\topohelper-documentation\_build\html\welcome.html"
+explorer "F:\Source\Repos\documentation\topohelper-documentation\_build\html\welcome.html"

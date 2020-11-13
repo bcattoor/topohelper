@@ -17,7 +17,7 @@ In deze documentatie ga ik in op het waarom een bepaalde functie nodig is, hoe z
 Gebruik
 --------
 
-De applicatie wordt gebruikt door gebruik te maken van de COMMAND LINE in autocad, meer info hier: :ref:`WorkingWithTheCommandline`.
+De applicatie wordt gebruikt door gebruik te maken van de COMMAND LINE in autocad, indien een er een opfrissing vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
 
 Aanpassen van de instellingen
 --------------------------------

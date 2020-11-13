@@ -1,6 +1,8 @@
-#  Instellingen
+# Instellingen
 
-Door gebruik te maken van deze opdracht `IAMTopo_Settings,` kan je de interne variabelen gebruikt in deze tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
+Door gebruik te maken van deze opdracht `IAMTopo_Settings,` kan je de variabelen die worden gebruikt door de tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
+
+<!-- TODO: Waar vinden we meer informatie in verband met al deze variabelen? -->
 
 ## Het instellingen paneel
 

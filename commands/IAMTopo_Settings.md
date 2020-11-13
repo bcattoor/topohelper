@@ -15,12 +15,12 @@ Aan de hand van dit paneel kan je de instellingen, die worden gebruikt door de v
 1. Wanneer een verkeerde waarde wordt ingevuld, dan zal hier een vinkje bij geplaatst zijn.
 2. Dit is de naam van de variabele.
 3. Dit is de waarde van de variable.
-4. Geef hier een woord of letters op op de instellingen te filteren.
+4. Geef hier een woord of enkele letters op om de instellingen te doorzoeken.
 5. Druk op deze knop om het paneel te sluiten zonder de wijzigingen op te slaan.
 6. Herladen van de op de hardeschijf opgeslagen waarden van variabelen.
-7. Opslaan van de wijzigingen. **Belangrijk: indien niet wordt opgeslaan zij de gedane wijzigingen verloren!**
+7. Opslaan van de wijzigingen. **Belangrijk: wanneer je de aanpassingen niet bewaard a.d.h.v. de knop, gaan de aanpassingen verloren!**
 
-![Voorbeeld afbeelding instellingen-paneel](../images/settingspanel.png)
+![Voorbeeld afbeelding instellingen-paneel](../_static/images/settingspanel.png)
 
 ## Gebruik maken van het zoekveld
 

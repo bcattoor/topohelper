@@ -1,0 +1,17 @@
+.content {
+    width:auto !important; 
+    min-width: 46em;
+}
+
+.table-wrapper tr {
+    line-height: 1.2em;
+    font-size: small;
+    font-family: Consolas;
+    font-weight: lighter;
+}
+
+.sidebar-tree .current-page>.reference {
+    font-weight: 700;
+    font-size: large;
+    border-bottom: 1px green;
+}

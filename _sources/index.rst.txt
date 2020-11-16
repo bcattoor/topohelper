@@ -6,7 +6,7 @@ Overzicht van de inhoud
 ------------------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Inhoud:
    
    welcome
@@ -14,7 +14,7 @@ Overzicht van de inhoud
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Commands: 
 
    commands/commands-overview

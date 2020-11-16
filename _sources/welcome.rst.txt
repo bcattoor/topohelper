@@ -22,5 +22,5 @@ Door gebruik te maken van de **COMMAND LINE** in **AutoCAD**. Indien een er een 
 Aanpassen van de instellingen
 --------------------------------
 
-De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je `Het instellingenpaneel <commands/IAMTopo_Settings.md>`_
+De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je `Het instellingenpaneel <commands/IAMTopo_Settings>`_
 

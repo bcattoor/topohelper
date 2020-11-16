@@ -25,7 +25,7 @@ Woordje uitleg
 ##############
 bij de genummerde puntjes zichtbaar in de :ref:`Instellingen_paneel`.
 
-1. Wanneer een verkeerde waarde wordt ingevuld in de tabel, dan zal hier een vinkje bij geplaatst zijn. Dit betekent dat de wijziging niet kkan worden opgesslaan. U dient eerst de foutive waarde aan te passen.
+1. Wanneer een verkeerde waarde wordt ingevuld in de tabel, dan zal hier een vinkje bij geplaatst zijn. Dit betekent dat de wijziging niet kan worden opgeslaan. U dient eerst de foutive waarde aan te passen.
 2. Dit is de naam van de variabel.
 3. Dit is de waarde van de variabl.
 4. Geef hier een woord of enkele letters in om de instellingen te doorzoeken.

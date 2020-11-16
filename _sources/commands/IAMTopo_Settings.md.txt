@@ -1,6 +1,6 @@
 # Instellingen
 
-Door gebruik te maken van deze opdracht `IAMTopo_Settings,` kan je de variabelen die worden gebruikt door de tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
+Door gebruik te maken van deze opdracht `IAMTopo_Settings,` kan je de [variabelen](variables-overview) die worden gebruikt door de tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
 
 <!-- TODO: Waar vinden we meer informatie in verband met al deze variabelen? -->
 
@@ -43,4 +43,4 @@ De variabel `Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine`
 
 ## Lijst van alle variabelen
 
-Een lijst van al deze variabelen kan je [hier](commands-overview) vinden.
+Een lijst van al deze variabelen kan je [hier](variables-overview) vinden.

@@ -6,22 +6,15 @@ Overzicht van de inhoud
 ------------------------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
    :caption: Inhoud:
    
    welcome
    
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Workflows:
-   
-   workflow/InstallingApplication
-   workflow/CalculatingRailwayCenterLine
-   workflow/WorkingWithTheCommandline
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Commands: 
 
    commands/commands-overview
@@ -36,19 +29,10 @@ Overzicht van de inhoud
    commands/IAMTopo_CleanNonSurveyVertexFromPolyline
    commands/IAMTopo_PointsToPolyline
 
-Zoeken op deze website
-------------------------
-
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-
-* :ref:`search`
-
-.. GLOB
-.. ====
-
-..  .. toctree::
-..       :glob:
-..       :titlesonly:
-
-..       *
+.. toctree::
+   :maxdepth: 2
+   :caption: Workflows:
+   
+   workflow/InstallingApplication
+   workflow/CalculatingRailwayCenterLine
+   workflow/WorkingWithTheCommandline

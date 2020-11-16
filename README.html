@@ -8,7 +8,7 @@
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
-    <link rel="stylesheet" href="_static/styles/furo.css?state=5f1109b034c826e484e31214">
+    <link rel="stylesheet" href="_static/styles/furo.css?state=d4cb41cc0a876e3cc6c3fe3c">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="_static/tabs.js"></script>
     <script src="_static/js/_blank-links.js"></script>
     <script src="_static/translations.js"></script>
-    <script src="_static/scripts/main.js?state=5f1109b034c826e484e31214"></script></head>
+    <script src="_static/scripts/main.js?state=d4cb41cc0a876e3cc6c3fe3c"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -102,7 +102,7 @@
       <a href="index.html"><div class="brand">TopoHelper</div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -123,12 +123,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="welcome.html">Welkom</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Workflows:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="workflow/InstallingApplication.html">Installeren van de applicatie</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow/CalculatingRailwayCenterLine.html">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow/WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
-</ul>
 <p class="caption"><span class="caption-text">Commands:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="commands/commands-overview.html">De commando’s</a></li>
@@ -142,6 +136,12 @@
 <li class="toctree-l1"><a class="reference internal" href="commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands/IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Workflows:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="workflow/InstallingApplication.html">Installeren van de applicatie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/CalculatingRailwayCenterLine.html">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
+</ul>
 
   </div>
   
@@ -154,13 +154,25 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
         <div class="section" id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Permalink naar deze titel">¶</a></h1>
 <p>This is the repository for the topohelper applications documentation.</p>
 <p>Repository for the project-site can be found <a class="reference external" href="https://github.com/bcattoor/topohelper/">here</a>.</p>
+<div class="section" id="building-it-yourself">
+<h2>Building it yourself<a class="headerlink" href="#building-it-yourself" title="Permalink naar deze titel">¶</a></h2>
+<p>Building the documentation: requirements on Windows:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://strawberryperl.com">PERL</a></p></li>
+<li><p><a class="reference external" href="https://miktex.org/download">MiKTex</a></p></li>
+<li><p><a class="reference external" href="https://www.python.org/downloads">Python</a></p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/installation.html#windows">Sphinx</a>
+-&gt; <code class="docutils literal notranslate"><span class="pre">C:\&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">sphinx</span></code></p></li>
+</ul>
+<p>Install all of the above, and make sure you log off your user account. That way the environment variables (ea.: PATH) get reread from the registry.</p>
+</div>
 </div>
 
       </article>
@@ -187,8 +199,25 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Inhoudsopgave
+          </span>
+        </div>
+        <div class="toc-tree">
+          <ul>
+<li><a class="reference internal" href="#">README</a><ul>
+<li><a class="reference internal" href="#building-it-yourself">Building it yourself</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
       
       
     </aside>

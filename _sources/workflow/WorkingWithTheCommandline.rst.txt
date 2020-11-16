@@ -16,11 +16,11 @@ Hieronder een video die een overzicht geeft van deze commandoregel. Deze is wel 
 Engelstalige video
 ~~~~~~~~~~~~~~~~~~
 
-.. only:: html-build
+.. only:: html
 
   .. youtube:: https://www.youtube.com/watch?v=KZoCJ-mUffs
 
-.. only:: pdf-build
+.. only:: latex
 
   Content to be included only in the internal version of the document.
 

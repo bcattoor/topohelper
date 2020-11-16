@@ -17,10 +17,10 @@ In deze documentatie ga ik in op: het waarom een bepaalde functie nodig is, en h
 Gebruik
 --------
 
-De applicatie wordt gebruikt door gebruik te maken van de COMMAND LINE in autocad. Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
+Door gebruik te maken van de **COMMAND LINE** in **AutoCAD**. Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
 
 Aanpassen van de instellingen
 --------------------------------
 
-De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je {ref}`commands\IAMTopo_Settings`
+De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je `Het instellingenpaneel <commands\IAMTopo_Settings.md>`_
 

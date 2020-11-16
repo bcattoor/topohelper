@@ -35,11 +35,6 @@ Overzicht van de inhoud
    commands/IAMTopo_CleanNonSurveyVertexFromPolyline
    commands/IAMTopo_PointsToPolyline
 
-.. toctree::
-   :hidden:
-
-   README
-
 Zoeken op deze website
 ------------------------
 

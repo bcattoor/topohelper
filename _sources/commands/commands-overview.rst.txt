@@ -1,5 +1,5 @@
 ===============================
-Een overzicht van de commando's
+De commando's
 ===============================
 
 Een overzicht van alle beschikbare commando's in de plugin.

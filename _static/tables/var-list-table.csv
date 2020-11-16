@@ -1,4 +1,4 @@
-﻿"Comando naam";"Beschrijving";"Initiële waarde"
+﻿"Naam";"Beschrijving";"Initiële waarde"
 "Rails2RailwayCenterLine_CSVFile_Delimiter";"Delimiter gebruikt voor het schrijven van CSV bestand.";""
 "Rails2RailwayCenterLine_Draw2DPolyline_CenterLine";"Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verdere planafwerking.";"True"
 "Rails2RailwayCenterLine_Draw3DPolyline_CenterLine";"Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verder spoorontwerp.";"True"

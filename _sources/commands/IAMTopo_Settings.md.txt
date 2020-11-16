@@ -40,3 +40,7 @@ De variabel `Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine`
 
 1. ***Rails2RailwayCenterLine*** = naam van de functie
 2. ***LayerColorOfCenterline3DPolyLine*** = beschrijving van de variabel, in dit voorbeeld dus is het dus *de kleur die aan de laag waarin de 3d-polylijn van de spooras wordt getekend wordt toegewezen*
+
+## Lijst van alle variabelen
+
+Een lijst van al deze variabelen kan je [hier](commands-overview) vinden.

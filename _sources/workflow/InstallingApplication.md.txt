@@ -1,2 +1,0 @@
-# Instaleren van de applicatie
-

@@ -1,6 +1,6 @@
-===============================
+=============
 De variabelen
-===============================
+=============
 
 Een overzicht van alle beschikbare variabelen
 

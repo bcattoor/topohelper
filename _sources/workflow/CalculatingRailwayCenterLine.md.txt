@@ -4,7 +4,7 @@ Berekenen van de spooras aan de hand van twee opgemeten rails (as-rail, binnenka
 
 ## De verkregen bestanden
 
-Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Hier -> [OW17 L60](link.com "TODO: inser link"))
+Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Hier -> [OW17 L60](https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg "Voorbeeld DWG"))
 
 ### Wat vinden we in dat bestand
 
@@ -44,7 +44,7 @@ In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We ku
 
 ### Controle
 
-Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) `IAMTOPO_JOINPOLYLINE`. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) `IAMTOPO_JOINPOLYLINE`. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
 De controle kunnen we nu uitvoeren adhv [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines) `IAMTopo_DistanceBetween2Polylines`.
 
 ### IAMTopo\_DistanceBetween2Polylines

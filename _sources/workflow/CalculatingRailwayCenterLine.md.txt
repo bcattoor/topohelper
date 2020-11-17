@@ -6,7 +6,7 @@ Berekenen van de spooras aan de hand van twee opgemeten rails (as-rail, binnenka
 
 Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Hier -> [OW17 L60](link.com "TODO: inser link"))
 
-### Wat vinden we in dat bestand?
+### Wat vinden we in dat bestand
 
 In de laag `binnenkant rail` vinden we vier samengestelde lijnen *(aka enkele 3D Polylines)* met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd, dus bestaan uit meerdere delen. Dit moeten we als eerste zien op te lossen.
 

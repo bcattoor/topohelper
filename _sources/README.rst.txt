@@ -1,6 +1,6 @@
-======
-README
-======
+==================
+About this website
+==================
 
 This is the repository for the topohelper applications documentation.
 

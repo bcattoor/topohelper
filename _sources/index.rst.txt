@@ -10,8 +10,6 @@ Overzicht van de inhoud
    :caption: Inhoud:
    
    welcome
-   
-
 
 .. toctree::
    :maxdepth: 1
@@ -36,3 +34,10 @@ Overzicht van de inhoud
    workflow/InstallingApplication
    workflow/CalculatingRailwayCenterLine
    workflow/WorkingWithTheCommandline
+
+.. toctree::
+   :hidden:
+   :maxdepth: 0
+   :caption: About
+
+   README

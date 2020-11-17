@@ -8,7 +8,7 @@
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=9ed1c1ed09c0ebfa752e622a">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=003caef6065e77efe7c9df49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=9ed1c1ed09c0ebfa752e622a"></script></head>
+    <script src="../_static/scripts/main.js?state=003caef6065e77efe7c9df49"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -123,23 +123,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Commands:</span></p>
+<p class="caption"><span class="caption-text">Onderwerpen:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="commands-overview.html">De commando’s</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="commands-overview.html">De commando’s</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Join Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="variables-overview.html">De variabelen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Join Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Workflows:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/InstallingApplication.html">Installeren van de applicatie</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">As van het spoor berekenen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
 </ul>
 <p class="caption"><span class="caption-text">About</span></p>
@@ -162,20 +164,21 @@
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
         <div class="section" id="join-polyline">
-<h1>Join Polyline<a class="headerlink" href="#join-polyline" title="Permalink naar deze titel">¶</a></h1>
+<span id="iamtopo-joinpolyline"></span><h1>Join Polyline<a class="headerlink" href="#join-polyline" title="Permalink naar deze titel">¶</a></h1>
 <div class="section" id="waarom">
 <h2>Waarom<a class="headerlink" href="#waarom" title="Permalink naar deze titel">¶</a></h2>
 <p>Wanneer samengestelde lijnen niet exact op elkaar aansluiten kunnen we dit commando gebruiken. Het is sneller dan zelf de lijntjes er tussen te tekenen.</p>
 </div>
 <div class="section" id="hoe">
 <h2>Hoe<a class="headerlink" href="#hoe" title="Permalink naar deze titel">¶</a></h2>
-<p>Met het commando <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code> kunnen we een voor een de lijnen samenvoegen. Deze functie maakt er automatisch het tussenstukje bij.
+<p>Met het commando <cite>IAMTOPO_JOINPOLYLINE</cite> kunnen we een voor een de lijnen samenvoegen. Deze functie maakt er automatisch het tussenstukje bij.
 We selecteren eerst de eerste polylijn, en dan de tweede polylijn.</p>
+</div>
 <div class="section" id="voorbeeld">
-<h3>Voorbeeld<a class="headerlink" href="#voorbeeld" title="Permalink naar deze titel">¶</a></h3>
-<p><em>Klik op de afbeelding om door te worden verwezen naar een video.</em></p>
-<p><a class="reference external" href="https://www.youtube.com/embed/9rn6PiJRF1I"><img alt="example.IAMTopo_JoinPolyline.jpg" src="https://bitbucket.org/repo/7z4zyGe/images/3590198103-example.IAMTopo_JoinPolyline.jpg"/></a></p>
-<p>Met de variabele <code class="docutils literal notranslate"><span class="pre">JoinPolyline_DeleteSelectedEntities</span></code> kunnen we er voor kiezen of we de lijnen die werden samengevoegd met de eerst geselecteerde lijn verwijderen.</p>
+<h2>Voorbeeld<a class="headerlink" href="#voorbeeld" title="Permalink naar deze titel">¶</a></h2>
+<iframe allowfullscreen="1" frameborder="0" height="360" src="https://www.youtube.com/embed/9rn6PiJRF1I" style="margin-bottom: 25px" width="640"> </iframe><div class="admonition note">
+<p class="admonition-title">Notitie</p>
+<p>Met de variabele <cite>JoinPolyline_DeleteSelectedEntities</cite> kunnen we er voor kiezen of we de lijnen die werden samengevoegd met de eerst geselecteerde lijn verwijderen.</p>
 </div>
 </div>
 </div>
@@ -214,7 +217,7 @@ We selecteren eerst de eerste polylijn, en dan de tweede polylijn.</p>
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../_sources/commands/IAMTopo_JoinPolyline.md.txt"
+            <a class="muted-link" href="../_sources/commands/IAMTopo_JoinPolyline.rst.txt"
                rel="nofollow">
               Broncode weergeven
             </a>
@@ -235,10 +238,8 @@ We selecteren eerst de eerste polylijn, en dan de tweede polylijn.</p>
           <ul>
 <li><a class="reference internal" href="#">Join Polyline</a><ul>
 <li><a class="reference internal" href="#waarom">Waarom</a></li>
-<li><a class="reference internal" href="#hoe">Hoe</a><ul>
+<li><a class="reference internal" href="#hoe">Hoe</a></li>
 <li><a class="reference internal" href="#voorbeeld">Voorbeeld</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Werken met de commandoregel" href="WorkingWithTheCommandline.html" /><link rel="prev" title="Installeren van de applicatie" href="InstallingApplication.html" />
 
     <meta name="generator" content="sphinx-3.3.1, furo 2020.11.10.beta15"/>
-        <title>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails - TopoHelper</title>
+        <title>As van het spoor berekenen - TopoHelper</title>
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=dbf20a2e1b2fbe1566300515">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=38f10903e759ce433967815f">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=dbf20a2e1b2fbe1566300515"></script></head>
+    <script src="../_static/scripts/main.js?state=38f10903e759ce433967815f"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -123,23 +123,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Commands:</span></p>
+<p class="caption"><span class="caption-text">Onderwerpen:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../commands/commands-overview.html">De commando’s</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../commands/commands-overview.html">De commando’s</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_Settings.html">Instellingen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html">Join Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../commands/variables-overview.html">De variabelen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_Settings.html">Instellingen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html">Join Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Workflows:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="InstallingApplication.html">Installeren van de applicatie</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">As van het spoor berekenen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
 </ul>
 <p class="caption"><span class="caption-text">About</span></p>
@@ -161,22 +163,47 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">
-<h1>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails" title="Permalink naar deze titel">¶</a></h1>
-<p>Berekenen van de spooras aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).</p>
+        <div class="section" id="as-van-het-spoor-berekenen">
+<h1>As van het spoor berekenen<a class="headerlink" href="#as-van-het-spoor-berekenen" title="Permalink naar deze titel">¶</a></h1>
+<div class="section" id="berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">
+<h2>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails" title="Permalink naar deze titel">¶</a></h2>
+<p>Om een werkbare workflow voor te leggen kies ik er om om met een werkelijke situatie te starten. Op die manier kan je de bestanden zelf downloaden en openen in AutoCAD, en dus de workflow volgen. We zullen de spooras berekenen aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).</p>
+<div class="admonition note">
+<p class="admonition-title">Notitie</p>
+<p>In dit voorbeeld heeft de opmeter er voor gekozen om binnenkant rail op te meten. De applicatie kan overweg met beide methodes.</p>
+</div>
+</div>
 <div class="section" id="de-verkregen-bestanden">
 <h2>De verkregen bestanden<a class="headerlink" href="#de-verkregen-bestanden" title="Permalink naar deze titel">¶</a></h2>
-<p>Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Hier -&gt; <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">OW17 L60</a>)</p>
+<p>Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Download hier -&gt; <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">OW17 L60</a>)</p>
+<div class="figure align-default" id="id1">
+<img alt="../_images/wf_crcl_dwg.png" src="../_images/wf_crcl_dwg.png"/>
+<p class="caption"><span class="caption-text">Screenshot van de modelspace van de DWG.</span><a class="headerlink" href="#id1" title="Permallink naar deze afbeelding">¶</a></p>
+</div>
 <div class="section" id="wat-vinden-we-in-dat-bestand">
 <h3>Wat vinden we in dat bestand<a class="headerlink" href="#wat-vinden-we-in-dat-bestand" title="Permalink naar deze titel">¶</a></h3>
-<p>In de laag <code class="docutils literal notranslate"><span class="pre">binnenkant</span> <span class="pre">rail</span></code> vinden we vier samengestelde lijnen <em>(aka enkele 3D Polylines)</em> met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd, dus bestaan uit meerdere delen. Dit moeten we als eerste zien op te lossen.</p>
+<p>In de laag <strong>binnenkant rail</strong> vinden we vier samengestelde lijnen <em>aka enkele 3D Polylines</em> met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.</p>
+<div class="figure align-default" id="id2">
+<img alt="../_images/wf_crcl_binnenkant_rail.png" src="../_images/wf_crcl_binnenkant_rail.png"/>
+<p class="caption"><span class="caption-text">Screenshot van de vier rails.</span><a class="headerlink" href="#id2" title="Permallink naar deze afbeelding">¶</a></p>
+</div>
 </div>
 </div>
 <div class="section" id="workflow">
 <h2>Workflow<a class="headerlink" href="#workflow" title="Permalink naar deze titel">¶</a></h2>
-<div class="section" id="join-autocad-commando">
-<h3>JOIN (AutoCAD commando)<a class="headerlink" href="#join-autocad-commando" title="Permalink naar deze titel">¶</a></h3>
-<p>Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando <code class="docutils literal notranslate"><span class="pre">join</span></code>. Was dit niet het geval dan zou dit met dat commando niet lukken. Om de polylijnen in één enkelvoudige beweging te kunnen joinen, zorg ik ervoor dat enkel de laag van de lijnen <code class="docutils literal notranslate"><span class="pre">Unlocked</span></code> staat.</p>
+<p>Hier een voorstelling van hoe de flow er standaard uiziet, uiteraard kan hier worden van afgeweken indien nodig.</p>
+<div class="figure align-default" id="id3">
+<img alt="../_images/CalculateCenterlineTrack.svg" src="../_images/CalculateCenterlineTrack.svg"/><p class="caption"><span class="caption-text">Basis flow: schematische voorstelling</span><a class="headerlink" href="#id3" title="Permallink naar deze afbeelding">¶</a></p>
+</div>
+<div class="section" id="voorbereiding">
+<h3>Voorbereiding<a class="headerlink" href="#voorbereiding" title="Permalink naar deze titel">¶</a></h3>
+<p>Bruikbaar maken van de aangeleverde gegevens.</p>
+<div class="section" id="samenvoegen">
+<h4>Samenvoegen<a class="headerlink" href="#samenvoegen" title="Permalink naar deze titel">¶</a></h4>
+<p>Het is belangrijk dat de polylijnen aaneensluitend zijn over de volledige lengte. Op die manier is het mogelijk om de spooras in één keer door te rekenen.</p>
+<p>In ons voorbeeld:
+Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando <code class="docutils literal notranslate"><span class="pre">join</span></code>. Was dat niet het geval dan zou dit met dit commando niet lukken. Om de polylijnen in één enkelvoudige beweging te kunnen samenvoegen, zorg ik ervoor dat enkel de laag van de lijnen <code class="docutils literal notranslate"><span class="pre">Unlocked</span></code> staat. Wanneer de lijnen niet aaneensluitend zijn kan je hiervoor <a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html#iamtopo-joinpolyline"><span class="std std-ref">Join Polyline</span></a> gebruiken.</p>
+</div>
 <div class="section" id="richting">
 <h4>Richting<a class="headerlink" href="#richting" title="Permalink naar deze titel">¶</a></h4>
 <p>Na het samenvoegen van de lijnen controleren we of dat de richting van de polylijnen aan elkaar gelijk zijn.
@@ -184,7 +211,7 @@ Ook zorgen we ervoor dat de algemene richting de kilometrering van de hoofdlijn 
 </div>
 <div class="section" id="vertexen">
 <h4>Vertexen<a class="headerlink" href="#vertexen" title="Permalink naar deze titel">¶</a></h4>
-<p>We controleren ook of per spoor beide rail-lijnen <strong>evenveel vertexen hebben</strong>. Hier in ons voorbeeld is dit niet het geval. Na een visuele controle merken we op dat dit komt doordat er vertexen zijn die door de opmeter zijn toegevoegd. <strong>Deze vallen niet op effectief opgemeten punten. Indien we deze verwijderen zullen we eenzelfde aantal punten bekomen voor elke polyijn van de rail.</strong></p>
+<p>We controleren ook of per spoor beide rail-lijnen <em>evenveel vertexen hebben</em>. Hier in ons voorbeeld is dit niet het geval. Na een visuele controle merken we op dat dit komt doordat er vertexen zijn die door de opmeter zijn toegevoegd. <strong>Deze vallen niet op effectief opgemeten punten. Indien we deze verwijderen zullen we eenzelfde aantal punten bekomen voor elke polyijn van de rail.</strong></p>
 </div>
 </div>
 <div class="section" id="iamtopo-cleannonsurveyvertexfrompolyline">
@@ -196,15 +223,15 @@ Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen ve
 <div class="section" id="iamtopo-rails2railwaycenterline">
 <h4>IAMTopo_Rails2RailwayCenterLine<a class="headerlink" href="#iamtopo-rails2railwaycenterline" title="Permalink naar deze titel">¶</a></h4>
 <p>Met het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Rails2RailwayCenterLine</span></code> kunnen we nu het center tussen de twee lijnen berekenen.</p>
-<p>Ook dient er een correctie te gebeuren om de scheefstand van de bolprismas te corigeren. Het algoritm houdt enkel rekening met <em>de verplaatsing in xy richting</em>, de verplaatsing van de z-waarde werd reeds door de opperator van de waarde afgetrokken. Om er voor te zorgen dat er een correctie wordt berekend moeten we de omgevingsvariabel <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</span></code>op de waarde <code class="docutils literal notranslate"><span class="pre">True</span></code>staat in het instellingen paneel.</p>
-<p>Het instellingen paneel kunnen we oproepen aan de hand van het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Settings</span></code>. Terwijl we in dit venster zijn kunnen we ook instellen waar we de bestanden wensen heen te schrijven a.d.h.v. <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_PathToCSVFile</span></code>en <code class="docutils literal notranslate"><span class="pre">CalculateSurveyCorrection_PathToCsvFile</span></code>. Deze bestanden zullen het resultaat bevatten van de twee berekeningen. Deze kunnen dan op hen beurt worden gebruikt om te controleren ofdat alles goed werd berekend.</p>
+<p>Ook dient er een correctie te gebeuren om de scheefstand van de bolprismas te corigeren. Het algoritm houdt enkel rekening met <em>de verplaatsing in xy richting</em>, de verplaatsing van de z-waarde werd reeds door de opperator van de waarde afgetrokken. Om er voor te zorgen dat er een correctie wordt berekend moeten we de omgevingsvariabel <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</span></code> op de waarde <code class="docutils literal notranslate"><span class="pre">True</span></code> staat in het instellingen paneel.</p>
+<p>Het instellingen paneel kunnen we oproepen aan de hand van het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Settings</span></code>. Terwijl we in dit venster zijn kunnen we ook instellen waar we de bestanden wensen heen te schrijven a.d.h.v. <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_PathToCSVFile</span></code> en <code class="docutils literal notranslate"><span class="pre">CalculateSurveyCorrection_PathToCsvFile</span></code>. Deze bestanden zullen het resultaat bevatten van de twee berekeningen. Deze kunnen dan op hen beurt worden gebruikt om te controleren ofdat alles goed werd berekend.</p>
 <p>In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We kunnen deze dan ook uitschakkelen in het <code class="docutils literal notranslate"><span class="pre">SettingsPanel.</span></code></p>
 </div>
 </div>
 <div class="section" id="controle">
 <h3>Controle<a class="headerlink" href="#controle" title="Permalink naar deze titel">¶</a></h3>
-<p>Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">ander AutoCAD bestand</a>, vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline">het commando</a> <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code>. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
-De controle kunnen we nu uitvoeren adhv <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines">het commando</a> <code class="docutils literal notranslate"><span class="pre">IAMTopo_DistanceBetween2Polylines</span></code>.</p>
+<p>Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](<a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg</a>), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline</a>) <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code>. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+De controle kunnen we nu uitvoeren adhv [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines</a>) <code class="docutils literal notranslate"><span class="pre">IAMTopo_DistanceBetween2Polylines</span></code>.</p>
 </div>
 <div class="section" id="iamtopo-distancebetween2polylines">
 <h3>IAMTopo_DistanceBetween2Polylines<a class="headerlink" href="#iamtopo-distancebetween2polylines" title="Permalink naar deze titel">¶</a></h3>
@@ -246,7 +273,7 @@ De controle kunnen we nu uitvoeren adhv <a class="reference external" href="http
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../_sources/workflow/CalculatingRailwayCenterLine.md.txt"
+            <a class="muted-link" href="../_sources/workflow/CalculatingRailwayCenterLine.rst.txt"
                rel="nofollow">
               Broncode weergeven
             </a>
@@ -265,13 +292,15 @@ De controle kunnen we nu uitvoeren adhv <a class="reference external" href="http
         </div>
         <div class="toc-tree">
           <ul>
-<li><a class="reference internal" href="#">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a><ul>
+<li><a class="reference internal" href="#">As van het spoor berekenen</a><ul>
+<li><a class="reference internal" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
 <li><a class="reference internal" href="#de-verkregen-bestanden">De verkregen bestanden</a><ul>
 <li><a class="reference internal" href="#wat-vinden-we-in-dat-bestand">Wat vinden we in dat bestand</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#workflow">Workflow</a><ul>
-<li><a class="reference internal" href="#join-autocad-commando">JOIN (AutoCAD commando)</a><ul>
+<li><a class="reference internal" href="#voorbereiding">Voorbereiding</a><ul>
+<li><a class="reference internal" href="#samenvoegen">Samenvoegen</a></li>
 <li><a class="reference internal" href="#richting">Richting</a></li>
 <li><a class="reference internal" href="#vertexen">Vertexen</a></li>
 </ul>

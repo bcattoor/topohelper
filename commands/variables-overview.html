@@ -1,14 +1,14 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Rails to Railway Center Line" href="IAMTopo_Rails2RailwayCenterLine.html" /><link rel="prev" title="De commando’s" href="commands-overview.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Installeren van de applicatie" href="../workflow/InstallingApplication.html" /><link rel="prev" title="Points to Polyline" href="IAMTopo_PointsToPolyline.html" />
 
     <meta name="generator" content="sphinx-3.3.1, furo 2020.11.10.beta15"/>
         <title>De variabelen - TopoHelper</title>
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=8f292494fea9f835a53cd5fb">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=8480a7b9bf5ceb6c50e871dd">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=8f292494fea9f835a53cd5fb"></script></head>
+    <script src="../_static/scripts/main.js?state=8480a7b9bf5ceb6c50e871dd"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -123,23 +123,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Commands:</span></p>
+<p class="caption"><span class="caption-text">Onderwerpen:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="commands-overview.html">De commando’s</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="commands-overview.html">De commando’s</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_JoinPolyline.html">Join Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">De variabelen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_JoinPolyline.html">Join Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Workflows:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/InstallingApplication.html">Installeren van de applicatie</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">As van het spoor berekenen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
 </ul>
 <p class="caption"><span class="caption-text">About</span></p>
@@ -167,156 +169,137 @@
 <div class="table-wrapper"><table class="colwidths-given docutils align-default" id="id1">
 <caption><span class="caption-text">Tabel VARIABELEN</span><a class="headerlink" href="#id1" title="Permalink naar deze tabel">¶</a></caption>
 <colgroup>
-<col style="width: 30%"/>
 <col style="width: 60%"/>
-<col style="width: 10%"/>
+<col style="width: 40%"/>
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Naam</p></th>
-<th class="head"><p>Beschrijving</p></th>
 <th class="head"><p>Initiële waarde</p></th>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p>AlignAngleOfBlock_AddAngleValue_TimesPI</p></td>
+<td><p>1.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>AlignAngleOfBlock_DynamicPropertyName</p></td>
+<td><p>Angle1</p></td>
+</tr>
+<tr class="row-even"><td><p>CalculateSurveyCorrection_CSVFile_Delimiter</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>CalculateSurveyCorrection_Draw3DPoints_Rails</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>CalculateSurveyCorrection_Draw3DPolyline_Rails</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>CalculateSurveyCorrection_LayerColorPoints_Rails</p></td>
+<td><p>115</p></td>
+</tr>
+<tr class="row-even"><td><p>CalculateSurveyCorrection_LayerColorPolyline_Rails</p></td>
+<td><p>110</p></td>
+</tr>
+<tr class="row-odd"><td><p>CalculateSurveyCorrection_LayerNamePoints_Rails</p></td>
+<td><p>IAMTopo_CalculateSurveyCorrection_Rail-Points</p></td>
+</tr>
+<tr class="row-even"><td><p>CalculateSurveyCorrection_LayerNamePolylines_Rails</p></td>
+<td><p>IAMTopo_CalculateSurveyCorrection_Rail</p></td>
+</tr>
+<tr class="row-odd"><td><p>CalculateSurveyCorrection_MinimumCantValue</p></td>
+<td><p>0.001</p></td>
+</tr>
+<tr class="row-even"><td><p>CalculateSurveyCorrection_PathToCsvFile</p></td>
+<td><p>c:\Data\track.CalculateSurveyCorrection.csv</p></td>
+</tr>
+<tr class="row-odd"><td><p>DataValidation_LeftrailToRightRail_Maximum</p></td>
+<td><p>1.52</p></td>
+</tr>
+<tr class="row-even"><td><p>DataValidation_LeftrailToRightRail_Tolerance</p></td>
+<td><p>0.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>DistanceBetween2Polylines_CSVFile_Delimiter</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>DistanceBetween2Polylines_PathToCsvFile</p></td>
+<td><p>c:\Data\track.DistanceBetween2Polylines.csv</p></td>
+</tr>
+<tr class="row-odd"><td><p>IncrementAttribute_ChainAlign</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>IncrementAttribute_Name</p></td>
+<td><p>HM_XX_XXX</p></td>
+</tr>
+<tr class="row-odd"><td><p>IncrementAttribute_Pattern</p></td>
+<td><p>L86 HM 57 300~100</p></td>
+</tr>
+<tr class="row-even"><td><p>JoinPolyline_DeleteSelectedEntities</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p>LayerNamePrefix_2DObjects</p></td>
+<td><p>IAMTopo_2D-</p></td>
+</tr>
+<tr class="row-even"><td><p>LayerNamePrefix_3DObjects</p></td>
+<td><p>IAMTopo_3D-</p></td>
+</tr>
+<tr class="row-odd"><td><p>NumberDecimalSeperator_ForAllCSVFiles</p></td>
+<td><p>,</p></td>
+</tr>
+<tr class="row-even"><td><p>PointsTo3DPolyline_MaximumPointDistance</p></td>
+<td><p>0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>PointsTo3DPolyline_MinimumPointDistance</p></td>
+<td><p>0.005</p></td>
+</tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_CSVFile_Delimiter</p></td>
-<td><p>Delimiter gebruikt voor het schrijven van CSV bestand.</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>Rails2RailwayCenterLine_Draw2DPolyline_CenterLine</p></td>
-<td><p>Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verdere planafwerking.</p></td>
-<td><p>True</p></td>
+<td><p>False</p></td>
 </tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_Draw3DPolyline_CenterLine</p></td>
-<td><p>Teken een 2D polylijn voor de berekende spooras, deze lijn kan worden gebruikt voor verder spoorontwerp.</p></td>
 <td><p>True</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rails2RailwayCenterLine_DrawCenterline2DPoints</p></td>
-<td><p>Teken 2D punten op de spooras.</p></td>
 <td><p>False</p></td>
 </tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_DrawCenterline3DPoints</p></td>
-<td><p>Teken 3D punten op de spooras.</p></td>
-<td><p>True</p></td>
+<td><p>False</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rails2RailwayCenterLine_LayerColorCenterline3DPoints</p></td>
-<td><p>Kleur van de laag waarin de 3D punten van de spooras worden uitgetekend.</p></td>
 <td><p>251</p></td>
 </tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine</p></td>
-<td><p>Kleur van de laag waarin de 3D polylijn van de spooras wordt uitgetekend.</p></td>
 <td><p>253</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rails2RailwayCenterLine_LayerNameCenterline</p></td>
-<td><p>Laagnaam waar in we de spooras zullen tekenen.</p></td>
 <td><p>811</p></td>
 </tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_LayerNameCenterLine3DPoints</p></td>
-<td><p>Laagnaam waar in we de 3D punten van de spooras zullen tekenen.</p></td>
-<td><p>811-Points</p></td>
+<td><p>Points</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rails2RailwayCenterLine_PathToCSVFile</p></td>
-<td><p>Dit is het UNC path waar het resultaat in CSV -bestand naar toe mag worden geschreven.</p></td>
 <td><p>c:\Data\track.Rails2RailwayCenterLine.csv</p></td>
 </tr>
 <tr class="row-even"><td><p>Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</p></td>
-<td><p>Deze waarde wordt gebruikt om al dan niet een CalculateSurveyCorrection algoritme toe te passen alvorens het center van het spoor te berekenen.</p></td>
-<td><p>True</p></td>
-</tr>
-<tr class="row-odd"><td><p>Rails2RailwayCenterLine_WriteResultToCSVFile</p></td>
-<td><p>Deze waarde wordt gebruikt om al dan niet het resultaat als CSV bestand need te schrijven.</p></td>
-<td><p>True</p></td>
-</tr>
-<tr class="row-even"><td><p>NumberDecimalSeperator_ForAllCSVFiles</p></td>
-<td><p>Deze waarde wordt gebruikt om de schrijfwijze van [een komma getal](<a class="reference external" href="https://en.wikipedia.org/wiki/Decimal_separator">https://en.wikipedia.org/wiki/Decimal_separator</a>) te kunnen wijzigen. (comma of punt)</p></td>
-<td><p>,</p></td>
-</tr>
-<tr class="row-odd"><td><p>PointsTo3DPolyline_MinimumPointDistance</p></td>
-<td><p>Deze waarde wordt gebruikt om de minimum afstand te bepalen die moet aanwezig zijn bij het maken van een nieuwe 3D polylijn. Dus m.a.w. zijn alle punten die dichter op elkaar liggen dan deze waarde niet meegenomen in de functie.</p></td>
-<td><p>0,005</p></td>
-</tr>
-<tr class="row-even"><td><p>PointsTo3DPolyline_MaximumPointDistance</p></td>
-<td><p>Deze waarde wordt gebruikt om de maximum afstand te bepalen die moet worden gerespecteerd voor het maken van de nieuwe 3D polylijn. Dus m.a.w. zijn alle punten die verder van elkaar liggen dan deze waarde niet meegenomen in de functie.</p></td>
-<td><p>0,5</p></td>
-</tr>
-<tr class="row-odd"><td><p>JoinPolyline_DeleteSelectedEntities</p></td>
-<td><p>Met deze variabel kan je het verwijderen van de geselecteerde segmenten van de samen te voegen polylijnen aan of uitschakelen.</p></td>
 <td><p>False</p></td>
 </tr>
-<tr class="row-even"><td><p>DistanceBetween2Polylines_PathToCsvFile</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>DistanceBetween2Polylines_CSVFile_Delimiter</p></td>
-<td><p>Deze waarde wordt gebruikt om de schrijfwijze van een komma getal te kunnen wijzigen. (comma of punt)</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>DataValidation_LeftrailToRightRail_Tolerance</p></td>
-<td><p>We gebruiken deze variabel om te bepalen wanneer een gemeten spoorbreedte te klein is. De formule die we gebruiken is als volgt: <cite>spoorwijdte &lt; (1.435 - DataValidation_LeftrailToRightRail_Tolerance</cite>. Als de stelling waar is geven we een fout en wordt de funcie gestopt. Deze datavalidatie gebeurt nadat er twee rails geselecteerd zijn. Met spoorwijdte bedoelen we hier de afstand tussen het opgemeten rechterrailpunt en het opgemeten linkerrailpunt.</p></td>
-<td><p>0,01</p></td>
-</tr>
-<tr class="row-odd"><td><p>DataValidation_LeftrailToRightRail_Maximum</p></td>
-<td><p>We gebruiken deze variabel om te bepalen wanneer een gemeten spoorbreedte te groot is. De formule die we gebruiken is als volgt: <cite>spoorwijdte &gt; DataValidation_LeftrailToRightRail_Maximum</cite>. Als de stelling waar is geven we een fout en wordt de funcie gestopt. Deze datavalidatie gebeurt nadat er twee rails geselecteerd zijn. Met spoorwijdte bedoelen we hier de afstand tussen het opgemeten rechterrailpunt en het opgemeten linkerrailpunt.</p></td>
-<td><p>1,52</p></td>
-</tr>
-<tr class="row-even"><td><p>CalculateSurveyCorrection_PathToCsvFile</p></td>
-<td><p>Dit is het UNC path waar het resultaat in CSV -bestand naar toe mag worden geschreven.</p></td>
-<td><p>c:\Data\track.CalculateSurveyCorrection.csv</p></td>
-</tr>
-<tr class="row-odd"><td><p>CalculateSurveyCorrection_MinimumCantValue</p></td>
-<td><p>De minimumwaarde die wordt aanvaard voor het rekeninhouden met een toegepaste verkanting. Wanneer een verkantingswaarde lager is dan deze waarde dan wordt er geen rekening mee gehouden in de applicatie.</p></td>
-<td><p>0,001</p></td>
-</tr>
-<tr class="row-even"><td><p>CalculateSurveyCorrection_LayerNamePolylines_Rails</p></td>
-<td><p>Laagnaam waar in we de rails zullen tekenen.</p></td>
-<td><p>IAMTopo_CalculateSurveyCorrection_Rail</p></td>
-</tr>
-<tr class="row-odd"><td><p>CalculateSurveyCorrection_LayerNamePoints_Rails</p></td>
-<td><p>Laagnaam waarin we de punten van de rails zullen tekenen.</p></td>
-<td><p>IAMTopo_CalculateSurveyCorrection_Rail-Points</p></td>
-</tr>
-<tr class="row-even"><td><p>CalculateSurveyCorrection_LayerColorPolyline_Rails</p></td>
-<td><p>Kleur die wordt toegewezen aan de laag waarin we de rails zullen tekenen.</p></td>
-<td><p>110</p></td>
-</tr>
-<tr class="row-odd"><td><p>CalculateSurveyCorrection_LayerColorPoints_Rails</p></td>
-<td><p>Kleur die wordt toegewezen aan de laag waarin we de punten van de rails zullen tekenen.</p></td>
-<td><p>115</p></td>
-</tr>
-<tr class="row-even"><td><p>CalculateSurveyCorrection_Draw3DPolyline_Rails</p></td>
-<td><p>Teken de rails uit als 3DPolylijn.</p></td>
+<tr class="row-odd"><td><p>Rails2RailwayCenterLine_WriteResultToCSVFile</p></td>
 <td><p>True</p></td>
-</tr>
-<tr class="row-odd"><td><p>CalculateSurveyCorrection_Draw3DPoints_Rails</p></td>
-<td><p>Teken de 3D-punten van de rails uit.</p></td>
-<td><p>True</p></td>
-</tr>
-<tr class="row-even"><td><p>CalculateSurveyCorrection_CSVFile_Delimiter</p></td>
-<td><p>Deze waarde wordt gebruikt om de schrijfwijze van een komma getal te kunnen wijzigen. (comma of punt)</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>LayerNamePrefix_2DObjects</p></td>
-<td><p>Alle 2D-entiteiten die door deze plugin worden aangemaakt, hebben de laagnaam voorafgegaan door deze waarde.</p></td>
-<td><p>2D_</p></td>
-</tr>
-<tr class="row-even"><td><p>LayerNamePrefix_3DObjects</p></td>
-<td><p>Alle 3D-entiteiten die door deze plugin worden aangemaakt, hebben de laagnaam voorafgegaan door deze waarde.</p></td>
-<td><p>3D_</p></td>
-</tr>
-<tr class="row-odd"><td><p>WeedPolyline_MinDistance</p></td>
-<td><p>Een punt zal worden gecreëerd om de X aantal meter.</p></td>
-<td><p>5</p></td>
 </tr>
 <tr class="row-even"><td><p>SYMPPL_HIGH_PRICISION</p></td>
-<td><p>Gebruikt door het SimplifyPolyline commando, hier kan worden gewisseld van een accuraat traag algoritme, naar een sneller minder accuraat algoritme.</p></td>
 <td><p>True</p></td>
 </tr>
 <tr class="row-odd"><td><p>SYMPPL_TOLERANCE</p></td>
-<td><p>Dit is de maximale afwijking die wordt toegestaan bij het heropbouwen van een polylijn.</p></td>
-<td><p>0,005</p></td>
+<td><p>0.005</p></td>
 </tr>
-<tr class="row-even"><td><p>__APP_EPSILON__</p></td>
-<td><p>Dit is een varaibele voor intern gebruik. This value <strong>is used internally</strong> to compare doubles, it represents the precision of the calculations**. It can not be altered at runtime**, if changes are needed, they should be implemented by the developer.</p></td>
-<td><p>1E-06</p></td>
+<tr class="row-even"><td><p>WeedPolyline_LayerColor</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p>WeedPolyline_LayerName</p></td>
+<td><p>__IAM_RAILS-WEEDED</p></td>
+</tr>
+<tr class="row-even"><td><p>WeedPolyline_MinDistance</p></td>
+<td><p>5</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -326,23 +309,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="IAMTopo_Rails2RailwayCenterLine.html">
+          <a class="next-page" href="../workflow/InstallingApplication.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Rails to Railway Center Line</div>
+                <div class="title">Installeren van de applicatie</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="commands-overview.html">
+          <a class="prev-page" href="IAMTopo_PointsToPolyline.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">De commando’s</div>
+                <div class="title">Points to Polyline</div>
                 
               </div>
             </a>

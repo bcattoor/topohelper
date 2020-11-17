@@ -1,14 +1,14 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Instellingen" href="IAMTopo_Settings.html" /><link rel="prev" title="De variabelen" href="variables-overview.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Instellingen" href="IAMTopo_Settings.html" /><link rel="prev" title="De commando’s" href="commands-overview.html" />
 
     <meta name="generator" content="sphinx-3.3.1, furo 2020.11.10.beta15"/>
         <title>Rails to Railway Center Line - TopoHelper</title>
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=7980cc5c73df36133b1937dc">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=e4fe8a5d409418cbc97ec8f0">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=7980cc5c73df36133b1937dc"></script></head>
+    <script src="../_static/scripts/main.js?state=e4fe8a5d409418cbc97ec8f0"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -123,23 +123,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Commands:</span></p>
+<p class="caption"><span class="caption-text">Onderwerpen:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="commands-overview.html">De commando’s</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="commands-overview.html">De commando’s</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Rails to Railway Center Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_JoinPolyline.html">Join Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="variables-overview.html">De variabelen</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Rails to Railway Center Line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_Settings.html">Instellingen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_JoinPolyline.html">Join Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Workflows:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/InstallingApplication.html">Installeren van de applicatie</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/CalculatingRailwayCenterLine.html">As van het spoor berekenen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
 </ul>
 <p class="caption"><span class="caption-text">About</span></p>
@@ -165,53 +167,83 @@
 <h1>Rails to Railway Center Line<a class="headerlink" href="#rails-to-railway-center-line" title="Permalink naar deze titel">¶</a></h1>
 <div class="section" id="gebruik">
 <h2>Gebruik<a class="headerlink" href="#gebruik" title="Permalink naar deze titel">¶</a></h2>
-<ol class="simple">
-<li><p>Start het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Rails2RailwayCenterLine.</span></code></p></li>
-<li><p>Selecteer de linkerrail</p></li>
-<li><p>Selecteer de rechter rail</p></li>
-<li><p>Een controle wordt uitgevoerd om te kijken of de functie kan worden verder gezet:</p>
-<ul class="simple">
+<div class="section" id="stap-1-commando">
+<h3>Stap 1: Commando<a class="headerlink" href="#stap-1-commando" title="Permalink naar deze titel">¶</a></h3>
+<p>In autocad start het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Rails2RailwayCenterLine.</span></code></p>
+</div>
+<div class="section" id="stap-2-selecteer-de-rails">
+<h3>Stap 2: Selecteer de rails<a class="headerlink" href="#stap-2-selecteer-de-rails" title="Permalink naar deze titel">¶</a></h3>
+<p>Selecteer de linkerrail en dan selecteer je de rechter rail.</p>
+</div>
+<div class="section" id="stap-3-controle-van-de-invoer">
+<h3>Stap 3: Controle van de invoer<a class="headerlink" href="#stap-3-controle-van-de-invoer" title="Permalink naar deze titel">¶</a></h3>
+<p>Een controle wordt uitgevoerd op de door u aangeleverde invoer. Dit om te kijken of de functie kan worden verder gezet.</p>
+<div class="section" id="deze-controles-zijn">
+<h4>Deze controles zijn:<a class="headerlink" href="#deze-controles-zijn" title="Permalink naar deze titel">¶</a></h4>
+<ul>
 <li><p>zijn de geselecteerde polylijnen uniek t.o.v. elkaar</p></li>
-<li><p>zijn het aantal definieërende(<em>in AutoCAD noemen we dit Vertexten</em>) punten gelijk</p></li>
+<li><p>zijn het aantal definieërende (<em>in AutoCAD noemen we dit Vertexten</em>) punten gelijk</p></li>
 <li><p>zijn er genoeg punten op de ploylijnen, lees meer dan 2 punten per polylijn</p></li>
 <li><p>is de richting t.o.v. elkaar gelijk</p></li>
-<li><p>voldoen de spoorwijdtes aan de minimum opgegeven waarde</p>
-<ul>
-<li><p>zie <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/Home">DataValidation_LeftrailToRightRail_Tolerance</a> in de tabel van de variabelen.</p></li>
-</ul>
-</li>
-<li><p>voldoen de spoorwijdtes aan de maximum opgegeven waarde</p>
-<ul>
-<li><p>zie <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/Home">DataValidation_LeftrailToRightRail_Maximum</a> in de tabel van de variabelen.</p></li>
-</ul>
-</li>
-<li><p>Wanneer alle controles in orde zijn kan er verder worden gegaan.</p></li>
-</ul>
-</li>
-<li><p>Wanneer de waarde van <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</span></code> is ingesteld als waar(True), dan wordt de correctie berekend voor het rekening houden met de scheefstand van de bolprisma’s.</p>
-<ul class="simple">
-<li><p>TODO: Lees hier hoe dit in zijn werk gaat.</p></li>
-</ul>
-</li>
-<li><p>Aan de hand van de sporen berekenen we nu de centerlijn van het spoor.</p>
-<ul class="simple">
-<li><p>TODO: Lees hier hoe dit in zijn werk gaat</p></li>
-</ul>
-</li>
-<li><p>Alle lijnen/punten worden uitgetekend in de DWG en dat volgens de ingestelde standaarden.</p>
-<ul class="simple">
-<li><p>Om deze instellingen aan te passen: zie <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/Home">alle instellignen hier.</a></p></li>
-</ul>
-</li>
-<li><p>Indien zo ingesteld worden de CSV-bestanden weggeschreven naar de in de <a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/Home">instellingen</a> opgegeven locaties.</p>
-<ul class="simple">
-<li><p>TODO: Lees hier hoe je deze CSV bestanden makkelijk zelf gebruikt.</p></li>
-</ul>
-</li>
-</ol>
+<li><dl>
+<dt>voldoen de spoorwijdtes aan de minimum opgegeven waarde</dt><dd><div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>zie TODO:  in de tabel van de variabelen.</p>
 </div>
-<div class="section" id="waarom">
-<h2>Waarom<a class="headerlink" href="#waarom" title="Permalink naar deze titel">¶</a></h2>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>voldoen de spoorwijdtes aan de maximum opgegeven waarde</dt><dd><div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>zie TODO: in de tabel van de variabelen.</p>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Wanneer <strong>alle controles in orde zijn</strong> kan er verder worden gegaan.</p>
+</div>
+</div>
+<div class="section" id="stap-5-corigeren-waarde-i-v-m-de-scheefstand-van-de-bolprismas">
+<h3>Stap 5: Corigeren waarde i.v.m. de scheefstand van de bolprismas<a class="headerlink" href="#stap-5-corigeren-waarde-i-v-m-de-scheefstand-van-de-bolprismas" title="Permalink naar deze titel">¶</a></h3>
+<p>Wanneer de waarde van de variabel <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</span></code> is ingeschakeld (waarde <code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">True</span></code>), dan wordt de correctie berekend voor het rekening houden met de scheefstand van de bolprisma’s.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>TODO: Lees hier hoe dit in zijn werk gaat.</p>
+</div>
+</div>
+<div class="section" id="stap-6-berekenen-van-de-aslijn-van-het-spoor">
+<h3>Stap 6: Berekenen van de aslijn van het spoor<a class="headerlink" href="#stap-6-berekenen-van-de-aslijn-van-het-spoor" title="Permalink naar deze titel">¶</a></h3>
+<p>Aan de hand van de rails berekenen we nu de centerlijn van het spoor.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>TODO: Lees hier hoe dit in zijn werk gaat</p>
+</div>
+</div>
+<div class="section" id="stap-7-uitteken-van-de-resultaten-naar-de-tekening">
+<h3>STAP 7: Uitteken van de resultaten naar de tekening<a class="headerlink" href="#stap-7-uitteken-van-de-resultaten-naar-de-tekening" title="Permalink naar deze titel">¶</a></h3>
+<p>Alle lijnen/punten worden uitgetekend in de DWG en dat <strong>volgens de ingestelde standaarden</strong>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>TODO: Om deze instellingen aan te passen: zie alle instellingen hier.</p>
+</div>
+</div>
+<div class="section" id="stap-8-uitsturen-van-het-resultaat-naar-een-csv-bestand">
+<h3>STAP 8: Uitsturen van het resultaat naar een CSV bestand<a class="headerlink" href="#stap-8-uitsturen-van-het-resultaat-naar-een-csv-bestand" title="Permalink naar deze titel">¶</a></h3>
+<p>Indien zo ingesteld worden er CSV-bestanden weggeschreven naar de in de instellingen opgegeven locaties. Deze bestanden bevatten de berekende waarden van de uitgevoerde functies.</p>
+<div class="admonition note">
+<p class="admonition-title">Notitie</p>
+<p>Momenteel wordt een bestand berekend met de gegevens i.v.m. de uitgevoerde correcties in STAP 5. En i.v.m. de gegevens berekend in STAP 6.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">Zie ook</p>
+<p>TODO: Lees hier hoe je deze CSV bestanden makkelijk zelf gebruikt.</p>
+</div>
+</div>
+</div>
+<div class="section" id="waarom-is-deze-functie-nodig">
+<h2>Waarom is deze functie nodig<a class="headerlink" href="#waarom-is-deze-functie-nodig" title="Permalink naar deze titel">¶</a></h2>
 <p>Wanneer een operator een spoorlijn gaat opmeten, dan vraagt de dienst sporen om de volgende zaken op te meten:</p>
 <ul class="simple">
 <li><p>De as van het spoor volgens RTVB B1.1</p></li>
@@ -223,23 +255,38 @@
 <p>Meer info i.v.m. deze methode: spoor-definitie beschreven in de RTVB B1.1: Design van het spoor (Bericht 24 I-AM/2014).</p>
 <p>Momenteel beschikken we binnen AutoCAD niet over een routine die deze berekening maakt.</p>
 </div>
-<div class="section" id="hoe-worden-de-gegevens-aangeleverd">
-<h2>Hoe worden de gegevens aangeleverd<a class="headerlink" href="#hoe-worden-de-gegevens-aangeleverd" title="Permalink naar deze titel">¶</a></h2>
-<p>De opmeter levert ons een AutoCAD bestand aan die de volgende zaken bevat</p>
-<ul class="simple">
-<li><p>3d polylijn van beide assen van de rail, opgebouwd door het verbinden van alle opgemeten punten</p>
+<div class="section" id="hoe-moeten-de-gegevens-worden-aangeleverd">
+<h2>Hoe moeten de gegevens worden aangeleverd<a class="headerlink" href="#hoe-moeten-de-gegevens-worden-aangeleverd" title="Permalink naar deze titel">¶</a></h2>
+<p>De opmeter levert ons een AutoCAD bestand aan die de volgende zaken bevat:</p>
 <ul>
-<li><p>Hoogte Z, X en Y</p></li>
-</ul>
+<li><dl>
+<dt>3d polylijn van beide assen van de rail, opgebouwd door het verbinden van alle opgemeten punten (X,Y,Z <a class="footnote-reference brackets" href="#taw" id="id1">1</a>)</dt><dd><div class="admonition warning">
+<p class="admonition-title">Waarschuwing</p>
+<p>Alle vertexen die deel uitmaken van de polylijn worden als opgemeten punten beschouwd! Voeg dus geen punten toe die niet werkelijk zijn opgemeten!</p>
+</div>
+</dd>
+</dl>
 </li>
-<li><p>Alle opgemeten punten</p>
-<ul>
-<li><p>Hoogte Z, X en Y</p></li>
-<li><p>Naam van de punten</p></li>
-</ul>
+<li><dl>
+<dt>Alle opgemeten punten</dt><dd><div class="admonition note">
+<p class="admonition-title">Notitie</p>
+<p>Deze punten of blokken worden gevraagd om de aangeleverde polylijn te controlleren t.o.v. deze punten. We hebben liefst een block met als attribuut de naam (NAME), en als insertiepunt: Z <a class="footnote-reference brackets" href="#taw" id="id2">1</a> X en Y.</p>
+</div>
+</dd>
+</dl>
 </li>
 <li><p>De punten zijn in eenzelfde sectie opgemeten, d.w.z. de punten staan loodrecht tegenover elkaar t.o.v. de spooras.</p></li>
+<li><p>De aangeleverde opmeting wordt opgemeten in Lambert72 <a class="footnote-reference brackets" href="#epgs-31370" id="id3">2</a></p></li>
 </ul>
+<p class="rubric">Voetnoot</p>
+<dl class="footnote brackets">
+<dt class="label" id="taw"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>Tweede algemene waterpassing: <a class="reference external" href="https://www.ngi.be/website/tweede-algemene-waterpassing/">https://www.ngi.be/website/tweede-algemene-waterpassing/</a></p>
+</dd>
+<dt class="label" id="epgs-31370"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>Belge_1972_Belgian_Lambert_72: <a class="reference external" href="http://epsg.io/31370">http://epsg.io/31370</a></p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -256,14 +303,14 @@
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="variables-overview.html">
+          <a class="prev-page" href="commands-overview.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">De variabelen</div>
+                <div class="title">De commando’s</div>
                 
               </div>
             </a>
@@ -277,7 +324,7 @@
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../_sources/commands/IAMTopo_Rails2RailwayCenterLine.md.txt"
+            <a class="muted-link" href="../_sources/commands/IAMTopo_Rails2RailwayCenterLine.rst.txt"
                rel="nofollow">
               Broncode weergeven
             </a>
@@ -297,9 +344,21 @@
         <div class="toc-tree">
           <ul>
 <li><a class="reference internal" href="#">Rails to Railway Center Line</a><ul>
-<li><a class="reference internal" href="#gebruik">Gebruik</a></li>
-<li><a class="reference internal" href="#waarom">Waarom</a></li>
-<li><a class="reference internal" href="#hoe-worden-de-gegevens-aangeleverd">Hoe worden de gegevens aangeleverd</a></li>
+<li><a class="reference internal" href="#gebruik">Gebruik</a><ul>
+<li><a class="reference internal" href="#stap-1-commando">Stap 1: Commando</a></li>
+<li><a class="reference internal" href="#stap-2-selecteer-de-rails">Stap 2: Selecteer de rails</a></li>
+<li><a class="reference internal" href="#stap-3-controle-van-de-invoer">Stap 3: Controle van de invoer</a><ul>
+<li><a class="reference internal" href="#deze-controles-zijn">Deze controles zijn:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stap-5-corigeren-waarde-i-v-m-de-scheefstand-van-de-bolprismas">Stap 5: Corigeren waarde i.v.m. de scheefstand van de bolprismas</a></li>
+<li><a class="reference internal" href="#stap-6-berekenen-van-de-aslijn-van-het-spoor">Stap 6: Berekenen van de aslijn van het spoor</a></li>
+<li><a class="reference internal" href="#stap-7-uitteken-van-de-resultaten-naar-de-tekening">STAP 7: Uitteken van de resultaten naar de tekening</a></li>
+<li><a class="reference internal" href="#stap-8-uitsturen-van-het-resultaat-naar-een-csv-bestand">STAP 8: Uitsturen van het resultaat naar een CSV bestand</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#waarom-is-deze-functie-nodig">Waarom is deze functie nodig</a></li>
+<li><a class="reference internal" href="#hoe-moeten-de-gegevens-worden-aangeleverd">Hoe moeten de gegevens worden aangeleverd</a></li>
 </ul>
 </li>
 </ul>

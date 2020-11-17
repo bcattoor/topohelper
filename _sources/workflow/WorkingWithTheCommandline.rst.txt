@@ -22,5 +22,5 @@ Engelstalige video
 
 .. only:: latex
 
-  Content to be included only in the internal version of the document.
+  De video vind je hier: https://www.youtube.com/watch?v=KZoCJ-mUffs
 

@@ -1,10 +1,12 @@
+.. _IAMTopo_Settings:
+
 ============
 Instellingen
 ============
 
 Het commando
 ------------
-Door gebruik te maken van de opdracht *IAMTopo_Settings*, kan je de `variabelen <commands/commands-overview>`_ die worden gebruikt door de tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
+Door gebruik te maken van de opdracht *IAMTopo_Settings*, kan je de `variabelen <commands-overview>`_ die worden gebruikt door de tool **TopoHelper**, aanpassen naar een voor de gebruiker gewenste waarde.
 
 .. <!-- TODO: Waar vinden we meer informatie in verband met al deze variabelen? -->
 

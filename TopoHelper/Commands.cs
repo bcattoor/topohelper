@@ -63,8 +63,8 @@ namespace TopoHelper
         #region Public Methods
 
         /// <summary>
-        /// This command is used by user to align an inserted blocks angle
-        /// property to a selected polyline.
+        /// This command is used by user to increment an attribute within an
+        /// inserted block property to a selected polyline.
         /// </summary>
         [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_IncrementAttribute()

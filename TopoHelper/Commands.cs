@@ -211,7 +211,7 @@ namespace TopoHelper
                 var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL", promptEntityResult.ObjectId.ObjectClass.DxfName);
 
                 // Go get the positions of all those points/inserts
-                var pointToUseAsFilter = database.GetPoints(pointIdsOnLayer);
+                var pointsToUseAsFilter = database.GetPoints(pointIdsOnLayer);
 
                 // Making a new list of points, filtered by available points
 
@@ -224,7 +224,7 @@ namespace TopoHelper
 
                 var newPolylineListOfPoint = pointsFromPolylineEArray.ToList().FindAll(vertex =>
                 {
-                    var res = pointToUseAsFilter.Find(x => x.IsEqualTo(vertex,
+                    var res = pointsToUseAsFilter.Find(x => x.IsEqualTo(vertex,
                         new Tolerance(Settings.Default.__APP_EPSILON,
                             Settings.Default.__APP_EPSILON)));
                     return !res.Equals(Point3d.Origin);

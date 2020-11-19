@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using TopoHelper;
 using TopoHelper.AutoCAD;
@@ -192,8 +191,14 @@ namespace TopoHelper
                 //Clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
 
+                var promptOptions = new PromptEntityOptions("Please select one of the points that are on the polyline to clean.")
+                {
+                    AllowObjectOnLockedLayer = true,
+                    AllowNone = false
+                };
+
                 // Select an entity that is on the points-layer
-                var promptEntityResult = editor.GetEntity("Please select one of the points that are on the polyline to clean.");
+                var promptEntityResult = editor.GetEntity(promptOptions);
 
                 if (promptEntityResult.Status == PromptStatus.Cancel)
                     throw new Exception(FunctionCanceled);

@@ -13,33 +13,35 @@ using Condition = WixSharp.Condition;
 
 // DONT FORGET TO UPDATE HARDCODED PATHS!!
 
-// WHEN BUILDING, and U get ERROR 532459699 or whatever (who invents these error-numbers?)
-// make sure to debug the project, its probably a code error, or as mentioned above,
-// it could be a hard-coded path problem, or file not found problem.
+// WHEN BUILDING, and U get ERROR 532459699 or whatever (who invents these
+// error-numbers?) make sure to debug the project, its probably a code error, or
+// as mentioned above, it could be a hard-coded path problem, or file not found problem.
 
 namespace TopoHelper.WixSharpSetup
 {
     internal class Program
     {
         #region Private Fields
+
         /// <summary>
-        /// This is where the source files are located, when rebuilding from new environment 
-        /// make sure to update this.
+        /// This is where the source files are located, when rebuilding from new
+        /// environment make sure to update this.
         /// </summary>
         private const string SourcePathOfFiles = @"E:\Source\Repos\concepts\TopoHelper\TopoHelper.WixSharpSetup\files";
 
         //? --> More info about AutoCAD registry logic:
         //- https://jtbworld.com/autocad-information#AutoCAD-registry-details
         /// <summary>
-        /// registryKey AutoCAD_2019 
+        /// registryKey AutoCAD_2019
         /// </summary>
         private const string KeyAcad19 = @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper";
-        
+
         /// <summary>
-        /// registryKey C3D_2019 
+        /// registryKey C3D_2019
         /// </summary>
         private const string KeyC3D19 = @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper";
-        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment.";
+
+        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such.";
         private const string ProductEmailContact = "Bjorn.Cattoor@Infrabel.be";
         private const string ProductGuid = "1EB1D6F2-8704-4D6F-9BDE-83D07308D140";
         private const string ProductHelpDeskTelephoneNumber = "helpdesk";

@@ -6,20 +6,20 @@ Overzicht van de inhoud
 ------------------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Inhoud:
    
    welcome
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Onderwerpen: 
 
    commands/commands-overview
    commands/variables-overview
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Workflows:
    
    workflow/InstallingApplication

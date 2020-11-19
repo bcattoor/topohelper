@@ -82,10 +82,12 @@ De opmeter levert ons een AutoCAD bestand aan die de volgende zaken bevat:
 - 3d polylijn van beide assen van de rail, opgebouwd door het verbinden van alle opgemeten punten (X,Y,Z [#TAW]_)
     .. warning:: Alle vertexen die deel uitmaken van de polylijn worden als opgemeten punten beschouwd! Voeg dus geen punten toe die niet werkelijk zijn opgemeten!
 
-- Alle opgemeten punten 
+- Alle opgemeten punten, in hun eigen laag. 
     .. note::
     
-        Deze punten of blokken worden gevraagd om de aangeleverde polylijn te controlleren t.o.v. deze punten. We hebben liefst een block met als attribuut de naam (NAME), en als insertiepunt: Z [#TAW]_ X en Y.
+        Deze punten worden voorgesteld door gebruik te maken van AutoCAD blokken. 
+        We hebben het liefst blokken met als attribuut de naam (NAME), en als insertiepunt: Z [#TAW]_ X en Y.
+        Er mag steeds meer informatie beteffede de opgemeten punten worden toegevoegd, *bovenstaand is een minimum.*
 
 - De punten zijn in eenzelfde sectie opgemeten, d.w.z. de punten staan loodrecht tegenover elkaar t.o.v. de spooras.
 - De aangeleverde opmeting wordt opgemeten in Lambert72 [#EPGS-31370]_

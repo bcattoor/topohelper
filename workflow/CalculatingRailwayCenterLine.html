@@ -8,7 +8,7 @@
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=b0abc7955957342729038e28">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=5e3c8c4a5a5d94169204c5cc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=b0abc7955957342729038e28"></script></head>
+    <script src="../_static/scripts/main.js?state=5e3c8c4a5a5d94169204c5cc"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -197,18 +197,19 @@
 </div>
 <div class="section" id="voorbereiding">
 <h3>Voorbereiding<a class="headerlink" href="#voorbereiding" title="Permalink naar deze titel">¶</a></h3>
-<p>Bruikbaar maken van de aangeleverde gegevens.</p>
+<p>Bruikbaar maken van de aangeleverde gegevens uit de dwg <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/OW17%20L60.dwg">OW17 L60</a>.</p>
 <div class="section" id="samenvoegen">
 <h4>Samenvoegen<a class="headerlink" href="#samenvoegen" title="Permalink naar deze titel">¶</a></h4>
 <p>Het is belangrijk dat de polylijnen aaneensluitend zijn over de volledige lengte. Op die manier is het mogelijk om de spooras in één keer door te rekenen.</p>
 <p>In ons voorbeeld:
-Omdat alle polylijnen niet mooi aaneensluitend zijn, kunnen we geen gebruik maken van het AutoCAD commando <code class="docutils literal notranslate"><span class="pre">join</span></code>. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag van de lijnen <code class="docutils literal notranslate"><span class="pre">Unlocked</span></code> staat. (Download hier de DWG -&gt; <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">OW17 L60 focus</a>)</p>
-<p>We maken gebruik van het commando <a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html#iamtopo-joinpolyline"><span class="std std-ref">Join Polyline</span></a> om de lijnen samen te voegen.</p>
+Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando <code class="docutils literal notranslate"><span class="pre">join</span></code>. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag <em>Binnenkant Rail</em> <code class="docutils literal notranslate"><span class="pre">Unlocked</span></code> staat.</p>
+<img alt="../_images/wf_joinpolyline_001.gif" src="../_images/wf_joinpolyline_001.gif"/>
+<p>Wanneer de lijnen <strong>niet mooi aaneensluitend zijn</strong>, dan maken we gebruik van het commando <a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html#iamtopo-joinpolyline"><span class="std std-ref">Join Polyline</span></a> om de lijnen samen te voegen.</p>
 </div>
 <div class="section" id="richting">
 <h4>Richting<a class="headerlink" href="#richting" title="Permalink naar deze titel">¶</a></h4>
 <p>Na het samenvoegen van de lijnen controleren we of dat de richting van de polylijnen aan elkaar gelijk zijn.
-Ook zorgen we ervoor dat de algemene richting de kilometrering van de hoofdlijn volgt.</p>
+Ook zorgen we ervoor dat de richting de algemene righting van de kilometrering van de hoofdlijn volgt.</p>
 </div>
 <div class="section" id="vertexen">
 <h4>Vertexen<a class="headerlink" href="#vertexen" title="Permalink naar deze titel">¶</a></h4>
@@ -216,10 +217,12 @@ Ook zorgen we ervoor dat de algemene richting de kilometrering van de hoofdlijn 
 </div>
 <div class="section" id="opkuisen-van-niet-opgemeten-punten">
 <h4>Opkuisen van niet opgemeten punten<a class="headerlink" href="#opkuisen-van-niet-opgemeten-punten" title="Permalink naar deze titel">¶</a></h4>
-<p>Om deze punten te verwijderen maken we gebruik van: <a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html#iamtopo-cleannonsurveyvertexfrompolyline"><span class="std std-ref">Clean Non Survey Verteces From Polyline</span></a> Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten, en een nieuwe lijn creëren. We selecteren eerst een opmeetpunt, en daarna de polylijn die we wensen op te kuisen.
+<p>Om deze punten te verwijderen maken we gebruik van: <a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html#iamtopo-cleannonsurveyvertexfrompolyline"><span class="std std-ref">Clean Non Survey Verteces From Polyline</span></a> Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten en een nieuwe lijn creëren.</p>
+<p>We selecteren eerst een opmeetpunt, en daarna de polylijn die we wensen op te kuisen.
 Na een controle merken we dat de 4-lijnen van de rails evenveel vertexen hebben.
 We zijn nu klaar om over te gaan naar het berekenen van het center.
 Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen verplaats naar een nieuwe laag. Laagnaam: <code class="docutils literal notranslate"><span class="pre">Binnenkant</span> <span class="pre">Rail</span> <span class="pre">Verwijderde</span> <span class="pre">Punten</span></code></p>
+<img alt="../_images/wf_CleanNonSurveyVertexFromPolyline_0011.gif" src="../_images/wf_CleanNonSurveyVertexFromPolyline_0011.gif"/>
 </div>
 </div>
 <div class="section" id="berekenen-van-de-as-van-het-spoor">

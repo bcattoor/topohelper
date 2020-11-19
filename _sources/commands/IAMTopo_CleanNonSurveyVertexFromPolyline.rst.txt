@@ -16,13 +16,14 @@ De lijst met meetpunten wordt opgebouwd aan de hand van alle punten die in de la
 
 Gebruik
 -------
-
+#. Op de commandoregel type je het commando ``IAMTopo_CleanNonSurveyVertexFromPolyline`` in.
 #. Selecteer een punt of block die bij de desbetreffende samengestelde lijn behoort. 
     .. note:: Filteren gebeurt op basis van de laagnaam waarin dit object zich bevind.
 #. Selecteer de polylijn die u wenst op te kuisen.
 #. Een nieuw polylijn is gemaakt.
 
+.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.gif
+
 .. rubric:: Voetnoot
 
 .. [#vertex] Een vertex is een definiërend punt van een samengestelde lijn.
-.. [#EPGS-31370] Belge_1972_Belgian_Lambert_72: http://epsg.io/31370

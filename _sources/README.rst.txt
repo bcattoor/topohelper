@@ -2,11 +2,12 @@
 About this website
 ==================
 
-This is the repository for the topohelper applications documentation.
+This is the repository for the TopoHelper_ applications documentation.
 
 Repository for the project-site can be found here_.
 
 .. _here: https://github.com/bcattoor/topohelper/
+.. _TopoHelper: https://bcattoor.github.io/topohelper/
 
 Building it yourself
 --------------------

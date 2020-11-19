@@ -40,23 +40,23 @@ Hier een voorstelling van hoe de workflow er standaard uiziet, uiteraard kan hie
 
 Voorbereiding
 ^^^^^^^^^^^^^
-Bruikbaar maken van de aangeleverde gegevens.
+Bruikbaar maken van de aangeleverde gegevens uit de dwg `OW17 L60`_.
 
 Samenvoegen
 ~~~~~~~~~~~
 Het is belangrijk dat de polylijnen aaneensluitend zijn over de volledige lengte. Op die manier is het mogelijk om de spooras in één keer door te rekenen.
 
 In ons voorbeeld:
-Omdat alle polylijnen niet mooi aaneensluitend zijn, kunnen we geen gebruik maken van het AutoCAD commando ``join``. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag van de lijnen ``Unlocked`` staat. (Download hier de DWG -> `OW17 L60 focus`_)
+Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando ``join``. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag *Binnenkant Rail* ``Unlocked`` staat. 
 
-.. _OW17 L60 focus: https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg
+.. image:: ./../_static/images/wf_joinpolyline_001.gif
 
-We maken gebruik van het commando :ref:`IAMTopo_JoinPolyline` om de lijnen samen te voegen.
+Wanneer de lijnen **niet mooi aaneensluitend zijn**, dan maken we gebruik van het commando :ref:`IAMTopo_JoinPolyline` om de lijnen samen te voegen.
 
 Richting
 ~~~~~~~~
 Na het samenvoegen van de lijnen controleren we of dat de richting van de polylijnen aan elkaar gelijk zijn.
-Ook zorgen we ervoor dat de algemene richting de kilometrering van de hoofdlijn volgt.
+Ook zorgen we ervoor dat de richting de algemene righting van de kilometrering van de hoofdlijn volgt.
 
 Vertexen
 ~~~~~~~~
@@ -65,10 +65,14 @@ We controleren ook of de samengestelde lijnen van de rails *evenveel vertexen h
 Opkuisen van niet opgemeten punten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Om deze punten te verwijderen maken we gebruik van: :ref:`IAMTopo_CleanNonSurveyVertexFromPolyline` Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten, en een nieuwe lijn creëren. We selecteren eerst een opmeetpunt, en daarna de polylijn die we wensen op te kuisen.
+Om deze punten te verwijderen maken we gebruik van: :ref:`IAMTopo_CleanNonSurveyVertexFromPolyline` Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten en een nieuwe lijn creëren. 
+
+We selecteren eerst een opmeetpunt, en daarna de polylijn die we wensen op te kuisen.
 Na een controle merken we dat de 4-lijnen van de rails evenveel vertexen hebben.
 We zijn nu klaar om over te gaan naar het berekenen van het center.
 Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen verplaats naar een nieuwe laag. Laagnaam: ``Binnenkant Rail Verwijderde Punten``
+
+.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.gif
 
 Berekenen van de as van het spoor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

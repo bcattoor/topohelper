@@ -16,11 +16,33 @@ In deze documentatie ga ik in op: het waarom een bepaalde functie nodig is, en h
 
 Gebruik
 --------
+Alles i.v.m. de applicatie instaleren lees je hier :ref:`Install`.
 
-Door gebruik te maken van de **COMMAND LINE** in **AutoCAD**. Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
+Door gebruik te maken van de **COMMAND LINE** in **AutoCAD** kan je de functies van deze plugin oproepen. 
+
+Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
 
 Aanpassen van de instellingen
 --------------------------------
 
 De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je :ref:`IAMTopo_Settings`
 
+Verdeling van de gecompileerde bestanden
+----------------------------------------
+
+Deze kan dan onder de tekenaars worden verdeeld door een downloadlink. De downloadlink is beschikbaar op de github server. `Download hier de laatste versie`_. Als bepaalde collega's niet over internetoegang beschikken, dan kan de software ook worden verdeeld door het gedownloade bestand te verspreiden via de interne file servers.
+
+.. _Download hier de laatste versie: https://github.com/bcattoor/topohelper/releases/latest
+
+Gebruikte technologie voor het ontwikkelen van de software
+----------------------------------------------------------
+Er werd gekozen om met het C# .NET Framework 4.6 een oplossing aan te bieden in de vorm van een AutoCAD plug-in. Als ontwerpsoftware wordt gebruik gemaakt van Visual Studio 2019.
+
+Versie beheer van de code
+-------------------------
+De uitgewerkte oplossing wordt beheerd op github een GIT-versiebeheersysteem. Een overzicht van alle commits_ kan je hier vinden.
+
+De volledig broncode_ is alsook beschikbaar hier.
+
+.. _commits: https://github.com/bcattoor/topohelper/commits/master
+.. _broncode: https://github.com/bcattoor/topohelper/tree/master

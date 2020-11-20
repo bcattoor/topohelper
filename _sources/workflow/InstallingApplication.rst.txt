@@ -1,3 +1,5 @@
+.. _Install:
+
 =============================
 Installeren van de applicatie
 =============================
@@ -20,6 +22,23 @@ Het is niet nodig om de bestanden uit te pakken, een instalatie bestand is voorz
 
 Installeren
 -----------
-Je kan de applicatie installeren door eenvoudigweg te dubbelklikken op het instalatiebestand.
+Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbelklikken op het bestand zou alles moeten op de correcte plaats instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
 
-.. image:: ./../_static/images/installer_001.gif
+.. figure:: ./../_static/images/installer_001.gif
+
+Voorwaarden
+-----------
+
+U dient te beschikken over het .NET Framework V4.6 .( download hier -> .NET )
+AutoCAD moet geinstaleerd staan op het systeem.
+
+Geondersteunde AutoCAD versies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-----------------------+---------------------+
+| Product               | Product code        |
++-----------------------+---------------------+
+| AutoCAD 2019          | R23.0\ACAD-2001:409 |
++-----------------------+---------------------+
+| AutoCAD 2019 Civil 3D | R23.0\ACAD-2000:409 |
++-----------------------+---------------------+

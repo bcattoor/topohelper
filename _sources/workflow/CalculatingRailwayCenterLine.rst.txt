@@ -92,7 +92,7 @@ CSV bestanden
 Ter controle kunnen ook CSV bestanden aangemaakt worden. Deze bestanden bevatten de ruwe basisgegevens die gebruikt zijn voor de berekening alsook de berekende oplossing. Deze kunnen dan op hen beurt worden gebruikt om te controleren ofdat alles goed werd berekend.
 Terwijl we in :ref:`IAMTopo_Settings` zijn kunnen we ook instellen waar we de bestanden wensen heen te schrijven a.d.h.v. ``Rails2RailwayCenterLine_PathToCSVFile`` en ``CalculateSurveyCorrection_PathToCsvFile``.
 
-In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We kunnen deze dan ook uitschakkelen in het :ref:`IAMTopo_Settings`.
+In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We kunnen deze dan ook uitschakkelen in het :ref:`IAMTopo_Settings` paneel.
 
 Controle
 ^^^^^^^^

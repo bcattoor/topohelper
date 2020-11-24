@@ -22,7 +22,7 @@ Gebruik
 #. Selecteer de polylijn die u wenst op te kuisen.
 #. Een nieuw polylijn is gemaakt.
 
-.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.gif
+.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.*
 
 .. rubric:: Voetnoot
 

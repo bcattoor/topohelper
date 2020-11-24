@@ -72,7 +72,7 @@ Na een controle merken we dat de 4-lijnen van de rails evenveel vertexen hebben.
 We zijn nu klaar om over te gaan naar het berekenen van het center.
 Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen verplaats naar een nieuwe laag. Laagnaam: ``Binnenkant Rail Verwijderde Punten``
 
-.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.gif
+.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.*
 
 Berekenen van de as van het spoor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

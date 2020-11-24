@@ -14,17 +14,11 @@ Indien je een overzicht wenst van alle voorgaande versies, of een oudere versie 
 
 .. _hier: https://github.com/bcattoor/topohelper/releases
 
-Uitpakken
----------
-
-Het is niet nodig om de bestanden uit te pakken, een instalatie bestand is voorzien.
-
-
 Installeren
 -----------
 Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbelklikken op het bestand zou alles moeten op de correcte plaats instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
 
-.. figure:: ./../_static/images/installer_001.gif
+.. figure:: ./../_static/images/installer_001.*
 
 Voorwaarden
 -----------

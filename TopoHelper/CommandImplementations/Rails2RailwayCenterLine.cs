@@ -1,7 +1,6 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using TopoHelper.Model.Results;
@@ -31,14 +30,11 @@ namespace TopoHelper.CommandImplementations
             IList<Point3d> leftRailPoints,
             IList<Point3d> rightRailPoints)
         {
-            // Contracts assumptions
-            //- more info: https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/code-contracts?redirectedfrom=MSDN
-
-            Contract.Requires<ArgumentNullException>(leftRailPoints != null);
-            Contract.Requires<ArgumentNullException>(rightRailPoints != null);
-            Contract.Requires<InvalidOperationException>(leftRailPoints.Count != rightRailPoints.Count, "We should have the same amount of points in both lists.");
+            if (leftRailPoints == null) throw new ArgumentNullException();
+            if (rightRailPoints == null) throw new ArgumentNullException();
+            if (leftRailPoints.Count != rightRailPoints.Count) throw new InvalidOperationException("We should have the same amount of points in both lists.");
             var sectionsCount = leftRailPoints.Count;
-            Contract.Requires<ArgumentNullException>(sectionsCount > 0, "We should at least be given 1 item count to work with.");
+            if (sectionsCount > 0) throw new ArgumentException("We should at least be given 1 item count to work with.");
 
             //+ Normalize input before calculation
             var normalizerInput = new List<Point3d>();
@@ -51,7 +47,6 @@ namespace TopoHelper.CommandImplementations
 
             //+ Calculate data for all sections
             double centerLineChainage = 0;
-
 
             var sections = new MeasuredSectionResult[sectionsCount];
 
@@ -75,7 +70,7 @@ namespace TopoHelper.CommandImplementations
                 // railHead2RailHeadLineSegment3d = short-name variable r2rLineSeg3d
                 using (var r2RLineSeg3d = new LineSegment3d(nLeftRailPoint.ToPoint3d(), nRightRailPoint.ToPoint3d()))
                 {
-                    // Set Gauge 
+                    // Set Gauge
                     //?(dutch='gemeten spoorbreedte')
                     section.Gauge = r2RLineSeg3d.Length;
 

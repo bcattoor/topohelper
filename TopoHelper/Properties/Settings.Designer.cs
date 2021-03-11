@@ -12,7 +12,7 @@ namespace TopoHelper.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -238,18 +238,6 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string Rails2RailwayCenterLine_CSVFile_Delimiter {
-            get {
-                return ((string)(this["Rails2RailwayCenterLine_CSVFile_Delimiter"]));
-            }
-            set {
-                this["Rails2RailwayCenterLine_CSVFile_Delimiter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("110")]
         public short CalculateSurveyCorrection_LayerColorPolyline_Rails {
             get {
@@ -346,18 +334,6 @@ namespace TopoHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string CalculateSurveyCorrection_CSVFile_Delimiter {
-            get {
-                return ((string)(this["CalculateSurveyCorrection_CSVFile_Delimiter"]));
-            }
-            set {
-                this["CalculateSurveyCorrection_CSVFile_Delimiter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.DistanceBetween2Polylines.csv")]
         public string DistanceBetween2Polylines_PathToCsvFile {
             get {
@@ -365,18 +341,6 @@ namespace TopoHelper.Properties {
             }
             set {
                 this["DistanceBetween2Polylines_PathToCsvFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";")]
-        public string DistanceBetween2Polylines_CSVFile_Delimiter {
-            get {
-                return ((string)(this["DistanceBetween2Polylines_CSVFile_Delimiter"]));
-            }
-            set {
-                this["DistanceBetween2Polylines_CSVFile_Delimiter"] = value;
             }
         }
         
@@ -407,24 +371,24 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.005")]
-        public double SYMPPL_TOLERANCE {
+        public double SimplifyPolyline_Tolerance {
             get {
-                return ((double)(this["SYMPPL_TOLERANCE"]));
+                return ((double)(this["SimplifyPolyline_Tolerance"]));
             }
             set {
-                this["SYMPPL_TOLERANCE"] = value;
+                this["SimplifyPolyline_Tolerance"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SYMPPL_HIGH_PRICISION {
+        public bool SimplifyPolyline_UseHighPrecision {
             get {
-                return ((bool)(this["SYMPPL_HIGH_PRICISION"]));
+                return ((bool)(this["SimplifyPolyline_UseHighPrecision"]));
             }
             set {
-                this["SYMPPL_HIGH_PRICISION"] = value;
+                this["SimplifyPolyline_UseHighPrecision"] = value;
             }
         }
         
@@ -521,6 +485,30 @@ namespace TopoHelper.Properties {
             }
             set {
                 this["IncrementAttribute_ChainAlign"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(";")]
+        public string ListSeperator_ForAllCSVFiles {
+            get {
+                return ((string)(this["ListSeperator_ForAllCSVFiles"]));
+            }
+            set {
+                this["ListSeperator_ForAllCSVFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string NumberGroupCharacter_ForAllCSVFiles {
+            get {
+                return ((string)(this["NumberGroupCharacter_ForAllCSVFiles"]));
+            }
+            set {
+                this["NumberGroupCharacter_ForAllCSVFiles"] = value;
             }
         }
     }

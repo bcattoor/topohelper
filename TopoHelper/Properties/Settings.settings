@@ -56,9 +56,6 @@
     <Setting Name="Rails2RailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_CSVFile_Delimiter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
-    </Setting>
     <Setting Name="CalculateSurveyCorrection_LayerColorPolyline_Rails" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">110</Value>
     </Setting>
@@ -83,14 +80,8 @@
     <Setting Name="CalculateSurveyCorrection_PathToCsvFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Data\track.CalculateSurveyCorrection.csv</Value>
     </Setting>
-    <Setting Name="CalculateSurveyCorrection_CSVFile_Delimiter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
-    </Setting>
     <Setting Name="DistanceBetween2Polylines_PathToCsvFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Data\track.DistanceBetween2Polylines.csv</Value>
-    </Setting>
-    <Setting Name="DistanceBetween2Polylines_CSVFile_Delimiter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
     </Setting>
     <Setting Name="NumberDecimalSeperator_ForAllCSVFiles" Type="System.String" Scope="User">
       <Value Profile="(Default)">,</Value>
@@ -98,10 +89,10 @@
     <Setting Name="CalculateSurveyCorrection_MinimumCantValue" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.001</Value>
     </Setting>
-    <Setting Name="SYMPPL_TOLERANCE" Type="System.Double" Scope="User">
+    <Setting Name="SimplifyPolyline_Tolerance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.005</Value>
     </Setting>
-    <Setting Name="SYMPPL_HIGH_PRICISION" Type="System.Boolean" Scope="User">
+    <Setting Name="SimplifyPolyline_UseHighPrecision" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="WeedPolyline_MinDistance" Type="System.Double" Scope="User">
@@ -127,6 +118,12 @@
     </Setting>
     <Setting Name="IncrementAttribute_ChainAlign" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ListSeperator_ForAllCSVFiles" Type="System.String" Scope="User">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+    <Setting Name="NumberGroupCharacter_ForAllCSVFiles" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> </Value>
     </Setting>
   </Settings>
 </SettingsFile>

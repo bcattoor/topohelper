@@ -34,7 +34,7 @@ namespace TopoHelper.CommandImplementations
             if (rightRailPoints == null) throw new ArgumentNullException();
             if (leftRailPoints.Count != rightRailPoints.Count) throw new InvalidOperationException("We should have the same amount of points in both lists.");
             var sectionsCount = leftRailPoints.Count;
-            if (sectionsCount > 0) throw new ArgumentException("We should at least be given 1 item count to work with.");
+            if (sectionsCount < 0) throw new ArgumentException("We should at least be given 1 item count to work with.");
 
             //+ Normalize input before calculation
             var normalizerInput = new List<Point3d>();

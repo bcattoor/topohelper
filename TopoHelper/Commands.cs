@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.ApplicationServices.Core;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -21,6 +22,7 @@ using TopoHelper.Model.Results;
 using TopoHelper.Properties;
 using TopoHelper.UserControls;
 using TopoHelper.UserControls.ViewModels;
+using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Exception = System.Exception;
 using Point = TopoHelper.Model.Geometry.Point;
 
@@ -31,6 +33,12 @@ namespace TopoHelper
     // ReSharper disable once PartialTypeWithSinglePart (Commands classes need to be partial?)
     public static partial class Commands
     {
+        #region Public Fields
+
+        public const double Tolerance = 0.000000001d;
+
+        #endregion
+
         #region Private Fields
 
         private const string Calculating = "\r\nCalculating, please wait ...";
@@ -40,14 +48,13 @@ namespace TopoHelper
         private const string RightRail = "\r\nPlease select the polyline3d you would like to use for the right rail.";
         private const string Select3dPolyLine = "\r\nSelect a 3d-polyline: ";
         private const string SelectionNotUnique = "\r\nYou selected the same polyline twice, why?";
-        public const double Tolerance = 0.000000001d;
-        private static string Patern;
 
         // ReSharper disable once UnusedMember.Local
         private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
         private static readonly Settings SettingsDefault = Settings.Default;
         private static ObjectId IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = ObjectId.Null;
+        private static string Patern;
 
         #endregion
 
@@ -62,60 +69,6 @@ namespace TopoHelper
         #region Public Methods
 
         /// <summary>
-        /// This command is used by user to increment an attribute within an
-        /// inserted block property to a selected polyline.
-        /// </summary>
-        [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
-        public static void IAMTopo_IncrementAttribute()
-        {
-            var document = Application.DocumentManager.MdiActiveDocument;
-            var ed = document.Editor;
-            var db = document.Database;
-
-            // Select the blockreference to set angle
-            var peo2 = new PromptEntityOptions("\nSelect the BlockReference.");
-            peo2.SetRejectMessage("\nInvalid selection...");
-            peo2.AddAllowedClass(typeof(BlockReference), true);
-
-            var blockSelection = ed.GetEntity(peo2);
-
-            while (blockSelection.Status == PromptStatus.OK)
-            {
-                if (PromptStatus.OK != blockSelection.Status)
-                    return;
-
-                Patern = SettingsDefault.IncrementAttribute_Pattern;
-                try
-                {
-                    using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
-                    {
-                        IncrementAttribute.ExecuteIncrementsByPatern(transaction, blockSelection.ObjectId, ref Patern, SettingsDefault.IncrementAttribute_Name);
-                        transaction.Commit();
-                        // Save used pater to settings
-                        SettingsDefault.IncrementAttribute_Pattern = Patern;
-                        SettingsDefault.Save();
-
-                        if (SettingsDefault.IncrementAttribute_ChainAlign)
-                            if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId != null)
-                                AlignAngleOfBlock.IAMTopo_AlignAngleOfBlock(
-                                    transaction,
-                                    blockSelection.ObjectId,
-                                    IAMTopo_AlignAngleOfBlockLastSelectedPolylineId,
-                                    SettingsDefault.AlignAngleOfBlock_AddAngleValue_TimesPI,
-                                    SettingsDefault.AlignAngleOfBlock_DynamicPropertyName);
-                            else throw new Exception("You cannot chain the allign command, without setting the polyline first. Use the [IAMTopo_AlignAngleOfBlock] command to set this.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ed.WriteMessage(ex.Message);
-                }
-                // reselect next block
-                blockSelection = ed.GetEntity(peo2);
-            }
-        }
-
-        /// <summary>
         /// This command is used by user to align an inserted blocks angle
         /// property to a selected polyline.
         /// </summary>
@@ -123,18 +76,18 @@ namespace TopoHelper
         public static void IAMTopo_AlignAngleOfBlock()
         {
             var document = Application.DocumentManager.MdiActiveDocument;
-            var ed = document.Editor;
-            var db = document.Database;
+            var editor = document.Editor;
+            var database = document.Database;
 
             try
             {
                 if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId == ObjectId.Null)
                 {// Select the polyline
-                    var peo1 = new PromptEntityOptions("\nSelect 3D-polyline to align to.");
-                    peo1.SetRejectMessage("\nInvalid selection...");
-                    peo1.AddAllowedClass(typeof(Polyline3d), true);
-                    peo1.AllowObjectOnLockedLayer = true;
-                    var promptResult = ed.GetEntity(peo1);
+                    var promptEntityOptions = new PromptEntityOptions("\nSelect 3D-polyline to align to.");
+                    promptEntityOptions.SetRejectMessage("\nInvalid selection...");
+                    promptEntityOptions.AddAllowedClass(typeof(Polyline3d), true);
+                    promptEntityOptions.AllowObjectOnLockedLayer = true;
+                    var promptResult = editor.GetEntity(promptEntityOptions);
                     if (PromptStatus.OK != promptResult.Status)
                         return;
 
@@ -142,18 +95,18 @@ namespace TopoHelper
                 }
                 else
                 {
-                    ed.WriteMessage("Using last selected entity..., use the [IAMTopo_AlignAngleOfBlock_ResetEntity] to reset this.\r\n");
+                    editor.WriteMessage("Using last selected entity..., use the [IAMTopo_AlignAngleOfBlock_ResetEntity] to reset this.\r\n");
                 }
 
                 // Select the blockreference to set angle
                 var peo2 = new PromptEntityOptions("\nSelect the BlockReference.");
                 peo2.SetRejectMessage("\nInvalid selection...");
                 peo2.AddAllowedClass(typeof(BlockReference), true);
-                var promptResult2 = ed.GetEntity(peo2);
+                var promptResult2 = editor.GetEntity(peo2);
                 if (PromptStatus.OK != promptResult2.Status)
                     return;
 
-                using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
+                using (Transaction transaction = database.TransactionManager.StartOpenCloseTransaction())
                 {
                     AlignAngleOfBlock.IAMTopo_AlignAngleOfBlock(
                         transaction,
@@ -164,9 +117,19 @@ namespace TopoHelper
                     transaction.Commit();
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+        }
+
+        [CommandMethod("IAMTopo_PlaceTextOnLineWithLength", CommandFlags.Modal)]
+        public static void IAP_PlaceTextOnLineWithLength()
+        {
+            try
             {
-                ed.WriteMessage(ex.Message);
+                CommandImplementations.PlaceTextOnLineWithLength.ExcecuteCommand(false, FunctionCanceled);
+            }
+            catch (System.Exception exception)
+            {
+                HandleUnexpectedException(exception);
             }
         }
 
@@ -222,6 +185,11 @@ namespace TopoHelper
 
                 // Select what polyline to clean
                 var selectedObjectId = editor.Select3dPolyline(Select3dPolyLine);
+                if (selectedObjectId == ObjectId.Null)
+                {
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
                 editor.SetImpliedSelection(new[] { selectedObjectId });
 
                 var pointsFromPolyline = database.GetPointsFromPolyline(selectedObjectId);
@@ -242,10 +210,7 @@ namespace TopoHelper
                 // Report
                 editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count + " vertices's.");
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally
             {
                 // clear selection
@@ -272,10 +237,18 @@ namespace TopoHelper
                 editor.SetImpliedSelection(Array.Empty<ObjectId>()); // clear selection
 
                 var pl1Id = editor.Select3dPolyline("\r\nSelect first polyline.");
-
+                if (pl1Id == ObjectId.Null)
+                {
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
                 editor.SetImpliedSelection(new[] { pl1Id });
                 var pl2Id = editor.Select3dPolyline("\r\nSelect second polyline.");
-
+                if (pl1Id == ObjectId.Null)
+                {
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
                 editor.SetImpliedSelection(new[] { pl1Id, pl2Id });
 
                 // Make sure we did not select the same polyline twice
@@ -304,21 +277,68 @@ namespace TopoHelper
 
                 var csv = ReadWrite.Instance;
                 csv.FilePath = SettingsDefault.DistanceBetween2Polylines_PathToCsvFile;
-                csv.Delimiter = SettingsDefault.DistanceBetween2Polylines_CSVFile_Delimiter;
                 // create csv from result
                 csv.WriteDistanceBetween2PolylinesResult(distanceBetween2PolylinesSectionResults);
                 editor.WriteMessage($"Result was written to CSV file {csv.FilePath}");
 
                 #endregion
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally
             {
                 // clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
+            }
+        }
+
+        /// <summary>
+        /// This command is used by user to increment an attribute within an
+        /// inserted block property to a selected polyline.
+        /// </summary>
+        [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_IncrementAttribute()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+            var ed = document.Editor;
+            var db = document.Database;
+
+            // Select the blockreference to set angle
+            var peo2 = new PromptEntityOptions("\nSelect the BlockReference.");
+            peo2.SetRejectMessage("\nInvalid selection...");
+            peo2.AddAllowedClass(typeof(BlockReference), true);
+
+            var blockSelection = ed.GetEntity(peo2);
+
+            while (blockSelection.Status == PromptStatus.OK)
+            {
+                if (PromptStatus.OK != blockSelection.Status)
+                    return;
+
+                Patern = SettingsDefault.IncrementAttribute_Pattern;
+                try
+                {
+                    using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
+                    {
+                        IncrementAttribute.ExecuteIncrementsByPatern(transaction, blockSelection.ObjectId, ref Patern, SettingsDefault.IncrementAttribute_Name);
+                        transaction.Commit();
+                        // Save used pater to settings
+                        SettingsDefault.IncrementAttribute_Pattern = Patern;
+                        SettingsDefault.Save();
+
+                        if (SettingsDefault.IncrementAttribute_ChainAlign)
+                            if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId != null)
+                                AlignAngleOfBlock.IAMTopo_AlignAngleOfBlock(
+                                    transaction,
+                                    blockSelection.ObjectId,
+                                    IAMTopo_AlignAngleOfBlockLastSelectedPolylineId,
+                                    SettingsDefault.AlignAngleOfBlock_AddAngleValue_TimesPI,
+                                    SettingsDefault.AlignAngleOfBlock_DynamicPropertyName);
+                            else throw new Exception("You cannot chain the allign command, without setting the polyline first. Use the [IAMTopo_AlignAngleOfBlock] command to set this.");
+                    }
+                }
+                catch (System.Exception exception) { HandleUnexpectedException(exception); }
+                // reselect next block
+                blockSelection = ed.GetEntity(peo2);
             }
         }
 
@@ -384,7 +404,7 @@ namespace TopoHelper
 
                         var result = distance.OrderBy(i => i.Item2).FirstOrDefault();
 
-                        Debug.Assert(result != null, nameof(result) + " != null");
+                        System.Diagnostics.Trace.Assert(result != null, nameof(result) + " != null");
                         switch (result.Item1)
                         {
                             case "sp1:sp2":
@@ -411,10 +431,28 @@ namespace TopoHelper
                     }
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+        }
+
+        [CommandMethod("IAMTopo_OpenRailView", CommandFlags.Modal)]
+        public static void IAMTopo_OpenRailView()
+        {
+            try
             {
-                ed.WriteMessage(ex.Message);
+                var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                    Core.Application.DocumentManager.MdiActiveDocument;
+                var editor = currentDocument.Editor;
+                var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
+                if (promptResult.Status != PromptStatus.OK)
+                    return;
+
+                var selectedPoint = promptResult.Value;
+                Process.Start(string.Format(
+                    @"http://georamses/GeoRamses/ImajnetViewer.aspx?COORDX={0}&COORDY={1}&LOCALE=nl",
+                    Math.Floor(selectedPoint.X),
+                    Math.Floor(selectedPoint.Y)));
             }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
 
         /// <summary>
@@ -444,8 +482,8 @@ namespace TopoHelper
 
                 // Let user select a set of points
                 editor.SetImpliedSelection(Array.Empty<ObjectId>()); // clear selection
-                var points = editor.Select3dPoints(out var _);
-                if (points is null)
+                var points = editor.Select3dPoints();
+                if (points == null)
                 {
                     editor.WriteMessage(FunctionCanceled);
                     return;
@@ -466,10 +504,7 @@ namespace TopoHelper
 
                 editor.WriteMessage($"\r\nPolyline created with {result.Count()} vertices's.");
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally
             {
                 // clear selection
@@ -494,10 +529,16 @@ namespace TopoHelper
 
                 var leftRailId1 = editor.Select3dPolyline(LeftRail);
 
+                if (leftRailId1 == ObjectId.Null)
+                {
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
+
                 editor.SetImpliedSelection(new[] { leftRailId1 });
                 var rightRailPoints = editor.Select3dPolyline(RightRail, out var rightRailId);
 
-                if (rightRailPoints is null)
+                if (rightRailId == ObjectId.Null)
                 {
                     editor.WriteMessage(FunctionCanceled);
                     return;
@@ -636,10 +677,7 @@ namespace TopoHelper
 
                 #endregion
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally
             {
                 // clear selection
@@ -691,10 +729,7 @@ namespace TopoHelper
                 if (PaletteSet.Visible && MySettingsViewModel.ReloadSettingsCommand.CanExecute(null))
                     MySettingsViewModel.ReloadSettingsCommand.Execute(null);
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
 
         [CommandMethod("IAMTopo_SimplifyPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
@@ -711,6 +746,13 @@ namespace TopoHelper
 
                 //Making a new result and adding options to it
                 var selectedObjectId = editor.Select3dPolyline(Select3dPolyLine);
+
+                if (selectedObjectId == ObjectId.Null)
+                {
+                    editor.WriteMessage(FunctionCanceled);
+                    return;
+                }
+
                 editor.SetImpliedSelection(new[] { selectedObjectId });
 
                 var points = database.GetPointsFromPolyline(selectedObjectId);
@@ -723,7 +765,7 @@ namespace TopoHelper
                 // Simplify polyline
                 var utility = new SimplifyUtility3D();
 
-                var r = utility.Simplify(simplePoints, SettingsDefault.SYMPPL_TOLERANCE, SettingsDefault.SYMPPL_HIGH_PRICISION);
+                var r = utility.Simplify(simplePoints, SettingsDefault.SimplifyPolyline_Tolerance, SettingsDefault.SimplifyPolyline_UseHighPrecision);
                 if (r == null || r.Count <= 2)
                     throw new InvalidOperationException("We could not calculate sufficient points.");
 
@@ -732,14 +774,106 @@ namespace TopoHelper
                 // Report
                 editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count + " vertices's.");
             }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally
             {
                 // clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
+            }
+        }
+
+        [CommandMethod("IAMTopo_OpenGeoramses", CommandFlags.Modal)]
+        public static void IAMTopo_OpenGeoramses()
+        {
+            try
+            {
+                var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                    Core.Application.DocumentManager.MdiActiveDocument;
+                var editor = currentDocument.Editor;
+                var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
+                if (promptResult.Status != PromptStatus.OK)
+                    return;
+
+                var selectedPoint = promptResult.Value;
+                Process.Start(string.Format(
+                    @"http://georamses/GeoRamses/Default.aspx?x={0}&y={1}&scale=1000",
+                    Math.Floor(selectedPoint.X),
+                    Math.Floor(selectedPoint.Y)));
+            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+        }
+
+        [CommandMethod("IAMTope_OffsetPolyLine")]
+        public static void IAMTope_OffsetPolyLine()
+        {
+            var document = Application.DocumentManager.MdiActiveDocument;
+            var ed = document.Editor;
+            var db = document.Database;
+            // CivilDocument cdoc = CivilApplication.ActiveDocument;
+
+            //select ROW polyline prompt
+            var promptEntityOptions = new PromptEntityOptions("\nSelect ROW polyline:");
+            promptEntityOptions.SetRejectMessage("\nSelected entity is not a curve");
+            promptEntityOptions.AddAllowedClass(typeof(Curve), false);
+            promptEntityOptions.AllowNone = true;
+            var per = ed.GetEntity(promptEntityOptions);
+            if (per.Status == PromptStatus.Cancel) return;
+
+            while (per.Status == PromptStatus.OK)
+            {
+                using (DocumentLock dl = document.LockDocument())
+                {
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    {
+                        //prompt to specify offset distance
+                        var promptDistanceOptions = new PromptDistanceOptions("\nSpecify the offset distance:")
+                        {
+                            AllowNegative = false,
+                            AllowZero = false,
+                            DefaultValue = 1,
+                            UseDefaultValue = true
+                        };
+                        var promptDoubleOptionsResult = ed.GetDistance(promptDistanceOptions);
+                        var distance = promptDoubleOptionsResult.Value;
+                        if (promptDoubleOptionsResult.Status == PromptStatus.Cancel) return;
+
+                        //prompt to select side
+                        var sidePoint = ed.GetPoint("\nSelect side to offset to:");
+                        if (sidePoint.Status == PromptStatus.Cancel) return;
+
+                        var polyline = (Polyline)tr.GetObject(per.ObjectId, OpenMode.ForRead);
+                        var closestPointTo = polyline.GetClosestPointTo(sidePoint.Value, false);
+
+                        var offsetCurvesCollection1 = polyline.GetOffsetCurves(distance);
+                        var offsetCurvesCollection2 = polyline.GetOffsetCurves(-distance);
+                        Curve curve1 = null;
+                        Curve curve2 = null;
+                        var p1 = new Point3d();
+                        var p2 = new Point3d();
+                        var distance1 = 0d;
+                        var distance2 = 0d;
+                        for (var i = 0; i < offsetCurvesCollection1.Count; i++)
+                        {
+                            curve1 = (Curve)offsetCurvesCollection1[i];
+                            curve2 = (Curve)offsetCurvesCollection2[i];
+                            p1 = curve1.GetClosestPointTo(sidePoint.Value, false);
+                            p2 = curve2.GetClosestPointTo(sidePoint.Value, false);
+                            distance1 = p1.DistanceTo(sidePoint.Value);
+                            distance2 = p2.DistanceTo(sidePoint.Value);
+
+                            if (distance1 < distance2)
+                            {
+                                var id = db.Create2dPolyline(curve1);
+                            }
+                            else
+                            {
+                                var id = db.Create2dPolyline(curve2);
+                            }
+                        }
+                        tr.Commit();
+                    }
+                }
+                per = ed.GetEntity(promptEntityOptions);
             }
         }
 
@@ -750,54 +884,62 @@ namespace TopoHelper
         /// make sure a point exists per minimum distance value (aka:
         /// "WeedPolyline_MinDistance" in settings).
         /// </summary>
-        [CommandMethod("IAMTopo_WeedPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
-        public static void IAMTopo_WeedPolyline()
-        {
-            var document = Application.DocumentManager.MdiActiveDocument;
+        //    [CommandMethod("IAMTopo_WeedPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        //    public static void IAMTopo_WeedPolyline()
+        //    {
+        //        Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\r\nThis function has not yet been properly implemented." +
+        //" It lacks definition and a well described purpose.");
 
-            var database = document.Database;
+        //var document = Application.DocumentManager.MdiActiveDocument;
 
-            var editor = document.Editor;
-            try
-            {
-                // Let user select a right rail end a left rail
-                editor.SetImpliedSelection(Array.Empty<ObjectId>()); // clear selection
+        //var database = document.Database;
 
-                var plId1 = editor.Select3dPolyline(Select3dPolyLine);
-                var plId2 = editor.Select3dPolyline(Select3dPolyLine);
-                editor.WriteMessage(Calculating);
-                var points = database.GetPointsFrom2PolylinesWithPointWeeding(plId1, plId2, SettingsDefault.WeedPolyline_MinDistance);
+        //var editor = document.Editor;
+        //try
+        //{
+        //    // Let user select a right rail and a left rail
+        //    editor.SetImpliedSelection(Array.Empty<ObjectId>()); // clear selection
 
-                if (points.Item1 is null)
-                {
-                    editor.WriteMessage(FunctionCanceled);
-                    return;
-                }
-                if (points.Item2 is null)
-                {
-                    editor.WriteMessage(FunctionCanceled);
-                    return;
-                }
+        // var plId1 = editor.Select3dPolyline(Select3dPolyLine); var plId2
+        // = editor.Select3dPolyline(Select3dPolyLine);
+        // editor.WriteMessage(Calculating); var points =
+        // database.GetPointsFrom2PolylinesWithPointWeeding(plId1, plId2, SettingsDefault.WeedPolyline_MinDistance);
 
-                // create a 3D polyline
-                database.Create3dPolyline(points.Item1, SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
+        // if (points.Item1 is null) { editor.WriteMessage(FunctionCanceled);
+        // return; } if (points.Item2 is null) {
+        // editor.WriteMessage(FunctionCanceled); return; }
 
-                database.Create3dPolyline(points.Item2, SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
-            }
-            catch (Exception exception)
-            {
-                editor.WriteMessage("\r\n" + exception.Message);
-            }
-            finally
-            {
-                // clear selection
-                editor.SetImpliedSelection(Array.Empty<ObjectId>());
-            }
-        }
+        // // create a 3D polyline database.Create3dPolyline(points.Item1,
+        // SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
+
+        //    database.Create3dPolyline(points.Item2, SettingsDefault.WeedPolyline_LayerName, SettingsDefault.WeedPolyline_LayerColor);
+        //}
+        //catch (System.Exception exception) { HandleUnexpectedException(exception); }
+        //finally
+        //{
+        //    // clear selection
+        //    editor.SetImpliedSelection(Array.Empty<ObjectId>());
+        //}
+        //}
 
         #endregion
 
         #region Private Methods
+
+        private static void HandleUnexpectedException(System.Exception exception)
+        {
+            var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                Core.Application.DocumentManager.MdiActiveDocument;
+            string msg = "";
+#if DEBUG
+            msg = exception.Message + ".\r\n" + exception.Source + ".\r\n" + exception.StackTrace + ".\r\n" + exception.TargetSite + ".\r\n";
+#else
+            msg = exception.Message;
+#endif
+            currentDocument?.Editor?.WriteMessage(msg);
+
+            System.Diagnostics.Trace.TraceError(exception.Message);
+        }
 
         private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
         {
@@ -806,7 +948,6 @@ namespace TopoHelper
             {
                 var csv = ReadWrite.Instance;
                 csv.FilePath = SettingsDefault.Rails2RailwayCenterLine_PathToCSVFile;
-                csv.Delimiter = SettingsDefault.Rails2RailwayCenterLine_CSVFile_Delimiter;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
                 result.AppendLine($"Rails to Railway Center-Line, result: CSV-file has been written to: {csv.FilePath}");
@@ -815,7 +956,6 @@ namespace TopoHelper
             if (!SettingsDefault.Rails2RailwayCenterLine_Use_CalculateSurveyCorrection) return result.ToString();
             var csv2 = ReadWrite.Instance;
             csv2.FilePath = SettingsDefault.CalculateSurveyCorrection_PathToCsvFile;
-            csv2.Delimiter = SettingsDefault.CalculateSurveyCorrection_CSVFile_Delimiter;
             // create csv from result
             csv2.WriteCalculateDisplacementResult(correctedResult);
             result.AppendLine($"\nCalculate survey correction, result: CSV-file has been written to: {csv2.FilePath}");

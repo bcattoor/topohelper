@@ -4,19 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:converters="clr-namespace:TopoHelper.UserControls.Converters"
              mc:Ignorable="d"
+
+             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel>
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></converters:BoolToVisibilityConverter>
+    </UserControl.Resources>
+    <DockPanel Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Reload" Command="{Binding Path=ReloadSettingsCommand}" />
-                <MenuItem Header="_Save" Command="{Binding Path=SaveCommand}" />
-                <MenuItem Header="_Close" Command="{Binding Path=CancelCommand}" />
+            <MenuItem Header="_Commands" ItemsSource="{Binding MenuItems}" DisplayMemberPath="FriendlyName">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Command" Value="{Binding Path=AutoCADCommand}" />
+                        <Setter Property="CommandParameter" Value="{Binding}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
             </MenuItem>
-            <MenuItem Header="_Commands">
-                <MenuItem Header="_AlignAngleOfBlock" />
-                <MenuItem Header="_IncrementAttribute" />
-                <MenuItem Header="_JoinPolyline" />
+            <MenuItem Header="_Help" DisplayMemberPath="FriendlyName">
+                <MenuItem Header="_About..." Click="MenuItem_Click_Navigate_Url" ToolTip="Over deze applicatie." />
+                <MenuItem Header="_Raporteer een probleem..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper/issues/new/choose" />
+                <MenuItem Header="_Open website..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://bcattoor.github.io/topohelper/welcome.html" />
+                <MenuItem Header="_View this on github..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper" />
             </MenuItem>
         </Menu>
         <Grid>
@@ -41,11 +51,16 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Background="#44bcd8" BorderBrush="CadetBlue" BorderThickness="2">
+                <Border Grid.Column="0" BorderBrush="CadetBlue" BorderThickness="1">
                     <Grid>
+                        <Button Command="{Binding Path=ClearSearchCommand}"
+                                Visibility="{Binding Path=ClearSearchIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Margin="0,5,8,5"
+                                ToolTip="Clear Search Field"
+                                Background="Transparent" Height="18" Padding="0,0,0,3" HorizontalAlignment="Right" Panel.ZIndex="9">X</Button>
                         <TextBox   Margin="5,3" x:Name="TxtFilter"
                       HorizontalAlignment="Right" TextChanged="TxtFilter_TextChanged"
-                      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}"
                       MinWidth="100"></TextBox>
                         <TextBlock x:Name="txtSearch"
                                 IsHitTestVisible="False"

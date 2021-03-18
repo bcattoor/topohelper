@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using TopoHelper.AutoCAD;
 using TopoHelper.Properties;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -18,11 +20,9 @@ namespace TopoHelper.UserControls.ViewModels
         #region Private Fields
 
         private static readonly Settings SettingsDefault = Settings.Default;
-        private RelayCommand _cancel;
-        private RelayCommand _reloadSettings;
-        private RelayCommand _save;
-        private string _filter;
+        private RelayCommand _cancel, _clearSearch, _reloadSettings, _save;
         private CollectionViewSource _dataGridView;
+        private string _searchString;
 
         #endregion
 
@@ -31,42 +31,26 @@ namespace TopoHelper.UserControls.ViewModels
         public SettingsViewModel()
         {
             RefreshView();
+            MenuItems = new ObservableCollection<AutoCadCommandViewModel>();
+            foreach (var command in Assembly.GetExecutingAssembly().GetCommands(true))
+            {
+                MenuItems.Add(new AutoCadCommandViewModel { CommandName = command });
+            }
+            RaisePropertyChanged(nameof(MenuItems));
         }
 
         #endregion
 
         #region Public Properties
 
-        public string Filter
-        {
-            get => _filter;
-            set
-            {
-                if (!value.Equals(_filter))
-                {
-                    FilterView(value);
-                }
-                _filter = value;
-            }
-        }
-
-        private void FilterView(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                DataGridView.View.Filter = null;
-            else
-                DataGridView.View.Filter = item =>
-                {
-                    if (item == null) return false;
-                    if (!(item is SettingsEntryViewModel)) return false;
-                    if (((SettingsEntryViewModel)item).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                    return ((SettingsEntryViewModel)item).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
-                };
-        }
-
         public ICommand CancelCommand =>
             _cancel ?? (_cancel = new RelayCommand(Cancel,
                 CanCancel));
+
+        public ICommand ClearSearchCommand =>
+            _clearSearch ?? (_clearSearch = new RelayCommand(ClearSearch, CanClearSearch));
+
+        public bool ClearSearchIsVisible { get => !string.IsNullOrEmpty(SearchString); }
 
         public CollectionViewSource DataGridView
         {
@@ -74,6 +58,7 @@ namespace TopoHelper.UserControls.ViewModels
             set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); }
         }
 
+        public ObservableCollection<AutoCadCommandViewModel> MenuItems { get; set; }
         public Action OnCancel { get; set; }
 
         public ICommand ReloadSettingsCommand =>
@@ -83,6 +68,21 @@ namespace TopoHelper.UserControls.ViewModels
         public ICommand SaveCommand =>
             _save ?? (_save = new RelayCommand(Save,
                 CanSave));
+
+        public string SearchString
+        {
+            get => _searchString;
+            set
+            {
+                if (!value.Equals(_searchString))
+                {
+                    FilterView(value);
+                }
+                _searchString = value;
+                RaisePropertyChanged(nameof(SearchString));
+                RaisePropertyChanged(nameof(ClearSearchIsVisible));
+            }
+        }
 
         #endregion
 
@@ -176,6 +176,34 @@ namespace TopoHelper.UserControls.ViewModels
 
             if (!saved) return;
             SettingsDefault.Save(); SettingsDefault.Reload(); RefreshView();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private bool CanClearSearch(object obj)
+        {
+            return !string.IsNullOrEmpty(SearchString);
+        }
+
+        private void ClearSearch(object obj)
+        {
+            SearchString = "";
+        }
+
+        private void FilterView(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                DataGridView.View.Filter = null;
+            else
+                DataGridView.View.Filter = item =>
+                {
+                    if (item == null) return false;
+                    if (!(item is SettingsEntryViewModel)) return false;
+                    if (((SettingsEntryViewModel)item).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                    return ((SettingsEntryViewModel)item).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+                };
         }
 
         #endregion

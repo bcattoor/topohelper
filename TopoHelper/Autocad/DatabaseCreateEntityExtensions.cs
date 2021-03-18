@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TopoHelper.AutoCAD
 {
-    internal static class DatabaseCreateEntityExtensions
+    public static class DatabaseCreateEntityExtensions
     {
         #region Private Fields
 
@@ -19,7 +19,7 @@ namespace TopoHelper.AutoCAD
         #region Public Methods
 
         public static ObjectId Create2dPolyline(this Database database, IEnumerable<Point3d> points, string layerName = null,
-            short layerColor = 256, short entityCollor = 256, double elevation = .0, double startwidth = .0, double endwidth = .0)
+            short layerColor = 256, short entityCollor = 256, double elevation = .0, double linetypeScale = 1, double startwidth = .0, double endwidth = .0)
         {
             using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
@@ -40,7 +40,44 @@ namespace TopoHelper.AutoCAD
                         }
                         pl2d.Elevation = elevation;
                         pl2d.ColorIndex = entityCollor;
-                        pl2d.LinetypeScale = .5;
+                        pl2d.LinetypeScale = linetypeScale;
+                        pl2d.LineWeight = LineWeight.ByLayer;
+
+                        if (layerName != null)
+                        {
+                            database.CreateLayer(layerName, layerColor, "");
+                            pl2d.Layer = layerName;
+                        }
+
+                        pl2d.ColorIndex = entityCollor;
+                        var id = blockTableRecord.AppendEntity(pl2d);
+                        transAction.AddNewlyCreatedDBObject(pl2d, true);
+                        transAction.Commit();
+                        return id;
+                    }
+                }
+            }
+        }
+
+        public static ObjectId Create2dPolyline(this Database database, Curve curve, string layerName = null,
+           short layerColor = 256, short entityCollor = 256, double elevation = .0, double linetypeScale = 1, double startwidth = .0, double endwidth = .0)
+        {
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                // Get the layer table from the drawing
+                using (var blockTable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
+                {
+                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+
+                    //create the layer
+                    using (var pl2d = new Polyline())
+
+                    {
+                        pl2d.SetDatabaseDefaults();
+                        pl2d.SetFromGeCurve(curve.GetGeCurve());
+                        pl2d.Elevation = elevation;
+                        pl2d.ColorIndex = entityCollor;
+                        pl2d.LinetypeScale = linetypeScale;
                         pl2d.LineWeight = LineWeight.ByLayer;
 
                         if (layerName != null)

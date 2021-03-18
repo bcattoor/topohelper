@@ -29,7 +29,6 @@ namespace TopoHelper.Csv
                 setCultureFromSettings();
                 using (var csv = new CsvWriter(writer, Culture))
                 {
-                    ;
                     csv.Context.RegisterClassMap<MeasuredSectionMap>();
                     csv.WriteRecords(records);
                 }

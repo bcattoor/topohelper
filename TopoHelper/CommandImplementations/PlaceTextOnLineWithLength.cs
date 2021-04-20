@@ -31,7 +31,7 @@ namespace TopoHelper.CommandImplementations
             const string layerName = "501-12";
             const int layerColor = 7;
             const double offset = 0.8;
-            const string layerDescription = "";
+            const string layerDescription = "Laag met lijnstuk afstanden.";
 
             var currentDocument = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var editor = currentDocument.Editor;

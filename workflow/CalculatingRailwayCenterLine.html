@@ -8,7 +8,7 @@
       <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=dfe85b38cf86c8341353d85d">
+    <link rel="stylesheet" href="../_static/styles/furo.css?state=aac2e32c0a728ca3288e0315">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -47,7 +47,7 @@
     <script src="../_static/tabs.js"></script>
     <script src="../_static/js/_blank-links.js"></script>
     <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=dfe85b38cf86c8341353d85d"></script></head>
+    <script src="../_static/scripts/main.js?state=aac2e32c0a728ca3288e0315"></script></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -119,7 +119,7 @@
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll">
   <div class="sidebar-tree">
-    <p class="caption"><span class="caption-text">Inhoud:</span></p>
+    <p class="caption"><span class="caption-text">Welcome:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
@@ -133,7 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html">Join Polyline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_PointsToPolyline.html">Points to Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_PointsTo3DPolyline.html">Points to Polyline</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../commands/variables-overview.html">De variabelen</a></li>
@@ -166,7 +166,7 @@
         <div class="section" id="as-van-het-spoor-berekenen">
 <h1>As van het spoor berekenen<a class="headerlink" href="#as-van-het-spoor-berekenen" title="Permalink naar deze titel">¶</a></h1>
 <div class="section" id="berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">
-<h2>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails" title="Permalink naar deze titel">¶</a></h2>
+<span id="workflowcrc"></span><h2>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails" title="Permalink naar deze titel">¶</a></h2>
 <p>Om een werkbare workflow voor te leggen kies ik er om om met een werkelijke situatie te starten. Op die manier kan je de bestanden zelf downloaden en openen in AutoCAD, en dus de workflow volgen. We zullen de spooras berekenen aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).</p>
 <div class="admonition note">
 <p class="admonition-title">Notitie</p>
@@ -182,7 +182,7 @@
 </div>
 <div class="section" id="wat-vinden-we-in-dat-bestand">
 <h3>Wat vinden we in dat bestand<a class="headerlink" href="#wat-vinden-we-in-dat-bestand" title="Permalink naar deze titel">¶</a></h3>
-<p>In de laag <strong>binnenkant rail</strong> vinden we vier samengestelde lijnen <em>aka enkele 3D Polylines</em> met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.</p>
+<p>In de laag <em>binnenkant rail</em> vinden we vier samengestelde lijnen aka enkele <em>3D polylines</em> met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.</p>
 <div class="figure align-default" id="id3">
 <img alt="../_images/wf_crcl_binnenkant_rail.png" src="../_images/wf_crcl_binnenkant_rail.png"/>
 <p class="caption"><span class="caption-text">Screenshot van de vier rails.</span><a class="headerlink" href="#id3" title="Permallink naar deze afbeelding">¶</a></p>
@@ -191,7 +191,7 @@
 </div>
 <div class="section" id="workflow">
 <h2>Workflow<a class="headerlink" href="#workflow" title="Permalink naar deze titel">¶</a></h2>
-<p>Hier een voorstelling van hoe de workflow er standaard uiziet, uiteraard kan hier worden van afgeweken indien nodig.</p>
+<p>Hier een voorstelling van hoe de workflow er standaard uitziet, uiteraard kan hier worden van afgeweken indien nodig.</p>
 <div class="figure align-default" id="id4">
 <img alt="../_images/CalculateCenterlineTrack.svg" src="../_images/CalculateCenterlineTrack.svg"/><p class="caption"><span class="caption-text">Basis flow: schematische voorstelling</span><a class="headerlink" href="#id4" title="Permallink naar deze afbeelding">¶</a></p>
 </div>
@@ -243,10 +243,11 @@ Terwijl we in <a class="reference internal" href="../commands/IAMTopo_Settings.h
 </div>
 <div class="section" id="controle">
 <h3>Controle<a class="headerlink" href="#controle" title="Permalink naar deze titel">¶</a></h3>
-<p>Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](<a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg</a>), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline</a>) <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code>. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+<p>Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat gekregen de opmeter. In een [ander AutoCAD bestand](<a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg</a>), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline</a>) <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code>. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
 De controle kunnen we nu uitvoeren adhv [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines</a>) <code class="docutils literal notranslate"><span class="pre">IAMTopo_DistanceBetween2Polylines</span></code>.</p>
-<div class="section" id="iamtopo-distancebetween2polylines">
-<h4>IAMTopo_DistanceBetween2Polylines<a class="headerlink" href="#iamtopo-distancebetween2polylines" title="Permalink naar deze titel">¶</a></h4>
+<div class="section" id="afstanden-controleren">
+<h4>Afstanden controleren<a class="headerlink" href="#afstanden-controleren" title="Permalink naar deze titel">¶</a></h4>
+<p>Wanneer we gebruik maken van het commando <a href="#id5"><span class="problematic" id="id6">`IAMTopo_DistanceBetween2Polylines`_</span></a>, en de afstanden tussen de beide controleren, merken we op dat</p>
 <p class="rubric">Voetnoot</p>
 <dl class="footnote brackets">
 <dt class="label" id="taw"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -334,7 +335,7 @@ De controle kunnen we nu uitvoeren adhv [het commando](<a class="reference exter
 </ul>
 </li>
 <li><a class="reference internal" href="#controle">Controle</a><ul>
-<li><a class="reference internal" href="#iamtopo-distancebetween2polylines">IAMTopo_DistanceBetween2Polylines</a></li>
+<li><a class="reference internal" href="#afstanden-controleren">Afstanden controleren</a></li>
 </ul>
 </li>
 </ul>

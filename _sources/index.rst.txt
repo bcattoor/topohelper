@@ -6,8 +6,8 @@ Overzicht van de inhoud
 ------------------------
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Inhoud:
+   :maxdepth: 2
+   :caption: Welcome:
    
    welcome
 

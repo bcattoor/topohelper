@@ -2,7 +2,7 @@
 Welkom
 ======
 
-Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's. Voor meer informatie over het project zelf: bij voorbeeld: voor het `melden van een probleem`_, of om zelf even de broncode in te kijken dan kan je `hier op onze github pagina`_ terecht.
+Op deze website gaan we dieper in op enkele onderwerpen in verband met het gebruik van de TopoHelper tool/plugin en de beshikbare commando's. Voor meer informatie over het project zelf: bijvoorbeeld: voor het `melden van een probleem`_, of om zelf even de broncode in te kijken dan kan je `hier op onze github pagina`_ terecht.
 
 .. _melden van een probleem: https://github.com/bcattoor/topohelper/issues/new/choose
 
@@ -14,10 +14,12 @@ Deze plugin en zijn commando's zijn ontwikkeld voor bepaald specifiek gebruik op
 
 In deze documentatie ga ik in op: het waarom een bepaalde functie nodig is, en hoe deze kan gebruiken.
 
-Gebruik
---------
+Instalatie
+----------
 Alles i.v.m. de applicatie instaleren lees je hier :ref:`Install`.
 
+Gebruik
+--------
 Door gebruik te maken van de **COMMAND LINE** in **AutoCAD** kan je de functies van deze plugin oproepen. 
 
 Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist is lees dan even hier verder: :ref:`WorkingWithTheCommandline`.
@@ -25,12 +27,12 @@ Indien een er een opfrissing, *van hoe deze commandoregel te gebruiken*, vereist
 Aanpassen van de instellingen
 --------------------------------
 
-De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je :ref:`IAMTopo_Settings`
+De instellingen kunnen via een instellingenpaneel worden aangepast. Hoe je dit doet lees je :ref:`IAMTopo_Settings`. Ook kan via het instellingen paneel de de functies van deze plugin oproepen aan de hand van een uitklapmenu.
 
 Verdeling van de gecompileerde bestanden
 ----------------------------------------
 
-Deze kan dan onder de tekenaars worden verdeeld door een downloadlink. De downloadlink is beschikbaar op de github server. `Download hier de laatste versie`_. Als bepaalde collega's niet over internetoegang beschikken, dan kan de software ook worden verdeeld door het gedownloade bestand te verspreiden via de interne file servers.
+Deze kan dan onder de tekenaars worden verdeeld door een downloadlink. De downloadlink is beschikbaar op de github server. `Download hier de laatste versie`_. Als bepaalde collega's niet over internetoegang beschikken, dan kan de software ook worden verdeeld door het gedownloade bestand te verspreiden via de interne file servers. Dit wordt echter afgeraden.
 
 .. _Download hier de laatste versie: https://github.com/bcattoor/topohelper/releases/latest
 
@@ -40,9 +42,10 @@ Er werd gekozen om met het C# .NET Framework 4.6 een oplossing aan te bieden in 
 
 Versie beheer van de code
 -------------------------
-De uitgewerkte oplossing wordt beheerd op github een GIT-versiebeheersysteem. Een overzicht van alle commits_ kan je hier vinden.
+De uitgewerkte oplossing wordt beheerd op github door middel van een GIT-versiebeheersysteem. Een overzicht van alle commits_ kan je hier vinden. 
 
-De volledig broncode_ is alsook beschikbaar hier.
+De volledig broncode_ is ook beschikbaar. Dit kan nodig zijn wanneer er in de toekomst aanpassingen moeten worden gedaan.
 
 .. _commits: https://github.com/bcattoor/topohelper/commits/master
 .. _broncode: https://github.com/bcattoor/topohelper/tree/master
+

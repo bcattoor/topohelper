@@ -15,7 +15,7 @@ Een overzicht van alle beschikbare commando's in de plugin.
    IAMTopo_JoinPolyline
    IAMTopo_SimplifyPolyline
    IAMTopo_CleanNonSurveyVertexFromPolyline
-   IAMTopo_PointsToPolyline
+   IAMTopo_PointsTo3DPolyline
 
 .. csv-table:: Tabel COMMANDOS
    :file: ..\_static\tables\command-list-table.csv

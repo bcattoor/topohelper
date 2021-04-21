@@ -4,10 +4,15 @@ About this website
 
 This is the repository for the TopoHelper_ application's documentation website.
 
-The github-repository with the source code for this web-site can be found here_.
+The github-repository with the `source code for this web-site can be found here.`_
 
-.. _here: https://github.com/bcattoor/topohelper-docs
+The `sourcecode for TopoHelper itself`_ can be found here.
+
+.. _`source code for this web-site can be found here.`: https://github.com/bcattoor/topohelper-docs
 .. _TopoHelper: https://bcattoor.github.io/topohelper/
+.. _`sourcecode for TopoHelper itself`: https://github.com/bcattoor/topohelper/tree/master
+
+==========================================================================================
 
 Building it yourself
 --------------------

@@ -2,6 +2,8 @@
 As van het spoor berekenen
 ==========================
 
+.. _WorkflowCRC:
+
 Berekenen van de as van het spoor a.d.h.v. de opgemeten rails
 -------------------------------------------------------------
 
@@ -23,7 +25,7 @@ Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Download hi
 
 Wat vinden we in dat bestand
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In de laag **binnenkant rail** vinden we vier samengestelde lijnen *aka enkele 3D Polylines* met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.
+In de laag *binnenkant rail* vinden we vier samengestelde lijnen aka enkele *3D polylines* met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.
 
 
 .. figure:: ./../_static/images/wf_crcl_binnenkant_rail.*
@@ -32,7 +34,7 @@ In de laag **binnenkant rail** vinden we vier samengestelde lijnen *aka enkele
 
 Workflow
 -----------
-Hier een voorstelling van hoe de workflow er standaard uiziet, uiteraard kan hier worden van afgeweken indien nodig.
+Hier een voorstelling van hoe de workflow er standaard uitziet, uiteraard kan hier worden van afgeweken indien nodig.
 
 .. figure:: ./../_static/diagrams/CalculateCenterlineTrack.svg
 
@@ -97,11 +99,13 @@ In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We ku
 Controle
 ^^^^^^^^
 
-Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) ``IAMTOPO_JOINPOLYLINE``. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat gekregen de opmeter. In een [ander AutoCAD bestand](https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline) ``IAMTOPO_JOINPOLYLINE``. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
 De controle kunnen we nu uitvoeren adhv [het commando](https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines) ``IAMTopo_DistanceBetween2Polylines``.
 
-IAMTopo_DistanceBetween2Polylines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Afstanden controleren
+~~~~~~~~~~~~~~~~~~~~~
+
+Wanneer we gebruik maken van het commando `IAMTopo_DistanceBetween2Polylines`_, en de afstanden tussen de beide controleren, merken we op dat 
 
 .. This directive creates a paragraph heading that is not used to create a table of contents node.
 

@@ -1,8 +1,8 @@
-.. _IAMTopo_Settings:
-
 ============
 Instellingen
 ============
+
+.. _IAMTopo_Settings:
 
 Het commando
 ------------
@@ -16,14 +16,17 @@ Aan de hand van dit paneel kan je de instellingen, die worden gebruikt door de v
 
 Een overzicht
 ^^^^^^^^^^^^^
-.. _instellingen paneel:
-.. figure:: ./../_static/images/settingspanel.*
+
+.. only:: html
+
+    .. figure:: ./../_static/images/settingspanel.png
+        :alt: Showing an example of how it looks to actually intalling the application.
 
     Afbeelding van het instellingenpaneel.
 
 Woordje uitleg 
 ##############
-bij de genummerde puntjes zichtbaar in de ":ref:`instellingen paneel`"
+bij de genummerde puntjes zichtbaar in: `Een overzicht`_:
 
 1. Wanneer een verkeerde waarde wordt ingevuld in de tabel, dan zal hier een vinkje bij geplaatst zijn. Dit betekent dat de wijziging niet kan worden opgeslaan. U dient eerst de foutive waarde aan te passen.
 2. Dit is de naam van de variabel.

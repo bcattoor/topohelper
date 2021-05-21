@@ -20,7 +20,7 @@ Engelstalige video
 
   .. youtube:: https://www.youtube.com/watch?v=KZoCJ-mUffs
 
-.. only:: latex
+.. only:: html
 
   De video vind je hier: https://www.youtube.com/watch?v=KZoCJ-mUffs
 

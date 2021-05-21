@@ -33,7 +33,7 @@ Deze controles zijn:
 - is de richting t.o.v. elkaar gelijk
 - voldoen de spoorwijdtes aan de minimum opgegeven waarde
     .. seealso:: 
-        - In de insstellingen is de volgende waarde aan te passen: DataValidation_LeftrailToRightRail_Tolerance
+        - In de instellingen is de volgende waarde aan te passen: DataValidation_LeftrailToRightRail_Tolerance
             - Wanneer de afstand kleiner is dan 1.435 - ``DataValidation_LeftrailToRightRail_Tolerance``, dan geven we een *foutmelding*.
 
 - voldoen de spoorwijdtes aan de maximum opgegeven waarde, hiermee bedoelen we de 3D afstand tussen het linker rail punt, en het rechter rail punt.

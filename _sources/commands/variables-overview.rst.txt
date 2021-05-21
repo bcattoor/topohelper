@@ -11,7 +11,7 @@ Een overzicht van alle beschikbare variabelen
       :widths: 60 40
       :header-rows: 1
 
-.. only:: latex
+.. only:: html
 
    .. csv-table:: Tabel VARIABELEN
       :file: ..\_static\tables\var-list-table_small.csv

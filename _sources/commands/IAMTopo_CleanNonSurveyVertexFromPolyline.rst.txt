@@ -23,6 +23,7 @@ Gebruik
 #. Een nieuw polylijn is gemaakt.
 
 .. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.*
+    :alt: toont hier een voorbeeld van hoe het gedaan wordt in AutoCAD.
 
 .. rubric:: Voetnoot
 

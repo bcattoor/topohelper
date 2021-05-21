@@ -12,7 +12,7 @@ Waarom deze plugin
 -------------------
 Deze plugin en zijn commando's zijn ontwikkeld voor bepaald specifiek gebruik op (opgemeten) samengestelde lijnen (3D POLYLINES in AutoCAD). Tijdens het werken met deze specifieke lijnen zijn noden onstaan die met een AutoCAD software niet standaard wordt opgelost. Deze plugin biedt daar zoveel mogelijk een antwoord op.
 
-In deze documentatie ga ik in op: het waarom een bepaalde functie nodig is, en hoe deze kan gebruiken.
+In deze documentatie ga ik in op: het waarom een bepaalde functie nodig is, en hoe je deze kan gebruiken.
 
 Instalatie
 ----------

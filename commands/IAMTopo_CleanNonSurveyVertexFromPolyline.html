@@ -1,14 +1,12 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Points to Polyline" href="IAMTopo_PointsTo3DPolyline.html" /><link rel="prev" title="Simplify Polyline" href="IAMTopo_SimplifyPolyline.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Points to Polyline" href="IAMTopo_PointsTo3DPolyline.html" /><link rel="prev" title="Simplify Polyline" href="IAMTopo_SimplifyPolyline.html" />
 
-    <meta name="generator" content="sphinx-3.3.1, furo 2020.11.10.beta15"/>
+    <meta name="generator" content="sphinx-4.0.2, furo 2021.04.11.beta34"/>
         <title>Clean Non Survey Verteces From Polyline - TopoHelper</title>
-      <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" href="../_static/styles/furo.css?state=fbedde178231893f7f12e0f2">
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
@@ -39,15 +37,11 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script><script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
-    <script src="../_static/tabs.js"></script>
-    <script src="../_static/js/_blank-links.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script src="../_static/scripts/main.js?state=fbedde178231893f7f12e0f2"></script></head>
+</style><link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -88,9 +82,10 @@
 
 <div class="announcement">
   <aside class="announcement-content">
-    Topohelper is in voortdurende ontwikkeling, deze documentatie kan fouten bevatten!
+     Topohelper is in voortdurende ontwikkeling, deze documentatie kan fouten bevatten! 
   </aside>
 </div>
+
 <div class="page">
   <header class="mobile-header">
     <div class="header-left">
@@ -112,14 +107,15 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
+  
   <span class="sidebar-brand-text">TopoHelper</span>
+  
 </a><form class="sidebar-search-container" method="get" action="../search.html">
-  <input class="sidebar-search" placeholder="Search" name="q">
+  <input class="sidebar-search" placeholder=Zoeken name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
-</form><div class="sidebar-scroll">
-  <div class="sidebar-tree">
-    <p class="caption"><span class="caption-text">Welcome:</span></p>
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption"><span class="caption-text">Welcome:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
 </ul>
@@ -149,9 +145,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../README.html">About this website</a></li>
 </ul>
 
-  </div>
-  
-  
+</div>
 </div>
       </div>
       
@@ -190,7 +184,7 @@ De lijst met meetpunten wordt opgebouwd aan de hand van alle punten die in de la
 <li><p>Selecteer de polylijn die u wenst op te kuisen.</p></li>
 <li><p>Een nieuw polylijn is gemaakt.</p></li>
 </ol>
-<img alt="../_images/wf_CleanNonSurveyVertexFromPolyline_001.gif" src="../_images/wf_CleanNonSurveyVertexFromPolyline_001.gif"/>
+<img alt="toont hier een voorbeeld van hoe het gedaan wordt in AutoCAD." src="../_images/wf_CleanNonSurveyVertexFromPolyline_001.gif"/>
 <p class="rubric">Voetnoot</p>
 <dl class="footnote brackets">
 <dt class="label" id="vertex"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -251,8 +245,9 @@ De lijst met meetpunten wordt opgebouwd aan de hand van alle punten die in de la
             Inhoudsopgave
           </span>
         </div>
-        <div class="toc-tree">
-          <ul>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
 <li><a class="reference internal" href="#">Clean Non Survey Verteces From Polyline</a><ul>
 <li><a class="reference internal" href="#waarom">Waarom</a></li>
 <li><a class="reference internal" href="#wat">Wat</a></li>
@@ -261,6 +256,7 @@ De lijst met meetpunten wordt opgebouwd aan de hand van alle punten die in de la
 </li>
 </ul>
 
+          </div>
         </div>
       </div>
       
@@ -268,5 +264,13 @@ De lijst met meetpunten wordt opgebouwd aan de hand van alle punten die in de la
     </aside>
   </main>
 </div>
-  </body>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/tabs.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/js/_blank-links.js"></script>
+    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

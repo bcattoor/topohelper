@@ -22,7 +22,7 @@ Voorbeeld
 
     .. youtube:: https://www.youtube.com/watch?v=9rn6PiJRF1I&feature=youtu.be
 
-.. only:: latex
+.. only:: html
 
     .. figure:: https://bitbucket.org/repo/7z4zyGe/images/3590198103-example.IAMTopo_JoinPolyline.jpg
 

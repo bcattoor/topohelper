@@ -16,7 +16,8 @@ De verkregen bestanden
 
 Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Download hier -> `OW17 L60`_)
 
-.. figure:: ./../_static/images/wf_crcl_dwg.*
+.. figure:: ./../_static/images/wf_crcl_dwg.png
+    :alt: toont hier een voorbeeld van hoe het gedaan wordt in AutoCAD.
 
     Screenshot van de modelspace van de DWG.
 
@@ -28,7 +29,8 @@ Wat vinden we in dat bestand
 In de laag *binnenkant rail* vinden we vier samengestelde lijnen aka enkele *3D polylines* met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.
 
 
-.. figure:: ./../_static/images/wf_crcl_binnenkant_rail.*
+.. figure:: ./../_static/images/wf_crcl_binnenkant_rail.png
+    :alt: toont hier een voorbeeld van de vier rails.
 
     Screenshot van de vier rails.
 
@@ -37,6 +39,7 @@ Workflow
 Hier een voorstelling van hoe de workflow er standaard uitziet, uiteraard kan hier worden van afgeweken indien nodig.
 
 .. figure:: ./../_static/diagrams/CalculateCenterlineTrack.svg
+    :alt: toont hier een schematische voorstelling van de flow.
 
     Basis flow: schematische voorstelling
 
@@ -51,7 +54,9 @@ Het is belangrijk dat de polylijnen aaneensluitend zijn over de volledige lengte
 In ons voorbeeld:
 Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando ``join``. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag *Binnenkant Rail* ``Unlocked`` staat. 
 
+.. only:: html
 .. image:: ./../_static/images/wf_joinpolyline_001.gif
+    :alt: toont hier een voorbeeld van hoe het wordt gedaan in AutoCAD.
 
 Wanneer de lijnen **niet mooi aaneensluitend zijn**, dan maken we gebruik van het commando :ref:`IAMTopo_JoinPolyline` om de lijnen samen te voegen.
 
@@ -74,7 +79,10 @@ Na een controle merken we dat de 4-lijnen van de rails evenveel vertexen hebben.
 We zijn nu klaar om over te gaan naar het berekenen van het center.
 Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen verplaats naar een nieuwe laag. Laagnaam: ``Binnenkant Rail Verwijderde Punten``
 
-.. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.*
+.. only:: html
+    
+    .. image:: ./../_static/images/wf_CleanNonSurveyVertexFromPolyline_001.gif
+        :alt: toont hier een voorbeeld van hoe het gedaan wordt in AutoCAD
 
 Berekenen van de as van het spoor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -105,7 +113,7 @@ De controle kunnen we nu uitvoeren adhv [het commando](https://bitbucket.org/cad
 Afstanden controleren
 ~~~~~~~~~~~~~~~~~~~~~
 
-Wanneer we gebruik maken van het commando `IAMTopo_DistanceBetween2Polylines`_, en de afstanden tussen de beide controleren, merken we op dat 
+Wanneer we gebruik maken van het commando :ref:`IAMTopo_DistanceBetween2Polylines`, en de afstanden tussen de beide controleren, merken we op dat 
 
 .. This directive creates a paragraph heading that is not used to create a table of contents node.
 

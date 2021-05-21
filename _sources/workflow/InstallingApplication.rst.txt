@@ -18,7 +18,10 @@ Installeren
 -----------
 Voor de instalatie maak je gebruik van het meegeleverde instalatie bestand in de download. Dubbelklikken op het bestand zou alles moeten op de correcte plaats instaleren. Eens geïnstaleerd zijn de commando's beschikbaar in AutoCAD.
 
-.. figure:: ./../_static/images/installer_001.*
+.. only:: html
+
+  .. figure:: ./../_static/images/installer_001.gif
+  .. :alt: todo: change to some text
 
 Voorwaarden
 -----------
@@ -26,8 +29,8 @@ Voorwaarden
 U dient te beschikken over het .NET Framework V4.6 .( download hier -> .NET )
 AutoCAD moet geinstaleerd staan op het systeem.
 
-Geondersteunde AutoCAD versies
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+De AutoCAD versies de worden ondersteund zijn:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +-----------------------+---------------------+
 | Product               | Product code        |

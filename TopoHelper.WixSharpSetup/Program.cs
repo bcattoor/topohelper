@@ -226,6 +226,8 @@ namespace TopoHelper.WixSharpSetup
                     };
 
                     proc.Start();
+                    // Wait for the process to be started
+                    proc.WaitForExit(15000);
                 }
                 catch (Exception ex)
                 {

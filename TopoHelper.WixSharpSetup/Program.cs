@@ -235,8 +235,9 @@ namespace TopoHelper.WixSharpSetup
                     // process to continue If we stop here the application will
                     // become irremovable.
                     Debug.WriteLine(ex.Message);
-                    MessageBox.Show("Removal failed!");
-                    e.Result = ActionResult.Success;
+                    MessageBox.Show($"Removal failed:\r\n {ex.Message}");
+                    e.Result = ActionResult.Success; //+ Careful
+                                                     //!we Return SUCCES!
                 }
             }
         }

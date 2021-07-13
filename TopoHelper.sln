@@ -12,7 +12,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopoHelper.WixSharpSetup", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F05EC989-72D9-4FC6-BE1A-FD17445226F1}"
 	ProjectSection(SolutionItems) = preProject
+		TopoHelper.WixSharpSetup\files\license.rtf = TopoHelper.WixSharpSetup\files\license.rtf
 		readme.md = readme.md
+		TopoHelper.WixSharpSetup\files\README.txt = TopoHelper.WixSharpSetup\files\README.txt
 	EndProjectSection
 EndProject
 Global
@@ -42,8 +44,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FBBBEAA6-DCA4-42CF-A02E-D4F024219198}
-		BuildVersion_StartDate = 2000/1/1
 		BuildVersion_UseGlobalSettings = False
+		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {FBBBEAA6-DCA4-42CF-A02E-D4F024219198}
 	EndGlobalSection
 EndGlobal

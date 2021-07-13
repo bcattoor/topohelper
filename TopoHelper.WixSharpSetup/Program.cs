@@ -231,9 +231,10 @@ namespace TopoHelper.WixSharpSetup
                 }
                 catch (Exception ex)
                 {
-                    // We return success here because we want the uninstall
-                    // process to continue If we stop here the application will
-                    // become irremovable.
+                     //++ Return SUCCES!
+                    //! We return success here because we want the uninstall
+                    //! process to continue If we stop here the application will
+                    //! become irremovable.
                     Debug.WriteLine(ex.Message);
                     MessageBox.Show($"Removal failed:\r\n {ex.Message}");
                     e.Result = ActionResult.Success; //+ Careful

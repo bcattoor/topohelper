@@ -27,7 +27,7 @@ namespace TopoHelper.WixSharpSetup
         /// This is where the source files are located, when rebuilding from new
         /// environment make sure to update this.
         /// </summary>
-        private const string SourcePathOfFiles = @"E:\Source\Repos\concepts\TopoHelper\TopoHelper.WixSharpSetup\files";
+        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files";
 
         //? --> More info about AutoCAD registry logic:
         //- https://jtbworld.com/autocad-information#AutoCAD-registry-details

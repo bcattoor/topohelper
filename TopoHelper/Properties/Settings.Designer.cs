@@ -71,60 +71,60 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("811")]
-        public string Rails2RailwayCenterLine_LayerNameCenterline {
+        public string RailsToRailwayCenterLine_LayerNameCenterline {
             get {
-                return ((string)(this["Rails2RailwayCenterLine_LayerNameCenterline"]));
+                return ((string)(this["RailsToRailwayCenterLine_LayerNameCenterline"]));
             }
             set {
-                this["Rails2RailwayCenterLine_LayerNameCenterline"] = value;
+                this["RailsToRailwayCenterLine_LayerNameCenterline"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("253")]
-        public short Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine {
+        public short RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine {
             get {
-                return ((short)(this["Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine"]));
+                return ((short)(this["RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine"]));
             }
             set {
-                this["Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine"] = value;
+                this["RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Rails2RailwayCenterLine_DrawCenterline3DPoints {
+        public bool RailsToRailwayCenterLine_DrawCenterline3DPoints {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_DrawCenterline3DPoints"]));
+                return ((bool)(this["RailsToRailwayCenterLine_DrawCenterline3DPoints"]));
             }
             set {
-                this["Rails2RailwayCenterLine_DrawCenterline3DPoints"] = value;
+                this["RailsToRailwayCenterLine_DrawCenterline3DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("811-Points")]
-        public string Rails2RailwayCenterLine_LayerNameCenterLine3DPoints {
+        public string RailsToRailwayCenterLine_LayerNameCenterLine3DPoints {
             get {
-                return ((string)(this["Rails2RailwayCenterLine_LayerNameCenterLine3DPoints"]));
+                return ((string)(this["RailsToRailwayCenterLine_LayerNameCenterLine3DPoints"]));
             }
             set {
-                this["Rails2RailwayCenterLine_LayerNameCenterLine3DPoints"] = value;
+                this["RailsToRailwayCenterLine_LayerNameCenterLine3DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("251")]
-        public short Rails2RailwayCenterLine_LayerColorCenterline3DPoints {
+        public short RailsToRailwayCenterLine_LayerColorCenterline3DPoints {
             get {
-                return ((short)(this["Rails2RailwayCenterLine_LayerColorCenterline3DPoints"]));
+                return ((short)(this["RailsToRailwayCenterLine_LayerColorCenterline3DPoints"]));
             }
             set {
-                this["Rails2RailwayCenterLine_LayerColorCenterline3DPoints"] = value;
+                this["RailsToRailwayCenterLine_LayerColorCenterline3DPoints"] = value;
             }
         }
         
@@ -143,48 +143,48 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Rails2RailwayCenterLine_Draw2DPolyline_CenterLine {
+        public bool RailsToRailwayCenterLine_Draw2DPolyline_CenterLine {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_Draw2DPolyline_CenterLine"]));
+                return ((bool)(this["RailsToRailwayCenterLine_Draw2DPolyline_CenterLine"]));
             }
             set {
-                this["Rails2RailwayCenterLine_Draw2DPolyline_CenterLine"] = value;
+                this["RailsToRailwayCenterLine_Draw2DPolyline_CenterLine"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Rails2RailwayCenterLine_Draw3DPolyline_CenterLine {
+        public bool RailsToRailwayCenterLine_Draw3DPolyline_CenterLine {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_Draw3DPolyline_CenterLine"]));
+                return ((bool)(this["RailsToRailwayCenterLine_Draw3DPolyline_CenterLine"]));
             }
             set {
-                this["Rails2RailwayCenterLine_Draw3DPolyline_CenterLine"] = value;
+                this["RailsToRailwayCenterLine_Draw3DPolyline_CenterLine"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\Data\\track.Rails2RailwayCenterLine.csv")]
-        public string Rails2RailwayCenterLine_PathToCSVFile {
+        public string RailsToRailwayCenterLine_PathToCSVFile {
             get {
-                return ((string)(this["Rails2RailwayCenterLine_PathToCSVFile"]));
+                return ((string)(this["RailsToRailwayCenterLine_PathToCSVFile"]));
             }
             set {
-                this["Rails2RailwayCenterLine_PathToCSVFile"] = value;
+                this["RailsToRailwayCenterLine_PathToCSVFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Rails2RailwayCenterLine_Use_CalculateSurveyCorrection {
+        public bool RailsToRailwayCenterLine_Use_CalculateSurveyCorrection {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_Use_CalculateSurveyCorrection"]));
+                return ((bool)(this["RailsToRailwayCenterLine_Use_CalculateSurveyCorrection"]));
             }
             set {
-                this["Rails2RailwayCenterLine_Use_CalculateSurveyCorrection"] = value;
+                this["RailsToRailwayCenterLine_Use_CalculateSurveyCorrection"] = value;
             }
         }
         
@@ -215,24 +215,24 @@ namespace TopoHelper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Rails2RailwayCenterLine_DrawCenterline2DPoints {
+        public bool RailsToRailwayCenterLine_DrawCenterline2DPoints {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_DrawCenterline2DPoints"]));
+                return ((bool)(this["RailsToRailwayCenterLine_DrawCenterline2DPoints"]));
             }
             set {
-                this["Rails2RailwayCenterLine_DrawCenterline2DPoints"] = value;
+                this["RailsToRailwayCenterLine_DrawCenterline2DPoints"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Rails2RailwayCenterLine_WriteResultToCSVFile {
+        public bool RailsToRailwayCenterLine_WriteResultToCSVFile {
             get {
-                return ((bool)(this["Rails2RailwayCenterLine_WriteResultToCSVFile"]));
+                return ((bool)(this["RailsToRailwayCenterLine_WriteResultToCSVFile"]));
             }
             set {
-                this["Rails2RailwayCenterLine_WriteResultToCSVFile"] = value;
+                this["RailsToRailwayCenterLine_WriteResultToCSVFile"] = value;
             }
         }
         

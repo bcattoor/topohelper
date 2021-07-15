@@ -28,6 +28,11 @@ namespace TopoHelper.Model.String
             return newText.ToString();
         }
 
-        public static string Friendly(this string s) => s.Replace("IAMTopo_", "").Replace("_", " ").UnPascalCase();
+        public static string ToFriendlyCommandName(this string s) => s.Replace("IAMTopo_", "").Trim()
+            .Replace("2D", "Tweeedeee").Replace("3D", "Treeedeee")
+            .Replace("2", "Two")
+            .UnPascalCase()
+            .Replace("Treeedeee", "3D").Replace("Tweeedeee", "2D")
+            .Replace("_", " ");
     }
 }

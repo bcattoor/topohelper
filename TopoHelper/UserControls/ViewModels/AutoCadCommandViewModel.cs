@@ -29,7 +29,7 @@ namespace TopoHelper.UserControls.ViewModels
         {
             get
             {
-                if (friendlyName == null) friendlyName = CommandName.Friendly();
+                if (friendlyName == null) friendlyName = CommandName.ToFriendlyCommandName();
                 return friendlyName;
             }
         }

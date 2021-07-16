@@ -5,6 +5,8 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Windows;
+using Simplifynet;
+
 //todo: using Simplifynet; #disabled until original source code is found
 using System;
 using System.Collections.Generic;
@@ -742,7 +744,7 @@ namespace TopoHelper
             try
             {
                 //? This function is disabled until we have found the original source code
-                /*
+
                 //Clear selection
                 editor.SetImpliedSelection(new ObjectId[0]);
 
@@ -774,7 +776,7 @@ namespace TopoHelper
                 database.Create3dPolyline(r.Select(x => new Point3d(x.X, x.Y, x.Z)));
 
                 // Report
-                editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count + " vertices's.");*/
+                editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count + " vertices's.");
             }
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
             finally

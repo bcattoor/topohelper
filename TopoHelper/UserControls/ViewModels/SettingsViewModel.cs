@@ -32,6 +32,10 @@ namespace TopoHelper.UserControls.ViewModels
         {
             RefreshView();
             MenuItems = new ObservableCollection<AutoCadCommandViewModel>();
+            var commandStrings = Assembly.GetExecutingAssembly().GetCommands(true);
+
+            //commandStrings = commandStrings.Select(str=>str.Replace(""))
+
             foreach (var command in Assembly.GetExecutingAssembly().GetCommands(true))
             {
                 MenuItems.Add(new AutoCadCommandViewModel { CommandName = command });

@@ -14,34 +14,34 @@
     <Setting Name="LayerNamePrefix_3DObjects" Type="System.String" Scope="User">
       <Value Profile="(Default)">IAMTopo_3D-</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_LayerNameCenterline" Type="System.String" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerNameCenterline" Type="System.String" Scope="User">
       <Value Profile="(Default)">811</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_LayerColorOfCenterline3DPolyLine" Type="System.Int16" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">253</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_DrawCenterline3DPoints" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_DrawCenterline3DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_LayerNameCenterLine3DPoints" Type="System.String" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerNameCenterLine3DPoints" Type="System.String" Scope="User">
       <Value Profile="(Default)">811-Points</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_LayerColorCenterline3DPoints" Type="System.Int16" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerColorCenterline3DPoints" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">251</Value>
     </Setting>
     <Setting Name="DataValidation_LeftrailToRightRail_Maximum" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1.52</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_Draw2DPolyline_CenterLine" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Draw2DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_Draw3DPolyline_CenterLine" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Draw3DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_PathToCSVFile" Type="System.String" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_PathToCSVFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Data\track.Rails2RailwayCenterLine.csv</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_Use_CalculateSurveyCorrection" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Use_CalculateSurveyCorrection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CalculateSurveyCorrection_Draw3DPolyline_Rails" Type="System.Boolean" Scope="User">
@@ -50,10 +50,10 @@
     <Setting Name="CalculateSurveyCorrection_LayerNamePolylines_Rails" Type="System.String" Scope="User">
       <Value Profile="(Default)">IAMTopo_CalculateSurveyCorrection_Rail</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_DrawCenterline2DPoints" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_DrawCenterline2DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="Rails2RailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CalculateSurveyCorrection_LayerColorPolyline_Rails" Type="System.Int16" Scope="User">
@@ -123,7 +123,7 @@
       <Value Profile="(Default)">;</Value>
     </Setting>
     <Setting Name="NumberGroupCharacter_ForAllCSVFiles" Type="System.String" Scope="User">
-      <Value Profile="(Default)"> </Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

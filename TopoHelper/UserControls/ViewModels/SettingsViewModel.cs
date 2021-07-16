@@ -39,9 +39,8 @@ namespace TopoHelper.UserControls.ViewModels
 
             foreach (var s in commandStrings)
                 menuItemsList.Add(new AutoCadCommandViewModel { CommandName = s });
-            menuItemsList.OrderBy(x => x.FriendlyName);
 
-            foreach (var command in menuItemsList)
+            foreach (var command in _ = menuItemsList.OrderBy(x => x.FriendlyName))
                 MenuItems.Add(command);
 
             RaisePropertyChanged(nameof(MenuItems));

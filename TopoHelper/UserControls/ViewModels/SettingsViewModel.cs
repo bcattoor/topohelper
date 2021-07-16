@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
@@ -31,15 +32,18 @@ namespace TopoHelper.UserControls.ViewModels
         public SettingsViewModel()
         {
             RefreshView();
+
             MenuItems = new ObservableCollection<AutoCadCommandViewModel>();
             var commandStrings = Assembly.GetExecutingAssembly().GetCommands(true);
+            var menuItemsList = new List<AutoCadCommandViewModel>();
 
-            //commandStrings = commandStrings.Select(str=>str.Replace(""))
+            foreach (var s in commandStrings)
+                menuItemsList.Add(new AutoCadCommandViewModel { CommandName = s });
+            menuItemsList.OrderBy(x => x.FriendlyName);
 
-            foreach (var command in Assembly.GetExecutingAssembly().GetCommands(true))
-            {
-                MenuItems.Add(new AutoCadCommandViewModel { CommandName = command });
-            }
+            foreach (var command in menuItemsList)
+                MenuItems.Add(command);
+
             RaisePropertyChanged(nameof(MenuItems));
         }
 

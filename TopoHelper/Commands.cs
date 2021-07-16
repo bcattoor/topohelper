@@ -807,8 +807,8 @@ namespace TopoHelper
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
 
-        [CommandMethod("IAMTope_OffsetPolyLine")]
-        public static void IAMTope_OffsetPolyLine()
+        [CommandMethod("IAMTopo_OffsetPolyline")]
+        public static void IAMTopo_OffsetPolyline()
         {
             var document = Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;

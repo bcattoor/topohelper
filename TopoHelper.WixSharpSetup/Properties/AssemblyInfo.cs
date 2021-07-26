@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Infrabel")]
 [assembly: AssemblyProduct("TopoHelper")]
 [assembly: AssemblyCopyright("Copyright © Infrabel")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("© Infrabel")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible to

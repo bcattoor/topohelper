@@ -270,3 +270,4 @@ wiki/
 # Installer
 [Ii]nstaller/
 *.msi
+*.wixobj

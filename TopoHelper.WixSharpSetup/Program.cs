@@ -1,5 +1,6 @@
 ﻿using Microsoft.Deployment.WindowsInstaller;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;
@@ -27,21 +28,38 @@ namespace TopoHelper.WixSharpSetup
         /// This is where the source files are located, when rebuilding from new
         /// environment make sure to update this.
         /// </summary>
-        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files";
+        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper2022\TopoHelper.WixSharpSetup\files";
 
         //? --> More info about AutoCAD registry logic:
         //- https://jtbworld.com/autocad-information#AutoCAD-registry-details
         /// <summary>
-        /// registryKey AutoCAD_2019
+        /// registryKey AutoCAD_20xx https://www.cadforum.cz/en/products.asp?prod=AutoCAD
+        /// 2019: 001K1; reg: Autodesk\AutoCAD\R23.0\ACAD-2001
+        /// 2020: 001L1; reg: Autodesk\AutoCAD\R23.1\ACAD-3001
+        /// 2021: 001M1; reg: Autodesk\AutoCAD\R24.0\ACAD-4101
+        /// 2022: 001N1; reg: Autodesk\AutoCAD\R24.1\ACAD-5101
         /// </summary>
-        private const string KeyAcad19 = @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper";
+        private static readonly string[] KeysAutocad = {
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper",//2019
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper",//2020
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper",//2021
+};
 
         /// <summary>
-        /// registryKey C3D_2019
+        /// registryKey C3D_20xx
+        /// https://www.cadforum.cz/en/products.asp?prod=Civil+3D
+        /// 2019: 237K1; reg: Autodesk\AutoCAD\R23.0\ACAD-2000
+        /// 2020: 237L1; reg: Autodesk\AutoCAD\R23.1\ACAD-3000
+        /// 2021: 237M1; reg: Autodesk\AutoCAD\R24.0\ACAD-3000
+        ///! 2022: 237N1; reg: Autodesk\AutoCAD\R24.1\ACAD todo: set value
         /// </summary>
-        private const string KeyC3D19 = @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper";
+        private static readonly string[] KeysC3D = {
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper",//2020
+            // @"Computer\HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications"
+            @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper"//2021
+};
 
-        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such.";
+        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warrenty is given!";
         private const string ProductEmailContact = "Bjorn.Cattoor@Infrabel.be";
         private const string ProductGuid = "1EB1D6F2-8704-4D6F-9BDE-83D07308D140";
         private const string ProductHelpDeskTelephoneNumber = "helpdesk";
@@ -65,7 +83,11 @@ namespace TopoHelper.WixSharpSetup
         {
             var project = CreateProject();
 
+#if DEBUG
+            project.BuildMsiCmd();
+#else
             project.BuildMsi();
+#endif
         }
 
         #endregion
@@ -88,9 +110,9 @@ namespace TopoHelper.WixSharpSetup
 
         private static ManagedProject CreateProject()
         {
-            var binaryCode = new Feature("binary's", "My application binary's. This is mandatory of-course.", true, false);
-            var registerDllInAutoCad2019 = new Feature("Register AutoCAD 2019 dll.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD.", true, true);
-            var registerDllInC3D2019 = new Feature("Register dll in C3D 2019.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD C3D.", true, true);
+            var binaryCode = new Feature("The binary's", "The application binary's. This is mandatory of-course.", true, false);
+            var registerDllInAutoCad = new Feature("Autoload into AutoCAD on startup.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD.", true, true);
+            var registerDllInC3D = new Feature("Autoload into Civil 3D on startup.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD Civil 3D.", true, true);
 
             // <Guid("1EB1D6F2-8704-4D6F-9BDE-83D07308D14F")>
             var project =
@@ -123,35 +145,38 @@ namespace TopoHelper.WixSharpSetup
             project.MajorUpgradeStrategy = MajorUpgradeStrategy.Default;
             project.MajorUpgradeStrategy.RemoveExistingProductAfter = Step.InstallInitialize;
             project.PreserveTempFiles = false;
-            project.UI = WUI.WixUI_Common;
+            project.UI = WUI.WixUI_Mondo;
             project.SetNetFxPrerequisite(Condition.Net46_Installed, ErrorMessageDotNet);
             project.AfterInstall += Project_AfterInstall;
             project.BeforeInstall += Project_BeforeInstall;
             project.OutDir = InstallerFolderPath;
 
+            //? Add registy values for autocad
+            var values = new List<RegValue>();
+            foreach (var item in KeysAutocad)
+            {
+                CreateLoaderRegistryKeys(registerDllInAutoCad, values, item);
+            }
+
+            //? Add registy values for C3D
+
+            foreach (var item in KeysC3D)
+            {
+                CreateLoaderRegistryKeys(registerDllInC3D, values, item);
+            }
+
             // Register application with autoCAD
-            project.AddRegValues(
-                //? AutoCAD 2019
-                new RegValue(registerDllInAutoCad2019, RegistryHive.LocalMachineOrUsers, KeyAcad19, "LOADCTRLS", 14)
-                { AttributesDefinition = TypeInt },
-                new RegValue(registerDllInAutoCad2019, RegistryHive.LocalMachineOrUsers, KeyAcad19, "LOADER", DllFinalPath),
-                new RegValue(registerDllInAutoCad2019, RegistryHive.LocalMachineOrUsers, KeyAcad19, "MANAGED", 1)
-                { AttributesDefinition = TypeInt },
-
-                new RegValue(registerDllInAutoCad2019, RegistryHive.LocalMachineOrUsers, KeyAcad19, "DESCRIPTION", ProductDescription),
-
-                //? AutoCAD C3D 2019
-                new RegValue(registerDllInC3D2019, RegistryHive.LocalMachineOrUsers, KeyC3D19, "LOADCTRLS", 14)
-                { AttributesDefinition = TypeInt },
-
-                new RegValue(registerDllInC3D2019, RegistryHive.LocalMachineOrUsers, KeyC3D19, "LOADER", DllFinalPath),
-
-                new RegValue(registerDllInC3D2019, RegistryHive.LocalMachineOrUsers, KeyC3D19, "MANAGED", 1)
-                { AttributesDefinition = TypeInt },
-
-                new RegValue(registerDllInC3D2019, RegistryHive.LocalMachineOrUsers, KeyC3D19, "DESCRIPTION", ProductDescription));
+            project.AddRegValues(values.ToArray());
 
             return project;
+
+            void CreateLoaderRegistryKeys(Feature feature, List<RegValue> listToAddTo, string item)
+            {
+                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADCTRLS", 14) { AttributesDefinition = TypeInt });
+                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADER", DllFinalPath));
+                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "MANAGED", 1) { AttributesDefinition = TypeInt });
+                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "DESCRIPTION", ProductDescription));
+            }
         }
 
         private static void Project_AfterInstall(SetupEventArgs e)
@@ -231,7 +256,7 @@ namespace TopoHelper.WixSharpSetup
                 }
                 catch (Exception ex)
                 {
-                     //++ Return SUCCES!
+                    //++ Return SUCCES!
                     //! We return success here because we want the uninstall
                     //! process to continue If we stop here the application will
                     //! become irremovable.

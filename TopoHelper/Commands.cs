@@ -15,6 +15,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using TopoHelper;
+using TopoHelper.Autocad;
+using TopoHelper.Autocad.Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 using TopoHelper.AutoCAD;
 using TopoHelper.CommandImplementations;
 using TopoHelper.Csv;
@@ -441,18 +443,22 @@ namespace TopoHelper
         {
             try
             {
-                var currentDocument = Autodesk.AutoCAD.ApplicationServices.
-                    Core.Application.DocumentManager.MdiActiveDocument;
-                var editor = currentDocument.Editor;
-                var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
-                if (promptResult.Status != PromptStatus.OK)
-                    return;
+                Action action = () =>
+              {
+                  var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                        Core.Application.DocumentManager.MdiActiveDocument;
+                  var editor = currentDocument.Editor;
+                  var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
+                  if (promptResult.Status != PromptStatus.OK)
+                      return;
 
-                var selectedPoint = promptResult.Value;
-                Process.Start(string.Format(
-                    @"http://georamses/GeoRamses/ImajnetViewer.aspx?COORDX={0}&COORDY={1}&LOCALE=nl",
-                    Math.Floor(selectedPoint.X),
-                    Math.Floor(selectedPoint.Y)));
+                  var selectedPoint = promptResult.Value;
+                  Process.Start(string.Format(
+                        @"http://georamses/GeoRamses/ImajnetViewer.aspx?COORDX={0}&COORDY={1}&LOCALE=nl",
+                        Math.Floor(selectedPoint.X),
+                        Math.Floor(selectedPoint.Y)));
+              };
+                action.WrapInWorldUcs();
             }
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
@@ -791,18 +797,22 @@ namespace TopoHelper
         {
             try
             {
-                var currentDocument = Autodesk.AutoCAD.ApplicationServices.
-                    Core.Application.DocumentManager.MdiActiveDocument;
-                var editor = currentDocument.Editor;
-                var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
-                if (promptResult.Status != PromptStatus.OK)
-                    return;
+                Action action = () =>
+                {
+                    var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                   Core.Application.DocumentManager.MdiActiveDocument;
+                    var editor = currentDocument.Editor;
+                    var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
+                    if (promptResult.Status != PromptStatus.OK)
+                        return;
 
-                var selectedPoint = promptResult.Value;
-                Process.Start(string.Format(
-                    @"http://georamses/GeoRamses/Default.aspx?x={0}&y={1}&scale=1000",
-                    Math.Floor(selectedPoint.X),
-                    Math.Floor(selectedPoint.Y)));
+                    var selectedPoint = promptResult.Value;
+                    Process.Start(string.Format(
+                        @"http://georamses/GeoRamses/Default.aspx?x={0}&y={1}&scale=1000",
+                        Math.Floor(selectedPoint.X),
+                        Math.Floor(selectedPoint.Y)));
+                };
+                action.WrapInWorldUcs();
             }
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }

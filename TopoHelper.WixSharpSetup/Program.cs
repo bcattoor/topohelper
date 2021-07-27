@@ -152,6 +152,7 @@ namespace TopoHelper.WixSharpSetup
             project.OutDir = InstallerFolderPath;
 
             //? Add registy values for autocad
+
             var values = new List<RegValue>();
             foreach (var item in KeysAutocad)
             {

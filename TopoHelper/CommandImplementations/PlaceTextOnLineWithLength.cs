@@ -13,6 +13,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
+using TopoHelper.Autocad;
 using TopoHelper.AutoCAD;
 
 namespace TopoHelper.CommandImplementations

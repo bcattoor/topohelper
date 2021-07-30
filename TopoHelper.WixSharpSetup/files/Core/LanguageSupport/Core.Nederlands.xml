@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LangDictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LangEntrys>
+    <LangEntry>
+      <Id>0</Id>
+      <Value>About Infrabel Autodesk Platform: This message is still under construction. In the live build you should see the about information of the application.</Value>
+    </LangEntry>
+  </LangEntrys>
+  <Name>Nederlands</Name>
+</LangDictionary>

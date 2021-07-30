@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Principal;
 using System.Text;
 using System.Windows;
 using WixSharp;
@@ -40,9 +41,9 @@ namespace TopoHelper.WixSharpSetup
         /// 2022: 001N1; reg: Autodesk\AutoCAD\R24.1\ACAD-5101
         /// </summary>
         private static readonly string[] KeysAutocad = {
-            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper",//2019
-            @"Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper",//2020
-            @"Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper",//2021
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper", //?2019
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper", //?2020
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper", //?2021
 };
 
         /// <summary>
@@ -54,26 +55,34 @@ namespace TopoHelper.WixSharpSetup
         ///! 2022: 237N1; reg: Autodesk\AutoCAD\R24.1\ACAD todo: set value
         /// </summary>
         private static readonly string[] KeysC3D = {
-            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper",//2020
-            // @"Computer\HKEY_CURRENT_USER\Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications"
-            @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper"//2021
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper", //?2019
+            @"Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper", //?2020
+            @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper"  //?2021
 };
 
         private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warrenty is given!";
         private const string ProductEmailContact = "Bjorn.Cattoor@Infrabel.be";
         private const string ProductGuid = "1EB1D6F2-8704-4D6F-9BDE-83D07308D140";
-        private const string ProductHelpDeskTelephoneNumber = "helpdesk";
+        private const string ProductHelpDeskTelephoneNumber = "911/54555";
         private const string ProductManufacturer = "By Bjorn Cattoor, for Infrabel.";
         private const string ProductName = "Infrabel IAM:Topo Helper, AutoCAD-plugin.";
-        private const string ProductTargetInstallPath = @"%LocalAppData%\Infrabel\TopoHelper";
+        private const string ProductTargetInstallPath = @"%LocalAppData%\Infrabel\IAP";
+        private const string InstallFolderNameTopoHelper = @"TopoHelper";
+        private const string InstallFolderNameTrackConnect = @"TrackConnect";
+        private const string InstallFolderNameCore = @"Core";
         private const string InstallerFolderPath = @"..\installer\";
-        private const string DllFinalPath = "[INSTALLDIR]TopoHelper.dll";
+        private const string DllFinalPath = "[INSTALLDIR]Core\\Core.dll";
         private const string TypeInt = "Type=integer";
         private const string AcadTrustedLoactionsExe = "AutocadTrustedLocations.exe";
-        private const string ErrorMessageDotNet = "Please install .NET 4.6 first. Contact your system administrator to install.";
+        private const string ErrorMessageDotNet = "Please install .NET 4.7.2 first. Contact your system administrator to install.";
         public static readonly Assembly Reference = typeof(Program).Assembly;
 
         public static Version Version = Reference.GetName().Version;
+
+        /// <summary>
+        /// This is used for the core registry values.
+        /// </summary>
+        public static string prefixKey = @"Software\Infrabel\IAP";
 
         #endregion
 
@@ -110,21 +119,37 @@ namespace TopoHelper.WixSharpSetup
 
         private static ManagedProject CreateProject()
         {
-            var binaryCode = new Feature("The binary's", "The application binary's. This is mandatory of-course.", true, false);
-            var registerDllInAutoCad = new Feature("Autoload into AutoCAD on startup.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD.", true, true);
-            var registerDllInC3D = new Feature("Autoload into Civil 3D on startup.", "Check this if you want to register the dll to automatically load upon the launching of AutoCAD Civil 3D.", true, true);
+            // define features
+            var featBasic = new Feature("The binary's", "The application binary's. This is mandatory of-course.", isEnabled: true, allowChange: false);
+            var featRegisterDllInAutoCad = new Feature("Autoload into AutoCAD on startup.", "Check this if you want to register the dll to automatically load upon the launching of all supported AutoCAD (classic) applications.", isEnabled: true, allowChange: true);
+            var featRegisterDllInC3D = new Feature("Autoload into Civil 3D on startup.", "Check this if you want to register the dll to automatically load upon the launching of all supported AutoCAD Civil 3D applications.", isEnabled: true, allowChange: true);
+            var featTopoHelper = new Feature("Topohelper", "Some helpfull commands for calculating with measured polylines.", isEnabled: true, allowChange: false);
+            var featIAPCore = new Feature("IAP: Core", "This is the IAP:Core framework (Core; FrameworkCommon; AutoCad common), used for loading the dll's, adding Ribbon items, and loging.", isEnabled: true, allowChange: false);
+            var featTrackConnect = new Feature("IAP: Trackconnect", "This is a plugin used to calculate regression-lines to connect a new design track-layout to.", isEnabled: true, allowChange: true);
 
-            // <Guid("1EB1D6F2-8704-4D6F-9BDE-83D07308D14F")>
             var project =
                 new ManagedProject(ProductName,
-                    new InstallDir(binaryCode, ProductTargetInstallPath,
-                            new File(@"readme.txt"),
-                            new File(@"license.rtf"),
-                            new Files(@"release\*.*"),
-                            new File(new Id("ATL"), @"trustedlocations\AutocadTrustedLocations.exe"),
-                            new File(@"trustedlocations\CommandLineArgumentsParser.dll"),
-                            new File(@"trustedlocations\AutocadTrustedLocations.exe.config")
-                    )
+                    new InstallDir(featBasic, targetPath: ProductTargetInstallPath,
+                            new File(sourcePath: @"readme.txt"),
+                            new File(sourcePath: @"license.rtf"),
+                            //?all files in release folder
+                            new File(sourcePath: @"TrustedLocations\AutocadTrustedLocations.exe"),
+                            new File(sourcePath: @"TrustedLocations\CommandLineArgumentsParser.dll"),
+                            new File(sourcePath: @"TrustedLocations\AutocadTrustedLocations.exe.config"),
+                            new File(sourcePath: @"Simplifynet\Simplifynet.pdb"),
+                            new File(sourcePath: @"Simplifynet\Simplifynet.dll"),
+                            new Dir(featIAPCore, targetPath: InstallFolderNameCore,
+                                new Files(sourcePath: $@"{InstallFolderNameCore}\*")),
+                            new Dir(featTopoHelper, targetPath: InstallFolderNameTopoHelper,
+                                new Files(sourcePath: $@"{InstallFolderNameTopoHelper}\*")),
+                            new Dir(featTrackConnect, targetPath: InstallFolderNameTrackConnect,
+                                new Files(sourcePath: $@"{InstallFolderNameTrackConnect}\*"))
+
+                    ),
+                            //? Close running instances of AutoCAD. They could have
+                            //? the DLL's loaded into memory.
+                            new CloseApplication("acad.exe", true, false)
+
                 )
 
                 // Object initializer:
@@ -145,39 +170,89 @@ namespace TopoHelper.WixSharpSetup
             project.MajorUpgradeStrategy = MajorUpgradeStrategy.Default;
             project.MajorUpgradeStrategy.RemoveExistingProductAfter = Step.InstallInitialize;
             project.PreserveTempFiles = false;
-            project.UI = WUI.WixUI_Mondo;
-            project.SetNetFxPrerequisite(Condition.Net46_Installed, ErrorMessageDotNet);
+            project.UI = WUI.WixUI_FeatureTree;
+            project.SetNetFxPrerequisite(Condition.Net472_Installed, ErrorMessageDotNet);
             project.AfterInstall += Project_AfterInstall;
             project.BeforeInstall += Project_BeforeInstall;
             project.OutDir = InstallerFolderPath;
+            // Optionally enable an ability to repair the installation even when
+            // the original MSI is no longer available.
+            project.EnableResilientPackage();
+            project.EnableUninstallFullUI();
+
+            var values = new List<RegValue>();
+
+            //? Registry values for the IAP
+            values.AddRange(CreateRegistryKeysForIAPCore(featIAPCore));
+
+            //? Registry values for the IAP-Trackconnect
+            values.AddRange(CreateRegistryKeysForTopoHelperDynamicHook(featTrackConnect, InstallFolderNameTrackConnect, "netLoad", $@"{ProductTargetInstallPath}\{InstallFolderNameTrackConnect}\TrackConnect.dll"));
+
+            //? Registry values for the TopoHelper
+            values.AddRange(CreateRegistryKeysForIAPCore(featTopoHelper));
+            values.AddRange(CreateRegistryKeysForTopoHelperDynamicHook(featTopoHelper, InstallFolderNameTopoHelper, "netLoad", $@"{ProductTargetInstallPath}\{InstallFolderNameTopoHelper}\TopoHelper.dll"));
 
             //? Add registy values for autocad
 
-            var values = new List<RegValue>();
             foreach (var item in KeysAutocad)
             {
-                CreateLoaderRegistryKeys(registerDllInAutoCad, values, item);
+                values.AddRange(CreateLoaderRegistryKeys(featRegisterDllInAutoCad, item));
             }
 
             //? Add registy values for C3D
 
             foreach (var item in KeysC3D)
             {
-                CreateLoaderRegistryKeys(registerDllInC3D, values, item);
+                values.AddRange(CreateLoaderRegistryKeys(featRegisterDllInC3D, item));
             }
 
             // Register application with autoCAD
             project.AddRegValues(values.ToArray());
 
             return project;
+        }
 
-            void CreateLoaderRegistryKeys(Feature feature, List<RegValue> listToAddTo, string item)
+        private static IList<RegValue> CreateLoaderRegistryKeys(Feature feature, string item)
+        {
+            var listToAdd = new List<RegValue>
             {
-                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADCTRLS", 14) { AttributesDefinition = TypeInt });
-                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADER", DllFinalPath));
-                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "MANAGED", 1) { AttributesDefinition = TypeInt });
-                listToAddTo.Add(new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "DESCRIPTION", ProductDescription));
-            }
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADCTRLS", 14) { AttributesDefinition = TypeInt },
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "LOADER", DllFinalPath),
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "MANAGED", 1) { AttributesDefinition = TypeInt },
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, item, "DESCRIPTION", ProductDescription)
+            };
+            return listToAdd;
+        }
+
+        private static IList<RegValue> CreateRegistryKeysForIAPCore(Feature feature)
+        {
+            var prefixKeyCore = $@"{prefixKey}";
+            var listToAdd = new List<RegValue>
+            {
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers,prefixKeyCore, name: "InstallDirectory", value: "[INSTALLDIR]"),
+                 new RegValue(feature, RegistryHive.LocalMachineOrUsers,prefixKeyCore, name: "Language", value: "nederlands"),
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, prefixKeyCore, name: "LogFilePath", $@"{ProductTargetInstallPath}\core.iaplog")
+            };
+
+            return listToAdd;
+        }
+
+        private static IList<RegValue> CreateRegistryKeysForTopoHelperDynamicHook(Feature feature, string hookName, string hookType, string hookValue)
+        {
+            var prefixKeyCore = $@"{prefixKey}\{InstallFolderNameCore}";
+            var listToAdd = new List<RegValue>
+            {
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, $@"{prefixKeyCore}\Hooks\{hookName}", name: "HookType", value: hookType),
+                new RegValue(feature, RegistryHive.LocalMachineOrUsers, $@"{prefixKeyCore}\Hooks\{hookName}", name: "HookValue", value: hookValue)
+            };
+
+            return listToAdd;
+        }
+
+        internal class DynamicHook
+        {
+            public string Type { get; set; }
+            public string Path { get; set; }
         }
 
         private static void Project_AfterInstall(SetupEventArgs e)
@@ -208,11 +283,15 @@ namespace TopoHelper.WixSharpSetup
                         sb.AppendLine(proc.StandardOutput.ReadLine());
                     }
 
+                    proc.WaitForExit(15000);
+
                     if (proc.ExitCode == 0)
-                        NotepadHelper.ShowMessage(
+                    { //? Disabled this message, on succes it is not usefull
+                        /* NotepadHelper.ShowMessage(
                             title: "Installed",
                             message: "Application has been installed, you can now use it in AutoCAD."
-                            + sb);
+                            + sb);*/
+                    }
                     else
                         NotepadHelper.ShowMessage(
                             title: "Installed",
@@ -232,7 +311,7 @@ namespace TopoHelper.WixSharpSetup
 
         private static void Project_BeforeInstall(SetupEventArgs e)
         {
-            if (!e.IsInstalling)
+            if (!e.IsInstalling) //? Uninstall
             {
                 try
                 {
@@ -266,6 +345,9 @@ namespace TopoHelper.WixSharpSetup
                     e.Result = ActionResult.Success; //+ Careful
                                                      //!we Return SUCCES!
                 }
+            }
+            else //? Install
+            {
             }
         }
 

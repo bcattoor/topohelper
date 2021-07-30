@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LangDictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LangEntrys>
+    <LangEntry>
+      <Id>0</Id>
+      <Value>Raccord sur simple voie</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>1</Id>
+      <Value>Raccord sur double voie</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>2</Id>
+      <Value>Uniquement pour des pros</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>3</Id>
+      <Value>Vitesse (km/h)</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>4</Id>
+      <Value>Il s'est produit une faute pendant l'exécution du code:</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>5</Id>
+      <Value>L'application se fermera maintenant.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>6</Id>
+      <Value>On n'a pas trouvé assez de points dans la polyligne sélectée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>7</Id>
+      <Value>On n'a pas trouvé assez de points dans la zone sélectée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>8</Id>
+      <Value>Sélectionnez une nouvelle vitesse de voie existante à l'aide du curseur.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>9</Id>
+      <Value>Sélectionne la zone de la polyligne où vous voulez vous raccorder.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>10</Id>
+      <Value>Cette zone doit contenir au moins 4 points du levée sur une longueur de minimale {0} m</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>11</Id>
+      <Value>On ne pouvait trouver une solution valable.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>12</Id>
+      <Value>Sélectionnez une nouvelle polyligne.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>13</Id>
+      <Value>Sélectionnez une nouvelle zone à calculer.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>14</Id>
+      <Value>Prévoir une autre vitesse.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>15</Id>
+      <Value>Retour à l'écran start</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>16</Id>
+      <Value>Il s'est produit une faute.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>17</Id>
+      <Value>Sélection des points et de la vitesse</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>18</Id>
+      <Value>Clicquez ici afin de sélectionner la zone.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>19</Id>
+      <Value>Sélectionnez la polyligne</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>20</Id>
+      <Value>Pour dessiner un raccord, on a besoin d'une voie existante. Sélectionnez alors la polyligne de la voie levée, concernée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>21</Id>
+      <Value>Clicquez ici afin de sélectionner la polyligne.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>22</Id>
+      <Value>Sélectionnez une seconde polyligne</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>23</Id>
+      <Value>Afin de dessiner un raccord en tenant compte d'une double voie, ona besoin d'une seconde polyligne. Prière de la sélectionner maintenant.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>24</Id>
+      <Value>Clicquez ici afin de sélectionner la seconde polyligne.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>25</Id>
+      <Value>Comme résultat on a trouvé des COURBES avec rayon {0}m / {1}m et longueur {2}m / {3}m et entrevoie standard de {4}m
+
+Résultat:
+{5}
+{6}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>26</Id>
+      <Value>Comme résultat on a trouvé une COURBE avec rayon {0}m et longueur {1}m
+
+Résultat:
+{2}
+{3}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>27</Id>
+      <Value>Comme résultat on a trouvé des LIGNES avec longueur {0}m / {1}m et entrevoie standard de {2}m.
+
+Résultat:
+{3}
+{4}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>28</Id>
+      <Value>Comme résultat on a trouvé une LIGNE avec longueur {0}m.
+
+Résultat:
+{1}
+{2}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>29</Id>
+      <Value>Calcul de la double voie effetué.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>30</Id>
+      <Value>Calcul effectué.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>31</Id>
+      <Value>En dessinant on vous demandera de selctionner un point où vous voulez placer le texte.
+En plaçant le texte vous aurez la possibilité de faire un mirroir du texte en poussant la touche "F" suivi par "ENTER" du clavier.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>32</Id>
+      <Value>En dessinant on vous demandera de sélectionner quelques points où vous voulez placer le texte.
+En plaçant le texte vous aurez la possibilité de faire un mirroir du texte en poussant la touche "F" suivi par "ENTER" du clavier.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>33</Id>
+      <Value>Dessiner la solution.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>34</Id>
+      <Value>Prière de sélectioner une des options ci-dessous.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>35</Id>
+      <Value>Avant de pouvoir calculer quelque chose, le progrma de calcul doit retrouver 4 points sur la polyligne concernée. Essayez encore avec une zone plus grande.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>36</Id>
+      <Value>La solution trouvée est coforme aux standards de racoordement et peut être utilisée pour se raccorder.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>37</Id>
+      <Value>La polyligne sélectionnée doit contenir au moins 4 points de levée (vertices).</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>38</Id>
+      <Value>La zone sélectionnée doit contenir au moins 4 points de levée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>39</Id>
+      <Value>EV</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>40</Id>
+      <Value>  {0}  </Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>41</Id>
+      <Value>Pendant le calcul, il y avait plusieures solutions, le résultat le meilleur est sélectionné.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>42</Id>
+      <Value>Sélectionnez une seconde polyligne avant d'entamer le calcul.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>43</Id>
+      <Value>Sélectionnez une polyligne avant d'enamer le calcul.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>44</Id>
+      <Value>On n'a pas trouvé une solution dans la zone demandée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>45</Id>
+      <Value>La recherche de courbes et lignes n'a pas abouti à une solution. Essayez de nouveau à un autre endroit ou avec deux autres lignes.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>46</Id>
+      <Value>Le progrma de calcul n'a pas trouvé de solution. Faute: {0}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>47</Id>
+      <Value>Le calcul d'une ligne avec le points sélectionnés n'a pas abouti à une solution. Cela est dû à une faute de ce program de calcul ou à un choix non-logique de la géométrie.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>48</Id>
+      <Value>Le calcul d'une courbe avec les points sélectionnés n'a pas abouti à une solution. Cela est dû à une faute de ce program de calcul ou à un choix non-logique de la géométrie.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>49</Id>
+      <Value>On ne pouvait pas trouver une solution.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>50</Id>
+      <Value>Sélectionnez la ligne, que vous voulez utiliser.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>51</Id>
+      <Value>On ne peut pas lire les vertex de la ligne sélectionnée. Vous avez probablement sélectionné une ligne qui est faite par un logiciel non AutoDesk, qui peut être mal formée. Afin de la réparer, vous pouvez essayer de vérifier le dessin par la commande Audit.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>52</Id>
+      <Value>Le point de début/fin ne pouvait pas être reconnu dans la liste sélectionnée.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>53</Id>
+      <Value>L'écart type de la solution trouvée est trop grand.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>54</Id>
+      <Value>La longueur des lignes trouvées est trop petite.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>55</Id>
+      <Value>Le ripage de l'entrevoie mesuré par rapport au nouvel entrevoie standard trouvé nouvelle trouvé est trop grand.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>56</Id>
+      <Value>Parce que toutes les conditions ne sont pas accomplies, aucune solution ne peut être trouvée, essayez de nouveau dans une zone différente.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>57</Id>
+      <Value>La longueur des arcs trouvés est trop petite.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>58</Id>
+      <Value>Le logiciel calcule pour vous la solution dans la zone selectionnée, cela peut prendre un certain temps ...</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>59</Id>
+      <Value>S'il vous plaît, soyez patient</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>60</Id>
+      <Value>L'écart type de la ligne trouvée est trop grand. Ecart type est {0}, il ne peut exceder {1}.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>61</Id>
+      <Value>La longueur de la ligne trouvée est trop petite. Longueur actuelle est {0}, elle doit être au moins {1}.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>62</Id>
+      <Value>L'écart-type de la courbe trouvée est trop grand. Ecart type est {0}, il ne peut exceder {1}.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>63</Id>
+      <Value>La longueur de l'arc trouvé est trop petite. Longueur actuelle est {0}, elle doit être au moins {1}.</Value>
+    </LangEntry>
+     <LangEntry>
+      <Id>64</Id>
+      <Value>Texte ajoute à la suite d'une méthode de régression.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>65</Id>
+      <Value>Résultats trouvées à la suite d'une méthode de régression.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>66</Id>
+      <Value>Cette couche est générée automatiquement par le plugin IAP.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>67</Id>
+      <Value>Prêt à commencer un calcul.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>68</Id>
+      <Value>On n'a pas encore calculé un résultat.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>69</Id>
+      <Value>La polyligne sélectionné ne pouvait pas être lu, essayez de faire un «CONVERT» sur la polyline. Également effectuer erreurs un «AUDIT» peut réparer dessins provenant d'une application non AUTODESK.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>70</Id>
+      <Value>Bonjour, les fichiers de langue ont été chargés correctement!</Value>
+    </LangEntry>
+  </LangEntrys>
+  <Name>français</Name>
+</LangDictionary>

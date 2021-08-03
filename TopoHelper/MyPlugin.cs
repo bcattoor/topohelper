@@ -18,7 +18,7 @@ namespace TopoHelper
 
         void IExtensionApplication.Initialize()
         {
-            Logger.Info(string.Format(@"IAP: {0} LOADED.", applicationName));
+            Logger.Info(string.Format(@"IAP: {0} LOADED.\r\n", applicationName));
             Debug.WriteLine(string.Format(@"IAP: {0} LOADED.", applicationName));
             // Initialize your plug-in application here
 
@@ -66,7 +66,7 @@ namespace TopoHelper
             dialogRibbonButton.ToolTip = myTool;
             dialogRibbonButton.HelpSource = new Uri("https://professional.bjorncattoor.be/nl/iap/help/track-connect", UriKind.Absolute);
             dialogRibbonButton.ShowText = true;
-            dialogRibbonButton.Text = "Track Connect";
+            dialogRibbonButton.Text = "TopoHelper Settings";
             System.IO.FileInfo imageSmall = Infrabel.AutodeskPlatform.Core.CoreSettings.Dynamic.GetFileFromInstallPath("track_connect_16.png");
             System.IO.FileInfo imageLarge = Infrabel.AutodeskPlatform.Core.CoreSettings.Dynamic.GetFileFromInstallPath("track_connect_32.png");
             if (imageSmall != null)

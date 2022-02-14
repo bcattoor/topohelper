@@ -1,0 +1,416 @@
+<!doctype html>
+<html class="no-js" lang="nl">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Zoeken" href="../search.html" /><link rel="next" title="Werken met de commandoregel" href="WorkingWithTheCommandline.html" /><link rel="prev" title="Installeren van de applicatie" href="InstallingApplication.html" />
+
+    <meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>As van het spoor berekenen - TopoHelper</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     Topohelper is in voortdurende ontwikkeling, deze documentatie kan fouten bevatten! 
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">TopoHelper</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">TopoHelper</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Zoeken name="q" aria-label="Zoeken">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Welcome:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../welcome.html">Welkom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Onderwerpen:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../commands/commands-overview.html">De commando’s</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_Rails2RailwayCenterLine.html">Rails to Railway Center Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_Settings.html">Het instellingen paneel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_DistanceBetween2Polylines.html">Distance bestween two polylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_WeedPolyline.html">Weed Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html">Join Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_SimplifyPolyline.html">Simplify Polyline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html">Clean Non Survey Verteces From Polyline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/variables-overview.html">De variabelen</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Workflows:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="InstallingApplication.html">Installeren van de applicatie</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">As van het spoor berekenen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WorkingWithTheCommandline.html">Werken met de commandoregel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">About this website</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="as-van-het-spoor-berekenen">
+<h1>As van het spoor berekenen<a class="headerlink" href="#as-van-het-spoor-berekenen" title="Permalink naar deze titel">¶</a></h1>
+<section id="berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">
+<h2>Berekenen van de as van het spoor a.d.h.v. de opgemeten rails<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails" title="Permalink naar deze titel">¶</a></h2>
+<p>Om een werkbare workflow voor te leggen kies ik er om om met een werkelijke situatie te starten. Op die manier kan je de bestanden zelf downloaden en openen in AutoCAD, en dus de workflow volgen. We zullen de spooras berekenen aan de hand van twee opgemeten rails (as-rail, binnenkant-rail).</p>
+<div class="admonition note">
+<p class="admonition-title">Notitie</p>
+<p>In dit voorbeeld heeft de opmeter er voor gekozen om binnenkant rail op te meten. De applicatie kan overweg met beide methodes.</p>
+</div>
+</section>
+<section id="de-verkregen-bestanden">
+<h2>De verkregen bestanden<a class="headerlink" href="#de-verkregen-bestanden" title="Permalink naar deze titel">¶</a></h2>
+<p>Als voorbeeld hebben we een AutoCAD bestand gekregen van de lijn 60 (Download hier -&gt; <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/OW17%20L60.dwg">OW17 L60</a>)</p>
+<figure class="align-default" id="id2">
+<img alt="../_images/wf_crcl_dwg.png" src="../_images/wf_crcl_dwg.png"/>
+<figcaption>
+<p><span class="caption-text">Screenshot van de modelspace van de DWG.</span><a class="headerlink" href="#id2" title="Permallink naar deze afbeelding">¶</a></p>
+</figcaption>
+</figure>
+<section id="wat-vinden-we-in-dat-bestand">
+<h3>Wat vinden we in dat bestand<a class="headerlink" href="#wat-vinden-we-in-dat-bestand" title="Permalink naar deze titel">¶</a></h3>
+<p>In de laag <strong>binnenkant rail</strong> vinden we vier samengestelde lijnen <em>aka enkele 3D Polylines</em> met op elke vertex een xyz-waarde. De lijnen zijn niet samengevoegd en bestaan dus uit meerdere delen. Dit moeten we als eerste zien op te lossen.</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/wf_crcl_binnenkant_rail.png" src="../_images/wf_crcl_binnenkant_rail.png"/>
+<figcaption>
+<p><span class="caption-text">Screenshot van de vier rails.</span><a class="headerlink" href="#id3" title="Permallink naar deze afbeelding">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink naar deze titel">¶</a></h2>
+<p>Hier een voorstelling van hoe de workflow er standaard uiziet, uiteraard kan hier worden van afgeweken indien nodig.</p>
+<figure class="align-default" id="id4">
+<img alt="../_images/CalculateCenterlineTrack.svg" src="../_images/CalculateCenterlineTrack.svg"/><figcaption>
+<p><span class="caption-text">Basis flow: schematische voorstelling</span><a class="headerlink" href="#id4" title="Permallink naar deze afbeelding">¶</a></p>
+</figcaption>
+</figure>
+<section id="voorbereiding">
+<h3>Voorbereiding<a class="headerlink" href="#voorbereiding" title="Permalink naar deze titel">¶</a></h3>
+<p>Bruikbaar maken van de aangeleverde gegevens uit de dwg <a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/OW17%20L60.dwg">OW17 L60</a>.</p>
+<section id="samenvoegen">
+<h4>Samenvoegen<a class="headerlink" href="#samenvoegen" title="Permalink naar deze titel">¶</a></h4>
+<p>Het is belangrijk dat de polylijnen aaneensluitend zijn over de volledige lengte. Op die manier is het mogelijk om de spooras in één keer door te rekenen.</p>
+<p>In ons voorbeeld:
+Omdat alle polylijnen mooi aaneensluitend zijn, kunnen we gebruik maken van het AutoCAD commando <code class="docutils literal notranslate"><span class="pre">join</span></code>. Om het overzicht in de tekening te bewaren, zorg ik ervoor dat enkel de laag <em>Binnenkant Rail</em> <code class="docutils literal notranslate"><span class="pre">Unlocked</span></code> staat.</p>
+<img alt="../_images/wf_joinpolyline_001.gif" src="../_images/wf_joinpolyline_001.gif"/>
+<p>Wanneer de lijnen <strong>niet mooi aaneensluitend zijn</strong>, dan maken we gebruik van het commando <a class="reference internal" href="../commands/IAMTopo_JoinPolyline.html#iamtopo-joinpolyline"><span class="std std-ref">Join Polyline</span></a> om de lijnen samen te voegen.</p>
+</section>
+<section id="richting">
+<h4>Richting<a class="headerlink" href="#richting" title="Permalink naar deze titel">¶</a></h4>
+<p>Na het samenvoegen van de lijnen controleren we of dat de richting van de polylijnen aan elkaar gelijk zijn.
+Ook zorgen we ervoor dat de richting de algemene righting van de kilometrering van de hoofdlijn volgt.</p>
+</section>
+<section id="vertexen">
+<h4>Vertexen<a class="headerlink" href="#vertexen" title="Permalink naar deze titel">¶</a></h4>
+<p>We controleren ook of de samengestelde lijnen van de rails <em>evenveel vertexen hebben</em>. Hier in ons voorbeeld is dit niet het geval. Na een visuele controle merken we op dat dit komt doordat er vertexen zijn die door de opmeter of zijn software zijn toegevoegd. <strong>Deze vallen niet op effectief opgemeten punten. Indien we deze verwijderen zullen we eenzelfde aantal punten bekomen voor elke polyijn van de rail.</strong></p>
+</section>
+<section id="opkuisen-van-niet-opgemeten-punten">
+<h4>Opkuisen van niet opgemeten punten<a class="headerlink" href="#opkuisen-van-niet-opgemeten-punten" title="Permalink naar deze titel">¶</a></h4>
+<p>Om deze punten te verwijderen maken we gebruik van: <a class="reference internal" href="../commands/IAMTopo_CleanNonSurveyVertexFromPolyline.html#iamtopo-cleannonsurveyvertexfrompolyline"><span class="std std-ref">Clean Non Survey Verteces From Polyline</span></a> Dit commando zal elk punt dat zich niet op een echt meetpunt bevindt, verwijderen uit de lijst met punten en een nieuwe lijn creëren.</p>
+<p>We selecteren eerst een opmeetpunt, en daarna de polylijn die we wensen op te kuisen.
+Na een controle merken we dat de 4-lijnen van de rails evenveel vertexen hebben.
+We zijn nu klaar om over te gaan naar het berekenen van het center.
+Om de origineel aangeleverde lijnen niet te wijzigen, heb ik de nieuwe lijnen verplaats naar een nieuwe laag. Laagnaam: <code class="docutils literal notranslate"><span class="pre">Binnenkant</span> <span class="pre">Rail</span> <span class="pre">Verwijderde</span> <span class="pre">Punten</span></code></p>
+<img alt="../_images/wf_CleanNonSurveyVertexFromPolyline_001.gif" src="../_images/wf_CleanNonSurveyVertexFromPolyline_001.gif"/>
+</section>
+</section>
+<section id="berekenen-van-de-as-van-het-spoor">
+<h3>Berekenen van de as van het spoor<a class="headerlink" href="#berekenen-van-de-as-van-het-spoor" title="Permalink naar deze titel">¶</a></h3>
+<p>Met het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Rails2RailwayCenterLine</span></code> kunnen we nu het center tussen de twee lijnen berekenen.</p>
+<p>Ook dient er een correctie te gebeuren om de scheefstand van de bolprismas te corigeren. Het algoritm houdt enkel rekening met <em>de verplaatsing in xy richting</em>, de verplaatsing van de z-waarde <a class="footnote-reference brackets" href="#taw" id="id1">1</a> (hoogte van toestel) werd reeds door de opperator van de waarde afgetrokken. Om er voor te zorgen dat er een correctie wordt berekend moet de omgevingsvariabel <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_Use_CalculateSurveyCorrection</span></code> op de waarde <em>True</em> staan.</p>
+<p>Het <span class="xref std std-ref">IAMTopo_Settings</span> paneel kunnen we oproepen aan de hand van het commando <code class="docutils literal notranslate"><span class="pre">IAMTopo_Settings</span></code>.</p>
+<section id="uittekenen-van-de-oplossing-in-autocad">
+<h4>Uittekenen van de oplossing in AutoCAD<a class="headerlink" href="#uittekenen-van-de-oplossing-in-autocad" title="Permalink naar deze titel">¶</a></h4>
+<p>Na het berekenen wordt het resultaat uitgetekend aan de hand van se standaard ingesteld in het <span class="xref std std-ref">IAMTopo_Settings</span> paneel.</p>
+</section>
+<section id="csv-bestanden">
+<h4>CSV bestanden<a class="headerlink" href="#csv-bestanden" title="Permalink naar deze titel">¶</a></h4>
+<p>Ter controle kunnen ook CSV bestanden aangemaakt worden. Deze bestanden bevatten de ruwe basisgegevens die gebruikt zijn voor de berekening alsook de berekende oplossing. Deze kunnen dan op hen beurt worden gebruikt om te controleren ofdat alles goed werd berekend.
+Terwijl we in <span class="xref std std-ref">IAMTopo_Settings</span> zijn kunnen we ook instellen waar we de bestanden wensen heen te schrijven a.d.h.v. <code class="docutils literal notranslate"><span class="pre">Rails2RailwayCenterLine_PathToCSVFile</span></code> en <code class="docutils literal notranslate"><span class="pre">CalculateSurveyCorrection_PathToCsvFile</span></code>.</p>
+<p>In normale omstandigheden hoeven deze bestanden niet te worden aangemaakt. We kunnen deze dan ook uitschakkelen in het <span class="xref std std-ref">IAMTopo_Settings</span> paneel.</p>
+</section>
+</section>
+<section id="controle">
+<h3>Controle<a class="headerlink" href="#controle" title="Permalink naar deze titel">¶</a></h3>
+<p>Hoe controleren we nu of dit correct is? We kunnen vergelijken met het resultaat van de opmeter. In een [ander AutoCAD bestand](<a class="reference external" href="https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg">https://bcattoor.github.io/topohelper/files.survey/L60_OW17_As_rails.dwg</a>), vinden we de berekende centerlijnen van beide sporen terug. Deze werden aangemaakt door Nicolas Rogge. Deze polylijnen zijn echter nog niet samengevoegd tot een enkele samengestelde lijn. Dit doen we met [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_JoinPolyline</a>) <code class="docutils literal notranslate"><span class="pre">IAMTOPO_JOINPOLYLINE</span></code>. Wanneer deze polylijnen zijn samengevoegd, kunnen we de lijn kopiëren naar onze vorige tekening.
+De controle kunnen we nu uitvoeren adhv [het commando](<a class="reference external" href="https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines">https://bitbucket.org/cadsmurfs/topohelper/wiki/commands/IAMTopo_DistanceBetween2Polylines</a>) <code class="docutils literal notranslate"><span class="pre">IAMTopo_DistanceBetween2Polylines</span></code>.</p>
+<section id="iamtopo-distancebetween2polylines">
+<h4>IAMTopo_DistanceBetween2Polylines<a class="headerlink" href="#iamtopo-distancebetween2polylines" title="Permalink naar deze titel">¶</a></h4>
+<p class="rubric">Voetnoot</p>
+<dl class="footnote brackets">
+<dt class="label" id="taw"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Tweede algemene waterpassing: <a class="reference external" href="https://www.ngi.be/website/tweede-algemene-waterpassing/">https://www.ngi.be/website/tweede-algemene-waterpassing/</a></p>
+</dd>
+<dt class="label" id="epgs-31370"><span class="brackets">2</span></dt>
+<dd><p>Belge_1972_Belgian_Lambert_72: <a class="reference external" href="http://epsg.io/31370">http://epsg.io/31370</a></p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="WorkingWithTheCommandline.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Werken met de commandoregel</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="InstallingApplication.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Installeren van de applicatie</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2022, Bjorn Cattoor |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            | <a class="muted-link" href="../_sources/workflow/CalculatingRailwayCenterLine.rst.txt"
+               rel="nofollow">
+              Broncode weergeven
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Inhoudsopgave
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">As van het spoor berekenen</a><ul>
+<li><a class="reference internal" href="#berekenen-van-de-as-van-het-spoor-a-d-h-v-de-opgemeten-rails">Berekenen van de as van het spoor a.d.h.v. de opgemeten rails</a></li>
+<li><a class="reference internal" href="#de-verkregen-bestanden">De verkregen bestanden</a><ul>
+<li><a class="reference internal" href="#wat-vinden-we-in-dat-bestand">Wat vinden we in dat bestand</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflow">Workflow</a><ul>
+<li><a class="reference internal" href="#voorbereiding">Voorbereiding</a><ul>
+<li><a class="reference internal" href="#samenvoegen">Samenvoegen</a></li>
+<li><a class="reference internal" href="#richting">Richting</a></li>
+<li><a class="reference internal" href="#vertexen">Vertexen</a></li>
+<li><a class="reference internal" href="#opkuisen-van-niet-opgemeten-punten">Opkuisen van niet opgemeten punten</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#berekenen-van-de-as-van-het-spoor">Berekenen van de as van het spoor</a><ul>
+<li><a class="reference internal" href="#uittekenen-van-de-oplossing-in-autocad">Uittekenen van de oplossing in AutoCAD</a></li>
+<li><a class="reference internal" href="#csv-bestanden">CSV bestanden</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#controle">Controle</a><ul>
+<li><a class="reference internal" href="#iamtopo-distancebetween2polylines">IAMTopo_DistanceBetween2Polylines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script src="../_static/tabs.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/js/_blank-links.js"></script>
+    </body>
+</html>

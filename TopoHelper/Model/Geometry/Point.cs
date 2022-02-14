@@ -24,7 +24,6 @@ namespace TopoHelper.Model.Geometry
         #region Public Properties
 
         public double X { get; }
-
         public double Y { get; }
         public double Z { get; }
 

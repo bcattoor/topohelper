@@ -34,14 +34,14 @@ namespace TopoHelper.Model.Calculations
                 var maxDistanceRectanglePoint2 = new Point(startPoint.X + maximumPointDistance, startPoint.Y + maximumPointDistance, startPoint.Z);
 
                 // remove points that are too close, also remove them from the point-list
-                var pointsRemoved = pointList.RemoveAll(a => Calculations.IsInsideRectangle(minDistanceRectanglePoint1, minDistanceRectanglePoint2, a));
+                var pointsRemoved = pointList.RemoveAll(a => Basic.IsInsideRectangle(minDistanceRectanglePoint1, minDistanceRectanglePoint2, a));
 
                 // If no point are within limit, just break out, and return result
                 if (pointsRemoved == pointList.Count)
                     break;
 
                 // Lets create a list with points that are within our buffer
-                var localPoints = pointList.Where(a => Calculations.IsInsideRectangle(maxDistanceRectanglePoint1, maxDistanceRectanglePoint2, a)).ToList();
+                var localPoints = pointList.Where(a => Basic.IsInsideRectangle(maxDistanceRectanglePoint1, maxDistanceRectanglePoint2, a)).ToList();
 
                 // If no point are within limit, just break out, and return result
                 if (!localPoints.Any())
@@ -50,7 +50,7 @@ namespace TopoHelper.Model.Calculations
                 // Find point closest to the start-point
                 var point = startPoint;
                 var x = localPoints.MinBy(
-                    listPoint => Calculations.CalculatePoweredDistance(
+                    listPoint => Basic.CalculatePoweredDistance(
                     point.X, point.Y, point.Z,
                     listPoint.X, listPoint.Y, listPoint.Z)
                     ).First();

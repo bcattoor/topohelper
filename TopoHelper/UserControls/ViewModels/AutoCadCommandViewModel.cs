@@ -40,16 +40,16 @@ namespace TopoHelper.UserControls.ViewModels
 
         public bool CanExecuteCommand(object obj)
         {
-            if (Application.DocumentManager == null) return false;
-            if (Application.DocumentManager.MdiActiveDocument == null) return false;
-            if (Application.DocumentManager.MdiActiveDocument.Editor.IsQuiescent)
+            if (Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager == null) return false;
+            if (Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument == null) return false;
+            if (Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor.IsQuiescent)
                 return true;
             return false;
         }
 
         public void ExecuteCommand(object obj)
         {
-            Document document = Application.DocumentManager.MdiActiveDocument;
+            Document document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             if (document is null)
             {
                 throw new ArgumentNullException(nameof(document));

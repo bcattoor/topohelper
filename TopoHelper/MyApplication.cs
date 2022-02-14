@@ -34,12 +34,12 @@ namespace TopoHelper
 
         public static string GetAssemblyFileVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+            return Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
         }
 
         public static Version GetAssemblyVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            return Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         public static string GetInformationalVersion()

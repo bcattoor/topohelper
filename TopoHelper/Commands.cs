@@ -22,6 +22,7 @@ using TopoHelper.CommandImplementations;
 using TopoHelper.Csv;
 using TopoHelper.Model;
 using TopoHelper.Model.Calculations;
+using TopoHelper.Model.Geometry;
 using TopoHelper.Model.Results;
 using TopoHelper.Properties;
 using TopoHelper.UserControls;
@@ -79,7 +80,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_AlignAngleOfBlock", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_AlignAngleOfBlock()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var editor = document.Editor;
             var database = document.Database;
 
@@ -129,7 +130,7 @@ namespace TopoHelper
         {
             try
             {
-                CommandImplementations.PlaceTextOnLineWithLength.ExcecuteCommand(false, FunctionCanceled);
+                PlaceTextOnLineWithLength.ExcecuteCommand(false, FunctionCanceled);
             }
             catch (System.Exception exception)
             {
@@ -149,7 +150,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             var database = document.Database;
             var editor = document.Editor;
@@ -228,7 +229,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_DistanceBetween2Polylines", CommandFlags.DocReadLock | CommandFlags.NoUndoMarker)]
         public static void IAMTopo_DistanceBetween2Polylines()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             var database = document.Database;
 
@@ -302,7 +303,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_IncrementAttribute()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;
             var db = document.Database;
 
@@ -349,18 +350,18 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_JoinPolyline")]
         public static void IAMTopo_JoinPolyline()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;
             var db = document.Database;
             var peo1 = new PromptEntityOptions(Select3dPolyLine);
             const string InvalidSelection = "\nInvalid selection...";
             peo1.SetRejectMessage(InvalidSelection);
-            peo1.AddAllowedClass(typeof(Polyline), true);
-            peo1.AddAllowedClass(typeof(Polyline2d), true);
+            //peo1.AddAllowedClass(typeof(Polyline), true);
+            //peo1.AddAllowedClass(typeof(Polyline2d), true);
             peo1.AddAllowedClass(typeof(Polyline3d), true);
 
             // TODO: When the first selected entity is a line, we need to convert it to a polyline before we can continue.
-            // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we need to convert both objects to a 3d-polyline
+            // TODO: When two 2D-polylines are selected, we need to check if they are coplanar, if not we need to convert both objects to a 3d-polyline
             // TODO: When 2D polyline is converted to a 3D polyline we need to make sure arc's in that polyline are segmented!
             // TODO: When two 2D-polylines are selected, we need to check if the are coplanar, if not we can equal elevation to source and join them as 2D polyline
             peo1.AddAllowedClass(typeof(Line), true);
@@ -373,10 +374,10 @@ namespace TopoHelper
             ed.SetImpliedSelection(new[] { selectedEntityObjectId });
             var peo2 = new PromptEntityOptions(Select3dPolyLine);
             peo2.SetRejectMessage(InvalidSelection);
-            peo2.AddAllowedClass(typeof(Line), true);
-            peo2.AddAllowedClass(typeof(Polyline), true);
-            peo2.AddAllowedClass(typeof(Polyline), true);
-            peo2.AddAllowedClass(typeof(Polyline2d), true);
+            //peo2.AddAllowedClass(typeof(Line), true);
+            //peo2.AddAllowedClass(typeof(Polyline), true);
+            //peo2.AddAllowedClass(typeof(Polyline), true);
+            //peo2.AddAllowedClass(typeof(Polyline2d), true);
             peo2.AddAllowedClass(typeof(Polyline3d), true);
             promptResult = ed.GetEntity(peo2);
             if (PromptStatus.OK != promptResult.Status)
@@ -388,15 +389,20 @@ namespace TopoHelper
             {
                 using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
                 {
-                    using (var sourcePolyline = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Curve)
-                    using (var polylineToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Curve)
+
+                    var extraMessage ="";
+                    using (var sourcePolyline3d = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Polyline3d)
+                    using (var polyline3dToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Polyline3d)
                     {
-                        if (sourcePolyline == null || polylineToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
+                        if (sourcePolyline3d == null || polyline3dToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
+
+                        var sourcePolyline = new Topo_PolyLine3d(sourcePolyline3d);
+                        var polyLineToAdd = new Topo_PolyLine3d(polyline3dToAdd);
 
                         var startPointCurve1 = sourcePolyline.StartPoint;
-                        var startPointCurve2 = polylineToAdd.StartPoint;
+                        var startPointCurve2 = polyLineToAdd.StartPoint;
                         var endPointCurve1 = sourcePolyline.EndPoint;
-                        var endPointCurve2 = polylineToAdd.EndPoint;
+                        var endPointCurve2 = polyLineToAdd.EndPoint;
 
                         var distance = new List<Tuple<string, double>>
                         {
@@ -409,29 +415,73 @@ namespace TopoHelper
                         var result = distance.OrderBy(i => i.Item2).FirstOrDefault();
 
                         System.Diagnostics.Trace.Assert(result != null, nameof(result) + " != null");
-                        switch (result.Item1)
+
+                        var nodeDistance = result.Item2;
+
+                        /* Avoid creating pseudo nodes */
+                        if (nodeDistance > Tolerance)
                         {
-                            case "sp1:sp2":
-                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, startPointCurve2)); break; }
-                            case "sp1:ep2":
-                                { sourcePolyline.JoinEntity(new Line(startPointCurve1, endPointCurve2)); break; }
-                            case "ep1:sp2":
-                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, startPointCurve2)); break; }
-                            case "ep1:ep2":
-                                { sourcePolyline.JoinEntity(new Line(endPointCurve1, endPointCurve2)); break; }
+                            if (nodeDistance < Settings.Default.JoinPolyline_MaximumGapToClose)
+                            {
+                                extraMessage = $"We closed the gap (pulled to mid-between two points [{result.Item1}]) with distance:";
+                                switch (result.Item1)
+                                {
+                                    case "sp1:sp2":
+                                        {
+                                            var mid = startPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
+                                            sourcePolyline.StartPoint = mid; polyLineToAdd.StartPoint = mid;
+                                            break;
+                                        }
+                                    case "sp1:ep2":
+                                        {
+                                            var mid = startPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
+                                            sourcePolyline.StartPoint = mid; polyLineToAdd.EndPoint = mid;
+                                            break;
+                                        }
+                                    case "ep1:sp2":
+                                        {
+                                            var mid = endPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
+                                            sourcePolyline.EndPoint = mid; polyLineToAdd.StartPoint = mid;
+                                            break;
+                                        }
+                                    case "ep1:ep2":
+                                        {
+                                            var mid = endPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
+                                            sourcePolyline.EndPoint = mid; polyLineToAdd.EndPoint = mid;
+                                            break;
+                                        }
+                                }
+                            }
+                            else
+                            {
+                                extraMessage = $"We added a line (between the [{result.Item1}])) with distance:";
+                                switch (result.Item1)
+                                {
+                                    case "sp1:sp2":
+                                        { sourcePolyline3d.JoinEntity(new Line(startPointCurve1, startPointCurve2)); break; }
+                                    case "sp1:ep2":
+                                        { sourcePolyline3d.JoinEntity(new Line(startPointCurve1, endPointCurve2)); break; }
+                                    case "ep1:sp2":
+                                        { sourcePolyline3d.JoinEntity(new Line(endPointCurve1, startPointCurve2)); break; }
+                                    case "ep1:ep2":
+                                        { sourcePolyline3d.JoinEntity(new Line(endPointCurve1, endPointCurve2)); break; }
+                                }
+                            }
+
                         }
 
-                        sourcePolyline.JoinEntity(polylineToAdd);
+                        sourcePolyline3d.JoinEntity(polyline3dToAdd);
+
 
                         // If user wants to delete source entities
-                        if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polylineToAdd.Erase();
+                        if (SettingsDefault.JoinPolyline_DeleteSelectedEntities) polyline3dToAdd.Erase();
 
                         transaction.Commit();
 
-                        var vertexCount = sourcePolyline.EndParam + 1;
-                        ed.WriteMessage($"\n\rBoth lines were joined together." +
-                            $"\n\r\tVertexes: {vertexCount}\n\r\t" +
-                            $"Gap distance: {result.Item2:F6}");
+                        var vertexCount = sourcePolyline3d.EndParam + 1;
+                        ed.WriteMessage($"{Environment.NewLine}Both lines were joined together." +
+                            $"{Environment.NewLine}\tVertexes: {vertexCount}\t" +
+                            $"{extraMessage} {result.Item2:F6}{Environment.NewLine}");
                     }
                 }
             }
@@ -471,7 +521,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_PointsToPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_PointsToPolyline()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             var database = document.Database;
 
@@ -523,7 +573,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_RailsToRailwayCenterLine", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_RailsToRailwayCenterLine()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             var database = document.Database;
 
@@ -701,7 +751,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_Settings", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_Settings()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             // var database = document.Database;
 
@@ -743,7 +793,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_SimplifyPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_SimplifyPolyline()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
 
             var database = document.Database;
             var editor = document.Editor;
@@ -820,7 +870,7 @@ namespace TopoHelper
         [CommandMethod("IAMTopo_OffsetPolyline")]
         public static void IAMTopo_OffsetPolyline()
         {
-            var document = Application.DocumentManager.MdiActiveDocument;
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var ed = document.Editor;
             var db = document.Database;
             // CivilDocument cdoc = CivilApplication.ActiveDocument;
@@ -855,7 +905,7 @@ namespace TopoHelper
                         var sidePoint = ed.GetPoint("\nSelect side to offset to:");
                         if (sidePoint.Status == PromptStatus.Cancel) return;
 
-                        var polyline = (Polyline)tr.GetObject(per.ObjectId, OpenMode.ForRead);
+                        var polyline = (Polyline2d)tr.GetObject(per.ObjectId, OpenMode.ForRead);
                         var closestPointTo = polyline.GetClosestPointTo(sidePoint.Value, false);
 
                         var offsetCurvesCollection1 = polyline.GetOffsetCurves(distance);

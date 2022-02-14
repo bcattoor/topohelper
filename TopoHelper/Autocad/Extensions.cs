@@ -63,7 +63,7 @@ namespace TopoHelper.AutoCAD
             var acadDoc = doc.GetAcadDocument();
             acadDoc.GetType().InvokeMember(
                 "SendCommand",
-                System.Reflection.BindingFlags.InvokeMethod,
+                BindingFlags.InvokeMethod,
                 null,
                 acadDoc,
                 new[] { command });
@@ -74,7 +74,7 @@ namespace TopoHelper.AutoCAD
             var acadDoc = doc.GetAcadDocument();
             acadDoc.GetType().InvokeMember(
                 "SendCommand",
-                System.Reflection.BindingFlags.InvokeMethod,
+                BindingFlags.InvokeMethod,
                 null,
                 acadDoc,
                 commands);
@@ -163,6 +163,18 @@ namespace TopoHelper.AutoCAD
         public static Point3d T3d(this Point2d p, double elevation)
         {
             return new Point3d(p.X, p.Y, elevation);
+        }
+
+
+        /// <summary>
+        /// Calculates the midpoint between the current object, and a new provided point3d.
+        /// </summary>
+        /// <param name="p1">Current point.</param>
+        /// <param name="p2">Point to measure to</param>
+        /// <returns>Mid between p1 and p2 as 3dPoint</returns>
+        public static Point3d GetMidpointTo3dPoint(this Point3d p1, Point3d p2)
+        {
+            return Model.Calculations.Basic.GetMidpointTo3dPoint(new Model.Geometry.Point(p1), new Model.Geometry.Point(p2)).ToPoint3d();
         }
 
         #endregion

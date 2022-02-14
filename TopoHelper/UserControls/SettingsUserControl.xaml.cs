@@ -49,13 +49,13 @@ namespace TopoHelper.UserControls
                         var version = $"Version {MyApplication.GetInformationalVersion()} / {MyApplication.GetAssemblyVersion()} / {MyApplication.GetAssemblyFileVersion()}";
                         // TODO: Show application version info etc ...
                         Clipboard.SetText(version);
-                        System.Windows.MessageBox.Show($"{version}\r\nDe bovenstaande info werd gekopieerd naar het klembord.");
+                        MessageBox.Show($"{version}\r\nDe bovenstaande info werd gekopieerd naar het klembord.");
                     }
                 }
             }
             catch (System.Exception exeption)
             {
-                System.Windows.MessageBox.Show(exeption.Message);
+                MessageBox.Show(exeption.Message);
             }
         }
 

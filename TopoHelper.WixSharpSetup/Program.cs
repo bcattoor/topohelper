@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Security.Principal;
 using System.Text;
 using System.Windows;
 using WixSharp;
@@ -29,7 +28,7 @@ namespace TopoHelper.WixSharpSetup
         /// This is where the source files are located, when rebuilding from new
         /// environment make sure to update this.
         /// </summary>
-        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper2022\TopoHelper.WixSharpSetup\files";
+        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files";
 
         //? --> More info about AutoCAD registry logic:
         //- https://jtbworld.com/autocad-information#AutoCAD-registry-details
@@ -60,7 +59,7 @@ namespace TopoHelper.WixSharpSetup
             @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper"  //?2021
 };
 
-        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warrenty is given!";
+        private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!";
         private const string ProductEmailContact = "Bjorn.Cattoor@Infrabel.be";
         private const string ProductGuid = "1EB1D6F2-8704-4D6F-9BDE-83D07308D140";
         private const string ProductHelpDeskTelephoneNumber = "911/54555";

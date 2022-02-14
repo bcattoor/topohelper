@@ -3844,6 +3844,18 @@
         <member name="M:CsvHelper.CsvReader.EnumerateRecords``1(``0)">
             <inheritdoc/>
         </member>
+        <member name="M:CsvHelper.CsvReader.GetRecordsAsync``1(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:CsvHelper.CsvReader.GetRecordsAsync``1(``0,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:CsvHelper.CsvReader.GetRecordsAsync(System.Type,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:CsvHelper.CsvReader.EnumerateRecordsAsync``1(``0,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
         <member name="M:CsvHelper.CsvReader.GetFieldIndex(System.String,System.Int32,System.Boolean)">
             <inheritdoc/>
         </member>
@@ -3946,6 +3958,9 @@
             <inheritdoc/>
         </member>
         <member name="M:CsvHelper.CsvWriter.WriteRecordsAsync``1(System.Collections.Generic.IEnumerable{``0},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:CsvHelper.CsvWriter.WriteRecordsAsync``1(System.Collections.Generic.IAsyncEnumerable{``0},System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="M:CsvHelper.CsvWriter.NextRecord">
@@ -5228,6 +5243,50 @@
             <param name="record">The record to fill each enumeration.</param>
             <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of records.</returns>
         </member>
+        <member name="M:CsvHelper.IReader.GetRecordsAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Gets all the records in the CSV file and
+            converts each to <see cref="T:System.Type"/> T. The Read method
+            should not be used when using this.
+            </summary>
+            <typeparam name="T">The <see cref="T:System.Type"/> of the record.</typeparam>
+            <param name="cancellationToken">The cancellation token to stop the writing.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IAsyncEnumerable`1" /> of records.</returns>
+        </member>
+        <member name="M:CsvHelper.IReader.GetRecordsAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            Gets all the records in the CSV file and converts
+            each to <see cref="T:System.Type"/> T. The read method
+            should not be used when using this.
+            </summary>
+            <typeparam name="T">The <see cref="T:System.Type"/> of the record.</typeparam>
+            <param name="anonymousTypeDefinition">The anonymous type definition to use for the records.</param>
+            <param name="cancellationToken">The cancellation token to stop the writing.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/> of records.</returns>
+        </member>
+        <member name="M:CsvHelper.IReader.GetRecordsAsync(System.Type,System.Threading.CancellationToken)">
+            <summary>
+            Gets all the records in the CSV file and
+            converts each to <see cref="T:System.Type"/> T. The Read method
+            should not be used when using this.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> of the record.</param>
+            <param name="cancellationToken">The cancellation token to stop the writing.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IAsyncEnumerable`1" /> of records.</returns>
+        </member>
+        <member name="M:CsvHelper.IReader.EnumerateRecordsAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            Enumerates the records hydrating the given record instance with row data.
+            The record instance is re-used and not cleared on each enumeration. 
+            This only works for streaming rows. If any methods are called on the projection
+            that force the evaluation of the IEnumerable, such as ToList(), the entire list
+            will contain the same instance of the record, which is the last row.
+            </summary>
+            <typeparam name="T">The type of the record.</typeparam>
+            <param name="record">The record to fill each enumeration.</param>
+            /// <param name="cancellationToken">The cancellation token to stop the writing.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/> of records.</returns>
+        </member>
         <member name="T:CsvHelper.IReaderRow">
             <summary>
             Defines methods used to read parsed data
@@ -5697,6 +5756,14 @@
             <param name="cancellationToken">The cancellation token to stop the writing.</param>
         </member>
         <member name="M:CsvHelper.IWriter.WriteRecordsAsync``1(System.Collections.Generic.IEnumerable{``0},System.Threading.CancellationToken)">
+            <summary>
+            Writes the list of records to the CSV file.
+            </summary>
+            <typeparam name="T">Record type.</typeparam>
+            <param name="records">The records to write.</param>
+            <param name="cancellationToken">The cancellation token to stop the writing.</param>
+        </member>
+        <member name="M:CsvHelper.IWriter.WriteRecordsAsync``1(System.Collections.Generic.IAsyncEnumerable{``0},System.Threading.CancellationToken)">
             <summary>
             Writes the list of records to the CSV file.
             </summary>

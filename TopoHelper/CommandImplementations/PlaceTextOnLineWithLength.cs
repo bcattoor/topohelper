@@ -38,7 +38,7 @@ namespace TopoHelper.CommandImplementations
             var editor = currentDocument.Editor;
 
             // Create the style we will use
-            PlaceTextOnLineWithLength.AddTextStyle(textStyleName, fontName,
+            AddTextStyle(textStyleName, fontName,
                 textHeight, textWidth);
 
             var textStyleId = GetTextStyleId(textStyleName);
@@ -375,7 +375,7 @@ namespace TopoHelper.CommandImplementations
 
         private bool updateArc()
         {
-            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
 
             bool isOnInsideOfArc = false;
@@ -592,7 +592,7 @@ namespace TopoHelper.CommandImplementations
 
         private bool updateLine()
         {
-            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
 
             Line myOffsetLine = null;

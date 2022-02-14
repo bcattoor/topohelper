@@ -24,7 +24,7 @@ namespace TopoHelper
 
             try
             {
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.CurrentDocument.Editor.WriteMessage(string.Format(@"Loaded --> {0}.", applicationName) + System.Environment.NewLine);
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.CurrentDocument.Editor.WriteMessage(string.Format(@"Loaded --> {0}.", applicationName) + Environment.NewLine);
                 //LanguageSupport.Languages.InitializeLanguage();
                 AddRibbonPalette();
             }

@@ -12,15 +12,15 @@ namespace TopoHelper.Model
     {
         #region Private Fields
 
-        private const string CountNotEqual = "Both rail-axis polyline3d should have the same amount of vertices's.";
+        private const string CountNotEqual = "Both polylines (rail-axis) should have the same amount of vertices's.";
 
-        private const string DirectionNotEqual = "Both rail-axis polyline3d should have the same direction.";
+        private const string DirectionNotEqual = "Both polylines (rail-axis) should have the same direction.";
 
-        private const string ItemCount = "Both rail-axis polyline3d should have at least 2 vertices's.";
+        private const string ItemCount = "Both polylines (rail-axis) should have at least 2 vertices's.";
 
-        private const string RailMaxDistance = "You have exceeded the maximum distance allowed rail measured point to rail measured point.";
+        private const string RailMaxDistance = "The maximum value for the distance between two parallel measured points has been exceeded. [DataValidation_LeftrailToRightRail_Tolerance + DataValidation_LeftrailToRightRail_Maximum]";
 
-        private const string RailMinDistance = "You have exceeded the minimum distance allowed rail measured point to rail measured point.";
+        private const string RailMinDistance = "The minimum value for the distance between two parallel measured points has been exceeded. [1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance]";
 
         /// <summary>
         /// My 2d plane to work in.
@@ -55,11 +55,11 @@ namespace TopoHelper.Model
             { exceptionMessage = DirectionNotEqual; return false; }
 
             if (!ValidateInputGaugeMinDistances(firstList, secondList, out int error))
-            { exceptionMessage = RailMinDistance + $" Index on first polyline: {error}"; return false; }
+            { exceptionMessage = RailMinDistance + $" Index on first polyline: {error+1}"; return false; }
 
 
             if (!ValidateInputGaugeMaxDistances(firstList, secondList, out error))
-            { exceptionMessage = RailMaxDistance + $" Index on first polyline: {error}"; return false; }
+            { exceptionMessage = RailMaxDistance + $" Index on first polyline: {error+1}"; return false; }
 
             exceptionMessage = null;
             return true;

@@ -294,7 +294,7 @@ namespace TopoHelper.WixSharpSetup
                     else
                         NotepadHelper.ShowMessage(
                             title: "Installed",
-                            message: "Application has been installed, though we had some problems adding trusted locations to the registry. Please retry your installation. If the problem persitst, report the issue here: bjorn.cattoor@infrabel.be, or create an issue on GitHub (account required: https://github.com/bcattoor/topohelper/issues/new/choose): "
+                            message: "Application has been installed, though we had some problems adding trusted locations to the registry. Please retry your installation. If the problem persist, report the issue here: bjorn.cattoor@infrabel.be, or create an issue on GitHub (account required: https://github.com/bcattoor/topohelper/issues/new/choose): "
                             + sb);
                 }
                 catch (Exception ex)

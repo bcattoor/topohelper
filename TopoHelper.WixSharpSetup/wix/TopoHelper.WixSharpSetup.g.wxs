@@ -6,7 +6,7 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="1eb1d6f2-8704-4d6f-9bde-83d08318e141" Name="Infrabel IAM:Topo Helper, AutoCAD-plugin." Language="1033" Codepage="Windows-1252" Version="1.1.1.0" UpgradeCode="1eb1d6f2-8704-4d6f-9bde-83d07308d140" Manufacturer="By Bjorn Cattoor, for Infrabel.">
+  <Product Id="1eb1d6f2-8704-4d6f-9bde-83d0d328d141" Name="Infrabel IAM:Topo Helper, AutoCAD-plugin." Language="1033" Codepage="Windows-1252" Version="22.2.0.0" UpgradeCode="1eb1d6f2-8704-4d6f-9bde-83d07308d140" Manufacturer="By Bjorn Cattoor, for Infrabel.">
     <Package InstallerVersion="200" Compressed="yes" Description="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" SummaryCodepage="Windows-1252" InstallPrivileges="limited" InstallScope="perUser" Languages="1033" />
     <Media Id="1" Cabinet="_...po20Helper2c20AutoCAD2dplugin._.cab" EmbedCab="yes" />
 
@@ -474,6 +474,14 @@
                 </RegistryKey>
               </Component>
 
+              <Component Id="Component.AutoCADCommon.pdb_1851274014" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a6a54e47">
+                <File Id="AutoCADCommon.pdb_1851274014" Source="TrackConnect\AutoCADCommon.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
               <Component Id="Component.Core.dll_4264686152" Guid="1eb1d6f2-8704-4d6f-9bde-83d02cabb561">
                 <File Id="Core.dll_4264686152" Source="TrackConnect\Core.dll" />
 
@@ -490,8 +498,24 @@
                 </RegistryKey>
               </Component>
 
+              <Component Id="Component.Core.pdb_2264134224" Guid="1eb1d6f2-8704-4d6f-9bde-83d06836bbed">
+                <File Id="Core.pdb_2264134224" Source="TrackConnect\Core.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
               <Component Id="Component.FrameworkCommon.dll_2306972122" Guid="1eb1d6f2-8704-4d6f-9bde-83d07afafed7">
                 <File Id="FrameworkCommon.dll_2306972122" Source="TrackConnect\FrameworkCommon.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.FrameworkCommon.pdb_2390762124" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ca286ca2">
+                <File Id="FrameworkCommon.pdb_2390762124" Source="TrackConnect\FrameworkCommon.pdb" />
 
                 <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                   <RegistryValue Value="0" Type="string" KeyPath="yes" />
@@ -847,8 +871,8 @@
     <WixVariable Id="WixUILicenseRtf" Value="C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files\license.rtf" />
 
     <Upgrade Id="1eb1d6f2-8704-4d6f-9bde-83d07308d140">
-      <UpgradeVersion Minimum="0.0.0.0" Maximum="1.1.1.0" IncludeMinimum="yes" IncludeMaximum="no" Property="UPGRADEFOUND" />
-      <UpgradeVersion Minimum="1.1.1.0" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="0.0.0.0" Maximum="22.2.0.0" IncludeMinimum="yes" IncludeMaximum="no" Property="UPGRADEFOUND" />
+      <UpgradeVersion Minimum="22.2.0.0" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
     </Upgrade>
 
     <CustomAction Id="WixSharp_SetProperty_WIXSHARP_RESILIENT_SOURCE_DIR" Property="WIXSHARP_RESILIENT_SOURCE_DIR" Value="[INSTALLDIR]" Return="check" Execute="immediate" />
@@ -872,8 +896,8 @@
     <UIRef Id="WixUI_FeatureTree" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
-    <Property Id="WixSharp_BeforeInstall_Handlers" Value="WixSharp Setup, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_BeforeInstall" />
-    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharp Setup, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_AfterInstall" />
+    <Property Id="WixSharp_BeforeInstall_Handlers" Value="WixSharp Setup, Version=22.2.0.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_BeforeInstall" />
+    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharp Setup, Version=22.2.0.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_AfterInstall" />
     <Property Id="ARPCOMMENTS" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" />
     <Property Id="ARPCONTACT" Value="Bjorn.Cattoor@Infrabel.be" />
     <Property Id="ARPHELPTELEPHONE" Value="911/54555" />
@@ -986,9 +1010,12 @@
       <ComponentRef Id="Component.TopoHelper.dll.config_673199387" />
       <ComponentRef Id="Component.TopoHelper.pdb_1981469309" />
       <ComponentRef Id="Component.AutoCADCommon.dll_1400411052" />
+      <ComponentRef Id="Component.AutoCADCommon.pdb_1851274014" />
       <ComponentRef Id="Component.Core.dll_4264686152" />
       <ComponentRef Id="Component.Core.dll.config_3179799733" />
+      <ComponentRef Id="Component.Core.pdb_2264134224" />
       <ComponentRef Id="Component.FrameworkCommon.dll_2306972122" />
+      <ComponentRef Id="Component.FrameworkCommon.pdb_2390762124" />
       <ComponentRef Id="Component.TrackConnect.dll_4011810672" />
       <ComponentRef Id="Component.track_connect_16.png_1713477592" />
       <ComponentRef Id="Component.track_connect_32.png_4060710882" />

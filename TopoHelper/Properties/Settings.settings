@@ -2,110 +2,131 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TopoHelper.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="APP_EPSILON" Type="System.Double" Scope="Application">
+    <Setting Name="__APP_EPSILON" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">1E-06</Value>
     </Setting>
-    <Setting Name="DV_LRTRR_TOLERANCE" Type="System.Double" Scope="User">
+    <Setting Name="DataValidation_LeftrailToRightRail_Tolerance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.01</Value>
     </Setting>
-    <Setting Name="LAY_NAME_PREFIX_2D" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2D-</Value>
+    <Setting Name="LayerNamePrefix_2DObjects" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IAMTopo_2D-</Value>
     </Setting>
-    <Setting Name="LAY_NAME_PREFIX_3D" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3D-</Value>
+    <Setting Name="LayerNamePrefix_3DObjects" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IAMTopo_3D-</Value>
     </Setting>
-    <Setting Name="LAY_NAME_R2R_CL" Type="System.String" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerNameCenterline" Type="System.String" Scope="User">
       <Value Profile="(Default)">811</Value>
     </Setting>
-    <Setting Name="LAY_COL_R2R_CL_PL" Type="System.Int16" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">253</Value>
     </Setting>
-    <Setting Name="DRAW_3D_R2R_CL_PNTS" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_DrawCenterline3DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LAY_NAME_R2R_CL_PNTS" Type="System.String" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerNameCenterLine3DPoints" Type="System.String" Scope="User">
       <Value Profile="(Default)">811-Points</Value>
     </Setting>
-    <Setting Name="LAY_COL_R2D_CL_PNTS" Type="System.Int16" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_LayerColorCenterline3DPoints" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">251</Value>
     </Setting>
-    <Setting Name="DV_LRTRR_MAX_VALUE" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1.6</Value>
+    <Setting Name="DataValidation_LeftrailToRightRail_Maximum" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.52</Value>
     </Setting>
-    <Setting Name="DRAW_2D_R2R_CL_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Draw2DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DRAW_3D_R2R_CL_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Draw3DPolyline_CenterLine" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="IO_FILE_R2R_CSV" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\Data\track.R2R.csv</Value>
+    <Setting Name="RailsToRailwayCenterLine_PathToCSVFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Data\track.Rails2RailwayCenterLine.csv</Value>
     </Setting>
-    <Setting Name="CALCULATE_CSD" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_Use_CalculateSurveyCorrection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DRAW_3D_CSD_RAILS_PL" Type="System.Boolean" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_Draw3DPolyline_Rails" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LAY_NAME_CSD_RAILS_PL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">IAMTopo_CorrectSurveyDisplacementRail</Value>
+    <Setting Name="CalculateSurveyCorrection_LayerNamePolylines_Rails" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IAMTopo_CalculateSurveyCorrection_Rail</Value>
     </Setting>
-    <Setting Name="DRAW_2D_R2R_CL_PNTS" Type="System.Boolean" Scope="User">
+    <Setting Name="RailsToRailwayCenterLine_DrawCenterline2DPoints" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="LOG_R2R_CSV" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="RailsToRailwayCenterLine_WriteResultToCSVFile" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="IO_FILE_R2R_CSV_DELIMITER" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
-    </Setting>
-    <Setting Name="LAY_COL_CSD_RAILS_PL" Type="System.Int16" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_LayerColorPolyline_Rails" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">110</Value>
     </Setting>
-    <Setting Name="DRAW_3D_CSD_RAILS_PNTS" Type="System.Boolean" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_Draw3DPoints_Rails" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LAY_NAME_CSD_RAILS_PNTS" Type="System.String" Scope="User">
-      <Value Profile="(Default)">IAMTopo_CorrectSurveyDisplacementRailPoints</Value>
+    <Setting Name="CalculateSurveyCorrection_LayerNamePoints_Rails" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IAMTopo_CalculateSurveyCorrection_Rail-Points</Value>
     </Setting>
-    <Setting Name="LAY_COL_CSD_RAILS_PNTS" Type="System.Int16" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_LayerColorPoints_Rails" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">115</Value>
     </Setting>
-    <Setting Name="DELETE_JPL_ENTITIES" Type="System.Boolean" Scope="User">
+    <Setting Name="JoinPolyline_DeleteSelectedEntities" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DIST_MIN_PTP" Type="System.Double" Scope="User">
+    <Setting Name="PointsTo3DPolyline_MinimumPointDistance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.005</Value>
     </Setting>
-    <Setting Name="DIST_MAX_PTP" Type="System.Double" Scope="User">
+    <Setting Name="PointsTo3DPolyline_MaximumPointDistance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.5</Value>
     </Setting>
-    <Setting Name="IO_FILE_CSD_CSV" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\Data\track.CSD.csv</Value>
+    <Setting Name="CalculateSurveyCorrection_PathToCsvFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Data\track.CalculateSurveyCorrection.csv</Value>
     </Setting>
-    <Setting Name="IO_FILE_CSD_CSV_DELIMITER" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
+    <Setting Name="DistanceBetween2Polylines_PathToCsvFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Data\track.DistanceBetween2Polylines.csv</Value>
     </Setting>
-    <Setting Name="IO_FILE_DBPL_CSV" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\Data\track.DBPL.csv</Value>
-    </Setting>
-    <Setting Name="IO_FILE_DBPL_CSV_DELIMITER" Type="System.String" Scope="User">
-      <Value Profile="(Default)">;</Value>
-    </Setting>
-    <Setting Name="IO_CSV_NUMBER_DECIMAL_SEPERATOR" Type="System.String" Scope="User">
+    <Setting Name="NumberDecimalSeperator_ForAllCSVFiles" Type="System.String" Scope="User">
       <Value Profile="(Default)">,</Value>
     </Setting>
-    <Setting Name="CSD_MIN_CANT_VAL" Type="System.Double" Scope="User">
+    <Setting Name="CalculateSurveyCorrection_MinimumCantValue" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.001</Value>
     </Setting>
-    <Setting Name="SYMPPL_TOLERANCE" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0.01</Value>
+    <Setting Name="SimplifyPolyline_Tolerance" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.005</Value>
     </Setting>
-    <Setting Name="SYMPPL_HIGH_PRICISION" Type="System.Boolean" Scope="User">
+    <Setting Name="SimplifyPolyline_UseHighPrecision" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PLW_WEEDING_DISTANCE" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">10</Value>
+    <Setting Name="WeedPolyline_MinDistance" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="WeedPolyline_LayerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WeededPolyline</Value>
+    </Setting>
+    <Setting Name="WeedPolyline_LayerColor" Type="System.Int16" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="AlignAngleOfBlock_DynamicPropertyName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Angle1</Value>
+    </Setting>
+    <Setting Name="AlignAngleOfBlock_AddAngleValue_TimesPI" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_Pattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HM 45 000~100</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HM_XX_XXX</Value>
+    </Setting>
+    <Setting Name="IncrementAttribute_ChainAlign" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ListSeperator_ForAllCSVFiles" Type="System.String" Scope="User">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+    <Setting Name="NumberGroupCharacter_ForAllCSVFiles" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="JoinPolyline_MaximumGapToClose" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

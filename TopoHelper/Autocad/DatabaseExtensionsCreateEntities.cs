@@ -1,45 +1,46 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.Colors;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TopoHelper.Autocad
+namespace TopoHelper.AutoCAD
 {
-    internal static class DatabaseCreateEntityExtensions
+    public static class DatabaseCreateEntityExtensions
     {
         #region Private Fields
 
-        private static readonly Plane myPlaneWCS = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
+        // ReSharper disable once UnusedMember.Local
+        private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
         #endregion
 
         #region Public Methods
 
         public static ObjectId Create2dPolyline(this Database database, IEnumerable<Point3d> points, string layerName = null,
-            short layerColor = 256, short entityCollor = 256, double elevation = .0, double startwidth = .0, double endwidth = .0)
+            short layerColor = 256, short entityCollor = 256, double elevation = .0, double linetypeScale = 1, double startwidth = .0, double endwidth = .0)
         {
             using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
                 // Get the layer table from the drawing
-                using (var blocktable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
+                using (var blockTable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
                 {
-                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blocktable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-
-                    ObjectId id;
+                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
 
                     //create the layer
                     using (var pl2d = new Polyline())
 
                     {
                         pl2d.SetDatabaseDefaults();
-                        for (int i = 0; i < points.Count(); i++)
+                        var point3ds = points as Point3d[] ?? points.ToArray();
+                        for (var i = 0; i < point3ds.Length; i++)
                         {
-                            pl2d.AddVertexAt(i, points.ElementAt(i).T2d(), .0, startwidth, endwidth);
+                            pl2d.AddVertexAt(i, point3ds.ElementAt(i).T2d(), .0, startwidth, endwidth);
                         }
                         pl2d.Elevation = elevation;
                         pl2d.ColorIndex = entityCollor;
-                        pl2d.LinetypeScale = .5;
+                        pl2d.LinetypeScale = linetypeScale;
                         pl2d.LineWeight = LineWeight.ByLayer;
 
                         if (layerName != null)
@@ -49,7 +50,44 @@ namespace TopoHelper.Autocad
                         }
 
                         pl2d.ColorIndex = entityCollor;
-                        id = blockTableRecord.AppendEntity(pl2d);
+                        var id = blockTableRecord.AppendEntity(pl2d);
+                        transAction.AddNewlyCreatedDBObject(pl2d, true);
+                        transAction.Commit();
+                        return id;
+                    }
+                }
+            }
+        }
+
+        public static ObjectId Create2dPolyline(this Database database, Curve curve, string layerName = null,
+           short layerColor = 256, short entityCollor = 256, double elevation = .0, double linetypeScale = 1, double startwidth = .0, double endwidth = .0)
+        {
+            using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                // Get the layer table from the drawing
+                using (var blockTable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
+                {
+                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+
+                    //create the layer
+                    using (var pl2d = new Polyline())
+
+                    {
+                        pl2d.SetDatabaseDefaults();
+                        pl2d.SetFromGeCurve(curve.GetGeCurve());
+                        pl2d.Elevation = elevation;
+                        pl2d.ColorIndex = entityCollor;
+                        pl2d.LinetypeScale = linetypeScale;
+                        pl2d.LineWeight = LineWeight.ByLayer;
+
+                        if (layerName != null)
+                        {
+                            database.CreateLayer(layerName, layerColor, "");
+                            pl2d.Layer = layerName;
+                        }
+
+                        pl2d.ColorIndex = entityCollor;
+                        var id = blockTableRecord.AppendEntity(pl2d);
                         transAction.AddNewlyCreatedDBObject(pl2d, true);
                         transAction.Commit();
                         return id;
@@ -119,7 +157,7 @@ namespace TopoHelper.Autocad
                         transAction.AddNewlyCreatedDBObject(newLayerTableRecord, true);
                         // ... and set its properties
                         newLayerTableRecord.Name = layName;
-                        newLayerTableRecord.Color = Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, colorIndex);
+                        newLayerTableRecord.Color = Color.FromColorIndex(ColorMethod.ByAci, colorIndex);
                         newLayerTableRecord.Description = description;
                         newLayerTableRecord.IsLocked = layerIsLocked;
                         newLayerTableRecord.IsHidden = isHidden;
@@ -172,15 +210,16 @@ namespace TopoHelper.Autocad
             using (var transAction = database.TransactionManager.StartOpenCloseTransaction())
             {
                 // Get the layer table from the drawing
-                using (var blocktable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
+                using (var blockTable = (BlockTable)transAction.GetObject(database.BlockTableId, OpenMode.ForRead))
                 {
-                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blocktable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-                    int count = points.Count();
+                    var blockTableRecord = (BlockTableRecord)transAction.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+                    var point3ds = points as Point3d[] ?? points.ToArray();
+                    var count = point3ds.Length;
                     var ids = new ObjectId[count];
                     //create the layer
-                    for (int i = 0; i < count; i++)
+                    for (var i = 0; i < count; i++)
                     {
-                        using (var dbPoint = new DBPoint(points.ElementAt(i)))
+                        using (var dbPoint = new DBPoint(point3ds.ElementAt(i)))
 
                         {
                             dbPoint.SetDatabaseDefaults();

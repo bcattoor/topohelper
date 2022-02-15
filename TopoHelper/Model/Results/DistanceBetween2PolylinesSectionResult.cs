@@ -8,15 +8,15 @@ namespace TopoHelper.Model.Results
 
         public DistanceBetween2PolylinesSectionResult(
             double distanceOnPolyline,
-            double deltaZ, double deltaXY2d, double deltaXY3d,
+            double deltaZ, double deltaXy2d, double deltaXy3d,
             Point3d fromPoint, Point3d toPoint)
         {
             FromPoint = fromPoint;
             ToPoint = toPoint;
             Chainage = distanceOnPolyline;
             DeltaZ = deltaZ;
-            DeltaXY2d = deltaXY2d;
-            DeltaXY3d = deltaXY3d;
+            DeltaXy2d = deltaXy2d;
+            DeltaXy3d = deltaXy3d;
         }
 
         #endregion
@@ -24,8 +24,8 @@ namespace TopoHelper.Model.Results
         #region Public Properties
 
         public double Chainage { get; private set; }
-        public double DeltaXY2d { get; private set; }
-        public double DeltaXY3d { get; private set; }
+        public double DeltaXy2d { get; private set; }
+        public double DeltaXy3d { get; private set; }
         public double DeltaZ { get; private set; }
         public Point3d FromPoint { get; private set; }
         public Point3d ToPoint { get; private set; }

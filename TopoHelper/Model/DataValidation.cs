@@ -4,34 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using TopoHelper.Properties;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace TopoHelper.Model
 {
     internal static class DataValidation
     {
         #region Private Fields
 
-        private const string MessageCountNotEqual = "Both rail-axis polyline3d should have the same amount of vertices's.";
+        private const string CountNotEqual = "Both polylines (rail-axis) should have the same amount of vertices's.";
 
-        private const string MessageDirectionNotEqual = "Both rail-axis polyline3d should have the same direction.";
+        private const string DirectionNotEqual = "Both polylines (rail-axis) should have the same direction.";
 
-        private const string MessageItemCount = "Both rail-axis polyline3d should have at least 2 vertices's.";
+        private const string ItemCount = "Both polylines (rail-axis) should have at least 2 vertices's.";
 
-        private const string MessageRailMaxDistance = "You have exceeded the maximum distance allowed rail measured point to rail measured point.";
+        private const string RailMaxDistance = "The maximum value for the distance between two parallel measured points has been exceeded. [DataValidation_LeftrailToRightRail_Tolerance + DataValidation_LeftrailToRightRail_Maximum]";
 
-        private const string MessageRailMinDistance = "You have exceeded the minimum distance allowed rail measured point to rail measured point.";
+        private const string RailMinDistance = "The minimum value for the distance between two parallel measured points has been exceeded. [1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance]";
 
         /// <summary>
         /// My 2d plane to work in.
         /// </summary>
-        private static readonly Plane myPlaneWCS = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
+        private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
-        private static Settings settings_default = Properties.Settings.Default;
+        private static readonly Settings _settingsDefault = Settings.Default;
 
         #endregion
 
         #region Public Methods
 
-        public static bool ValidateInput(IEnumerable<Point3d> firstList, IEnumerable<Point3d> secondList, out string exeptionMessage)
+        public static bool ValidateInput(IList<Point3d> firstList, IList<Point3d> secondList, out string exceptionMessage)
         {
             if (firstList is null || !firstList.Any())
             {
@@ -43,58 +45,67 @@ namespace TopoHelper.Model
                 throw new ArgumentNullException(nameof(firstList));
             }
 
-            if (firstList.Count() != secondList.Count())
-            { exeptionMessage = MessageCountNotEqual; return false; }
+            if (firstList.Count != secondList.Count)
+            { exceptionMessage = CountNotEqual; return false; }
 
-            if (firstList.Count() < 2)
-            { exeptionMessage = MessageItemCount; return false; }
+            if (firstList.Count < 2)
+            { exceptionMessage = ItemCount; return false; }
 
             if (!ValidateInputApparentVectorAngles(firstList, secondList))
-            { exeptionMessage = MessageDirectionNotEqual; return false; }
+            { exceptionMessage = DirectionNotEqual; return false; }
 
-            if (!ValidateInputGaugeMinDistances(firstList, secondList))
-            { exeptionMessage = MessageRailMinDistance; return false; }
+            if (!ValidateInputGaugeMinDistances(firstList, secondList, out int error))
+            { exceptionMessage = RailMinDistance + $" Index on first polyline: {error+1}"; return false; }
 
-            if (!ValidateInputGaugeMaxDistances(firstList, secondList))
-            { exeptionMessage = MessageRailMaxDistance; return false; }
 
-            exeptionMessage = null;
+            if (!ValidateInputGaugeMaxDistances(firstList, secondList, out error))
+            { exceptionMessage = RailMaxDistance + $" Index on first polyline: {error+1}"; return false; }
+
+            exceptionMessage = null;
             return true;
         }
 
-        public static bool ValidateInputApparentVectorAngles(IEnumerable<Point3d> firstList, IEnumerable<Point3d> secondList)
+        private static bool ValidateInputApparentVectorAngles(IList<Point3d> firstList, IList<Point3d> secondList)
         {
-            var l1_sp = firstList.ElementAt(0).Convert2d(myPlaneWCS);
+            var l1Sp = firstList.ElementAt(0).Convert2d(MyPlaneWcs);
             // var l1_ep = firstList.Last().Convert2d(myPlaneWCS);
-            var l2_sp = secondList.ElementAt(0).Convert2d(myPlaneWCS);
-            var l2_ep = secondList.Last().Convert2d(myPlaneWCS);
+            var l2Sp = secondList.ElementAt(0).Convert2d(MyPlaneWcs);
+            var l2Ep = secondList.Last().Convert2d(MyPlaneWcs);
             // the start-point start-point distance needs to be smaller than the
             // start-point end-point distance if this is not the case, the two
             // lines are not in same direction.
-            var d1 = l1_sp.GetDistanceTo(l2_sp);
-            var d2 = l1_sp.GetDistanceTo(l2_ep);
+            var d1 = l1Sp.GetDistanceTo(l2Sp);
+            var d2 = l1Sp.GetDistanceTo(l2Ep);
             if (d1 < d2) return true;
 
             return false;
         }
 
-        public static bool ValidateInputGaugeMaxDistances(IEnumerable<Point3d> firstList, IEnumerable<Point3d> secondList)
+        private static bool ValidateInputGaugeMaxDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
-            for (int i = 0; i < firstList.Count(); i++)
+            indexErrorFirstList = -1;
+            for (var i = 0; i < firstList.Count; i++)
             {
-                var railtoRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railtoRailLine > settings_default.DV_LRTRR_MAX_VALUE)
+                indexErrorFirstList = i;
+                var leftpoint = firstList.ElementAt(i);
+                var rightpoint = secondList.ElementAt(i);
+                var distance = leftpoint.DistanceTo(rightpoint);
+                if (distance > _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance + _settingsDefault.DataValidation_LeftrailToRightRail_Maximum)
                     return false;
             }
             return true;
         }
 
-        public static bool ValidateInputGaugeMinDistances(IEnumerable<Point3d> firstList, IEnumerable<Point3d> secondList)
+        private static bool ValidateInputGaugeMinDistances(IList<Point3d> firstList, IList<Point3d> secondList, out int indexErrorFirstList)
         {
-            for (int i = 0; i < firstList.Count(); i++)
+            indexErrorFirstList = -1;
+            for (var i = 0; i < firstList.Count; i++)
             {
-                var railtoRailLine = firstList.ElementAt(i).DistanceTo(secondList.ElementAt(i));
-                if (railtoRailLine < 1.435 - settings_default.DV_LRTRR_TOLERANCE)
+                indexErrorFirstList = i;
+                var leftpoint = firstList.ElementAt(i);
+                var rightpoint = secondList.ElementAt(i);
+                var distance = leftpoint.DistanceTo(rightpoint);
+                if (distance < 1.435 - _settingsDefault.DataValidation_LeftrailToRightRail_Tolerance)
                     return false;
             }
 
@@ -103,15 +114,15 @@ namespace TopoHelper.Model
 
         public static bool ValidatePointsToPolylineSettings(out string message)
         {
-            if (settings_default.DIST_MIN_PTP < 0)
+            if (_settingsDefault.PointsTo3DPolyline_MinimumPointDistance < 0)
             {
-                message = $"The variable {nameof(settings_default.DIST_MIN_PTP)} should not be smaller than 0.";
+                message = $"The variable {nameof(_settingsDefault.PointsTo3DPolyline_MinimumPointDistance)} should not be smaller than 0.";
                 return false;
             }
 
-            if (settings_default.DIST_MAX_PTP < settings_default.DIST_MIN_PTP + settings_default.APP_EPSILON)
+            if (_settingsDefault.PointsTo3DPolyline_MaximumPointDistance < _settingsDefault.PointsTo3DPolyline_MinimumPointDistance + _settingsDefault.__APP_EPSILON)
             {
-                message = $"The variable {nameof(settings_default.DIST_MAX_PTP)} should not be smaller than variable {nameof(settings_default.DIST_MIN_PTP)}.";
+                message = $"The variable {nameof(_settingsDefault.PointsTo3DPolyline_MaximumPointDistance)} should not be smaller than variable {nameof(_settingsDefault.PointsTo3DPolyline_MinimumPointDistance)}.";
                 return false;
             }
 

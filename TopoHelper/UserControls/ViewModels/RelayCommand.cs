@@ -15,12 +15,7 @@ namespace TopoHelper.UserControls.ViewModels
 
         #region Constructors
 
-        public RelayCommand(Action<object> execute)
-        : this(execute, null)
-        {
-        }
-
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
@@ -33,12 +28,12 @@ namespace TopoHelper.UserControls.ViewModels
         [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            return _canExecute == null || _canExecute(parameter);
         }
 
         public event EventHandler CanExecuteChanged {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public void Execute(object parameter)

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LangDictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LangEntrys>
+    <LangEntry>
+      <Id>0</Id>
+      <Value>Aansluiting op enkelspoor</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>1</Id>
+      <Value>Aansluiting op dubbelspoor</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>2</Id>
+      <Value>Enkel voor gevorderde gebruikers</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>3</Id>
+      <Value>Snelheid (km/h) </Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>4</Id>
+      <Value>Een fout is opgetreden tijdens de uitvoering van de bron code: </Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>5</Id>
+      <Value>De applicatie wordt nu afgesloten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>6</Id>
+      <Value>Er werden niet genoeg punten gevonden in de door u geselecteerde polylijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>7</Id>
+      <Value>Er werden niet genoeg punten gevonden in de door u geselecteerd regio.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>8</Id>
+      <Value>Geef de nieuwe ontwerp- snelheid op van het bestaande spoor met behulp van onderstaande schuif regelaar.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>9</Id>
+      <Value>
+Selecteer de zone van de polylijn waarop u wilt aansluiten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>10</Id>
+      <Value>
+Deze zone dient minimaal 4 op-meetpunten te bevatten over een lengte van minimaal {0} m</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>11</Id>
+      <Value>Er kon geen geldig resultaat gevonden worden.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>12</Id>
+      <Value>Selecteer een nieuwe polylijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>13</Id>
+      <Value>Selecteer een nieuwe regio om te berekenen.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>14</Id>
+      <Value>Instellen van een andere snelheid.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>15</Id>
+      <Value>Terug naar het start-scherm</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>16</Id>
+      <Value>Er heeft zich een fout voor gedaan</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>17</Id>
+      <Value>"Selecteren van punten, instellen van de snelheid</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>18</Id>
+      <Value>Klik hier om de zone te selecteren.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>19</Id>
+      <Value>Selecteer polylijn</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>20</Id>
+      <Value>Om een aansluiting uit te tekenen, hebben we een opmeting van een bestaand spoor nodig, selecteer daarom de polylijn van het betreffende opgemeten spoor.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>21</Id>
+      <Value>Klik hier om de polylijn te selecteren.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>22</Id>
+      <Value>Selecteer een tweede polylijn</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>23</Id>
+      <Value>Om een aansluiting uit te tekenen die rekening houdt met een dubbelspoor, hebben we een tweede polylijn nodig, gelieve deze nu te selecteren.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>24</Id>
+      <Value>Klik hier om de tweede polylijn te selecteren.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>25</Id>
+      <Value>Als resultaat zijn BOGEN gevonden met straal {0}m / {1}m en lengte {2}m / {3}m en standaard tussenspoor van {4}m
+
+Resultaat:
+{5}
+{6}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>26</Id>
+      <Value>Als resultaat is een BOOG gevonden met straal {0}m en lengte {1}m
+Resultaat:
+{2}
+{3}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>27</Id>
+      <Value>Als resultaat zijn LIJNEN gevonden met lengte {0}m / {1}m en standaard tussenspoor van {2}m
+
+Resultaat:
+{3}
+{4}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>28</Id>
+      <Value>Als resultaat is een LIJN gevonden met lengte {0}m.
+{1}
+{2}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>29</Id>
+      <Value>Berekening dubbelspoor uitgevoerd.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>30</Id>
+      <Value>Berekening uitgevoerd.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>31</Id>
+      <Value>Bij het uittekenen zal er u worden gevraagd om een punt te selecteren waar je de tekst wilt plaatsen.
+Tijdens het plaatsen hebt u de mogelijkheid om de tekst te spiegelen en dit door te drukken op de "F" gevolgd door de "ENTER" toets op uw keyboard.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>32</Id>
+      <Value>
+Bij het uittekenen zal er u worden gevraagd om enkele punten te selecteren waar je de tekst wilt plaatsen.
+Tijdens het plaatsen hebt u de mogelijkheid om de tekst te spiegelen en dit door te drukken op de "F" gevolgd door de "ENTER" toets op uw keyboard.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>33</Id>
+      <Value>Oplossing uittekenen.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>34</Id>
+      <Value>Gelieve een van de opties onderaan te selecteren.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>35</Id>
+      <Value>Voor we iets kunnen berekenen, moet de software 4 punten op de naastliggende polylijn terug vinden, probeer nogmaals in een grotere zone.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>36</Id>
+      <Value>De gevonden oplossing is conform met de verbindingsstandaarden, en kan worden gebruikt om op aan te sluiten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>37</Id>
+      <Value>De geselecteerde polylijn moet minstens 4 opmeetpunten bevatten (vertices).</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>38</Id>
+      <Value>In uw selectie zone dienen er minstens 4 opmeetpunten te zijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>39</Id>
+      <Value>TSS</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>40</Id>
+      <Value> {0}  </Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>41</Id>
+      <Value>Tijdens de berekening waren er meerdere oplossingen, het beste resultaat is geselecteerd.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>42</Id>
+      <Value>Selecteer een tweede polylijn alvorens een berekening te starten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>43</Id>
+      <Value>Selecteer een polylijn alvorens een berekening te starten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>44</Id>
+      <Value>Er kon geen oplossing gevonden worden in de gevraagde zone.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>45</Id>
+      <Value>Het zoeken van bogen en lijnen, is gefaald, probeer opnieuw op een andere locatie of met een ander paar lijnen.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>46</Id>
+      <Value>De software kon geen oplossing berekenen, opgetreden fout: {0}</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>47</Id>
+      <Value>Berekenen van een lijn over de gevraagde punten is gefaald, dit kan te wijten zijn aan een interne fout in het programma, of een niet logische keuze van de ingevoerde Autocad geometrie.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>48</Id>
+      <Value>Berekenen van een boog over de gevraagde punten is gefaald, dit kan te wijten zijn aan een interne fout in het programma, of een niet logische keuze van de ingevoerde Autocad geometrie.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>49</Id>
+      <Value>Er kon geen oplossing berekend worden.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>50</Id>
+      <Value>
+Selecteer de lijn die u wenst te gebruiken.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>51</Id>
+      <Value>Kon van de geselecteerde lijn, geen vertexen uitlezen. U hebt waarschijnlijk een lijn gekozen die is aangemaakt door niet AutoDesk software, deze kunnen slecht opgebouwd zijn. Om ze te repareren kun je proberen om de tekening te laten verifiëren door het Audit commando.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>52</Id>
+      <Value>Het start/eindpunt kon niet gevonden worden in de geselecteerde lijst.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>53</Id>
+      <Value>De standaard afwijking van de gevonden oplossing is te groot.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>54</Id>
+      <Value>De lengte van de gevonden lijnen is te klein.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>55</Id>
+      <Value>De verschuiving van het gemeten tussenspoor tov het nieuwe gevonden standaard tussenspoor is te groot.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>56</Id>
+      <Value>Omdat niet alle voorwaarden voldaan zijn, kan er geen oplossing gevonden worden, probeer het opnieuw in een andere zone.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>57</Id>
+      <Value>De lengte van de gevonden bogen is te klein.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>58</Id>
+      <Value>De software berekent voor u de oplossing in de door u geselecteerde zone, dit kan eventjes duren...</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>59</Id>
+      <Value>Eventjes geduld alstublieft</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>60</Id>
+      <Value>De standaardafwijking van de gevonden lijn is te groot. Huidige standaardafwijking is {0}, deze mag maximaal {1} zijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>61</Id>
+      <Value>De lengte van de gevonden lijn is te klein. Huidige lengte is {0}, deze moet minimaal {1} zijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>62</Id>
+      <Value>De standaardafwijking van de gevonden boog is te groot. Huidige standaardafwijking is {0}, deze mag maximaal {1} zijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>63</Id>
+      <Value>De lengte van de gevonden boog is te klein. Huidige lengte is {0}, deze moet minimaal {1} zijn.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>64</Id>
+      <Value>Tekst resultaat regressie methode.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>65</Id>
+      <Value>Resultaat van een regressie methode.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>66</Id>
+      <Value>Dit is een tijdelijke laag gebruikt door de IAP - plugin.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>67</Id>
+      <Value>Klaar om een berekening aan te vatten.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>68</Id>
+      <Value>Er werd nog geen resultaat berekend.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>69</Id>
+      <Value>De geselecteerde polylijn kon niet worden uitgelezen, probeer er een 'CONVERT' op uit te voeren. Ook het uitvoeren van een 'AUDIT' kan fouten repareren van tekeningen komende van een niet AUTODESK applicatie.</Value>
+    </LangEntry>
+    <LangEntry>
+      <Id>70</Id>
+      <Value>Hallo, de taalbestanden zijn correct ingeladen!</Value>
+    </LangEntry>
+  </LangEntrys>
+  <Name>Nederlands</Name>
+</LangDictionary>

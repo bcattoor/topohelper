@@ -3,34 +3,80 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:TopoHelper.UserControls"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:converters="clr-namespace:TopoHelper.UserControls.Converters"
              mc:Ignorable="d"
+
+             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Path=DataGridView.View,
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></converters:BoolToVisibilityConverter>
+    </UserControl.Resources>
+    <DockPanel Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Commands" ItemsSource="{Binding MenuItems}" DisplayMemberPath="FriendlyName">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Command" Value="{Binding Path=AutoCADCommand}" />
+                        <Setter Property="CommandParameter" Value="{Binding}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
+            <MenuItem Header="_Help" DisplayMemberPath="FriendlyName">
+                <MenuItem Header="_About..." Click="MenuItem_Click_Navigate_Url" ToolTip="Over deze applicatie." />
+                <MenuItem Header="_Raporteer een probleem..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper/issues/new/choose" />
+                <MenuItem Header="_Open website..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://bcattoor.github.io/topohelper/welcome.html" />
+                <MenuItem Header="_View this on github..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid ItemsSource="{Binding Path=DataGridView.View,
                   UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="True"
+                  Grid.Row="1"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserSortColumns="True"
                   CanUserReorderColumns="True"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
-                  x:Name="dataGrid">
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Background="LightGray">
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
-            <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Cancel</Button>
-
-            <TextBox  Padding="5" Margin="5,3" x:Name="TxtFilter" FlowDirection="LeftToRight"
-                      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
-                      Width="200"></TextBox>
-            <TextBlock Padding="0,5" Margin="0,3" Text="Search" FlowDirection="LeftToRight"></TextBlock>
-        </StackPanel>
-    </Grid>
+                  x:Name="DataGrid">
+            </DataGrid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderBrush="CadetBlue" BorderThickness="1">
+                    <Grid>
+                        <Button Command="{Binding Path=ClearSearchCommand}"
+                                Visibility="{Binding Path=ClearSearchIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Margin="0,5,8,5"
+                                ToolTip="Clear Search Field"
+                                Background="Transparent" Height="18" Padding="0,0,0,3" HorizontalAlignment="Right" Panel.ZIndex="9">X</Button>
+                        <TextBox   Margin="5,3" x:Name="TxtFilter"
+                      HorizontalAlignment="Right" TextChanged="TxtFilter_TextChanged"
+                      Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}"
+                      MinWidth="100"></TextBox>
+                        <TextBlock x:Name="txtSearch"
+                                IsHitTestVisible="False"
+                                Margin="5,3" VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                FlowDirection="LeftToRight">
+                         Lorum Ipsum
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1" Background="LightGray">
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
+                    <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Close</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </UserControl>

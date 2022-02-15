@@ -6,16 +6,26 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="1eb1d6f2-8704-4d6f-9bde-83d08318e141" Name="Infrabel IAM:Topo Helper, AutoCAD-plugin." Language="1033" Codepage="Windows-1252" Version="1.1.1.0" UpgradeCode="1eb1d6f2-8704-4d6f-9bde-83d07308d140" Manufacturer="By Bjorn Cattoor, for Infrabel.">
-    <Package InstallerVersion="200" Compressed="yes" Description="This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment." SummaryCodepage="Windows-1252" Languages="1033" InstallPrivileges="limited" InstallScope="perUser" />
-    <Media Id="1" Cabinet="Topo_Helper__AutoCAD_plugin._.cab" EmbedCab="yes" />
+  <Product Id="1eb1d6f2-8704-4d6f-9bde-83d0d328d141" Name="Infrabel IAM:Topo Helper, AutoCAD-plugin." Language="1033" Codepage="Windows-1252" Version="22.2.0.0" UpgradeCode="1eb1d6f2-8704-4d6f-9bde-83d07308d140" Manufacturer="By Bjorn Cattoor, for Infrabel.">
+    <Package InstallerVersion="200" Compressed="yes" Description="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" SummaryCodepage="Windows-1252" InstallPrivileges="limited" InstallScope="perUser" Languages="1033" />
+    <Media Id="1" Cabinet="_...po20Helper2c20AutoCAD2dplugin._.cab" EmbedCab="yes" />
 
-    <Condition Message="Please install .NET 4.7.2 first. Contact your system administrator to install."><![CDATA[ (NETFRAMEWORK45 >= "#393295") ]]></Condition>
+    <Condition Message="Please install .NET 4.7.2 first. Contact your system administrator to install."><![CDATA[ (NETFRAMEWORK45 >= "#461808") ]]></Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="LocalAppDataFolder" Name="LocalAppDataFolder">
         <Directory Id="LocalAppDataFolder.Infrabel" Name="Infrabel">
-          <Directory Id="INSTALLDIR" Name="TopoHelper">
+
+          <Component Id="Component.LocalAppDataFolder.Infrabel" Guid="1eb1d6f2-8704-4d6f-9bde-83d080493a18">
+            <CreateFolder />
+            <RemoveFolder Id="LocalAppDataFolder.Infrabel" On="uninstall" />
+
+            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+              <RegistryValue Value="0" Type="string" KeyPath="yes" />
+            </RegistryKey>
+          </Component>
+
+          <Directory Id="INSTALLDIR" Name="IAP">
 
             <Component Id="Component.INSTALLDIR" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a6334d63">
               <CreateFolder />
@@ -26,208 +36,559 @@
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.readme.txt_509503769" Guid="1eb1d6f2-8704-4d6f-9bde-83d01239ec76">
-              <File Id="readme.txt_509503769" Source="readme.txt" />
+            <Component Id="Component.readme.txt_522770763" Guid="1eb1d6f2-8704-4d6f-9bde-83d0b5607eed">
+              <File Id="readme.txt_522770763" Source="readme.txt" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.license.rtf_881819425" Guid="1eb1d6f2-8704-4d6f-9bde-83d05ac0f3a7">
-              <File Id="license.rtf_881819425" Source="license.rtf" />
+            <Component Id="Component.license.rtf_2325942961" Guid="1eb1d6f2-8704-4d6f-9bde-83d0727dc9d0">
+              <File Id="license.rtf_2325942961" Source="license.rtf" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.ATL" Guid="1eb1d6f2-8704-4d6f-9bde-83d043478eac">
-              <File Id="ATL" Source="trustedlocations\AutocadTrustedLocations.exe" />
+            <Component Id="Component.AutocadTrustedLocations.exe_3933307447" Guid="1eb1d6f2-8704-4d6f-9bde-83d0aacec15b">
+              <File Id="AutocadTrustedLocations.exe_3933307447" Source="TrustedLocations\AutocadTrustedLocations.exe" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.CommandLineArgumentsParser.dll_1280701795" Guid="1eb1d6f2-8704-4d6f-9bde-83d06b1c3a5c">
-              <File Id="CommandLineArgumentsParser.dll_1280701795" Source="trustedlocations\CommandLineArgumentsParser.dll" />
+            <Component Id="Component.CommandLineArgumentsParser.dll_3608213647" Guid="1eb1d6f2-8704-4d6f-9bde-83d00045b722">
+              <File Id="CommandLineArgumentsParser.dll_3608213647" Source="TrustedLocations\CommandLineArgumentsParser.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.AutocadTrustedLocations.exe.config_971240561" Guid="1eb1d6f2-8704-4d6f-9bde-83d0d526f491">
-              <File Id="AutocadTrustedLocations.exe.config_971240561" Source="trustedlocations\AutocadTrustedLocations.exe.config" />
+            <Component Id="Component.AutocadTrustedLocations.exe.config_416598274" Guid="1eb1d6f2-8704-4d6f-9bde-83d0d7ea3679">
+              <File Id="AutocadTrustedLocations.exe.config_416598274" Source="TrustedLocations\AutocadTrustedLocations.exe.config" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.AdUIMgd.dll_333266070" Guid="1eb1d6f2-8704-4d6f-9bde-83d0987e10bd">
-              <File Id="AdUIMgd.dll_333266070" Source="release\AdUIMgd.dll" />
+            <Component Id="Component.Simplifynet.pdb_1018451240" Guid="1eb1d6f2-8704-4d6f-9bde-83d0fb8d24ab">
+              <File Id="Simplifynet.pdb_1018451240" Source="Simplifynet\Simplifynet.pdb" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.CsvHelper.dll_746067185" Guid="1eb1d6f2-8704-4d6f-9bde-83d01f5b7852">
-              <File Id="CsvHelper.dll_746067185" Source="release\CsvHelper.dll" />
+            <Component Id="Component.Simplifynet.dll_3794913070" Guid="1eb1d6f2-8704-4d6f-9bde-83d0039cebf9">
+              <File Id="Simplifynet.dll_3794913070" Source="Simplifynet\Simplifynet.dll" />
 
               <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
                 <RegistryValue Value="0" Type="string" KeyPath="yes" />
               </RegistryKey>
             </Component>
 
-            <Component Id="Component.CsvHelper.xml_746132709" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e9bf67bc">
-              <File Id="CsvHelper.xml_746132709" Source="release\CsvHelper.xml" />
+            <Directory Id="INSTALLDIR.Core" Name="Core">
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Component Id="Component.INSTALLDIR.Core" Guid="1eb1d6f2-8704-4d6f-9bde-83d01fc6d08c">
+                <CreateFolder />
+                <RemoveFolder Id="INSTALLDIR.Core" On="uninstall" />
 
-            <Component Id="Component.MoreLinq.dll_553316603" Guid="1eb1d6f2-8704-4d6f-9bde-83d092c5a8a2">
-              <File Id="MoreLinq.dll_553316603" Source="release\MoreLinq.dll" />
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Component Id="Component.AutoCADCommon.dll_3641052633" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e03a2eb6">
+                <File Id="AutoCADCommon.dll_3641052633" Source="Core\AutoCADCommon.dll" />
 
-            <Component Id="Component.MoreLinq.pdb_1447759629" Guid="1eb1d6f2-8704-4d6f-9bde-83d0991795b2">
-              <File Id="MoreLinq.pdb_1447759629" Source="release\MoreLinq.pdb" />
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Component Id="Component.Core.dll_3692810879" Guid="1eb1d6f2-8704-4d6f-9bde-83d00d4534a5">
+                <File Id="Core.dll_3692810879" Source="Core\Core.dll" />
 
-            <Component Id="Component.MoreLinq.xml_81719546" Guid="1eb1d6f2-8704-4d6f-9bde-83d01fb699e4">
-              <File Id="MoreLinq.xml_81719546" Source="release\MoreLinq.xml" />
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Component Id="Component.Core.dll.config_3278910925" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a7070074">
+                <File Id="Core.dll.config_3278910925" Source="Core\Core.dll.config" />
 
-            <Component Id="Component.PostSharp.dll_266595128" Guid="1eb1d6f2-8704-4d6f-9bde-83d040cf37a1">
-              <File Id="PostSharp.dll_266595128" Source="release\PostSharp.dll" />
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Component Id="Component.FrameworkCommon.dll_843118479" Guid="1eb1d6f2-8704-4d6f-9bde-83d08f1b1e49">
+                <File Id="FrameworkCommon.dll_843118479" Source="Core\FrameworkCommon.dll" />
 
-            <Component Id="Component.PostSharp.Patterns.Common.dll_815598017" Guid="1eb1d6f2-8704-4d6f-9bde-83d035113fbd">
-              <File Id="PostSharp.Patterns.Common.dll_815598017" Source="release\PostSharp.Patterns.Common.dll" />
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Directory Id="INSTALLDIR.Core.Images" Name="Images">
 
-            <Component Id="Component.PostSharp.Patterns.Common.xml_815532485" Guid="1eb1d6f2-8704-4d6f-9bde-83d0eeac2002">
-              <File Id="PostSharp.Patterns.Common.xml_815532485" Source="release\PostSharp.Patterns.Common.xml" />
+                <Component Id="Component.IAP_128.ico_2310381811" Guid="1eb1d6f2-8704-4d6f-9bde-83d07938feee">
+                  <File Id="IAP_128.ico_2310381811" Source="Core\Images\IAP_128.ico" />
+                  <RemoveFolder Id="INSTALLDIR.Core.Images" On="uninstall" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.PostSharp.xml_266660684" Guid="1eb1d6f2-8704-4d6f-9bde-83d0baef6e55">
-              <File Id="PostSharp.xml_266660684" Source="release\PostSharp.xml" />
+                <Component Id="Component.IAP_128.png_2666284468" Guid="1eb1d6f2-8704-4d6f-9bde-83d0bbb350ff">
+                  <File Id="IAP_128.png_2666284468" Source="Core\Images\IAP_128.png" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.Simplifynet.dll_831752260" Guid="1eb1d6f2-8704-4d6f-9bde-83d0203a446a">
-              <File Id="Simplifynet.dll_831752260" Source="release\Simplifynet.dll" />
+                <Component Id="Component.IAP_16.ico_1911273740" Guid="1eb1d6f2-8704-4d6f-9bde-83d0821625f0">
+                  <File Id="IAP_16.ico_1911273740" Source="Core\Images\IAP_16.ico" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.Simplifynet.pdb_559311898" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f82cdaa1">
-              <File Id="Simplifynet.pdb_559311898" Source="release\Simplifynet.pdb" />
+                <Component Id="Component.IAP_16.png_3957373201" Guid="1eb1d6f2-8704-4d6f-9bde-83d01b4a4f5e">
+                  <File Id="IAP_16.png_3957373201" Source="Core\Images\IAP_16.png" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.System.ValueTuple.dll_21051050" Guid="1eb1d6f2-8704-4d6f-9bde-83d0cba59883">
-              <File Id="System.ValueTuple.dll_21051050" Source="release\System.ValueTuple.dll" />
+                <Component Id="Component.IAP_32.ico_1903147210" Guid="1eb1d6f2-8704-4d6f-9bde-83d081b3844e">
+                  <File Id="IAP_32.ico_1903147210" Source="Core\Images\IAP_32.ico" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.System.ValueTuple.xml_21116598" Guid="1eb1d6f2-8704-4d6f-9bde-83d0b30a2a41">
-              <File Id="System.ValueTuple.xml_21116598" Source="release\System.ValueTuple.xml" />
+                <Component Id="Component.IAP_32.png_3949246671" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ef5ad521">
+                  <File Id="IAP_32.png_3949246671" Source="Core\Images\IAP_32.png" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.TopoHelper.dll_1513041788" Guid="1eb1d6f2-8704-4d6f-9bde-83d02338308f">
-              <File Id="TopoHelper.dll_1513041788" Source="release\TopoHelper.dll" />
+                <Component Id="Component.IAP_64.ico_1921628263" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f1eda264">
+                  <File Id="IAP_64.ico_1921628263" Source="Core\Images\IAP_64.ico" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.TopoHelper.dll.config_466645456" Guid="1eb1d6f2-8704-4d6f-9bde-83d0cc067520">
-              <File Id="TopoHelper.dll.config_466645456" Source="release\TopoHelper.dll.config" />
+                <Component Id="Component.IAP_64.png_3966679154" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f42493e4">
+                  <File Id="IAP_64.png_3966679154" Source="Core\Images\IAP_64.png" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
-            <Component Id="Component.TopoHelper.pdb_2042047404" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a7e6be17">
-              <File Id="TopoHelper.pdb_2042047404" Source="release\TopoHelper.pdb" />
+              </Directory>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+              <Directory Id="INSTALLDIR.Core.LanguageSupport" Name="LanguageSupport">
 
-            <Component Id="Component.TopoHelper.pssym_1799331470" Guid="1eb1d6f2-8704-4d6f-9bde-83d095c99582">
-              <File Id="TopoHelper.pssym_1799331470" Source="release\TopoHelper.pssym" />
+                <Component Id="Component.Core.Frane7ais.xml_3096564377" Guid="1eb1d6f2-8704-4d6f-9bde-83d0810ac9f1">
+                  <File Id="Core.Frane7ais.xml_3096564377" Source="Core\LanguageSupport\Core.Français.xml" />
+                  <RemoveFolder Id="INSTALLDIR.Core.LanguageSupport" On="uninstall" />
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
 
+                <Component Id="Component.Core.Nederlands.xml_3683846057" Guid="1eb1d6f2-8704-4d6f-9bde-83d06b5dda98">
+                  <File Id="Core.Nederlands.xml_3683846057" Source="Core\LanguageSupport\Core.Nederlands.xml" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+              </Directory>
+            </Directory>
+
+            <Directory Id="INSTALLDIR.TopoHelper" Name="TopoHelper">
+
+              <Component Id="Component.INSTALLDIR.TopoHelper" Guid="1eb1d6f2-8704-4d6f-9bde-83d045013df8">
+                <CreateFolder />
+                <RemoveFolder Id="INSTALLDIR.TopoHelper" On="uninstall" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.AdUIMgd.dll_2011429457" Guid="1eb1d6f2-8704-4d6f-9bde-83d0913cb9fc">
+                <File Id="AdUIMgd.dll_2011429457" Source="TopoHelper\AdUIMgd.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.CsvHelper.dll_2840992523" Guid="1eb1d6f2-8704-4d6f-9bde-83d04e1800a0">
+                <File Id="CsvHelper.dll_2840992523" Source="TopoHelper\CsvHelper.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.CsvHelper.xml_2841058031" Guid="1eb1d6f2-8704-4d6f-9bde-83d025920257">
+                <File Id="CsvHelper.xml_2841058031" Source="TopoHelper\CsvHelper.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_2269192024" Guid="1eb1d6f2-8704-4d6f-9bde-83d07d5ff6d2">
+                <File Id="Microsoft.Bcl.AsyncInterfaces.dll_2269192024" Source="TopoHelper\Microsoft.Bcl.AsyncInterfaces.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.xml_2269257588" Guid="1eb1d6f2-8704-4d6f-9bde-83d0796d6ba7">
+                <File Id="Microsoft.Bcl.AsyncInterfaces.xml_2269257588" Source="TopoHelper\Microsoft.Bcl.AsyncInterfaces.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Microsoft.Bcl.HashCode.dll_3716079102" Guid="1eb1d6f2-8704-4d6f-9bde-83d0e414b2aa">
+                <File Id="Microsoft.Bcl.HashCode.dll_3716079102" Source="TopoHelper\Microsoft.Bcl.HashCode.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Microsoft.Bcl.HashCode.xml_988506467" Guid="1eb1d6f2-8704-4d6f-9bde-83d0b2656373">
+                <File Id="Microsoft.Bcl.HashCode.xml_988506467" Source="TopoHelper\Microsoft.Bcl.HashCode.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.MoreLinq.dll_3414416196" Guid="1eb1d6f2-8704-4d6f-9bde-83d06a632b7c">
+                <File Id="MoreLinq.dll_3414416196" Source="TopoHelper\MoreLinq.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.MoreLinq.pdb_1412553548" Guid="1eb1d6f2-8704-4d6f-9bde-83d075646d71">
+                <File Id="MoreLinq.pdb_1412553548" Source="TopoHelper\MoreLinq.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.MoreLinq.xml_2942819139" Guid="1eb1d6f2-8704-4d6f-9bde-83d018982587">
+                <File Id="MoreLinq.xml_2942819139" Source="TopoHelper\MoreLinq.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Simplifynet.dll_768540416" Guid="1eb1d6f2-8704-4d6f-9bde-83d0190759fb">
+                <File Id="Simplifynet.dll_768540416" Source="TopoHelper\Simplifynet.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Simplifynet.pdb_3554796254" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ac0b2fbe">
+                <File Id="Simplifynet.pdb_3554796254" Source="TopoHelper\Simplifynet.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Buffers.dll_2486014348" Guid="1eb1d6f2-8704-4d6f-9bde-83d049fdb3ca">
+                <File Id="System.Buffers.dll_2486014348" Source="TopoHelper\System.Buffers.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Buffers.xml_4050787569" Guid="1eb1d6f2-8704-4d6f-9bde-83d080a5a336">
+                <File Id="System.Buffers.xml_4050787569" Source="TopoHelper\System.Buffers.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Memory.dll_1954094584" Guid="1eb1d6f2-8704-4d6f-9bde-83d081c97fd6">
+                <File Id="System.Memory.dll_1954094584" Source="TopoHelper\System.Memory.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Memory.xml_1954029044" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f36c3a46">
+                <File Id="System.Memory.xml_1954029044" Source="TopoHelper\System.Memory.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Numerics.Vectors.dll_3542003788" Guid="1eb1d6f2-8704-4d6f-9bde-83d080fd3c5b">
+                <File Id="System.Numerics.Vectors.dll_3542003788" Source="TopoHelper\System.Numerics.Vectors.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Numerics.Vectors.xml_2816489736" Guid="1eb1d6f2-8704-4d6f-9bde-83d0bd16b34b">
+                <File Id="System.Numerics.Vectors.xml_2816489736" Source="TopoHelper\System.Numerics.Vectors.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_1377842900" Guid="1eb1d6f2-8704-4d6f-9bde-83d0fc9a07ba">
+                <File Id="System.Runtime.CompilerServices.Unsafe.dll_1377842900" Source="TopoHelper\System.Runtime.CompilerServices.Unsafe.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Runtime.CompilerServices.Unsafe.xml_4105415535" Guid="1eb1d6f2-8704-4d6f-9bde-83d0156ae22c">
+                <File Id="System.Runtime.CompilerServices.Unsafe.xml_4105415535" Source="TopoHelper\System.Runtime.CompilerServices.Unsafe.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Threading.Tasks.Extensions.dll_3798906507" Guid="1eb1d6f2-8704-4d6f-9bde-83d0aee032c0">
+                <File Id="System.Threading.Tasks.Extensions.dll_3798906507" Source="TopoHelper\System.Threading.Tasks.Extensions.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.Threading.Tasks.Extensions.xml_3798840975" Guid="1eb1d6f2-8704-4d6f-9bde-83d07318919b">
+                <File Id="System.Threading.Tasks.Extensions.xml_3798840975" Source="TopoHelper\System.Threading.Tasks.Extensions.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.ValueTuple.dll_3223197495" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a959b305">
+                <File Id="System.ValueTuple.dll_3223197495" Source="TopoHelper\System.ValueTuple.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.System.ValueTuple.xml_3223131931" Guid="1eb1d6f2-8704-4d6f-9bde-83d081ad29d0">
+                <File Id="System.ValueTuple.xml_3223131931" Source="TopoHelper\System.ValueTuple.xml" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.TopoHelper.dll_720402261" Guid="1eb1d6f2-8704-4d6f-9bde-83d0bd0d3b2b">
+                <File Id="TopoHelper.dll_720402261" Source="TopoHelper\TopoHelper.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.TopoHelper.dll.config_673199387" Guid="1eb1d6f2-8704-4d6f-9bde-83d07aca6d10">
+                <File Id="TopoHelper.dll.config_673199387" Source="TopoHelper\TopoHelper.dll.config" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.TopoHelper.pdb_1981469309" Guid="1eb1d6f2-8704-4d6f-9bde-83d0813ed2bf">
+                <File Id="TopoHelper.pdb_1981469309" Source="TopoHelper\TopoHelper.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+            </Directory>
+
+            <Directory Id="INSTALLDIR.TrackConnect" Name="TrackConnect">
+
+              <Component Id="Component.INSTALLDIR.TrackConnect" Guid="1eb1d6f2-8704-4d6f-9bde-83d02177f644">
+                <CreateFolder />
+                <RemoveFolder Id="INSTALLDIR.TrackConnect" On="uninstall" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.AutoCADCommon.dll_1400411052" Guid="1eb1d6f2-8704-4d6f-9bde-83d0cb49ba3d">
+                <File Id="AutoCADCommon.dll_1400411052" Source="TrackConnect\AutoCADCommon.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.AutoCADCommon.pdb_1851274014" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a6a54e47">
+                <File Id="AutoCADCommon.pdb_1851274014" Source="TrackConnect\AutoCADCommon.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Core.dll_4264686152" Guid="1eb1d6f2-8704-4d6f-9bde-83d02cabb561">
+                <File Id="Core.dll_4264686152" Source="TrackConnect\Core.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Core.dll.config_3179799733" Guid="1eb1d6f2-8704-4d6f-9bde-83d0761003e0">
+                <File Id="Core.dll.config_3179799733" Source="TrackConnect\Core.dll.config" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.Core.pdb_2264134224" Guid="1eb1d6f2-8704-4d6f-9bde-83d06836bbed">
+                <File Id="Core.pdb_2264134224" Source="TrackConnect\Core.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.FrameworkCommon.dll_2306972122" Guid="1eb1d6f2-8704-4d6f-9bde-83d07afafed7">
+                <File Id="FrameworkCommon.dll_2306972122" Source="TrackConnect\FrameworkCommon.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.FrameworkCommon.pdb_2390762124" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ca286ca2">
+                <File Id="FrameworkCommon.pdb_2390762124" Source="TrackConnect\FrameworkCommon.pdb" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Component Id="Component.TrackConnect.dll_4011810672" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f615f6d1">
+                <File Id="TrackConnect.dll_4011810672" Source="TrackConnect\TrackConnect.dll" />
+
+                <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                  <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                </RegistryKey>
+              </Component>
+
+              <Directory Id="INSTALLDIR.TrackConnect.Images" Name="Images">
+
+                <Component Id="Component.track_connect_16.png_1713477592" Guid="1eb1d6f2-8704-4d6f-9bde-83d01a526124">
+                  <File Id="track_connect_16.png_1713477592" Source="TrackConnect\Images\track_connect_16.png" />
+                  <RemoveFolder Id="INSTALLDIR.TrackConnect.Images" On="uninstall" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+                <Component Id="Component.track_connect_32.png_4060710882" Guid="1eb1d6f2-8704-4d6f-9bde-83d04e4d974b">
+                  <File Id="track_connect_32.png_4060710882" Source="TrackConnect\Images\track_connect_32.png" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+                <Component Id="Component.track_connect_64.png_800493919" Guid="1eb1d6f2-8704-4d6f-9bde-83d0a281fcd6">
+                  <File Id="track_connect_64.png_800493919" Source="TrackConnect\Images\track_connect_64.png" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+              </Directory>
+
+              <Directory Id="INSTALLDIR.TrackConnect.LanguageSupport" Name="LanguageSupport">
+
+                <Component Id="Component.TrackConnect.Frane7ais.xml_2627086788" Guid="1eb1d6f2-8704-4d6f-9bde-83d0ab4b3734">
+                  <File Id="TrackConnect.Frane7ais.xml_2627086788" Source="TrackConnect\LanguageSupport\TrackConnect.Français.xml" />
+                  <RemoveFolder Id="INSTALLDIR.TrackConnect.LanguageSupport" On="uninstall" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+                <Component Id="Component.TrackConnect.Nederlands.xml_2674689444" Guid="1eb1d6f2-8704-4d6f-9bde-83d0c48a39a9">
+                  <File Id="TrackConnect.Nederlands.xml_2674689444" Source="TrackConnect\LanguageSupport\TrackConnect.Nederlands.xml" />
+
+                  <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+                    <RegistryValue Value="0" Type="string" KeyPath="yes" />
+                  </RegistryKey>
+                </Component>
+
+              </Directory>
+            </Directory>
           </Directory>
-
-          <Component Id="LocalAppDataFolder.Infrabel" Guid="1eb1d6f2-8704-4d6f-9bde-83d08a30a149">
-            <RemoveFolder Id="LocalAppDataFolder.Infrabel" On="uninstall" />
-
-            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-              <RegistryValue Value="0" Type="string" KeyPath="yes" />
-            </RegistryKey>
-          </Component>
-
         </Directory>
       </Directory>
 
       <Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
 
         <Component Id="Registry.1" Guid="1eb1d6f2-8704-4d6f-9bde-83d070259fbf" KeyPath="yes">
-          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
-            <RegistryValue Id="LOADCTRLS" Type="integer" KeyPath="no" Value="14" Name="LOADCTRLS" />
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="InstallDirectory" Type="string" KeyPath="no" Value="[INSTALLDIR]" Name="InstallDirectory" />
           </RegistryKey>
 
           <CreateFolder />
@@ -235,14 +596,94 @@
         </Component>
 
         <Component Id="Registry.2" Guid="1eb1d6f2-8704-4d6f-9bde-83d070269fbf">
-          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
-            <RegistryValue Id="LOADER" Type="string" KeyPath="yes" Value="[INSTALLDIR]TopoHelper.dll" Name="LOADER" />
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="Language" Type="string" KeyPath="yes" Value="nederlands" Name="Language" />
           </RegistryKey>
 
           <CreateFolder />
         </Component>
 
         <Component Id="Registry.3" Guid="1eb1d6f2-8704-4d6f-9bde-83d070279fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="LogFilePath" Type="expandable" KeyPath="yes" Value="%LocalAppData%\Infrabel\IAP\core.iaplog" Name="LogFilePath" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.4" Guid="1eb1d6f2-8704-4d6f-9bde-83d070209fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP\Core\Hooks\TrackConnect">
+            <RegistryValue Id="HookType" Type="string" KeyPath="yes" Value="netLoad" Name="HookType" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.5" Guid="1eb1d6f2-8704-4d6f-9bde-83d070219fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP\Core\Hooks\TrackConnect">
+            <RegistryValue Id="HookValue" Type="expandable" KeyPath="yes" Value="%LocalAppData%\Infrabel\IAP\TrackConnect\TrackConnect.dll" Name="HookValue" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.6" Guid="1eb1d6f2-8704-4d6f-9bde-83d070229fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="InstallDirectory.1" Type="string" KeyPath="yes" Value="[INSTALLDIR]" Name="InstallDirectory" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.7" Guid="1eb1d6f2-8704-4d6f-9bde-83d070239fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="Language.1" Type="string" KeyPath="yes" Value="nederlands" Name="Language" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.8" Guid="1eb1d6f2-8704-4d6f-9bde-83d0701c9fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP">
+            <RegistryValue Id="LogFilePath.1" Type="expandable" KeyPath="yes" Value="%LocalAppData%\Infrabel\IAP\core.iaplog" Name="LogFilePath" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.9" Guid="1eb1d6f2-8704-4d6f-9bde-83d0701d9fbf">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP\Core\Hooks\TopoHelper">
+            <RegistryValue Id="HookType.1" Type="string" KeyPath="yes" Value="netLoad" Name="HookType" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.10" Guid="1eb1d6f2-8704-4d6f-9bde-83d02144b4b0">
+          <RegistryKey Root="HKMU" Key="Software\Infrabel\IAP\Core\Hooks\TopoHelper">
+            <RegistryValue Id="HookValue.1" Type="expandable" KeyPath="yes" Value="%LocalAppData%\Infrabel\IAP\TopoHelper\TopoHelper.dll" Name="HookValue" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.11" Guid="1eb1d6f2-8704-4d6f-9bde-83d0c3ec294b">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADCTRLS" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.12" Guid="1eb1d6f2-8704-4d6f-9bde-83d0dbf5cb7a">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.13" Guid="1eb1d6f2-8704-4d6f-9bde-83d07e9d3f15">
           <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
             <RegistryValue Id="MANAGED" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
           </RegistryKey>
@@ -250,41 +691,169 @@
           <CreateFolder />
         </Component>
 
-        <Component Id="Registry.4" Guid="1eb1d6f2-8704-4d6f-9bde-83d070209fbf">
+        <Component Id="Registry.14" Guid="1eb1d6f2-8704-4d6f-9bde-83d096a7e244">
           <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper">
-            <RegistryValue Id="DESCRIPTION" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment." Name="DESCRIPTION" />
+            <RegistryValue Id="DESCRIPTION" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
           </RegistryKey>
 
           <CreateFolder />
         </Component>
 
-        <Component Id="Registry.5" Guid="1eb1d6f2-8704-4d6f-9bde-83d070219fbf">
-          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+        <Component Id="Registry.15" Guid="1eb1d6f2-8704-4d6f-9bde-83d0394e56df">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper">
             <RegistryValue Id="LOADCTRLS.1" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
           </RegistryKey>
 
           <CreateFolder />
         </Component>
 
-        <Component Id="Registry.6" Guid="1eb1d6f2-8704-4d6f-9bde-83d070229fbf">
-          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
-            <RegistryValue Id="LOADER.1" Type="string" KeyPath="yes" Value="[INSTALLDIR]TopoHelper.dll" Name="LOADER" />
+        <Component Id="Registry.16" Guid="1eb1d6f2-8704-4d6f-9bde-83d05158f80e">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER.1" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
           </RegistryKey>
 
           <CreateFolder />
         </Component>
 
-        <Component Id="Registry.7" Guid="1eb1d6f2-8704-4d6f-9bde-83d070239fbf">
-          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+        <Component Id="Registry.17" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f3ff6da9">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper">
             <RegistryValue Id="MANAGED.1" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
           </RegistryKey>
 
           <CreateFolder />
         </Component>
 
-        <Component Id="Registry.8" Guid="1eb1d6f2-8704-4d6f-9bde-83d0701c9fbf">
+        <Component Id="Registry.18" Guid="1eb1d6f2-8704-4d6f-9bde-83d00c090fd8">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="DESCRIPTION.1" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.19" Guid="1eb1d6f2-8704-4d6f-9bde-83d0aeb08473">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADCTRLS.2" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.20" Guid="1eb1d6f2-8704-4d6f-9bde-83d02145b4b0">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER.2" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.21" Guid="1eb1d6f2-8704-4d6f-9bde-83d0c3ed294b">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="MANAGED.2" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.22" Guid="1eb1d6f2-8704-4d6f-9bde-83d0dbf6cb7a">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="DESCRIPTION.2" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.23" Guid="1eb1d6f2-8704-4d6f-9bde-83d07e9e3f15">
           <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
-            <RegistryValue Id="DESCRIPTION.1" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment." Name="DESCRIPTION" />
+            <RegistryValue Id="LOADCTRLS.3" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.24" Guid="1eb1d6f2-8704-4d6f-9bde-83d096a8e244">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER.3" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.25" Guid="1eb1d6f2-8704-4d6f-9bde-83d0394f56df">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="MANAGED.3" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.26" Guid="1eb1d6f2-8704-4d6f-9bde-83d05159f80e">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="DESCRIPTION.3" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.27" Guid="1eb1d6f2-8704-4d6f-9bde-83d0f3006da9">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADCTRLS.4" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.28" Guid="1eb1d6f2-8704-4d6f-9bde-83d00c0a0fd8">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER.4" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.29" Guid="1eb1d6f2-8704-4d6f-9bde-83d0aeb18473">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="MANAGED.4" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.30" Guid="1eb1d6f2-8704-4d6f-9bde-83d02146b4b0">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="DESCRIPTION.4" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.31" Guid="1eb1d6f2-8704-4d6f-9bde-83d0c3ee294b">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADCTRLS.5" Type="integer" KeyPath="yes" Value="14" Name="LOADCTRLS" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.32" Guid="1eb1d6f2-8704-4d6f-9bde-83d0dbf7cb7a">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="LOADER.5" Type="string" KeyPath="yes" Value="[INSTALLDIR]Core\Core.dll" Name="LOADER" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.33" Guid="1eb1d6f2-8704-4d6f-9bde-83d07e9f3f15">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="MANAGED.5" Type="integer" KeyPath="yes" Value="1" Name="MANAGED" />
+          </RegistryKey>
+
+          <CreateFolder />
+        </Component>
+
+        <Component Id="Registry.34" Guid="1eb1d6f2-8704-4d6f-9bde-83d096a9e244">
+          <RegistryKey Root="HKMU" Key="Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper">
+            <RegistryValue Id="DESCRIPTION.5" Type="string" KeyPath="yes" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" Name="DESCRIPTION" />
           </RegistryKey>
 
           <CreateFolder />
@@ -297,81 +866,174 @@
 
     <UI />
 
-    <WixVariable Id="WixUILicenseRtf" Value="C:\Users\cwn8400\Documents\Source\Repos\concepts\TopoHelper\TopoHelper.WixSharpSetup\files\license.rtf" />
+    <CloseApplication Target="acad.exe" Timeout="5" Sequence="1" CloseMessage="yes" ElevatedCloseMessage="no" ElevatedEndSessionMessage="no" EndSessionMessage="no" PromptToContinue="no" RebootPrompt="no" xmlns="http://schemas.microsoft.com/wix/UtilExtension" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files\license.rtf" />
 
     <Upgrade Id="1eb1d6f2-8704-4d6f-9bde-83d07308d140">
-      <UpgradeVersion Minimum="0.0.0.0" Maximum="1.1.1.0" IncludeMinimum="yes" IncludeMaximum="no" Property="UPGRADEFOUND" />
-      <UpgradeVersion Minimum="1.1.1.0" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="0.0.0.0" Maximum="22.2.0.0" IncludeMinimum="yes" IncludeMaximum="no" Property="UPGRADEFOUND" />
+      <UpgradeVersion Minimum="22.2.0.0" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
     </Upgrade>
 
-    <CustomAction Id="WixSharp_InitRuntime_Action" BinaryKey="WixSharp_InitRuntime_Action_File" DllEntry="WixSharp_InitRuntime_Action" Return="check" Execute="immediate" />
-    <CustomAction Id="WixSharp_BeforeInstall_Action" BinaryKey="WixSharp_InitRuntime_Action_File" DllEntry="WixSharp_BeforeInstall_Action" Return="check" Execute="immediate" />
-    <CustomAction Id="Set_WixSharp_AfterInstall_Action_Props" Property="WixSharp_AfterInstall_Action" Value="WixSharp_AfterInstall_Handlers=[WixSharp_AfterInstall_Handlers];WIXSHARP_RUNTIME_DATA=[WIXSHARP_RUNTIME_DATA];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductName=[ProductName];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductCode=[ProductCode]" />
-    <CustomAction Id="WixSharp_AfterInstall_Action" BinaryKey="WixSharp_InitRuntime_Action_File" DllEntry="WixSharp_AfterInstall_Action" Return="check" Impersonate="no" Execute="deferred" />
-    <CustomAction Id="Set_ARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="%LocalAppData%\Infrabel\TopoHelper" Return="check" Execute="immediate" />
+    <CustomAction Id="WixSharp_SetProperty_WIXSHARP_RESILIENT_SOURCE_DIR" Property="WIXSHARP_RESILIENT_SOURCE_DIR" Value="[INSTALLDIR]" Return="check" Execute="immediate" />
+    <CustomAction Id="WixSharp_SetProperty_SOURCELIST" Property="SOURCELIST" Value="[WIXSHARP_RESILIENT_SOURCE_DIR]" Return="check" Execute="immediate" />
+    <CustomAction Id="WixSharp_SetPackageName_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_SetPackageName_Action" Return="ignore" Execute="immediate" />
+    <CustomAction Id="Set_WixSharp_RemoveResilientPackage_Action_Props" Property="WixSharp_RemoveResilientPackage_Action" Value="WIXSHARP_RESILIENT_SOURCE_DIR=[WIXSHARP_RESILIENT_SOURCE_DIR];WIXSHARP_PACKAGENAME=[WIXSHARP_PACKAGENAME];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductCode=[ProductCode];ADDLOCAL=[ADDLOCAL];ADDFEATURES=[ADDFEATURES]" />
+    <CustomAction Id="WixSharp_RemoveResilientPackage_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_RemoveResilientPackage_Action" Return="ignore" Impersonate="no" Execute="deferred" />
+    <CustomAction Id="Set_WixSharp_CreateResilientPackage_Action_Props" Property="WixSharp_CreateResilientPackage_Action" Value="UserSID=[UserSID];OriginalDatabase=[OriginalDatabase];ALLUSERS=[ALLUSERS];WIXSHARP_RESILIENT_SOURCE_DIR=[WIXSHARP_RESILIENT_SOURCE_DIR];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductCode=[ProductCode];ADDLOCAL=[ADDLOCAL];ADDFEATURES=[ADDFEATURES]" />
+    <CustomAction Id="WixSharp_CreateResilientPackage_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_CreateResilientPackage_Action" Return="ignore" Impersonate="no" Execute="deferred" />
+    <CustomAction Id="Set_WixSharp_EnableUninstallFullUI_Action_Props" Property="WixSharp_EnableUninstallFullUI_Action" Value="MSIEXEC_EXTRA_PARAMETERS=;INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductCode=[ProductCode];ADDLOCAL=[ADDLOCAL];ADDFEATURES=[ADDFEATURES]" />
+    <CustomAction Id="WixSharp_EnableUninstallFullUI_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_EnableUninstallFullUI_Action" Return="ignore" Impersonate="no" Execute="deferred" />
+    <CustomAction Id="WixSharp_InitRuntime_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_InitRuntime_Action" Return="check" Execute="immediate" />
+    <CustomAction Id="WixSharp_BeforeInstall_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_BeforeInstall_Action" Return="check" Execute="immediate" />
+    <CustomAction Id="Set_WixSharp_AfterInstall_Action_Props" Property="WixSharp_AfterInstall_Action" Value="WixSharp_AfterInstall_Handlers=[WixSharp_AfterInstall_Handlers];WIXSHARP_RUNTIME_DATA=[WIXSHARP_RUNTIME_DATA];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductName=[ProductName];FOUNDPREVIOUSVERSION=[FOUNDPREVIOUSVERSION];INSTALLDIR=[INSTALLDIR];UILevel=[UILevel];ProductCode=[ProductCode];ADDLOCAL=[ADDLOCAL];ADDFEATURES=[ADDFEATURES]" />
+    <CustomAction Id="WixSharp_AfterInstall_Action" BinaryKey="WixSharp_SetPackageName_Action_File" DllEntry="WixSharp_AfterInstall_Action" Return="check" Impersonate="no" Execute="deferred" />
+    <CustomAction Id="Set_ARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="%LocalAppData%\Infrabel\IAP" Return="check" Execute="immediate" />
     <CustomAction Id="PreventDowngrading" Error="Newer version already installed" />
 
-    <Binary Id="WixSharp_InitRuntime_Action_File" SourceFile="..\..\installer\WixSharp.CA.dll" />
+    <Binary Id="WixSharp_SetPackageName_Action_File" SourceFile="..\..\installer\WixSharp.CA.dll" />
 
-    <UIRef Id="WixUI_Common" />
+    <UIRef Id="WixUI_FeatureTree" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
-    <Property Id="WixSharp_BeforeInstall_Handlers" Value="WixSharp Setup, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_BeforeInstall" />
-    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharp Setup, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_AfterInstall" />
-    <Property Id="ARPCOMMENTS" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should not be used in any production environment." />
+    <Property Id="WixSharp_BeforeInstall_Handlers" Value="WixSharp Setup, Version=22.2.0.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_BeforeInstall" />
+    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharp Setup, Version=22.2.0.0, Culture=neutral, PublicKeyToken=null|TopoHelper.WixSharpSetup.Program|Project_AfterInstall" />
+    <Property Id="ARPCOMMENTS" Value="This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!" />
     <Property Id="ARPCONTACT" Value="Bjorn.Cattoor@Infrabel.be" />
-    <Property Id="ARPHELPTELEPHONE" Value="helpdesk" />
-    <Property Id="ARPREADME" Value="%LocalAppData%\Infrabel\TopoHelper\readme.txt" />
+    <Property Id="ARPHELPTELEPHONE" Value="911/54555" />
+    <Property Id="ARPREADME" Value="%LocalAppData%\Infrabel\IAP\readme.txt" />
 
-    <Feature Id="binary_s" Title="binary's" Absent="disallow" Level="1" Description="My application binary's. This is mandatory of-course.">
+    <Feature Id="The20binary27s" Title="The binary's" Absent="disallow" Level="1" Description="The application binary's. This is mandatory of-course.">
+      <ComponentRef Id="Component.LocalAppDataFolder.Infrabel" />
       <ComponentRef Id="Component.INSTALLDIR" />
-      <ComponentRef Id="LocalAppDataFolder.Infrabel" />
     </Feature>
 
-    <Feature Id="Register_AutoCAD_2019_dll." Title="Register AutoCAD 2019 dll." Absent="allow" Level="1" Description="Check this if you want to register the dll to automatically load upon the launching of AutoCAD.">
+    <Feature Id="_20Core" Title="IAP: Core" Absent="disallow" Level="1" Description="This is the IAP:Core framework (Core; FrameworkCommon; AutoCad common), used for loading the dll's, adding Ribbon items, and loging.">
+      <ComponentRef Id="Component.INSTALLDIR.Core" />
       <ComponentRef Id="Registry.1" />
       <ComponentRef Id="Registry.2" />
       <ComponentRef Id="Registry.3" />
-      <ComponentRef Id="Registry.4" />
-      <ComponentRef Id="LocalAppDataFolder.Infrabel" />
     </Feature>
 
-    <Feature Id="Register_dll_in_C3D_2019." Title="Register dll in C3D 2019." Absent="allow" Level="1" Description="Check this if you want to register the dll to automatically load upon the launching of AutoCAD C3D.">
-      <ComponentRef Id="Registry.5" />
+    <Feature Id="Topohelper" Title="Topohelper" Absent="disallow" Level="1" Description="Some helpfull commands for calculating with measured polylines.">
+      <ComponentRef Id="Component.INSTALLDIR.TopoHelper" />
       <ComponentRef Id="Registry.6" />
       <ComponentRef Id="Registry.7" />
       <ComponentRef Id="Registry.8" />
-      <ComponentRef Id="LocalAppDataFolder.Infrabel" />
+      <ComponentRef Id="Registry.9" />
+      <ComponentRef Id="Registry.10" />
+    </Feature>
+
+    <Feature Id="_20Trackconnect" Title="IAP: Trackconnect" Absent="allow" Level="1" Description="This is a plugin used to calculate regression-lines to connect a new design track-layout to.">
+      <ComponentRef Id="Component.INSTALLDIR.TrackConnect" />
+      <ComponentRef Id="Registry.4" />
+      <ComponentRef Id="Registry.5" />
+    </Feature>
+
+    <Feature Id="_...d20into20AutoCAD20on20startup." Title="Autoload into AutoCAD on startup." Absent="allow" Level="1" Description="Check this if you want to register the dll to automatically load upon the launching of all supported AutoCAD (classic) applications.">
+      <ComponentRef Id="Registry.11" />
+      <ComponentRef Id="Registry.12" />
+      <ComponentRef Id="Registry.13" />
+      <ComponentRef Id="Registry.14" />
+      <ComponentRef Id="Registry.15" />
+      <ComponentRef Id="Registry.16" />
+      <ComponentRef Id="Registry.17" />
+      <ComponentRef Id="Registry.18" />
+      <ComponentRef Id="Registry.19" />
+      <ComponentRef Id="Registry.20" />
+      <ComponentRef Id="Registry.21" />
+      <ComponentRef Id="Registry.22" />
+    </Feature>
+
+    <Feature Id="_...0into20Civil203D20on20startup." Title="Autoload into Civil 3D on startup." Absent="allow" Level="1" Description="Check this if you want to register the dll to automatically load upon the launching of all supported AutoCAD Civil 3D applications.">
+      <ComponentRef Id="Registry.23" />
+      <ComponentRef Id="Registry.24" />
+      <ComponentRef Id="Registry.25" />
+      <ComponentRef Id="Registry.26" />
+      <ComponentRef Id="Registry.27" />
+      <ComponentRef Id="Registry.28" />
+      <ComponentRef Id="Registry.29" />
+      <ComponentRef Id="Registry.30" />
+      <ComponentRef Id="Registry.31" />
+      <ComponentRef Id="Registry.32" />
+      <ComponentRef Id="Registry.33" />
+      <ComponentRef Id="Registry.34" />
     </Feature>
 
     <Feature Id="Complete" Title="Complete" Absent="allow" Level="1">
-      <ComponentRef Id="Component.readme.txt_509503769" />
-      <ComponentRef Id="Component.license.rtf_881819425" />
-      <ComponentRef Id="Component.ATL" />
-      <ComponentRef Id="Component.CommandLineArgumentsParser.dll_1280701795" />
-      <ComponentRef Id="Component.AutocadTrustedLocations.exe.config_971240561" />
-      <ComponentRef Id="Component.AdUIMgd.dll_333266070" />
-      <ComponentRef Id="Component.CsvHelper.dll_746067185" />
-      <ComponentRef Id="Component.CsvHelper.xml_746132709" />
-      <ComponentRef Id="Component.MoreLinq.dll_553316603" />
-      <ComponentRef Id="Component.MoreLinq.pdb_1447759629" />
-      <ComponentRef Id="Component.MoreLinq.xml_81719546" />
-      <ComponentRef Id="Component.PostSharp.dll_266595128" />
-      <ComponentRef Id="Component.PostSharp.Patterns.Common.dll_815598017" />
-      <ComponentRef Id="Component.PostSharp.Patterns.Common.xml_815532485" />
-      <ComponentRef Id="Component.PostSharp.xml_266660684" />
-      <ComponentRef Id="Component.Simplifynet.dll_831752260" />
-      <ComponentRef Id="Component.Simplifynet.pdb_559311898" />
-      <ComponentRef Id="Component.System.ValueTuple.dll_21051050" />
-      <ComponentRef Id="Component.System.ValueTuple.xml_21116598" />
-      <ComponentRef Id="Component.TopoHelper.dll_1513041788" />
-      <ComponentRef Id="Component.TopoHelper.dll.config_466645456" />
-      <ComponentRef Id="Component.TopoHelper.pdb_2042047404" />
-      <ComponentRef Id="Component.TopoHelper.pssym_1799331470" />
-      <ComponentRef Id="LocalAppDataFolder.Infrabel" />
+      <ComponentRef Id="Component.readme.txt_522770763" />
+      <ComponentRef Id="Component.license.rtf_2325942961" />
+      <ComponentRef Id="Component.AutocadTrustedLocations.exe_3933307447" />
+      <ComponentRef Id="Component.CommandLineArgumentsParser.dll_3608213647" />
+      <ComponentRef Id="Component.AutocadTrustedLocations.exe.config_416598274" />
+      <ComponentRef Id="Component.Simplifynet.pdb_1018451240" />
+      <ComponentRef Id="Component.Simplifynet.dll_3794913070" />
+      <ComponentRef Id="Component.AutoCADCommon.dll_3641052633" />
+      <ComponentRef Id="Component.Core.dll_3692810879" />
+      <ComponentRef Id="Component.Core.dll.config_3278910925" />
+      <ComponentRef Id="Component.FrameworkCommon.dll_843118479" />
+      <ComponentRef Id="Component.IAP_128.ico_2310381811" />
+      <ComponentRef Id="Component.IAP_128.png_2666284468" />
+      <ComponentRef Id="Component.IAP_16.ico_1911273740" />
+      <ComponentRef Id="Component.IAP_16.png_3957373201" />
+      <ComponentRef Id="Component.IAP_32.ico_1903147210" />
+      <ComponentRef Id="Component.IAP_32.png_3949246671" />
+      <ComponentRef Id="Component.IAP_64.ico_1921628263" />
+      <ComponentRef Id="Component.IAP_64.png_3966679154" />
+      <ComponentRef Id="Component.Core.Frane7ais.xml_3096564377" />
+      <ComponentRef Id="Component.Core.Nederlands.xml_3683846057" />
+      <ComponentRef Id="Component.AdUIMgd.dll_2011429457" />
+      <ComponentRef Id="Component.CsvHelper.dll_2840992523" />
+      <ComponentRef Id="Component.CsvHelper.xml_2841058031" />
+      <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_2269192024" />
+      <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.xml_2269257588" />
+      <ComponentRef Id="Component.Microsoft.Bcl.HashCode.dll_3716079102" />
+      <ComponentRef Id="Component.Microsoft.Bcl.HashCode.xml_988506467" />
+      <ComponentRef Id="Component.MoreLinq.dll_3414416196" />
+      <ComponentRef Id="Component.MoreLinq.pdb_1412553548" />
+      <ComponentRef Id="Component.MoreLinq.xml_2942819139" />
+      <ComponentRef Id="Component.Simplifynet.dll_768540416" />
+      <ComponentRef Id="Component.Simplifynet.pdb_3554796254" />
+      <ComponentRef Id="Component.System.Buffers.dll_2486014348" />
+      <ComponentRef Id="Component.System.Buffers.xml_4050787569" />
+      <ComponentRef Id="Component.System.Memory.dll_1954094584" />
+      <ComponentRef Id="Component.System.Memory.xml_1954029044" />
+      <ComponentRef Id="Component.System.Numerics.Vectors.dll_3542003788" />
+      <ComponentRef Id="Component.System.Numerics.Vectors.xml_2816489736" />
+      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_1377842900" />
+      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.xml_4105415535" />
+      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_3798906507" />
+      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.xml_3798840975" />
+      <ComponentRef Id="Component.System.ValueTuple.dll_3223197495" />
+      <ComponentRef Id="Component.System.ValueTuple.xml_3223131931" />
+      <ComponentRef Id="Component.TopoHelper.dll_720402261" />
+      <ComponentRef Id="Component.TopoHelper.dll.config_673199387" />
+      <ComponentRef Id="Component.TopoHelper.pdb_1981469309" />
+      <ComponentRef Id="Component.AutoCADCommon.dll_1400411052" />
+      <ComponentRef Id="Component.AutoCADCommon.pdb_1851274014" />
+      <ComponentRef Id="Component.Core.dll_4264686152" />
+      <ComponentRef Id="Component.Core.dll.config_3179799733" />
+      <ComponentRef Id="Component.Core.pdb_2264134224" />
+      <ComponentRef Id="Component.FrameworkCommon.dll_2306972122" />
+      <ComponentRef Id="Component.FrameworkCommon.pdb_2390762124" />
+      <ComponentRef Id="Component.TrackConnect.dll_4011810672" />
+      <ComponentRef Id="Component.track_connect_16.png_1713477592" />
+      <ComponentRef Id="Component.track_connect_32.png_4060710882" />
+      <ComponentRef Id="Component.track_connect_64.png_800493919" />
+      <ComponentRef Id="Component.TrackConnect.Frane7ais.xml_2627086788" />
+      <ComponentRef Id="Component.TrackConnect.Nederlands.xml_2674689444" />
     </Feature>
 
     <InstallExecuteSequence>
+      <Custom Action="WixSharp_SetProperty_WIXSHARP_RESILIENT_SOURCE_DIR" Before="InstallInitialize">WIXSHARP_RESILIENT_SOURCE_DIR=""</Custom>
+      <Custom Action="WixSharp_SetProperty_SOURCELIST" Before="PublishProduct"> (NOT Installed) </Custom>
+      <Custom Action="WixSharp_SetPackageName_Action" Before="InstallInitialize"> (REMOVE="ALL") </Custom>
+      <Custom Action="Set_WixSharp_RemoveResilientPackage_Action_Props" Before="RemoveFiles" />
+      <Custom Action="WixSharp_RemoveResilientPackage_Action" After="Set_WixSharp_RemoveResilientPackage_Action_Props"> (REMOVE="ALL") </Custom>
+      <Custom Action="Set_WixSharp_CreateResilientPackage_Action_Props" Before="InstallFinalize" />
+      <Custom Action="WixSharp_CreateResilientPackage_Action" After="Set_WixSharp_CreateResilientPackage_Action_Props"><![CDATA[( (NOT Installed)  OR REINSTALL<>"")]]></Custom>
+      <Custom Action="Set_WixSharp_EnableUninstallFullUI_Action_Props" Before="InstallFinalize" />
+      <Custom Action="WixSharp_EnableUninstallFullUI_Action" After="Set_WixSharp_EnableUninstallFullUI_Action_Props"> (NOT Installed) </Custom>
       <Custom Action="WixSharp_InitRuntime_Action" Before="AppSearch"> (1) </Custom>
       <Custom Action="WixSharp_BeforeInstall_Action" Before="InstallFiles">1</Custom>
       <Custom Action="Set_WixSharp_AfterInstall_Action_Props" After="InstallFiles" />

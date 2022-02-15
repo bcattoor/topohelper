@@ -24,10 +24,7 @@ namespace TopoHelper.UserControls.ViewModels
 
         protected virtual void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

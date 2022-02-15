@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TopoHelper")]
-[assembly: AssemblyDescription("Helpful autocad commands for surveyers")]
+[assembly: AssemblyDescription("Helpful autocad commands for surveyers. Author: bjorn.cattoor@infrabel.be")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Infrabel")]
 [assembly: AssemblyProduct("TopoHelper")]
 [assembly: AssemblyCopyright("Copyright © Infrabel")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Infrabel")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible to
@@ -27,5 +27,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision
 // Numbers by using the '*' as shown below: [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2020.03.123.25")]
-[assembly: AssemblyFileVersion("2020.03.120.25")]
+[assembly: AssemblyVersion("2022.02.0.0")]
+[assembly: AssemblyFileVersion("2022.02.0.0")] 

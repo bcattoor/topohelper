@@ -8,7 +8,8 @@ namespace TopoHelper.Model.Results
     {
         #region Private Fields
 
-        private static readonly Plane myPlaneWCS = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
+        // ReSharper disable once UnusedMember.Local
+        private static readonly Plane MyPlaneWcs = new Plane(new Point3d(0, 0, 0), new Vector3d(0, 0, 1));
 
         #endregion
 
@@ -18,8 +19,6 @@ namespace TopoHelper.Model.Results
         {
             LeftRailMeasuredPoint = leftRailMeasuredPoint;
             RightRailMeasuredPoint = rightRailMeasuredPoint;
-            //CurvatureCurveLeft = curvatureCurveLeft;
-            //CurvatureCurveRight = curvatureCurveRight;
         }
 
         #endregion
@@ -39,8 +38,6 @@ namespace TopoHelper.Model.Results
         public CantDirection CantDirection { get; private set; }
 
         public double Chainage { get; set; }
-        //public CircularArc2d CurvatureCurveLeft { get; private set; }
-        //public CircularArc2d CurvatureCurveRight { get; private set; }
 
         /// <summary>
         /// Gauge is the distance measured between the two points provided by
@@ -50,8 +47,6 @@ namespace TopoHelper.Model.Results
 
         public Point3d LeftRailMeasuredPoint { get; }
 
-        //public bool RailIsInsideRailOfCurveLeft { get; set; } = false;
-        //public bool RailIsInsideRailOfCurveRight { get; set; } = false;
         public Point3d RightRailMeasuredPoint { get; }
 
         public Point3d TrackAxisPoint { get; set; }
@@ -63,11 +58,9 @@ namespace TopoHelper.Model.Results
         public void SetCant(double leftRailHeight, double rightRailHeight)
         {
             Cant = Math.Abs(leftRailHeight - rightRailHeight);
-            // Set cant direction
-            if (leftRailHeight >= rightRailHeight)
-                CantDirection = CantDirection.Clockwise;
-            else
-                CantDirection = CantDirection.CounterClockwise;
+            //- Here we assume that when heights (z-value's) are equal the direction defaults to clockwise
+            CantDirection = leftRailHeight >= rightRailHeight ?
+                CantDirection.Clockwise : CantDirection.CounterClockwise;
         }
 
         #endregion

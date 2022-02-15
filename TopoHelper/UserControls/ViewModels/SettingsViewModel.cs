@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using TopoHelper.AutoCAD;
+using TopoHelper.Properties;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace TopoHelper.UserControls.ViewModels
 {
@@ -13,12 +20,10 @@ namespace TopoHelper.UserControls.ViewModels
     {
         #region Private Fields
 
-        private static readonly Properties.Settings settings_default = Properties.Settings.Default;
-        private RelayCommand _cancel;
-        private RelayCommand _reloadSettings;
-        private RelayCommand _save;
-        private string _filter;
-        private CollectionViewSource dataGridView;
+        private static readonly Settings SettingsDefault = Settings.Default;
+        private RelayCommand _cancel, _clearSearch, _reloadSettings, _save;
+        private CollectionViewSource _dataGridView;
+        private string _searchString;
 
         #endregion
 
@@ -27,76 +32,64 @@ namespace TopoHelper.UserControls.ViewModels
         public SettingsViewModel()
         {
             RefreshView();
+
+            MenuItems = new ObservableCollection<AutoCadCommandViewModel>();
+            var commandStrings = Assembly.GetExecutingAssembly().GetCommands(true);
+            var menuItemsList = new List<AutoCadCommandViewModel>();
+
+            foreach (var s in commandStrings)
+                menuItemsList.Add(new AutoCadCommandViewModel { CommandName = s });
+
+            // edit 02/02/22 BJORN CATTOOR 
+            // don't add the command "settings" to the list
+            foreach (var command in _ = menuItemsList.Where(x => !x.FriendlyName.Equals("Settings")).OrderBy(x => x.FriendlyName))
+                MenuItems.Add(command);
+
+            RaisePropertyChanged(nameof(MenuItems));
         }
 
         #endregion
 
         #region Public Properties
 
-        public string Filter {
-            get {
-                return _filter;
-            }
-            set {
-                if (!value.Equals(_filter))
+        public ICommand CancelCommand =>
+            _cancel ?? (_cancel = new RelayCommand(Cancel,
+                CanCancel));
+
+        public ICommand ClearSearchCommand =>
+            _clearSearch ?? (_clearSearch = new RelayCommand(ClearSearch, CanClearSearch));
+
+        public bool ClearSearchIsVisible { get => !string.IsNullOrEmpty(SearchString); }
+
+        public CollectionViewSource DataGridView
+        {
+            get => _dataGridView;
+            set { _dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); }
+        }
+
+        public ObservableCollection<AutoCadCommandViewModel> MenuItems { get; set; }
+        public Action OnCancel { get; set; }
+
+        public ICommand ReloadSettingsCommand =>
+            _reloadSettings ?? (_reloadSettings = new RelayCommand(ReloadSettings,
+                CanReloadSettings));
+
+        public ICommand SaveCommand =>
+            _save ?? (_save = new RelayCommand(Save,
+                CanSave));
+
+        public string SearchString
+        {
+            get => _searchString;
+            set
+            {
+                if (!value.Equals(_searchString))
                 {
                     FilterView(value);
                 }
-                _filter = value;
-            }
-        }
-
-        private void FilterView(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                DataGridView.View.Filter = null;
-            else
-                DataGridView.View.Filter = (item) =>
-                {
-                    if (item == null) return false;
-                    if (item is SettingsEntryViewModel)
-                    {
-                        if ((item as SettingsEntryViewModel).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                        if ((item as SettingsEntryViewModel).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                    }
-                    return false;
-                };
-        }
-
-        public ICommand CancelCommand {
-            get {
-                if (_cancel == null)
-                {
-                    _cancel = new RelayCommand(p => Cancel(p),
-                        p => CanCancel(p));
-                }
-                return _cancel;
-            }
-        }
-
-        public CollectionViewSource DataGridView { get { return dataGridView; } set { dataGridView = value; RaisePropertyChanged(nameof(DataGridView)); } }
-
-        public Action OnCancel { get; set; }
-
-        public ICommand ReloadSettingsCommand {
-            get {
-                if (_reloadSettings == null)
-                {
-                    _reloadSettings = new RelayCommand(p => ReloadSettings(p),
-                        p => CanReloadSettings(p));
-                }
-                return _reloadSettings;
-            }
-        }
-
-        public ICommand SaveCommand {
-            get {
-                if (_save == null)
-                {
-                    _save = new RelayCommand(p => Save(p),
-                        p => CanSave(p));
-                }
-                return _save;
+                _searchString = value;
+                RaisePropertyChanged(nameof(SearchString));
+                RaisePropertyChanged(nameof(ClearSearchIsVisible));
             }
         }
 
@@ -112,15 +105,15 @@ namespace TopoHelper.UserControls.ViewModels
         public void Cancel(object parameter)
         {
             /*Cancel Stuff*/
-            if ((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Where(p => p.IsDirty).Any())
+            if (((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>) ?? throw new InvalidOperationException()).Any(p => p.IsDirty))
             {
                 // Warn user there are still changes pending to be saved.
-                var res = MessageBox.Show("Some changes have not yet been saved, do you really want to cancel.", "Cancel changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning); ;
+                var res = MessageBox.Show("Some changes have not yet been saved, do you really want to cancel.", "Cancel changes?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (res == MessageBoxResult.No)
                     return;
             }
 
-            settings_default.Reload();
+            SettingsDefault.Reload();
             OnCancel?.Invoke();
         }
 
@@ -128,14 +121,7 @@ namespace TopoHelper.UserControls.ViewModels
         {
             if (DataGridView.Source == null)
                 return false;
-            var collection = DataGridView.Source as ObservableCollection<SettingsEntryViewModel>;
-            if (collection.Where(p => p.HasErrors).Any())
-                return true;
-
-            if (collection.Where(p => p.IsDirty).Any())
-                return true;
-
-            return false;
+            return true;
         }
 
         public bool CanSave(object parameter)
@@ -143,19 +129,15 @@ namespace TopoHelper.UserControls.ViewModels
             if ((DataGridView.Source) == null)
                 return false;
             var collection = DataGridView.Source as ObservableCollection<SettingsEntryViewModel>;
-            if (collection.Where(p => p.HasErrors).Any())
-                return false;
-
-            if (collection.Where(p => p.IsDirty).Any())
-                return true;
-            return false;
+            Debug.Assert(collection != null, nameof(collection) + " != null");
+            return !collection.Any(p => p.HasErrors) && collection.Any(p => p.IsDirty);
         }
 
         public void RefreshView()
         {
-            var collection = settings_default.Properties;
+            var collection = SettingsDefault.Properties;
 
-            var type = typeof(Properties.Settings);
+            var type = typeof(Settings);
 
             if (DataGridView == null)
             {
@@ -167,18 +149,19 @@ namespace TopoHelper.UserControls.ViewModels
             }
 
             // Remove items from collection.
-            if ((DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Count != 0)
-                (DataGridView.Source as ObservableCollection<SettingsEntryViewModel>)?.Clear();
+            if (((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source).Count != 0)
+                ((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source)?.Clear();
 
             foreach (SettingsProperty item in collection)
             {
                 var property = type.GetProperty(item.Name);
                 // Don't add read-only Properties
+                Debug.Assert(property != null, nameof(property) + " != null");
                 if (!property.CanWrite) continue;
-                var val = type.GetProperty(item.Name).GetValue(settings_default);
-                var t = type.GetProperty(item.Name).PropertyType;
+                var val = type.GetProperty(item.Name)?.GetValue(SettingsDefault);
+                var t = type.GetProperty(item.Name)?.PropertyType;
 
-                (DataGridView.Source as ObservableCollection<SettingsEntryViewModel>).Add(new SettingsEntryViewModel(t, val) { Name = item.Name });
+                ((ObservableCollection<SettingsEntryViewModel>)DataGridView.Source)?.Add(new SettingsEntryViewModel(t, val) { Name = item.Name });
             }
         }
 
@@ -191,20 +174,45 @@ namespace TopoHelper.UserControls.ViewModels
         {
             if (!(DataGridView.Source is ObservableCollection<SettingsEntryViewModel> collection)) return;
 
-            bool saved = false;
+            var saved = false;
             /*Save Stuff*/
             foreach (var item in collection)
             {
-                if (item.IsDirty && !item.HasErrors)
+                if (!item.IsDirty || item.HasErrors) continue;
+                item.SaveValueToObject(SettingsDefault);
+                saved = true;
+            }
+
+            if (!saved) return;
+            SettingsDefault.Save(); SettingsDefault.Reload(); RefreshView();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private bool CanClearSearch(object obj)
+        {
+            return !string.IsNullOrEmpty(SearchString);
+        }
+
+        private void ClearSearch(object obj)
+        {
+            SearchString = "";
+        }
+
+        private void FilterView(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                DataGridView.View.Filter = null;
+            else
+                DataGridView.View.Filter = item =>
                 {
-                    item.SaveValueToObject(settings_default);
-                    saved = true;
-                }
-            }
-            if (saved)
-            {
-                settings_default.Save(); settings_default.Reload(); RefreshView();
-            }
+                    if (item == null) return false;
+                    if (!(item is SettingsEntryViewModel)) return false;
+                    if (((SettingsEntryViewModel)item).Name.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                    return ((SettingsEntryViewModel)item).ValueString.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+                };
         }
 
         #endregion

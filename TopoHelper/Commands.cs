@@ -5,6 +5,8 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Windows;
+using Autodesk.Civil.ApplicationServices;
+using Autodesk.Civil.DatabaseServices;
 using Simplifynet;
 
 //todo: using Simplifynet; #disabled until original source code is found
@@ -14,26 +16,26 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using TopoHelper;
-using TopoHelper.Autocad;
-using TopoHelper.Autocad.Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
-using TopoHelper.AutoCAD;
-using TopoHelper.CommandImplementations;
-using TopoHelper.Csv;
-using TopoHelper.Model;
-using TopoHelper.Model.Calculations;
-using TopoHelper.Model.Geometry;
-using TopoHelper.Model.Results;
-using TopoHelper.Properties;
-using TopoHelper.UserControls;
-using TopoHelper.UserControls.ViewModels;
+using System.Windows.Controls;
+using Infrabel.AutodeskPlatform.TopoHelper;
+using Infrabel.AutodeskPlatform.AutoCADCommon;
+using Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations;
+using Infrabel.AutodeskPlatform.TopoHelper.Csv;
+using Infrabel.AutodeskPlatform.TopoHelper.Model;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Calculations;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.UserControls;
+using Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Exception = System.Exception;
-using Point = TopoHelper.Model.Geometry.Point;
+using Point = Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry.Point;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
 [assembly: CommandClass(typeof(Commands))]
 
-namespace TopoHelper
+namespace Infrabel.AutodeskPlatform.TopoHelper
 {
     // ReSharper disable once PartialTypeWithSinglePart (Commands classes need to be partial?)
     public static partial class Commands
@@ -126,11 +128,24 @@ namespace TopoHelper
         }
 
         [CommandMethod("IAMTopo_PlaceTextOnLineWithLength", CommandFlags.Modal)]
-        public static void IAP_PlaceTextOnLineWithLength()
+        public static void IAMTopo_PlaceTextOnLineWithLength()
         {
             try
             {
                 PlaceTextOnLineWithLength.ExcecuteCommand(false, FunctionCanceled);
+            }
+            catch (System.Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
+        }
+
+        [CommandMethod("IAMTopo_ConvertBlockToCogoPoint", CommandFlags.Modal)]
+        public static void IAMTopo_ConvertBlockToCogoPoint()
+        {
+            try
+            {
+                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName, SettingsDefault.FromBlockToCogo_DefaultLayerName);
             }
             catch (System.Exception exception)
             {
@@ -390,7 +405,7 @@ namespace TopoHelper
                 using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
                 {
 
-                    var extraMessage ="";
+                    var extraMessage = "";
                     using (var sourcePolyline3d = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Polyline3d)
                     using (var polyline3dToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Polyline3d)
                     {
@@ -570,6 +585,83 @@ namespace TopoHelper
             }
         }
 
+        [CommandMethod("IAMTopo_AlignemntRename", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_AlignemntRename()
+        {
+            var doc = CivilApplication.ActiveDocument;
+            var ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+            // Ask the user to select a polyline to convert to an alignment
+            var opt = new PromptEntityOptions("\nSelect a polyline to convert to an Alignment");
+            opt.SetRejectMessage("\nObject must be a polyline.");
+            opt.AddAllowedClass(typeof(Polyline), false);
+            var res = ed.GetEntity(opt);
+
+            // create some polyline options for creating the new alignment
+            var plops = new PolylineOptions
+            {
+                AddCurvesBetweenTangents = true,
+                EraseExistingEntities = true,
+                PlineId = res.ObjectId
+            };
+
+            // uses an existing Alignment Style and Label Set Style named "Basic" (for example, from
+            // the Civil 3D (Imperial) NCS Base.dwt template.  This call will fail if the named styles
+            // don't exist.
+            var testAlignmentID = Alignment.Create(doc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
+        }
+
+        [CommandMethod("IAMTopo_AlignemntFrom3DPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_AlignemntFrom3DPolyline()
+        {
+            var civilDoc = CivilApplication.ActiveDocument;
+            var ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor;
+
+            var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
+
+            var database = document.Database;
+
+            // Ask the user to select a polyline to convert to an alignment
+            var opt = new PromptEntityOptions("\nSelect a 3D polyline to convert to an Alignment");
+            opt.SetRejectMessage("\nObject must be a polyline.");
+            opt.AddAllowedClass(typeof(Polyline3d), false);
+            var res = ed.GetEntity(opt);
+
+
+
+
+            using (Transaction tr = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                var poly = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline3d;
+                // Create a new alignment
+
+                // Create 2D polyline from 3D polyline
+
+                var poly3d = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline3d;
+                poly3d.GetOrderedListOf2DPoints();
+
+                //Alignment alignment = Alignment.FromAcadObject(poly.GetGeCurve());
+
+            }
+
+
+
+            // create some polyline options for creating the new alignment
+            var plops = new PolylineOptions
+            {
+                AddCurvesBetweenTangents = true,
+                EraseExistingEntities = true,
+                PlineId = res.ObjectId
+            };
+
+            // uses an existing Alignment Style and Label Set Style named "Basic" (for example, from
+            // the Civil 3D (Imperial) NCS Base.dwt template.  This call will fail if the named styles
+            // don't exist.
+            var testAlignmentID = Alignment.Create(civilDoc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
+        }
+
+
+
         [CommandMethod("IAMTopo_RailsToRailwayCenterLine", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_RailsToRailwayCenterLine()
         {
@@ -693,7 +785,7 @@ namespace TopoHelper
                 if (SettingsDefault.RailsToRailwayCenterLine_DrawCenterline2DPoints)
                     // create 2-dimensional points
                     database.CreatePoints(
-                        points: trackAxis3DPoints.Select(p => p.T2d().T3d(0)).ToArray(),
+                        points: trackAxis3DPoints.Select(p => p.To3dPoint(0)).ToArray(),
                         layerName: SettingsDefault.LayerNamePrefix_2DObjects + SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterLine3DPoints);
 
                 if (SettingsDefault.RailsToRailwayCenterLine_Use_CalculateSurveyCorrection)
@@ -855,10 +947,10 @@ namespace TopoHelper
                     var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
                     if (promptResult.Status != PromptStatus.OK)
                         return;
-
+                    // New uri example: https://gis.infrabel.be/gis/?x=29721,7239233308&y=197964,403618005&scale=10000
                     var selectedPoint = promptResult.Value;
                     Process.Start(string.Format(
-                        @"http://georamses/GeoRamses/Default.aspx?x={0}&y={1}&scale=1000",
+                        @"https://gis.infrabel.be/gis/?x={0}&y={1}&scale=1000",
                         Math.Floor(selectedPoint.X),
                         Math.Floor(selectedPoint.Y)));
                 };

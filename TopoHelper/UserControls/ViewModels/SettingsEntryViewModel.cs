@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
-namespace TopoHelper.UserControls.ViewModels
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
     public class SettingsEntryViewModel : BaseViewModel
     {

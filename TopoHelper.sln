@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29424.173
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopoHelper", "TopoHelper\TopoHelper.csproj", "{AF6C0FF2-CA04-4601-A79C-3A361D3B0BD0}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -45,8 +45,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FBBBEAA6-DCA4-42CF-A02E-D4F024219198}
-		BuildVersion_StartDate = 2000/1/1
 		BuildVersion_UseGlobalSettings = False
+		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {FBBBEAA6-DCA4-42CF-A02E-D4F024219198}
 	EndGlobalSection
 EndGlobal

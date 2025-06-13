@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace TopoHelper.Model.String
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.String
 {
     internal static class StringExtensions
     {

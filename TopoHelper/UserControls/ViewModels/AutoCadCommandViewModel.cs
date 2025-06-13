@@ -4,10 +4,10 @@ using System;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Windows.Input;
-using TopoHelper.Model.String;
-using TopoHelper.AutoCAD;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.String;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
-namespace TopoHelper.UserControls.ViewModels
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
     public class AutoCadCommandViewModel : BaseViewModel
     {

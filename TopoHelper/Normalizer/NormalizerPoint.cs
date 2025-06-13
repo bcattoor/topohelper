@@ -1,8 +1,8 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
-namespace TopoHelper.Normalizer
+namespace Infrabel.AutodeskPlatform.TopoHelper.Normalizer
 {
     internal struct NormalizerPoint
     {
@@ -101,7 +101,7 @@ namespace TopoHelper.Normalizer
             return $"Point {X},{Y},{Z} ";
         }
 
-        public Point2d ToPoint2d()
+        public Point2d ToPoinTo2dPoint()
         {
             return new Point2d(X, Y);
         }

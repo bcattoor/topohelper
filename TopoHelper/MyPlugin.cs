@@ -6,7 +6,7 @@ using Infrabel.AutodeskPlatform.Core.UserInterface;
 using Infrabel.AutodeskPlatform.FrameworkCommon.Log;
 using Exception = System.Exception;
 
-namespace TopoHelper
+namespace Infrabel.AutodeskPlatform.TopoHelper
 {
     // This class is instantiated by AutoCAD once and kept alive for the
     // duration of the session. If you don't do any one time initialization then

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace TopoHelper.Model.Geometry
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry
 {
     /// <summary>
     /// My implementation of the polyline class, with some extra needed features.

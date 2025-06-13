@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.Geometry;
 using System;
 
-namespace TopoHelper.CommandImplementations
+namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     internal class AlignAngleOfBlock
     {

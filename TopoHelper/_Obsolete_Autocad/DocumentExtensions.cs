@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TopoHelper.Autocad
+namespace Infrabel.AutodeskPlatform.TopoHelper.Autocad
 {
     public static class DocumentExtensions
     {

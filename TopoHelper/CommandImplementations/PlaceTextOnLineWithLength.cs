@@ -13,10 +13,9 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
-using TopoHelper.Autocad;
-using TopoHelper.AutoCAD;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
-namespace TopoHelper.CommandImplementations
+namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     /// <summary>
     /// Description of PlaceTextOnLineWithLength.
@@ -25,14 +24,14 @@ namespace TopoHelper.CommandImplementations
     {
         public static void ExcecuteCommand(bool fliptext, string functionCanceledMessage)
         {
-            const string textStyleName = "IAP-LINE-DIST";
+            const string textStyleName = "501-12-101";
             const string fontName = "Gautami";
             const double textHeight = 1.0;
             const double textWidth = 0.8;
-            const string layerName = "501-12";
-            const int layerColor = 7;
+            const string layerName = "501-12-101";
+            const int layerColor = 147;
             const double offset = 0.8;
-            const string layerDescription = "Laag met lijnstuk afstanden.";
+            const string layerDescription = "Laag met de afstanden tussen  de 2 punten.";
 
             var currentDocument = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var editor = currentDocument.Editor;

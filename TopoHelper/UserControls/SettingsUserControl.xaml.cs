@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TopoHelper.UserControls
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

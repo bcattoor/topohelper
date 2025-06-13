@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TopoHelper.AutoCAD
+namespace Infrabel.AutodeskPlatform.TopoHelper.AutoCAD
 {
     public static class DatabaseCreateEntityExtensions
     {
@@ -106,7 +106,7 @@ namespace TopoHelper.AutoCAD
                     var blockTableRecord = (BlockTableRecord)transAction.GetObject(blocktable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
 
                     ObjectId id;
-                    //create the layer
+                    //create the 
                     using (var pl3d = new Polyline3d(Poly3dType.SimplePoly, new Point3dCollection(points.ToArray()), false))
 
                     {

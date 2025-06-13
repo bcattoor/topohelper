@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TopoHelper.AutoCAD;
-using TopoHelper.Model.Results;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
-namespace TopoHelper.Model.Calculations
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Calculations
 {
     public static class SurveyCorrecting
     {
@@ -79,7 +79,7 @@ namespace TopoHelper.Model.Calculations
                 }
 
                 //! Calculate new x and y values by using the projected xy line
-                using (var line = new Line2d(lrp.T2d(), rrp.T2d()))
+                using (var line = new Line2d(lrp.To2dPoint(), rrp.To2dPoint()))
                 {
                     Point2d projLPoint, projRpoint;
                     lock (AcadLock)
@@ -91,8 +91,8 @@ namespace TopoHelper.Model.Calculations
                     lock (ArrayLock)
                         result[i] = new CalculateDisplacementSectionResult
                         {
-                            LeftRailPoint = projLPoint.T3d(newLrpZ),
-                            RightRailPoint = projRpoint.T3d(newRrpZ),
+                            LeftRailPoint = projLPoint.To3dPoint(newLrpZ),
+                            RightRailPoint = projRpoint.To3dPoint(newRrpZ),
                             OriginalLeftRailPoint = lrp,
                             OriginalRightRailPoint = rrp,
                             Gauge = gauge,
@@ -111,8 +111,8 @@ namespace TopoHelper.Model.Calculations
                 // calculate chainage to the previously calculated point in the
                 // 2-dimensional space.
                 if (i != 0)
-                    chain += result[i - 1].LeftRailPoint.T2d()
-                        .GetDistanceTo(result[i].LeftRailPoint.T2d());
+                    chain += result[i - 1].LeftRailPoint.To2dPoint()
+                        .GetDistanceTo(result[i].LeftRailPoint.To2dPoint());
 
                 // Set chainage on section object
                 result[i].Chainage = chain;

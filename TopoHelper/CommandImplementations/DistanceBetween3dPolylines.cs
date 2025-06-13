@@ -2,10 +2,10 @@
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TopoHelper.AutoCAD;
-using TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
-namespace TopoHelper.CommandImplementations
+namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     public static class DistanceBetween3dPolylines
     {
@@ -65,7 +65,7 @@ namespace TopoHelper.CommandImplementations
                         arrRes[i] = new DistanceBetween2PolylinesSectionResult(
                                 parameterListLength[i],
                                 pointOnCurve1.Z - pointOnCurve2.Z,
-                                pointOnCurve1.T2d().GetDistanceTo(pointOnCurve2.T2d()),
+                                pointOnCurve1.To2dPoint().GetDistanceTo(pointOnCurve2.To2dPoint()),
                                 pointOnCurve1.DistanceTo(pointOnCurve2),
                                 pointOnCurve1, pointOnCurve2);
                 });

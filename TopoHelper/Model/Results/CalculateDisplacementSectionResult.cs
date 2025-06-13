@@ -1,6 +1,6 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 
-namespace TopoHelper.Model.Results
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Results
 {
     public class CalculateDisplacementSectionResult
     {

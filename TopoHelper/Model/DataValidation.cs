@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace TopoHelper.Model
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model
 {
     internal static class DataValidation
     {

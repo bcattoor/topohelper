@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TopoHelper.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Infrabel.AutodeskPlatform.TopoHelper.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="__APP_EPSILON" Type="System.Double" Scope="Application">
@@ -127,6 +127,12 @@
     </Setting>
     <Setting Name="JoinPolyline_MaximumGapToClose" Type="System.Double" Scope="User">
       <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_DefaultLabelStyleName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">I-AM_TOPOPOINT</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_DefaultLayerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C3D_COGO</Value>
     </Setting>
   </Settings>
 </SettingsFile>

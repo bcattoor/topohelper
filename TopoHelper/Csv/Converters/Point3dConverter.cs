@@ -4,7 +4,7 @@ using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using System;
 
-namespace TopoHelper.Csv.Converters
+namespace Infrabel.AutodeskPlatform.TopoHelper.Csv.Converters
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     internal class Point3dConverter<T> : DefaultTypeConverter

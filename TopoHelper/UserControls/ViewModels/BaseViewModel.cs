@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TopoHelper.UserControls.ViewModels
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
     /// <summary>
     /// Basic view model functions.

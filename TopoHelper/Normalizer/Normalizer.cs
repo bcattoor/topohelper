@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TopoHelper.Normalizer
+namespace Infrabel.AutodeskPlatform.TopoHelper.Normalizer
 {
     internal static class Normalizer
     {

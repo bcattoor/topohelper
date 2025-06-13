@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using TopoHelper.Csv.Mapping;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Csv.Mapping;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
-namespace TopoHelper.Csv
+namespace Infrabel.AutodeskPlatform.TopoHelper.Csv
 {
     internal class ReadWrite
     {

@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TopoHelper.Properties {
+namespace Infrabel.AutodeskPlatform.TopoHelper.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -521,6 +521,30 @@ namespace TopoHelper.Properties {
             }
             set {
                 this["JoinPolyline_MaximumGapToClose"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("I-AM_TOPOPOINT")]
+        public string FromBlockToCogo_DefaultLabelStyleName {
+            get {
+                return ((string)(this["FromBlockToCogo_DefaultLabelStyleName"]));
+            }
+            set {
+                this["FromBlockToCogo_DefaultLabelStyleName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C3D_COGO")]
+        public string FromBlockToCogo_DefaultLayerName {
+            get {
+                return ((string)(this["FromBlockToCogo_DefaultLayerName"]));
+            }
+            set {
+                this["FromBlockToCogo_DefaultLayerName"] = value;
             }
         }
     }

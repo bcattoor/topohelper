@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace TopoHelper.UserControls.Converters
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.Converters
 {
     internal class BoolToVisibilityConverter : IValueConverter
     {

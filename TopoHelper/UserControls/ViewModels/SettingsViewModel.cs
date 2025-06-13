@@ -9,12 +9,12 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using TopoHelper.AutoCAD;
-using TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace TopoHelper.UserControls.ViewModels
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {

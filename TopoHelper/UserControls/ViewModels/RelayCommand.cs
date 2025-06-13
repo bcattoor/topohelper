@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace TopoHelper.UserControls.ViewModels
+namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
     public class RelayCommand : ICommand
     {

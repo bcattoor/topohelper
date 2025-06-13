@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TopoHelper.Model.Results;
-using TopoHelper.Normalizer;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.TopoHelper.Normalizer;
 
-namespace TopoHelper.CommandImplementations
+namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     public static class Rails2RailwayCenterLine
     {

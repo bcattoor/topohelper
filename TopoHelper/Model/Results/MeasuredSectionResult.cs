@@ -1,8 +1,8 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
-using TopoHelper.Model.Enums;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Enums;
 
-namespace TopoHelper.Model.Results
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Results
 {
     internal class MeasuredSectionResult
     {

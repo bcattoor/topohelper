@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace TopoHelper
+namespace Infrabel.AutodeskPlatform.TopoHelper
 {
     internal static class MyApplication
     {

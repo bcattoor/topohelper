@@ -1,4 +1,4 @@
-﻿namespace TopoHelper.Model.Enums
+﻿namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Enums
 {
     /// <summary>
     /// The direction of the cant depends on the direction of the track, when a

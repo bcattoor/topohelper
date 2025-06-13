@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.EditorInput;
 using System.Reflection;
 using System.Collections.Specialized;
 
-namespace TopoHelper.AutoCAD
+namespace Infrabel.AutodeskPlatform.TopoHelper.AutoCAD
 {
     internal static class Extensions
     {

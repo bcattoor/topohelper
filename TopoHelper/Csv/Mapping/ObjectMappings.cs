@@ -1,11 +1,11 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using CsvHelper.Configuration;
-using TopoHelper.Csv.Converters;
-using TopoHelper.Model.Results;
+using Infrabel.AutodeskPlatform.TopoHelper.Csv.Converters;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
 
 // ReSharper disable ClassNeverInstantiated.Global (CSV HELPER asks for sealed class)
 
-namespace TopoHelper.Csv.Mapping
+namespace Infrabel.AutodeskPlatform.TopoHelper.Csv.Mapping
 {
     internal sealed class CalculateDisplacementResultMap : ClassMap<CalculateDisplacementSectionResult>
     {

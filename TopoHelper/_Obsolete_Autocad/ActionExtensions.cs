@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TopoHelper.Autocad
+namespace Infrabel.AutodeskPlatform.TopoHelper.Autocad
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace TopoHelper.Autocad
             /// <exception cref="Exception">
             /// A delegate callback throws an exception.
             /// </exception>
-            public static void WrapInWorldUcs(this Action action)
+            public static void WrapInWorldUcs(this Action action, string previousUcsName = "TopoHelper_previous")
             {
                 const string previousName = "TopoHelper_previous";
 

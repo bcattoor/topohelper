@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TopoHelper.Model.Geometry;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry;
 
-namespace TopoHelper.Model.Calculations
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Calculations
 {
     internal static class ClosestPointsList
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace TopoHelper.CommandImplementations
+namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     internal class IncrementAttribute
     {

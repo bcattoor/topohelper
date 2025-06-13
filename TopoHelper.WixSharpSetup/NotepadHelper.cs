@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // DON'T FORGET to update NuGet package "WixSharp". NuGet console:
 // Update-Package WixSharp NuGet Manager UI: updates tab
 
-namespace TopoHelper.WixSharpSetup
+namespace Infrabel.AutodeskPlatform.TopoHelper.WixSharpSetup
 {
     public static class NotepadHelper
     {

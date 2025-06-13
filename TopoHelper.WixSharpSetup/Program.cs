@@ -18,7 +18,7 @@ using Condition = WixSharp.Condition;
 // error-numbers?) make sure to debug the project, its probably a code error, or
 // as mentioned above, it could be a hard-coded path problem, or file not found problem.
 
-namespace TopoHelper.WixSharpSetup
+namespace Infrabel.AutodeskPlatform.TopoHelper.WixSharpSetup
 {
     internal class Program
     {
@@ -28,7 +28,7 @@ namespace TopoHelper.WixSharpSetup
         /// This is where the source files are located, when rebuilding from new
         /// environment make sure to update this.
         /// </summary>
-        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\topohelper\TopoHelper.WixSharpSetup\files";
+        private const string SourcePathOfFiles = @"C:\Users\cwn8400\Documents\GitHub\Infrabel\Infrabel.Topohelper\TopoHelper.WixSharpSetup\files";
 
         //? --> More info about AutoCAD registry logic:
         //- https://jtbworld.com/autocad-information#AutoCAD-registry-details
@@ -43,6 +43,7 @@ namespace TopoHelper.WixSharpSetup
             @"Software\Autodesk\AutoCAD\R23.0\ACAD-2001:409\Applications\Infrabel.TopoHelper", //?2019
             @"Software\Autodesk\AutoCAD\R23.0\ACAD-3001:409\Applications\Infrabel.TopoHelper", //?2020
             @"Software\Autodesk\AutoCAD\R23.0\ACAD-4101:409\Applications\Infrabel.TopoHelper", //?2021
+            @"Software\Autodesk\AutoCAD\R23.0\ACAD-6101:409\Applications\Infrabel.TopoHelper", //?2023
 };
 
         /// <summary>
@@ -51,12 +52,13 @@ namespace TopoHelper.WixSharpSetup
         /// 2019: 237K1; reg: Autodesk\AutoCAD\R23.0\ACAD-2000
         /// 2020: 237L1; reg: Autodesk\AutoCAD\R23.1\ACAD-3000
         /// 2021: 237M1; reg: Autodesk\AutoCAD\R24.0\ACAD-3000
-        ///! 2022: 237N1; reg: Autodesk\AutoCAD\R24.1\ACAD todo: set value
+        /// 2022: 237N1; reg: Autodesk\AutoCAD\R24.1\ACAD todo: set value
         /// </summary>
         private static readonly string[] KeysC3D = {
             @"Software\Autodesk\AutoCAD\R23.0\ACAD-2000:409\Applications\Infrabel.TopoHelper", //?2019
             @"Software\Autodesk\AutoCAD\R23.1\ACAD-2000:409\Applications\Infrabel.TopoHelper", //?2020
-            @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper"  //?2021
+            @"Software\Autodesk\AutoCAD\R24.0\ACAD-4100:409\Applications\Infrabel.TopoHelper", //?2021
+            @"Software\Autodesk\AutoCAD\R24.0\ACAD-6100:409\Applications\Infrabel.TopoHelper", //?2023
 };
 
         private const string ProductDescription = "This application is for internal Infrabel usage only. It is a proof of concept, and should only be used as such. No warranty is given!";
@@ -337,7 +339,7 @@ namespace TopoHelper.WixSharpSetup
                 {
                     //++ Return SUCCES!
                     //! We return success here because we want the uninstall
-                    //! process to continue If we stop here the application will
+                    //! process to continue If we stop here the application will²
                     //! become irremovable.
                     Debug.WriteLine(ex.Message);
                     MessageBox.Show($"Removal failed:\r\n {ex.Message}");

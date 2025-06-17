@@ -87,13 +87,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 cgPoint.LabelStyleId = labelStyleId;
         }
 
+        /// <summary>
+        /// Executes the command to convert selected blocks to CogoPoints.
+        /// </summary>
+        /// <param name="defaultLabelStyleName">The name of the default label style to apply to the CogoPoints.</param>
+        /// <param name="defaultLayereName">The name of the default layer to assign to the CogoPoints.</param>
         public static void ExecuteCommand(string defaultLabelStyleName, string defaultLayereName)
         {
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
             var civDoc = CivilApplication.ActiveDocument;
 
-            List<IapBlock> iAPBlocksReadyToConvert;  // Changed to List to materialize the collection
+            List<IapBlock> iAPBlocksReadyToConvert;
             using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
             {
                 // Prompt user to select multiple blocks
@@ -136,17 +141,6 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 tr.Commit();
             }
 
-            // Now we can safely use iAPBlocksReadyToConvert outside the transaction
-            var blockReferenceDict = new Dictionary<ObjectId, BlockReference>();
-            using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
-            {
-                foreach (var block in iAPBlocksReadyToConvert)
-                {
-                    var blockRef = (BlockReference)tr.GetObject(block.Id, OpenMode.ForRead);
-                    blockReferenceDict[block.Id] = blockRef;
-                }
-                tr.Commit();
-            }
 
             // Create new CogoPoinst at the block's positions and safe ID's
             var newCogoPoints = AddCogoPoints(new Point3dCollection(iAPBlocksReadyToConvert.Select(b => b.InsertionPoint3D).ToArray()), iAPBlocksReadyToConvert.Select(c => c.Id).ToList(), "CogoPoint");
@@ -161,7 +155,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 var existingNames = GetAllCogoPointNames(civDoc, tr);
                 foreach (var block in iAPBlocksReadyToConvert)
                 {
-                    var blockRef = blockReferenceDict[block.Id];
+                    var blockRef = (BlockReference)tr.GetObject(block.Id, OpenMode.ForRead);
+
                     if (blockRef != null && blockRef.BlockTableRecord != ObjectId.Null)
                     {
                         CogoPoint cgPoint = (CogoPoint)tr.GetObject(newCogoPoints[block.Id], OpenMode.ForWrite);
@@ -172,9 +167,15 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             }
         }
 
-        // Creates new CogoPoints at the specified locations and maintains a mapping between
-        // the original block IDs and the newly created CogoPoint IDs
-        // Returns a dictionary where the key is the original block ID and the value is the new CogoPoint ID
+        /// <summary>
+        /// Creates new CogoPoints at the specified locations and maintains a mapping between the original block IDs and the newly created CogoPoint IDs.
+        /// </summary>
+        /// <param name="locations">A collection of 3D points where the CogoPoints will be created.</param>
+        /// <param name="originalBlockIds">A list of original block IDs corresponding to the locations.</param>
+        /// <param name="description">An optional description for the CogoPoints.</param>
+        /// <returns>A dictionary where the key is the original block ID and the value is the new CogoPoint ID.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when locations or originalBlockIds is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when locations or originalBlockIds is empty, or when their counts do not match.</exception>
         public static Dictionary<ObjectId/*block id*/, ObjectId/*cogopoint id*/> AddCogoPoints(Point3dCollection locations, List<ObjectId> originalBlockIds, string description = "")
         {
             if (locations == null)

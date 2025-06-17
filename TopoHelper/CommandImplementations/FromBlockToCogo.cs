@@ -13,6 +13,7 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using Infrabel.AutodeskPlatform.AutoCADCommon.BlockScanner;
+using MoreLinq;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
@@ -92,8 +93,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             var db = doc.Database;
             var civDoc = CivilApplication.ActiveDocument;
 
-            var blocksWithAttributes = new List<IapBlock>();
-            //var listOfAllBlocks = new List<ObjectId>();
+            List<IapBlock> iAPBlocksReadyToConvert;  // Changed to List to materialize the collection
             using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
             {
                 // Prompt user to select multiple blocks
@@ -107,42 +107,40 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
                 if (psr.Status != PromptStatus.OK)
                 {
-                    // User cancelled, exit the function gracefully
                     return;
                 }
 
                 var selectedBlockIds = psr.Value.GetObjectIds().ToList();
                 if (selectedBlockIds.Count == 0)
                 {
-                    // No blocks selected
                     return;
                 }
 
-                // Get the block names for all selected blocks
-                var blockNames = new List<string>();
+                // Get all block names without filtering for uniqueness
+                var selectedBlockNames = new Dictionary<ObjectId, string>();
                 foreach (var blockId in selectedBlockIds)
                 {
                     var blockRef = (BlockReference)tr.GetObject(blockId, OpenMode.ForRead);
-                    blockNames.Add(blockRef.Name);
+                    if (blockRef.Name != null)
+                        selectedBlockNames.Add(blockId, blockRef.Name);
                 }
 
-                // Get all blocks with those names
-                blocksWithAttributes = BlockScanner.GetPropertiesOfBlocksById(
-                    BlockScanner.GetAllBlockIds(db, tr, blockNames).ToList(),
-                    db, doc, blockNames, tr
-                ).ToList();
+                // Get properties and materialize the collection before transaction ends
+                iAPBlocksReadyToConvert = BlockScanner.GetPropertiesOfBlocksById(
+                    selectedBlockIds,
+                    db,
+                    doc,
+                    null,
+                    tr).ToList();  // Materialize the collection
 
                 tr.Commit();
             }
 
-            // Create a dictionary for fast lookup of IapBlock by ObjectId
-            var blockAttributeDict = blocksWithAttributes.ToDictionary(b => b.Id);
-
-            // Cache all block references in a dictionary in a single transaction
+            // Now we can safely use iAPBlocksReadyToConvert outside the transaction
             var blockReferenceDict = new Dictionary<ObjectId, BlockReference>();
             using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
             {
-                foreach (var block in blocksWithAttributes)
+                foreach (var block in iAPBlocksReadyToConvert)
                 {
                     var blockRef = (BlockReference)tr.GetObject(block.Id, OpenMode.ForRead);
                     blockReferenceDict[block.Id] = blockRef;
@@ -151,7 +149,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             }
 
             // Create new CogoPoinst at the block's positions and safe ID's
-            var newCogoPoints = AddCogoPoints(new Point3dCollection(blocksWithAttributes.Select(b => b.InsertionPoint3D).ToArray()), blocksWithAttributes.Select(c => c.Id).ToList(), "CogoPoint");
+            var newCogoPoints = AddCogoPoints(new Point3dCollection(iAPBlocksReadyToConvert.Select(b => b.InsertionPoint3D).ToArray()), iAPBlocksReadyToConvert.Select(c => c.Id).ToList(), "CogoPoint");
 
             // Batch all CogoPoint property writes into a single transaction
             using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
@@ -161,7 +159,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 var labelStyleId = GetLabelStyleIdByName(civDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles, defaultLabelStyleName, tr);
                 // Collect all existing CogoPoint names once
                 var existingNames = GetAllCogoPointNames(civDoc, tr);
-                foreach (var block in blocksWithAttributes)
+                foreach (var block in iAPBlocksReadyToConvert)
                 {
                     var blockRef = blockReferenceDict[block.Id];
                     if (blockRef != null && blockRef.BlockTableRecord != ObjectId.Null)
@@ -219,24 +217,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
         }
 
-        // Searches through the PointStyleCollection to find a style with the specified name
-        // Returns the ObjectId of the matching style, or ObjectId.Null if not found
-        private static ObjectId GetPointStyleIdByName(PointStyleCollection PointStyles, string styleName, Transaction tr)
+        private static ObjectId GetPointStyleIdByName(PointStyleCollection pointStyles, string styleName, Transaction tr)
         {
-
-            foreach (ObjectId styleId in PointStyles)
-            {
-                using (PointStyle pointStyle = (PointStyle)tr.GetObject(styleId, OpenMode.ForRead))
-                {
-
-                    if (pointStyle.Name == styleName)
-                    {
-                        return styleId;
-                    }
-                }
-            }
-
-            return ObjectId.Null;
+            if (string.IsNullOrEmpty(styleName))
+                throw new ArgumentException("Style name cannot be null or empty", nameof(styleName));
+            // Use the indexer if available, otherwise fall back to LINQ
+            return pointStyles[styleName];
         }
 
         // Searches through the LabelStyleCollection to find a label style with the specified name

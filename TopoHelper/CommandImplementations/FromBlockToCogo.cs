@@ -63,9 +63,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             if (!string.IsNullOrEmpty(newName))
             {
                 var lastDigitResult = CheckLastDigit(newName);
-                if (lastDigitResult == LastDigitIsEvenOrOddResult.Odd)
+                if (lastDigitResult == LastDigit.Odd)
                     cgPoint.RawDescription = "CATA";
-                else if (lastDigitResult == LastDigitIsEvenOrOddResult.Even)
+                else if (lastDigitResult == LastDigit.Even)
                     cgPoint.RawDescription = "CATB";
                 else
                     cgPoint.RawDescription = "822";
@@ -87,18 +87,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 cgPoint.LabelStyleId = labelStyleId;
         }
 
-        /// <summary>
-        /// Executes the command to convert selected blocks to CogoPoints.
-        /// </summary>
-        /// <param name="defaultLabelStyleName">The name of the default label style to apply to the CogoPoints.</param>
-        /// <param name="defaultLayereName">The name of the default layer to assign to the CogoPoints.</param>
         public static void ExecuteCommand(string defaultLabelStyleName, string defaultLayereName)
         {
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
             var civDoc = CivilApplication.ActiveDocument;
 
-            List<IapBlock> iAPBlocksReadyToConvert;
+            List<IapBlock> iAPBlocksReadyToConvert;  // Changed to List to materialize the collection
             using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
             {
                 // Prompt user to select multiple blocks
@@ -126,8 +121,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 foreach (var blockId in selectedBlockIds)
                 {
                     var blockRef = (BlockReference)tr.GetObject(blockId, OpenMode.ForRead);
-                    if (blockRef.Name != null)
-                        selectedBlockNames.Add(blockId, blockRef.Name);
+                    var blockTableRecord = (BlockTableRecord)tr.GetObject(blockRef.BlockTableRecord, OpenMode.ForRead);
+                    if (blockTableRecord?.IsAnonymous == false)
+                    {
+                        selectedBlockNames.Add(blockId, blockTableRecord.Name);
+                    }
+
+                    else if (blockTableRecord?.IsDynamicBlock == true)
+                    { selectedBlockNames.Add(blockId, blockTableRecord.Name); }
+                    else if (blockTableRecord?.IsLayout == true)
+                    {
+                        continue;
+                    }
                 }
 
                 // Get properties and materialize the collection before transaction ends
@@ -167,15 +172,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             }
         }
 
-        /// <summary>
-        /// Creates new CogoPoints at the specified locations and maintains a mapping between the original block IDs and the newly created CogoPoint IDs.
-        /// </summary>
-        /// <param name="locations">A collection of 3D points where the CogoPoints will be created.</param>
-        /// <param name="originalBlockIds">A list of original block IDs corresponding to the locations.</param>
-        /// <param name="description">An optional description for the CogoPoints.</param>
-        /// <returns>A dictionary where the key is the original block ID and the value is the new CogoPoint ID.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when locations or originalBlockIds is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when locations or originalBlockIds is empty, or when their counts do not match.</exception>
+        // Creates new CogoPoints at the specified locations and maintains a mapping between
+        // the original block IDs and the newly created CogoPoint IDs
+        // Returns a dictionary where the key is the original block ID and the value is the new CogoPoint ID
         public static Dictionary<ObjectId/*block id*/, ObjectId/*cogopoint id*/> AddCogoPoints(Point3dCollection locations, List<ObjectId> originalBlockIds, string description = "")
         {
             if (locations == null)
@@ -247,12 +246,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
         // Analyzes the last character of a string to determine if it's an even number, odd number, or not a number
         // Returns LastDigitIsEvenOrOddResult enum value indicating the result of the analysis
-        private static LastDigitIsEvenOrOddResult CheckLastDigit(string input)
+        private static LastDigit CheckLastDigit(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
 
-                return LastDigitIsEvenOrOddResult.NotANumber;
+                return LastDigit.NotANumber;
             }
 
             string lastChar = input.Substring(input.Length - 1, 1);
@@ -263,27 +262,90 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 if (lastDigit % 2 == 0)
                 {
 
-                    return LastDigitIsEvenOrOddResult.Even;
+                    return LastDigit.Even;
                 }
                 else
                 {
 
-                    return LastDigitIsEvenOrOddResult.Odd;
+                    return LastDigit.Odd;
                 }
             }
             else
             {
 
-                return LastDigitIsEvenOrOddResult.NotANumber;
+                return LastDigit.NotANumber;
             }
         }
 
-        private enum LastDigitIsEvenOrOddResult
+        private enum LastDigit
         {
             NotANumber = 0,
             Even = 2,
             Odd = 1,
 
+        }
+
+        enum Classifications
+        {
+            Unknown = 0,
+            KnownByLayer = 1,
+            KnownByAttibuteName = 2,
+            KnownByRealBlockName = 3
+        }
+
+        class ClassificationObject
+        {
+            public ObjectId ObjectId { get; set; }
+            public Classifications Classification { get; }
+            public string ObjectName { get; set; }
+            public string LayerName { get; set; }
+            public List<string> AttributeNames { get; set; }
+
+            public ClassificationObject(ObjectId objectId, string objectName, string layerName, List<string> attributeNames)
+            {
+                if (objectId == null)
+                {
+                    throw new ArgumentNullException(nameof(objectId), "ObjectId cannot be null");
+                }
+
+                if (string.IsNullOrEmpty(objectName))
+                {
+                    throw new ArgumentException("ObjectName cannot be null or empty", nameof(objectName));
+                }
+
+                if (string.IsNullOrEmpty(layerName))
+                {
+                    throw new ArgumentException("LayerName cannot be null or empty", nameof(layerName));
+                }
+
+
+
+                ObjectId = objectId;
+                ObjectName = objectName;
+                LayerName = layerName;
+                AttributeNames = attributeNames;
+
+                Classification = Classify(this);
+
+            }
+            private static List<string> KnownRealBlockNames = new List<string>() { "KP", "HP", "CAT" };
+            private static List<string> KnownLayers = new List<string>() { "0", "410_pile_axis", "173_pond_edge" };
+            private static List<string> KnownAttributeNames = new List<string>() { "NR", "NR", "NAAM" };
+            private static Classifications Classify(ClassificationObject obj)
+            {
+                if (KnownRealBlockNames.Contains(obj.ObjectName, StringComparer.CurrentCultureIgnoreCase))
+                    return Classifications.KnownByRealBlockName;
+
+                if (obj.AttributeNames?.Any() == true && obj.AttributeNames.Any(attr => KnownAttributeNames.Contains(attr, StringComparer.CurrentCultureIgnoreCase)))
+                    return Classifications.KnownByAttibuteName;
+
+                if (!string.IsNullOrEmpty(obj.LayerName))
+                    return KnownLayers.Contains(obj.LayerName, StringComparer.CurrentCultureIgnoreCase)
+                        ? Classifications.KnownByLayer
+                        : Classifications.KnownByRealBlockName;
+
+                return Classifications.Unknown;
+            }
         }
 
         // Collects all existing CogoPoint names from the Civil document into a HashSet for efficient lookup

@@ -162,7 +162,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = ObjectId.Null;
         }
 
+
         [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        /// <summary>
+        /// Removes non-survey vertices from a selected polyline based on points or block inserts present on a specified layer.
+        /// The user is prompted to select a point or block insert, and then a 3D polyline to clean.
+        /// Only vertices corresponding to the selected points or inserts are retained in the polyline.
+        /// </summary>
         public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
         {
             var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;

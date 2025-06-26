@@ -547,5 +547,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Properties {
                 this["FromBlockToCogo_DefaultLayerName"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>nr</string>
+  <string>nummer</string>
+  <string>number</string>
+  <string>name</string>
+  <string>id</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties"]));
+            }
+        }
     }
 }

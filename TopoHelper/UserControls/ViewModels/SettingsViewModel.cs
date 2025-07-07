@@ -110,7 +110,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 RefreshView();
                 LoadCogoPointNamingSettings();
 
-                CogoPoints = new RangeObservableCollection<CogoPointDisplay>();
+                CogoPoints = new ObservableCollection<CogoPointDisplay>();
                 RefreshCogoPointsCommand = new RelayCommand(async _ => await LoadCogoPointsAsync());
 
                 Blocks = new RangeObservableCollection<BlockDisplay>();
@@ -148,15 +148,24 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
         #region Public Properties
 
-        public RangeObservableCollection<CogoPointDisplay> CogoPoints { get; set; } = new RangeObservableCollection<CogoPointDisplay>();
+        private ObservableCollection<CogoPointDisplay> _cogoPoints;
+        public ObservableCollection<CogoPointDisplay> CogoPoints
+        {
+            get => _cogoPoints;
+            set
+            {
+                _cogoPoints = value;
+                RaisePropertyChanged(nameof(CogoPoints));
+            }
+        }
         public ICommand RefreshCogoPointsCommand { get; }
         public RangeObservableCollection<BlockDisplay> Blocks { get; set; } = new RangeObservableCollection<BlockDisplay>();
         public ICommand RefreshBlocksCommand { get; }
 
         // Ensure CogoPoints is never null
-        public RangeObservableCollection<CogoPointDisplay> SafeCogoPoints
+        public ObservableCollection<CogoPointDisplay> SafeCogoPoints
         {
-            get => CogoPoints ?? (CogoPoints = new RangeObservableCollection<CogoPointDisplay>());
+            get => CogoPoints ?? (CogoPoints = new ObservableCollection<CogoPointDisplay>());
         }
 
 
@@ -287,26 +296,30 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
         public void RefreshView()
         {
+            var settingsEntries = new List<SettingsEntryViewModel>();
+            var type = typeof(Settings);
+
+            foreach (SettingsProperty item in SettingsDefault.Properties)
+            {
+                var property = type.GetProperty(item.Name);
+                if (property == null || !property.CanWrite) continue;
+                settingsEntries.Add(new SettingsEntryViewModel(property.PropertyType, property.GetValue(SettingsDefault), this) { Name = item.Name });
+            }
+
+            var newSource = new RangeObservableCollection<SettingsEntryViewModel>();
+            newSource.AddRange(settingsEntries);
+
             if (DataGridView == null)
             {
-                DataGridView = new CollectionViewSource { Source = new RangeObservableCollection<SettingsEntryViewModel>() };
+                DataGridView = new CollectionViewSource { Source = newSource };
                 DataGridView.SortDescriptions.Add(new SortDescription(nameof(SettingsEntryViewModel.Name), ListSortDirection.Ascending));
             }
-
-            if (DataGridView.Source is RangeObservableCollection<SettingsEntryViewModel> targetCollection)
+            else
             {
-                targetCollection.Clear();
-
-                var type = typeof(Settings);
-                var settingsEntries = new List<SettingsEntryViewModel>();
-                foreach (SettingsProperty item in SettingsDefault.Properties)
-                {
-                    var property = type.GetProperty(item.Name);
-                    if (property == null || !property.CanWrite) continue;
-                    settingsEntries.Add(new SettingsEntryViewModel(property.PropertyType, property.GetValue(SettingsDefault), this) { Name = item.Name });
-                }
-                targetCollection.AddRange(settingsEntries);
+                DataGridView.Source = newSource;
             }
+
+            RaisePropertyChanged(nameof(DataGridView));
         }
             #endregion
 
@@ -397,7 +410,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 try
                 {
                     IsLoading = true;
-                    await Task.Run(async () =>
+                    var cogoPointsList = await Task.Run(() =>
                     {
                         var civilDoc = CivilApplication.ActiveDocument;
                         var acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
@@ -412,7 +425,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                             throw new InvalidOperationException("Database is null");
                         }
 
-                        var cogoPointsList = new List<CogoPointDisplay>();
+                        var points = new List<CogoPointDisplay>();
                         using (var tr = db.TransactionManager.StartTransaction())
                         {
                             foreach (ObjectId cogoPointId in civilDoc.CogoPoints)
@@ -423,7 +436,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                                 {
                                     try
                                     {
-                                        cogoPointsList.Add(new CogoPointDisplay
+                                        points.Add(new CogoPointDisplay
                                         {
                                             PointNumber = cogoPoint.PointNumber,
                                             Name = cogoPoint.PointName,
@@ -444,23 +457,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                             }
                             tr.Commit();
                         }
-                        if (System.Windows.Application.Current?.Dispatcher != null)
-                            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
-                            {
-                                if (cogoPointsList.Count > 0)
-                                {
-                                    CogoPoints.Clear();
-                                    CogoPoints.AddRange(cogoPointsList);
-                                    RaisePropertyChanged(nameof(CogoPoints));
-                                    StatusMessage = $"Loaded {cogoPointsList.Count} COGO points.";
-                                }
-                                else
-                                {
-                                    StatusMessage = "No COGO points found in the current document.";
-                                }
-                            });
-
+                        return points;
                     }, _cts.Token);
+
+                    // Update UI on the main thread
+                    if (cogoPointsList.Count > 0)
+                    {
+                        CogoPoints = new ObservableCollection<CogoPointDisplay>(cogoPointsList);
+                        RaisePropertyChanged(nameof(CogoPoints));
+                        StatusMessage = $"Loaded {cogoPointsList.Count} COGO points.";
+                    }
+                    else
+                    {
+                        StatusMessage = "No COGO points found in the current document.";
+                    }
+
                     return; // Success, exit the retry loop
                 }
                 catch (OperationCanceledException)
@@ -474,12 +485,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                     Debug.WriteLine($"Error in LoadCogoPointsAsync (Attempt {i + 1}): {ex.Message}");
                     if (i == retryCount - 1) // If this was the last attempt
                     {
-                        if (System.Windows.Application.Current?.Dispatcher != null)
-                            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
-                        {
-                            StatusMessage = $"Failed to load COGO points: {ex.Message}";
-                            System.Windows.MessageBox.Show($"Failed to load COGO points after {retryCount} attempts. Error: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                        });
+                        StatusMessage = $"Failed to load COGO points: {ex.Message}";
+                        System.Windows.MessageBox.Show($"Failed to load COGO points after {retryCount} attempts. Error: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                     }
                     await Task.Delay(1000, _cts.Token); // Wait for 1 second before retrying
                 }
@@ -497,7 +504,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 try
                 {
                     IsLoading = true;
-                    await Task.Run(async () =>
+                    var blocksList = await Task.Run(() =>
                     {
                         var acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                         if (acDoc == null)
@@ -511,7 +518,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                             throw new InvalidOperationException("Database is null");
                         }
 
-                        var blocksList = new List<BlockDisplay>();
+                        var blocks = new List<BlockDisplay>();
                         using (var tr = db.TransactionManager.StartOpenCloseTransaction())
                         {
                             var ms = tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead) as BlockTableRecord;
@@ -526,7 +533,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                                 var blkRef = tr.GetObject(entId, OpenMode.ForRead) as BlockReference;
                                 if (blkRef != null)
                                 {
-                                    blocksList.Add(new BlockDisplay
+                                    blocks.Add(new BlockDisplay
                                     {
                                         Name = blkRef.Name,
                                         Handle = blkRef.Handle.ToString(),
@@ -539,27 +546,29 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                             }
                             tr.Commit();
                         }
-                        if (System.Windows.Application.Current != null)
-                            await System.Windows.Application.Current?.Dispatcher.InvokeAsync(() =>
-                        {
-                            if (blocksList.Count > 0)
-                            {
-                                SafeBlocks.Clear();
-                                SafeBlocks.AddRange(blocksList);
-                                RaisePropertyChanged(nameof(Blocks));
-                                StatusMessage = $"Loaded {blocksList.Count} blocks.";
-                            }
-                            else
-                            {
-                                StatusMessage = "No blocks found in the current document.";
-                            }
-                        });
+                        return blocks;
                     }, _cts.Token);
+
+                    // Update UI on the main thread
+                    if (blocksList.Count > 0)
+                    {
+                        Blocks.Clear();
+                        Blocks.AddRange(blocksList);
+                        RaisePropertyChanged(nameof(Blocks));
+                        StatusMessage = $"Loaded {blocksList.Count} blocks.";
+                    }
+                    else
+                    {
+                        Blocks.Clear();
+                        StatusMessage = "No blocks found in the current document.";
+                    }
+
                     return; // Success, exit the retry loop
                 }
                 catch (OperationCanceledException)
                 {
                     Debug.WriteLine("LoadBlocksAsync was cancelled.");
+                    StatusMessage = "Loading blocks was cancelled.";
                     return;
                 }
                 catch (Exception ex)
@@ -567,12 +576,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                     Debug.WriteLine($"Error in LoadBlocksAsync (Attempt {i + 1}): {ex.Message}");
                     if (i == retryCount - 1) // If this was the last attempt
                     {
-                        if (System.Windows.Application.Current?.Dispatcher != null)
-                            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
-                        {
-                            StatusMessage = $"Failed to load blocks: {ex.Message}";
-                            System.Windows.MessageBox.Show($"Failed to load blocks after {retryCount} attempts. Error: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                        });
+                        StatusMessage = $"Failed to load blocks: {ex.Message}";
+                        System.Windows.MessageBox.Show($"Failed to load blocks after {retryCount} attempts. Error: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                     }
                     await Task.Delay(1000, _cts.Token); // Wait for 1 second before retrying
                 }

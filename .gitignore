@@ -271,3 +271,4 @@ wiki/
 [Ii]nstaller/
 *.msi
 *.wixobj
+.aider*

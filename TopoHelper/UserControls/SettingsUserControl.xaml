@@ -13,70 +13,123 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></converters:BoolToVisibilityConverter>
     </UserControl.Resources>
     <DockPanel Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Commands" ItemsSource="{Binding MenuItems}" DisplayMemberPath="FriendlyName">
-                <MenuItem.ItemContainerStyle>
-                    <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Command" Value="{Binding Path=AutoCADCommand}" />
-                        <Setter Property="CommandParameter" Value="{Binding}" />
-                    </Style>
-                </MenuItem.ItemContainerStyle>
-            </MenuItem>
-            <MenuItem Header="_Help" DisplayMemberPath="FriendlyName">
-                <MenuItem Header="_About..." Click="MenuItem_Click_Navigate_Url" ToolTip="Over deze applicatie." />
-                <MenuItem Header="_Raporteer een probleem..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper/issues/new/choose" />
-                <MenuItem Header="_Open website..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://bcattoor.github.io/topohelper/welcome.html" />
-                <MenuItem Header="_View this on github..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper" />
-            </MenuItem>
-        </Menu>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding Path=DataGridView.View,
-                  UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="True"
-                  Grid.Row="1"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserSortColumns="True"
-                  CanUserReorderColumns="True"
-                  AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
-                  x:Name="DataGrid">
-            </DataGrid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderBrush="CadetBlue" BorderThickness="1">
-                    <Grid>
-                        <Button Command="{Binding Path=ClearSearchCommand}"
-                                Visibility="{Binding Path=ClearSearchIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Margin="0,5,8,5"
-                                ToolTip="Clear Search Field"
-                                Background="Transparent" Height="18" Padding="0,0,0,3" HorizontalAlignment="Right" Panel.ZIndex="9">X</Button>
-                        <TextBox   Margin="5,3" x:Name="TxtFilter"
-                      HorizontalAlignment="Stretch" TextChanged="TxtFilter_TextChanged"
-                      Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="100"></TextBox>
-                        <TextBlock x:Name="txtSearch"
-                                IsHitTestVisible="False" Foreground="Gray"
-                                Margin="5,3" VerticalAlignment="Center"
-                                HorizontalAlignment="Right"
-                                FlowDirection="LeftToRight">
-                         Lorum Ipsum
-                        </TextBlock>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Commands" ItemsSource="{Binding MenuItems}" DisplayMemberPath="FriendlyName">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Command" Value="{Binding Path=AutoCADCommand}" />
+                            <Setter Property="CommandParameter" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <MenuItem Header="_Help" DisplayMemberPath="FriendlyName">
+                    <MenuItem Header="_About..." Click="MenuItem_Click_Navigate_Url" ToolTip="Over deze applicatie." />
+                    <MenuItem Header="_Raporteer een probleem..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper/issues/new/choose" />
+                    <MenuItem Header="_Open website..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://bcattoor.github.io/topohelper/welcome.html" />
+                    <MenuItem Header="_View this on github..." Click="MenuItem_Click_Navigate_Url" ToolTip="https://github.com/bcattoor/topohelper" />
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage}" />
+            </StatusBarItem>
+        </StatusBar>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray" DockPanel.Dock="Bottom">
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
+            <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Close</Button>
+            <Button Padding="5" Margin="5,3" Command="{Binding CancelOperationCommand}" IsEnabled="{Binding IsLoading}">Cancel Operation</Button>
+            <TextBlock Text="Loading..." VerticalAlignment="Center" Margin="5,3"
+                       Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </StackPanel>
+        <TabControl>
+            <TabItem Header="General">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Path=DataGridView.View, UpdateSourceTrigger=PropertyChanged}"
+                              AutoGenerateColumns="True"
+                              Grid.Row="0"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserSortColumns="True"
+                              
+                              CanUserReorderColumns="True"
+                              AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                              RowHeight="50">
+                              
+                    </DataGrid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" BorderBrush="CadetBlue" BorderThickness="1">
+                            <Grid>
+                                <Button Command="{Binding Path=ClearSearchCommand}"
+                                        Visibility="{Binding Path=ClearSearchIsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Margin="0,5,8,5"
+                                        ToolTip="Clear Search Field"
+                                        Background="Transparent" Height="18" Padding="0,0,0,3" HorizontalAlignment="Right" Panel.ZIndex="9">X</Button>
+                                <TextBox Margin="5,3" x:Name="TxtFilter"
+                                         HorizontalAlignment="Stretch" TextChanged="TxtFilter_TextChanged"
+                                         Text="{Binding Path=SearchString, UpdateSourceTrigger=PropertyChanged}"
+                                         MinWidth="100"></TextBox>
+                                <TextBox x:Name="txtSearch"
+                                         IsHitTestVisible="False" Foreground="Gray"
+                                         Margin="5,3" VerticalAlignment="Center"
+                                         HorizontalAlignment="Right"
+                                         FlowDirection="LeftToRight">
+                                    Lorum Ipsum
+                                </TextBox>
+                            </Grid>
+                        </Border>
                     </Grid>
-                </Border>
-                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1" Background="LightGray">
-                    <Button Padding="5" Margin="5,3" Command="{Binding Path=SaveCommand}">Save</Button>
-                    <Button Padding="5" Margin="5,3" Command="{Binding Path=ReloadSettingsCommand}" >Reload</Button>
-                    <Button Padding="5" Margin="5,3" Command="{Binding Path=CancelCommand}">Close</Button>
-                </StackPanel>
-            </Grid>
-        </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="COGO Naming">
+                <Grid Margin="5" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Label FontWeight="Bold">Prefix Patterns (for descriptions like 'CATA...')</Label>
+                        <Button Command="{Binding AddPrefixPatternCommand}" Content="Add New" Margin="10,0,0,0" Padding="5,0"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding NamingSettings.PrefixPatterns}" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="True" Margin="0,0,0,10"/>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Label FontWeight="Bold">Description Lookup Table (for exact description matches)</Label>
+                        <Button Command="{Binding AddDescriptionMappingCommand}" Content="Add New" Margin="10,0,0,0" Padding="5,0"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding NamingSettings.DescriptionLookupTable}" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="True" Margin="0,0,0,10"/>
+
+                    <Label Grid.Row="4" FontWeight="Bold">Default Pattern</Label>
+                    <TextBox Grid.Row="5" Text="{Binding NamingSettings.DefaultPattern, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="CogoPoints">
+                <DockPanel>
+                    <Button DockPanel.Dock="Top" Content="Refresh" Command="{Binding RefreshCogoPointsCommand}" Margin="5" Padding="5"/>
+                    <DataGrid ItemsSource="{Binding CogoPoints}" IsReadOnly="True" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Blocks">
+                <DockPanel>
+                    <Button DockPanel.Dock="Top" Content="Refresh" Command="{Binding RefreshBlocksCommand}" Margin="5" Padding="5"/>
+                    <DataGrid ItemsSource="{Binding Blocks}" IsReadOnly="True" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"/>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </UserControl>

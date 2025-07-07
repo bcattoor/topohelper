@@ -199,6 +199,8 @@
     <Compile Include="CommandImplementations\IncrementAttribute.cs" />
     <Compile Include="CommandImplementations\PlaceTextOnLineWithLength.cs" />
     <Compile Include="Csv\Converters\Point3dConverter.cs" />
+    <Compile Include="Model\BlockDisplay.cs" />
+    <Compile Include="Model\CogoPointDisplay.cs" />
     <Compile Include="Model\Geometry\PolyLine.cs" />
     <Compile Include="Model\Results\DistanceBetween2PolylinesSectionResult.cs" />
     <Compile Include="Model\Enums\CantDirection.cs" />
@@ -252,7 +254,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UseGlobalSettings="False" BuildVersion_StartDate="2000/1/1" />
+      <UserProperties BuildVersion_StartDate="2000/1/1" BuildVersion_UseGlobalSettings="False" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

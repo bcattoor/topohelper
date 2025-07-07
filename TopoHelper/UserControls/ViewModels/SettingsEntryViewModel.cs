@@ -12,16 +12,19 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         private string _name;
         private Type _type;
         private string _valueString;
+        private bool _isDirty;
+        private readonly SettingsViewModel _parentViewModel;
 
         #endregion
 
         #region Public Constructors
 
-        public SettingsEntryViewModel(Type propertyType, object originalValue)
+        public SettingsEntryViewModel(Type propertyType, object originalValue, SettingsViewModel parent)
         {
             _type = propertyType;
             _originalValue = originalValue;
             _valueString = originalValue.ToString();
+            _parentViewModel = parent;
             SetObjectValueFromString(_valueString);
         }
 
@@ -44,10 +47,26 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
                 // Set Dirty State
                 IsDirty = !Value.Equals(_originalValue);
+                if (IsDirty)
+                    _parentViewModel?.SetUnsavedChangesStatus();
             }
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the setting has been modified since it was loaded.
+        /// </summary>
+        public override bool IsDirty
+        {
+            get => _isDirty;
+            protected set { _isDirty = value; RaisePropertyChanged(nameof(IsDirty)); }
+        }
+
+        /// <summary>
+        /// Resets the dirty state after saving.
+        /// </summary>
+        public void ResetDirtyState() => IsDirty = false;
 
         #region Internal Methods
 

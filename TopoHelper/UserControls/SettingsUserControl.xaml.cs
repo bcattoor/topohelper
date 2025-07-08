@@ -257,42 +257,42 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
             }
         }
         
-        public static string GeneratePointName(CogoPoint cogoPoint, CogoPointNamingSettings settings, HashSet<string> existingNames)
-        {
-            string pattern = GetPattern(cogoPoint.RawDescription, settings);
-            string baseName = ParsePattern(pattern, cogoPoint);
-            string finalName = baseName;
-            int counter = 1;
-            while (existingNames.Contains(finalName, StringComparer.OrdinalIgnoreCase))
-                finalName = $"{baseName}_{counter++}";
-            if (finalName.Length > 255) finalName = finalName.Substring(0, 255);
-            return finalName;
-        }
+        //public static string GeneratePointName(CogoPoint cogoPoint, CogoPointNamingSettings settings, HashSet<string> existingNames)
+        //{
+        //    string pattern = GetPattern(cogoPoint.RawDescription, settings);
+        //    string baseName = ParsePattern(pattern, cogoPoint);
+        //    string finalName = baseName;
+        //    int counter = 1;
+        //    while (existingNames.Contains(finalName, StringComparer.OrdinalIgnoreCase))
+        //        finalName = $"{baseName}_{counter++}";
+        //    if (finalName.Length > 255) finalName = finalName.Substring(0, 255);
+        //    return finalName;
+        //}
 
-        private static string GetPattern(string description, CogoPointNamingSettings settings)
-        {
-            if (!string.IsNullOrEmpty(description))
-            {
-                var prefixRule = settings.PrefixPatterns.FirstOrDefault(p => description.StartsWith(p.Prefix, StringComparison.OrdinalIgnoreCase));
-                if (prefixRule != null) return prefixRule.Pattern;
-                var lookupRule = settings.DescriptionLookupTable.FirstOrDefault(l => description.Equals(l.Description, StringComparison.OrdinalIgnoreCase));
-                if (lookupRule != null) return lookupRule.Pattern;
-            }
-            return settings.DefaultPattern;
-        }
+        //private static string GetPattern(string description, CogoPointNamingSettings settings)
+        //{
+        //    if (!string.IsNullOrEmpty(description))
+        //    {
+        //        var prefixRule = settings.PrefixPatterns.FirstOrDefault(p => description.StartsWith(p.Prefix, StringComparison.OrdinalIgnoreCase));
+        //        if (prefixRule != null) return prefixRule.Pattern;
+        //        var lookupRule = settings.DescriptionLookupTable.FirstOrDefault(l => description.Equals(l.Description, StringComparison.OrdinalIgnoreCase));
+        //        if (lookupRule != null) return lookupRule.Pattern;
+        //    }
+        //    return settings.DefaultPattern;
+        //}
 
-        private static string ParsePattern(string pattern, CogoPoint cogoPoint)
-        {
-            var result = pattern;
-            result = Regex.Replace(result, @"{Counter:(\d+)}", m => cogoPoint.PointNumber.ToString().PadLeft(int.Parse(m.Groups[1].Value), '0'));
-            result = Regex.Replace(result, @"{Easting:(\d+)}", m => cogoPoint.Easting.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
-            result = Regex.Replace(result, @"{Northing:(\d+)}", m => cogoPoint.Northing.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
-            result = Regex.Replace(result, @"{Elevation:(\d+)}", m => cogoPoint.Elevation.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
-            result = result.Replace("{Description}", cogoPoint.RawDescription);
-            return result;
-        }
+        //private static string ParsePattern(string pattern, CogoPoint cogoPoint)
+        //{
+        //    var result = pattern;
+        //    result = Regex.Replace(result, @"{Counter:(\d+)}", m => cogoPoint.PointNumber.ToString().PadLeft(int.Parse(m.Groups[1].Value), '0'));
+        //    result = Regex.Replace(result, @"{Easting:(\d+)}", m => cogoPoint.Easting.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
+        //    result = Regex.Replace(result, @"{Northing:(\d+)}", m => cogoPoint.Northing.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
+        //    result = Regex.Replace(result, @"{Elevation:(\d+)}", m => cogoPoint.Elevation.ToString("F0").TakeLast(int.Parse(m.Groups[1].Value)));
+        //    result = result.Replace("{Description}", cogoPoint.RawDescription);
+        //    return result;
+        //}
 
-        private static string TakeLast(this string source, int count) => source.Length > count ? source.Substring(source.Length - count) : source;
+        //private static string TakeLast(this string source, int count) => source.Length > count ? source.Substring(source.Length - count) : source;
     }
     
     #endregion

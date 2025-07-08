@@ -1,0 +1,99 @@
+﻿using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model
+{
+    #region COGO Naming Model Classes
+
+    public class CogoPointNamingSettings : INotifyPropertyChanged
+    {
+        private ObservableCollection<PrefixPattern> _prefixPatterns;
+        private ObservableCollection<DescriptionMapping> _descriptionLookupTable;
+        private string _defaultPattern;
+
+        public ObservableCollection<PrefixPattern> PrefixPatterns
+        {
+            get => _prefixPatterns;
+            set { _prefixPatterns = value; OnPropertyChanged(); }
+        }
+        public ObservableCollection<DescriptionMapping> DescriptionLookupTable
+        {
+            get => _descriptionLookupTable;
+            set { _descriptionLookupTable = value; OnPropertyChanged(); }
+        }
+        public string DefaultPattern
+        {
+            get => _defaultPattern;
+            set { _defaultPattern = value; OnPropertyChanged(); }
+        }
+
+        public CogoPointNamingSettings()
+        {
+            PrefixPatterns = new ObservableCollection<PrefixPattern>();
+            DescriptionLookupTable = new ObservableCollection<DescriptionMapping>();
+            DefaultPattern = "{Description}-{Counter:4}";
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    #endregion
+
+    #region COGO Naming Model Classes
+
+    [Serializable]
+    public class CogoPointNamingSettings_Serializable
+    {
+        public List<PrefixPattern> PrefixPatterns { get; set; } = new List<PrefixPattern>();
+        public List<DescriptionMapping> DescriptionLookupTable { get; set; } = new List<DescriptionMapping>();
+        public string DefaultPattern { get; set; }
+    }
+
+    [Serializable]
+    public class PrefixPattern : INotifyPropertyChanged
+    {
+        private string _prefix;
+        private string _pattern;
+
+        public string Prefix
+        {
+            get => _prefix;
+            set { _prefix = value; OnPropertyChanged(); }
+        }
+        public string Pattern
+        {
+            get => _pattern;
+            set { _pattern = value; OnPropertyChanged(); }
+        }
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    [Serializable]
+    public class DescriptionMapping : INotifyPropertyChanged
+    {
+        private string _description;
+        private string _pattern;
+
+        public string Description
+        {
+            get => _description;
+            set { _description = value; OnPropertyChanged(); }
+        }
+        public string Pattern
+        {
+            get => _pattern;
+            set { _pattern = value; OnPropertyChanged(); }
+        }
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    #endregion
+
+}

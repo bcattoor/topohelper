@@ -227,6 +227,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="CommandImplementations\Rails2RailwayCenterLine.cs" />
+    <Compile Include="Model\CogoPointNamingEngine.cs" />
+    <Compile Include="Model\CogoPointNamingSettings.cs" />
     <Compile Include="UserControls\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UserControls\ViewModels\BaseViewModel.cs" />
     <Compile Include="UserControls\ViewModels\AutoCadCommandViewModel.cs" />

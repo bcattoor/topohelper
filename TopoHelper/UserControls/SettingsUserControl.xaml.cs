@@ -89,6 +89,28 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
                     e.Handled = true;
                 }
             }
+            else if (e.Key == Key.Escape)
+            {
+                var dataGrid = sender as DataGrid;
+                if (dataGrid != null)
+                {
+                    if (dataGrid.Name == "CogoPointsDataGrid" && this.DataContext is ViewModels.SettingsViewModel vm)
+                    {
+                        foreach (var item in vm.CogoPoints)
+                        {
+                            item.IsSelected = false;
+                        }
+                    }
+                    else if (dataGrid.Name == "BlocksDataGrid" && this.DataContext is ViewModels.SettingsViewModel vm)
+                    {
+                        foreach (var item in vm.Blocks)
+                        {
+                            item.IsSelected = false;
+                        }
+                    }
+                    e.Handled = true;
+                }
+            }
         }
     }
 

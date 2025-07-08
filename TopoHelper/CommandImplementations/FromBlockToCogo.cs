@@ -467,14 +467,34 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             private Classifications Classify()
             {
-                var knownRealBlockNames = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Cast<string>().ToList();
-                var knownLayers = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Cast<string>().ToList();
-                var knownAttributeNames = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Cast<string>().ToList();
+                var knownRealBlockNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties);
+                var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
+                var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
 
                 if (knownRealBlockNames.Contains(ObjectName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByRealBlockName;
                 if (AttributeNames.Any(attr => knownAttributeNames.Contains(attr, StringComparer.OrdinalIgnoreCase))) return Classifications.KnownByAttibuteName;
                 if (knownLayers.Contains(LayerName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByLayer;
                 return Classifications.Unknown;
+            }
+
+            private static List<string> DeserializeStringCollection(string xmlString)
+            {
+                if (string.IsNullOrEmpty(xmlString))
+                    return new List<string>();
+
+                try
+                {
+                    var serializer = new System.Xml.Serialization.XmlSerializer(typeof(string[]));
+                    using (var reader = new System.IO.StringReader(xmlString))
+                    {
+                        var array = (string[])serializer.Deserialize(reader);
+                        return array?.ToList() ?? new List<string>();
+                    }
+                }
+                catch
+                {
+                    return new List<string>();
+                }
             }
         }
 

@@ -2,7 +2,6 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.Civil;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
@@ -48,7 +47,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 // Stap 3: Configuratie voor projectie
                 var config = new ProfileProjectionConfig
                 {
-                    ElevationSource = ElevationSourceType.UseObjectElevation
+                    ElevationSource = ProfileProjectionElevationSource.Object
                 };
 
                 // Stap 4: Projecteer de punten
@@ -85,7 +84,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
                             // Controleer of het punt binnen het bereik van de ProfileView valt
                             var point3d = new Point3d(cogoPoint.Easting, cogoPoint.Northing, cogoPoint.Elevation);
-                            var station = alignment.GetStationAtPoint(point3d);
+                            var station = alignment.StationAtPoint(point3d);
                             
                             if (station < profileView.StationStart || station > profileView.StationEnd)
                             {
@@ -94,15 +93,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                             }
 
                             // Maak de projectie aan
-                            var projection = ProfileProjection.Create(
+                            var projection = new ProfileProjection();
+                            projection.Create(
                                 profileViewId,
-                                cogoPointId,
-                                projectionStyleId,
-                                labelStyleId);
+                                cogoPointId);
+                                
+                            // Stel stijlen in indien beschikbaar
+                            if (projectionStyleId != ObjectId.Null)
+                                projection.StyleId = projectionStyleId;
+                                
+                            if (labelStyleId != ObjectId.Null)
+                                projection.LabelStyleId = labelStyleId;
 
                             if (projection != null)
                             {
-                                projection.ElevationSource = config.ElevationSource;
+                                projection.ElevationSource = (short)config.ElevationSource;
                                 successCount++;
                             }
                         }
@@ -169,10 +174,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             try
             {
-                var styleCollection = civilDocument.Styles.ProfileViewStyles.ProjectionStyles;
+                // Probeer een standaard stijl te vinden in het document
+                var styleCollection = civilDocument.Styles.ProfileViewStyles;
                 if (styleCollection.Count > 0)
                 {
-                    // Gebruik de eerste beschikbare stijl
+                    // Gebruik de eerste beschikbare stijl als basis
                     return styleCollection[0];
                 }
             }
@@ -188,7 +194,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             try
             {
-                var styleCollection = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles.ProjectionLabelStyles;
+                // Probeer een standaard label stijl te vinden
+                var styleCollection = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles;
                 if (styleCollection.Count > 0)
                 {
                     // Gebruik de eerste beschikbare stijl
@@ -208,8 +215,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
     {
         public ObjectId ProjectionStyleId { get; set; } = ObjectId.Null;
         public ObjectId LabelStyleId { get; set; } = ObjectId.Null;
-        public ElevationSourceType ElevationSource { get; set; } = ElevationSourceType.UseObjectElevation;
+        public ProfileProjectionElevationSource ElevationSource { get; set; } = ProfileProjectionElevationSource.Object;
         public ObjectId SurfaceId { get; set; } = ObjectId.Null; // Voor surface elevation
         public double ManualElevationOffset { get; set; } = 0.0;
+    }
+
+    /// <summary>
+    /// Elevation source opties voor profile projecties
+    /// </summary>
+    internal enum ProfileProjectionElevationSource
+    {
+        Object = 0,
+        Surface = 1,
+        Manual = 2
     }
 }

@@ -178,7 +178,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 block.Id, 
                 blockRef.Name, 
                 blockRef.Layer, 
-                block.Attributes.Select(a => a.Tag).ToList());
+                block.Attributes.Select(blockN => blockN.Tag).ToList());
         }
 
         /// <summary>

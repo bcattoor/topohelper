@@ -63,6 +63,14 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             }
         }
 
+        private RelayCommand _processSelectedCogoPointsCommand;
+        public ICommand ProcessSelectedCogoPointsCommand => _processSelectedCogoPointsCommand ?? 
+            (_processSelectedCogoPointsCommand = new RelayCommand(ProcessSelectedCogoPoints));
+
+        private RelayCommand _processSelectedBlocksCommand;
+        public ICommand ProcessSelectedBlocksCommand => _processSelectedBlocksCommand ?? 
+            (_processSelectedBlocksCommand = new RelayCommand(ProcessSelectedBlocks));
+
         #endregion
 
         #region IDisposable Implementation

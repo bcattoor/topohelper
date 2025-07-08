@@ -126,13 +126,60 @@
             <TabItem Header="CogoPoints">
                 <DockPanel>
                     <Button DockPanel.Dock="Top" Content="Refresh" Command="{Binding RefreshCogoPointsCommand}" Margin="5" Padding="5"/>
-                    <DataGrid ItemsSource="{Binding CogoPoints}" IsReadOnly="True" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"/>
+                    <DataGrid ItemsSource="{Binding CogoPoints}" 
+                              IsReadOnly="False" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False" 
+                              CanUserDeleteRows="False"
+                              x:Name="CogoPointsDataGrid">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Header="Selecteer" />
+                            <DataGridTextColumn Binding="{Binding PointNumber}" Header="Punt Nummer" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Naam" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Easting}" Header="X" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Northing}" Header="Y" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Elevation}" Header="Z" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding RawDescription}" Header="Beschrijving" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding LabelStyleName}" Header="Label Stijl" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding PointStyleName}" Header="Punt Stijl" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding LayerName}" Header="Laag" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Verwerk geselecteerde COGO punten" 
+                                          Command="{Binding ProcessSelectedCogoPointsCommand}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Blocks">
                 <DockPanel>
                     <Button DockPanel.Dock="Top" Content="Refresh" Command="{Binding RefreshBlocksCommand}" Margin="5" Padding="5"/>
-                    <DataGrid ItemsSource="{Binding Blocks}" IsReadOnly="True" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"/>
+                    <DataGrid ItemsSource="{Binding Blocks}" 
+                              IsReadOnly="False" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False" 
+                              CanUserDeleteRows="False"
+                              x:Name="BlocksDataGrid">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Header="Selecteer" />
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Naam" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Handle}" Header="Handle" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Layer}" Header="Laag" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding PositionX}" Header="X" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding PositionY}" Header="Y" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding PositionZ}" Header="Z" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Verwerk geselecteerde blokken" 
+                                          Command="{Binding ProcessSelectedBlocksCommand}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </DockPanel>
             </TabItem>
         </TabControl>

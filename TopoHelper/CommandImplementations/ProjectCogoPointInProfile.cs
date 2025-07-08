@@ -84,7 +84,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
                             // Controleer of het punt binnen het bereik van de ProfileView valt
                             var point3d = new Point3d(cogoPoint.Easting, cogoPoint.Northing, cogoPoint.Elevation);
-                            var station = alignment.StationAtPoint(point3d);
+                            
+                            // Gebruik StationOffset in plaats van StationAtPoint
+                            double station = 0, offset = 0;
+                            alignment.StationOffset(point3d, ref station, ref offset);
                             
                             if (station < profileView.StationStart || station > profileView.StationEnd)
                             {
@@ -92,23 +95,23 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                                 continue;
                             }
 
-                            // Maak de projectie aan
-                            var projection = new ProfileProjection();
-                            projection.Create(
-                                profileViewId,
-                                cogoPointId);
-                                
-                            // Stel stijlen in indien beschikbaar
-                            if (projectionStyleId != ObjectId.Null)
-                                projection.StyleId = projectionStyleId;
-                                
-                            if (labelStyleId != ObjectId.Null)
-                                projection.LabelStyleId = labelStyleId;
-
-                            if (projection != null)
+                            // Maak de projectie aan met de statische Create methode
+                            ObjectId projectionId = ProfileProjection.Create(profileViewId, cogoPointId);
+                            
+                            if (projectionId != ObjectId.Null)
                             {
-                                projection.ElevationSource = (short)config.ElevationSource;
-                                successCount++;
+                                var projection = transaction.GetObject(projectionId, OpenMode.ForWrite) as ProfileProjection;
+                                if (projection != null)
+                                {
+                                    // Stel stijlen in indien beschikbaar
+                                    if (projectionStyleId != ObjectId.Null)
+                                        projection.StyleId = projectionStyleId;
+                                    
+                                    // Gebruik de juiste property voor elevation source
+                                    projection.ProjectionElevationSource = (short)config.ElevationSource;
+                                    
+                                    successCount++;
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -195,11 +198,14 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             try
             {
                 // Probeer een standaard label stijl te vinden
-                var styleCollection = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles;
-                if (styleCollection.Count > 0)
+                var labelStyles = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles;
+                if (labelStyles != null)
                 {
-                    // Gebruik de eerste beschikbare stijl
-                    return styleCollection[0];
+                    // Gebruik een beschikbare stijl indien mogelijk
+                    foreach (ObjectId styleId in labelStyles)
+                    {
+                        return styleId; // Retourneer de eerste die we vinden
+                    }
                 }
             }
             catch { /* Negeer fouten en gebruik de standaard stijl */ }

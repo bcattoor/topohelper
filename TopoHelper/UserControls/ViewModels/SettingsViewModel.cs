@@ -259,9 +259,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownBlockNames == null)
                 {
                     _knownBlockNames = new ObservableCollection<string>();
-                    foreach (string item in Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties)
+                    var stringCollection = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties;
+                    if (stringCollection != null)
                     {
-                        _knownBlockNames.Add(item);
+                        foreach (string item in stringCollection)
+                        {
+                            _knownBlockNames.Add(item);
+                        }
                     }
                     _knownBlockNames.CollectionChanged += KnownBlockNames_CollectionChanged;
                 }
@@ -277,9 +281,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownLayers == null)
                 {
                     _knownLayers = new ObservableCollection<string>();
-                    foreach (string item in Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties)
+                    var stringCollection = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties;
+                    if (stringCollection != null)
                     {
-                        _knownLayers.Add(item);
+                        foreach (string item in stringCollection)
+                        {
+                            _knownLayers.Add(item);
+                        }
                     }
                     _knownLayers.CollectionChanged += KnownLayers_CollectionChanged;
                 }
@@ -295,9 +303,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownAttributes == null)
                 {
                     _knownAttributes = new ObservableCollection<string>();
-                    foreach (string item in Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties)
+                    var stringCollection = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties;
+                    if (stringCollection != null)
                     {
-                        _knownAttributes.Add(item);
+                        foreach (string item in stringCollection)
+                        {
+                            _knownAttributes.Add(item);
+                        }
                     }
                     _knownAttributes.CollectionChanged += KnownAttributes_CollectionChanged;
                 }
@@ -446,24 +458,36 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         private void SaveClassificationSettings()
         {
             // Opslaan van KnownBlockNames
-            Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Clear();
-            foreach (var item in KnownBlockNames)
+            var blockNamesCollection = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties;
+            if (blockNamesCollection != null)
             {
-                Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Add(item);
+                blockNamesCollection.Clear();
+                foreach (var item in KnownBlockNames)
+                {
+                    blockNamesCollection.Add(item);
+                }
             }
 
             // Opslaan van KnownLayers
-            Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Clear();
-            foreach (var item in KnownLayers)
+            var layersCollection = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties;
+            if (layersCollection != null)
             {
-                Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Add(item);
+                layersCollection.Clear();
+                foreach (var item in KnownLayers)
+                {
+                    layersCollection.Add(item);
+                }
             }
 
             // Opslaan van KnownAttributes
-            Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Clear();
-            foreach (var item in KnownAttributes)
+            var attributesCollection = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties;
+            if (attributesCollection != null)
             {
-                Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Add(item);
+                attributesCollection.Clear();
+                foreach (var item in KnownAttributes)
+                {
+                    attributesCollection.Add(item);
+                }
             }
         }
 

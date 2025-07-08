@@ -455,9 +455,6 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             public string ObjectName { get; }
             public string LayerName { get; }
             public List<string> AttributeNames { get; }
-            private static readonly List<string> KnownRealBlockNames = new List<string>() { "KP", "HP", "CAT" };
-            private static readonly List<string> KnownLayers = new List<string>() { "0", "410_pile_axis", "173_pond_edge" };
-            private static readonly List<string> KnownAttributeNames = new List<string>() { "NR", "NR", "NAAM" };
 
             public ClassificationObject(ObjectId objectId, string objectName, string layerName, List<string> attributeNames)
             {
@@ -470,9 +467,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             private Classifications Classify()
             {
-                if (KnownRealBlockNames.Contains(ObjectName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByRealBlockName;
-                if (AttributeNames.Any(attr => KnownAttributeNames.Contains(attr, StringComparer.OrdinalIgnoreCase))) return Classifications.KnownByAttibuteName;
-                if (KnownLayers.Contains(LayerName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByLayer;
+                var knownRealBlockNames = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Cast<string>().ToList();
+                var knownLayers = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Cast<string>().ToList();
+                var knownAttributeNames = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Cast<string>().ToList();
+
+                if (knownRealBlockNames.Contains(ObjectName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByRealBlockName;
+                if (AttributeNames.Any(attr => knownAttributeNames.Contains(attr, StringComparer.OrdinalIgnoreCase))) return Classifications.KnownByAttibuteName;
+                if (knownLayers.Contains(LayerName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByLayer;
                 return Classifications.Unknown;
             }
         }

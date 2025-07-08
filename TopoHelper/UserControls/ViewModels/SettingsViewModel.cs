@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -248,6 +249,151 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             HookPropertyChanged(newMapping);
         }));
 
+        #region Classificatie Instellingen Properties en Commands
+
+        private ObservableCollection<string> _knownBlockNames;
+        public ObservableCollection<string> KnownBlockNames
+        {
+            get
+            {
+                if (_knownBlockNames == null)
+                {
+                    _knownBlockNames = new ObservableCollection<string>();
+                    foreach (string item in Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties)
+                    {
+                        _knownBlockNames.Add(item);
+                    }
+                    _knownBlockNames.CollectionChanged += KnownBlockNames_CollectionChanged;
+                }
+                return _knownBlockNames;
+            }
+        }
+
+        private ObservableCollection<string> _knownLayers;
+        public ObservableCollection<string> KnownLayers
+        {
+            get
+            {
+                if (_knownLayers == null)
+                {
+                    _knownLayers = new ObservableCollection<string>();
+                    foreach (string item in Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties)
+                    {
+                        _knownLayers.Add(item);
+                    }
+                    _knownLayers.CollectionChanged += KnownLayers_CollectionChanged;
+                }
+                return _knownLayers;
+            }
+        }
+
+        private ObservableCollection<string> _knownAttributes;
+        public ObservableCollection<string> KnownAttributes
+        {
+            get
+            {
+                if (_knownAttributes == null)
+                {
+                    _knownAttributes = new ObservableCollection<string>();
+                    foreach (string item in Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties)
+                    {
+                        _knownAttributes.Add(item);
+                    }
+                    _knownAttributes.CollectionChanged += KnownAttributes_CollectionChanged;
+                }
+                return _knownAttributes;
+            }
+        }
+
+        private string _selectedKnownBlockName;
+        public string SelectedKnownBlockName
+        {
+            get => _selectedKnownBlockName;
+            set { _selectedKnownBlockName = value; RaisePropertyChanged(nameof(SelectedKnownBlockName)); }
+        }
+
+        private string _selectedKnownLayer;
+        public string SelectedKnownLayer
+        {
+            get => _selectedKnownLayer;
+            set { _selectedKnownLayer = value; RaisePropertyChanged(nameof(SelectedKnownLayer)); }
+        }
+
+        private string _selectedKnownAttribute;
+        public string SelectedKnownAttribute
+        {
+            get => _selectedKnownAttribute;
+            set { _selectedKnownAttribute = value; RaisePropertyChanged(nameof(SelectedKnownAttribute)); }
+        }
+
+        private RelayCommand _addKnownBlockNameCommand;
+        public ICommand AddKnownBlockNameCommand => _addKnownBlockNameCommand ?? (_addKnownBlockNameCommand = new RelayCommand(param =>
+        {
+            KnownBlockNames.Add("Nieuw Block");
+            SetUnsavedChangesStatus();
+        }));
+
+        private RelayCommand _removeKnownBlockNameCommand;
+        public ICommand RemoveKnownBlockNameCommand => _removeKnownBlockNameCommand ?? (_removeKnownBlockNameCommand = new RelayCommand(param =>
+        {
+            if (SelectedKnownBlockName != null)
+            {
+                KnownBlockNames.Remove(SelectedKnownBlockName);
+                SetUnsavedChangesStatus();
+            }
+        }));
+
+        private RelayCommand _addKnownLayerCommand;
+        public ICommand AddKnownLayerCommand => _addKnownLayerCommand ?? (_addKnownLayerCommand = new RelayCommand(param =>
+        {
+            KnownLayers.Add("Nieuwe Laag");
+            SetUnsavedChangesStatus();
+        }));
+
+        private RelayCommand _removeKnownLayerCommand;
+        public ICommand RemoveKnownLayerCommand => _removeKnownLayerCommand ?? (_removeKnownLayerCommand = new RelayCommand(param =>
+        {
+            if (SelectedKnownLayer != null)
+            {
+                KnownLayers.Remove(SelectedKnownLayer);
+                SetUnsavedChangesStatus();
+            }
+        }));
+
+        private RelayCommand _addKnownAttributeCommand;
+        public ICommand AddKnownAttributeCommand => _addKnownAttributeCommand ?? (_addKnownAttributeCommand = new RelayCommand(param =>
+        {
+            KnownAttributes.Add("Nieuw Attribuut");
+            SetUnsavedChangesStatus();
+        }));
+
+        private RelayCommand _removeKnownAttributeCommand;
+        public ICommand RemoveKnownAttributeCommand => _removeKnownAttributeCommand ?? (_removeKnownAttributeCommand = new RelayCommand(param =>
+        {
+            if (SelectedKnownAttribute != null)
+            {
+                KnownAttributes.Remove(SelectedKnownAttribute);
+                SetUnsavedChangesStatus();
+            }
+        }));
+
+        private void KnownBlockNames_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SetUnsavedChangesStatus();
+        }
+
+        private void KnownLayers_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SetUnsavedChangesStatus();
+        }
+
+        private void KnownAttributes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SetUnsavedChangesStatus();
+        }
+
+        #endregion
+
         #endregion
 
         #region Public Methods
@@ -290,10 +436,35 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 }
             }
             SaveCogoPointNamingSettings();
+            SaveClassificationSettings();
             SettingsDefault.Save();
             SettingsDefault.Reload();
             RefreshView();
             StatusMessage = "Settings saved successfully.";
+        }
+
+        private void SaveClassificationSettings()
+        {
+            // Opslaan van KnownBlockNames
+            Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Clear();
+            foreach (var item in KnownBlockNames)
+            {
+                Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties.Add(item);
+            }
+
+            // Opslaan van KnownLayers
+            Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Clear();
+            foreach (var item in KnownLayers)
+            {
+                Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties.Add(item);
+            }
+
+            // Opslaan van KnownAttributes
+            Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Clear();
+            foreach (var item in KnownAttributes)
+            {
+                Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties.Add(item);
+            }
         }
 
         public void ReloadSettings(object parameter)

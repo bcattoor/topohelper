@@ -965,6 +965,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
 
+        [CommandMethod("IAMTopo_ProjectCogoPointToLongProfile", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        public static void IAMTopo_ProjectCogoPointToLongProfile()
+        {
+            try
+            {
+                ProjectCogoPointInProfile.ExecuteCommand();
+            }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+        }
+
         [CommandMethod("IAMTopo_OffsetPolyline")]
         public static void IAMTopo_OffsetPolyline()
         {

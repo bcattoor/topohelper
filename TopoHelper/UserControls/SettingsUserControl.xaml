@@ -134,7 +134,69 @@
                     <DataGrid Grid.Row="3" ItemsSource="{Binding NamingSettings.DescriptionLookupTable}" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="True" Margin="0,0,0,10"/>
 
                     <Label Grid.Row="4" FontWeight="Bold">Default Pattern</Label>
-                    <TextBox Grid.Row="5" Text="{Binding NamingSettings.DefaultPattern, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="5" Text="{Binding NamingSettings.DefaultPattern, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+                    
+                    <!-- Classificatie Instellingen -->
+                    <Label Grid.Row="6" FontWeight="Bold">Block Classificatie Instellingen</Label>
+                    
+                    <TabControl Grid.Row="7" Margin="0,5,0,0">
+                        <TabItem Header="Bekende Block Namen">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5">
+                                    <Button Command="{Binding AddKnownBlockNameCommand}" Content="Toevoegen" Margin="0,0,5,0" Padding="5,2"/>
+                                    <Button Command="{Binding RemoveKnownBlockNameCommand}" Content="Verwijderen" Padding="5,2"/>
+                                </StackPanel>
+                                <ListBox ItemsSource="{Binding KnownBlockNames}" 
+                                         SelectedItem="{Binding SelectedKnownBlockName}"
+                                         SelectionMode="Extended">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}" 
+                                                     Width="200" HorizontalAlignment="Left"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                        
+                        <TabItem Header="Bekende Lagen">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5">
+                                    <Button Command="{Binding AddKnownLayerCommand}" Content="Toevoegen" Margin="0,0,5,0" Padding="5,2"/>
+                                    <Button Command="{Binding RemoveKnownLayerCommand}" Content="Verwijderen" Padding="5,2"/>
+                                </StackPanel>
+                                <ListBox ItemsSource="{Binding KnownLayers}" 
+                                         SelectedItem="{Binding SelectedKnownLayer}"
+                                         SelectionMode="Extended">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}" 
+                                                     Width="200" HorizontalAlignment="Left"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                        
+                        <TabItem Header="Bekende Attributen">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5">
+                                    <Button Command="{Binding AddKnownAttributeCommand}" Content="Toevoegen" Margin="0,0,5,0" Padding="5,2"/>
+                                    <Button Command="{Binding RemoveKnownAttributeCommand}" Content="Verwijderen" Padding="5,2"/>
+                                </StackPanel>
+                                <ListBox ItemsSource="{Binding KnownAttributes}" 
+                                         SelectedItem="{Binding SelectedKnownAttribute}"
+                                         SelectionMode="Extended">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}" 
+                                                     Width="200" HorizontalAlignment="Left"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
             <TabItem Header="General Settings">

@@ -23,6 +23,191 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     internal static class FromBlockToCogo
     {
+        #region Configuration Classes
+        
+        private class StyleConfiguration
+        {
+            public Dictionary<Classifications, List<PointStyleMapping>> StyleMappings { get; set; }
+            public ObjectId FallbackStyleId { get; set; }
+            public ObjectId LabelStyleId { get; set; }
+            public PointStyleCollection PointStyles { get; set; }
+        }
+        
+        #endregion
+
+        #region Main Refactored Functions
+
+        /// <summary>
+        /// Selecteert blocks van de gebruiker
+        /// </summary>
+        private static List<ObjectId> SelectBlocksFromUser(Editor editor)
+        {
+            var pso = new PromptSelectionOptions { MessageForAdding = "\nSelecteer blocks: " };
+            var filter = new SelectionFilter(new[] { new TypedValue((int)DxfCode.Start, "INSERT") });
+            var psr = editor.GetSelection(pso, filter);
+            
+            if (psr.Status != PromptStatus.OK) 
+                return new List<ObjectId>();
+                
+            var selectedBlockIds = psr.Value.GetObjectIds().ToList();
+            return selectedBlockIds.Any() ? selectedBlockIds : new List<ObjectId>();
+        }
+
+        /// <summary>
+        /// Extraheert eigenschappen van geselecteerde blocks
+        /// </summary>
+        private static List<IapBlock> ExtractBlockProperties(List<ObjectId> blockIds, Database database, Document document, Transaction transaction)
+        {
+            if (!blockIds.Any())
+                return new List<IapBlock>();
+                
+            return BlockScanner.GetPropertiesOfBlocksById(blockIds, database, document, null, transaction).ToList();
+        }
+
+        /// <summary>
+        /// Maakt CogoPoints aan op basis van block data
+        /// </summary>
+        private static Dictionary<ObjectId, ObjectId> CreateCogoPointsFromBlocks(List<IapBlock> blocks)
+        {
+            if (!blocks.Any())
+                return new Dictionary<ObjectId, ObjectId>();
+                
+            var locations = new Point3dCollection(blocks.Select(b => b.InsertionPoint3D).ToArray());
+            var blockIds = blocks.Select(c => c.Id).ToList();
+            
+            return AddCogoPoints(locations, blockIds, "CogoPoint");
+        }
+
+        /// <summary>
+        /// Initialiseert style configuratie voor de conversie
+        /// </summary>
+        private static StyleConfiguration InitializeStyleConfiguration(CivilDocument civilDocument, string defaultLabelStyleName)
+        {
+            var styleMappings = PointStyleMappingManager.LoadStyleMappingsFromSettings();
+            PointStyleMappingManager.ValidateStyleMappings(styleMappings, civilDocument.Styles.PointStyles);
+            
+            var fallbackStyleId = GetPointStyleIdWithFallback(
+                civilDocument.Styles.PointStyles, 
+                Settings.Default.FromBlockToCogo_DefaultPointStyleName, 
+                Settings.Default.FromBlockToCogo_FallbackPointStyleName);
+                
+            var labelStyleId = GetLabelStyleIdByName(
+                civilDocument.Styles.LabelStyles.PointLabelStyles.LabelStyles, 
+                defaultLabelStyleName);
+            
+            return new StyleConfiguration
+            {
+                StyleMappings = styleMappings,
+                FallbackStyleId = fallbackStyleId,
+                LabelStyleId = labelStyleId,
+                PointStyles = civilDocument.Styles.PointStyles
+            };
+        }
+
+        /// <summary>
+        /// Converteert een enkel block naar een CogoPoint
+        /// </summary>
+        private static ConversionDetails ConvertSingleBlockToCogoPoint(
+            IapBlock block, 
+            Dictionary<ObjectId, ObjectId> cogoPointMapping,
+            StyleConfiguration styleConfig,
+            CogoPointNamingSettings namingSettings,
+            HashSet<string> existingNames,
+            Transaction transaction)
+        {
+            var blockRef = (BlockReference)transaction.GetObject(block.Id, OpenMode.ForRead, false, true);
+            if (blockRef == null) 
+                return null;
+
+            var classification = CreateClassificationFromBlock(block, blockRef);
+            var cgPoint = (CogoPoint)transaction.GetObject(cogoPointMapping[block.Id], OpenMode.ForWrite);
+
+            var details = CreateInitialConversionDetails(block, blockRef, classification);
+
+            var (finalStyleId, appliedDescription) = SetCogoPointPropertiesWithReporting(
+                cgPoint, blockRef, classification, namingSettings, 
+                styleConfig.StyleMappings, styleConfig.PointStyles, 
+                styleConfig.FallbackStyleId, styleConfig.LabelStyleId, existingNames);
+
+            CompleteConversionDetails(details, finalStyleId, appliedDescription, cgPoint);
+            
+            return details;
+        }
+
+        /// <summary>
+        /// Verwerkt alle block conversies
+        /// </summary>
+        private static ConversionReport ProcessBlockConversions(
+            List<IapBlock> blockProperties,
+            Dictionary<ObjectId, ObjectId> cogoPointMapping,
+            StyleConfiguration styleConfig,
+            CogoPointNamingSettings namingSettings,
+            CivilDocument civDoc,
+            Database database)
+        {
+            var conversionReport = new ConversionReport();
+
+            using (var tr = database.TransactionManager.StartOpenCloseTransaction())
+            {
+                var existingNames = GetAllCogoPointNames(civDoc, tr);
+                
+                foreach (var block in blockProperties)
+                {
+                    var conversionDetails = ConvertSingleBlockToCogoPoint(
+                        block, cogoPointMapping, styleConfig, namingSettings, existingNames, tr);
+                        
+                    if (conversionDetails != null)
+                        conversionReport.Details.Add(conversionDetails);
+                }
+                tr.Commit();
+            }
+            
+            return conversionReport;
+        }
+
+        #endregion
+
+        #region Helper Functions
+
+        /// <summary>
+        /// Maakt een classificatie object aan op basis van block data
+        /// </summary>
+        private static ClassificationObject CreateClassificationFromBlock(IapBlock block, BlockReference blockRef)
+        {
+            return new ClassificationObject(
+                block.Id, 
+                blockRef.Name, 
+                blockRef.Layer, 
+                block.Attributes.Select(a => a.Tag).ToList());
+        }
+
+        /// <summary>
+        /// Maakt initiële conversie details aan
+        /// </summary>
+        private static ConversionDetails CreateInitialConversionDetails(IapBlock block, BlockReference blockRef, ClassificationObject classification)
+        {
+            return new ConversionDetails
+            {
+                BlockName = blockRef.Name,
+                BlockLayer = blockRef.Layer,
+                Classification = classification.Classification,
+                OriginalPosition = block.InsertionPoint3D
+            };
+        }
+
+        /// <summary>
+        /// Voltooit de conversie details met resultaten
+        /// </summary>
+        private static void CompleteConversionDetails(ConversionDetails details, ObjectId finalStyleId, string appliedDescription, CogoPoint cgPoint)
+        {
+            details.AppliedStyleId = finalStyleId;
+            details.AppliedDescription = appliedDescription;
+            details.FinalPointName = cgPoint.PointName;
+            details.FinalPosition = cgPoint.Location;
+        }
+
+        #endregion
+
         private static (ObjectId styleId, string description) SetCogoPointPropertiesWithReporting(
             CogoPoint cgPoint,
             BlockReference blockRef,
@@ -73,65 +258,33 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             var db = doc.Database;
             var civDoc = CivilApplication.ActiveDocument;
 
-            // Load Naming Settings once
+            // Stap 1: Selecteer blocks van gebruiker
+            var selectedBlockIds = SelectBlocksFromUser(doc.Editor);
+            if (!selectedBlockIds.Any()) return;
+
+            // Stap 2: Extraheer block eigenschappen
+            List<IapBlock> blockProperties;
+            using (var tr = db.TransactionManager.StartOpenCloseTransaction())
+            {
+                blockProperties = ExtractBlockProperties(selectedBlockIds, db, doc, tr);
+                tr.Commit();
+            }
+            
+            if (!blockProperties.Any()) return;
+
+            // Stap 3: Maak CogoPoints aan
+            var cogoPointMapping = CreateCogoPointsFromBlocks(blockProperties);
+
+            // Stap 4: Configureer styles en naming
+            var styleConfig = InitializeStyleConfiguration(civDoc, defaultLabelStyleName);
             var namingSettings = CogoPointNamingEngine.LoadSettings();
+            
+            // Stap 5: Converteer elk block naar CogoPoint
+            var conversionReport = ProcessBlockConversions(
+                blockProperties, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
 
-            List<IapBlock> iAPBlocksReadyToConvert;
-            using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
-            {
-                PromptSelectionOptions pso = new PromptSelectionOptions { MessageForAdding = "\nSelect blocks: " };
-                SelectionFilter filter = new SelectionFilter(new[] { new TypedValue((int)DxfCode.Start, "INSERT") });
-                PromptSelectionResult psr = doc.Editor.GetSelection(pso, filter);
-
-                if (psr.Status != PromptStatus.OK) return;
-                var selectedBlockIds = psr.Value.GetObjectIds().ToList();
-                if (!selectedBlockIds.Any()) return;
-
-                iAPBlocksReadyToConvert = BlockScanner.GetPropertiesOfBlocksById(selectedBlockIds, db, doc, null, tr).ToList();
-                tr.Commit();
-            }
-
-            var newCogoPoints = AddCogoPoints(new Point3dCollection(iAPBlocksReadyToConvert.Select(b => b.InsertionPoint3D).ToArray()), iAPBlocksReadyToConvert.Select(c => c.Id).ToList(), "CogoPoint");
-
-            using (Transaction tr = db.TransactionManager.StartOpenCloseTransaction())
-            {
-                var styleMappings = PointStyleMappingManager.LoadStyleMappingsFromSettings();
-                PointStyleMappingManager.ValidateStyleMappings(styleMappings, civDoc.Styles.PointStyles); // Warnings are handled inside
-
-                var fallbackStyleId = GetPointStyleIdWithFallback(civDoc.Styles.PointStyles, Settings.Default.FromBlockToCogo_DefaultPointStyleName, Settings.Default.FromBlockToCogo_FallbackPointStyleName);
-                var labelStyleId = GetLabelStyleIdByName(civDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles, defaultLabelStyleName);
-                var existingNames = GetAllCogoPointNames(civDoc, tr);
-                var conversionReport = new ConversionReport();
-
-                foreach (var block in iAPBlocksReadyToConvert)
-                {
-                    var blockRef = (BlockReference)tr.GetObject(block.Id, OpenMode.ForRead, false, true);
-                    if (blockRef == null) continue;
-
-                    var classification = new ClassificationObject(block.Id, blockRef.Name, blockRef.Layer, block.Attributes.Select(a => a.Tag).ToList());
-                    var cgPoint = (CogoPoint)tr.GetObject(newCogoPoints[block.Id], OpenMode.ForWrite);
-
-                    var details = new ConversionDetails
-                    {
-                        BlockName = blockRef.Name,
-                        BlockLayer = blockRef.Layer,
-                        Classification = classification.Classification,
-                        OriginalPosition = block.InsertionPoint3D
-                    };
-
-                    var (finalStyleId, appliedDescription) = SetCogoPointPropertiesWithReporting(cgPoint, blockRef, classification,
-                        namingSettings, styleMappings, civDoc.Styles.PointStyles, fallbackStyleId, labelStyleId, existingNames);
-
-                    details.AppliedStyleId = finalStyleId;
-                    details.AppliedDescription = appliedDescription;
-                    details.FinalPointName = cgPoint.PointName;
-                    details.FinalPosition = cgPoint.Location;
-                    conversionReport.Details.Add(details);
-                }
-
-                tr.Commit();
-                // DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
-            }
+            // Stap 6: Toon resultaten (optioneel)
+            // DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
         }
 
         #region Utility and Helper Methods (Unchanged)

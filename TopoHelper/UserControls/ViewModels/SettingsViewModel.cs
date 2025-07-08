@@ -616,6 +616,39 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         {
             await LoadBlocksAsync();
         }
+
+        private void ProcessSelectedCogoPoints(object parameter)
+        {
+            var selectedPoints = CogoPoints.Where(p => p.IsSelected).ToList();
+            if (selectedPoints.Count > 0)
+            {
+                StatusMessage = $"{selectedPoints.Count} COGO punten geselecteerd voor verwerking.";
+                // Hier kun je de geselecteerde punten verwerken
+                // Bijvoorbeeld:
+                // - Exporteren naar CSV
+                // - Eigenschappen wijzigen
+                // - Verwijderen
+                // - etc.
+            }
+            else
+            {
+                StatusMessage = "Geen COGO punten geselecteerd.";
+            }
+        }
+
+        private void ProcessSelectedBlocks(object parameter)
+        {
+            var selectedBlocks = Blocks.Where(b => b.IsSelected).ToList();
+            if (selectedBlocks.Count > 0)
+            {
+                StatusMessage = $"{selectedBlocks.Count} blokken geselecteerd voor verwerking.";
+                // Hier kun je de geselecteerde blokken verwerken
+            }
+            else
+            {
+                StatusMessage = "Geen blokken geselecteerd.";
+            }
+        }
         #endregion
 
         #region Helper Methods

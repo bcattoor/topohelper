@@ -131,7 +131,8 @@
                               AutoGenerateColumns="False" 
                               CanUserAddRows="False" 
                               CanUserDeleteRows="False"
-                              x:Name="CogoPointsDataGrid">
+                              x:Name="CogoPointsDataGrid"
+                              KeyDown="DataGrid_KeyDown">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" 
                                                    Header="Selecteer" />
@@ -162,7 +163,8 @@
                               AutoGenerateColumns="False" 
                               CanUserAddRows="False" 
                               CanUserDeleteRows="False"
-                              x:Name="BlocksDataGrid">
+                              x:Name="BlocksDataGrid"
+                              KeyDown="DataGrid_KeyDown">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" 
                                                    Header="Selecteer" />

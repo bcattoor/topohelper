@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using System.Xml.Serialization;
 using Autodesk.Civil.DatabaseServices;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
@@ -63,6 +64,29 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
                 if (sender is TextBox textBox)
                 {
                     vm.SearchString = textBox.Text;
+                }
+            }
+        }
+
+        private void DataGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                var dataGrid = sender as DataGrid;
+                if (dataGrid != null && dataGrid.SelectedItems.Count > 0)
+                {
+                    foreach (var item in dataGrid.SelectedItems)
+                    {
+                        if (item is CogoPointDisplay cogoPoint)
+                        {
+                            cogoPoint.IsSelected = true;
+                        }
+                        else if (item is BlockDisplay blockDisplay)
+                        {
+                            blockDisplay.IsSelected = true;
+                        }
+                    }
+                    e.Handled = true;
                 }
             }
         }

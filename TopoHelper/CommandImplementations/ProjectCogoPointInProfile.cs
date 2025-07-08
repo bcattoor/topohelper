@@ -51,7 +51,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 };
 
                 // Stap 4: Projecteer de punten
-                using (var transaction = database.TransactionManager.StartTransaction())
+                using (var transaction = database.TransactionManager.StartOpenCloseTransaction())
                 {
                     var profileView = transaction.GetObject(profileViewId, OpenMode.ForRead) as ProfileView;
                     if (profileView == null)
@@ -71,7 +71,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
                     // Haal de beschikbare projectie stijlen op
                     var projectionStyleId = GetDefaultProjectionStyleId(civilDocument);
-                    var labelStyleId = GetDefaultLabelStyleId(civilDocument);
+                    var labelStyleId = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles.DefaultLabelStyle;
 
                     // Projecteer elk punt
                     int successCount = 0;
@@ -84,20 +84,22 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
                             // Controleer of het punt binnen het bereik van de ProfileView valt
                             var point3d = new Point3d(cogoPoint.Easting, cogoPoint.Northing, cogoPoint.Elevation);
-                            
+
                             // Gebruik StationOffset in plaats van StationAtPoint
                             double station = 0, offset = 0;
-                            alignment.StationOffset(point3d, ref station, ref offset);
-                            
+                            alignment.StationOffset(cogoPoint.Easting, cogoPoint.Northing, ref station, ref offset);
+
                             if (station < profileView.StationStart || station > profileView.StationEnd)
                             {
                                 editor.WriteMessage($"\r\nPunt {cogoPoint.PointNumber} valt buiten het bereik van de ProfileView.");
                                 continue;
                             }
 
+                            var acadProfileView = (ProfileView)transaction.GetObject(profileViewId, OpenMode.ForRead);
+
                             // Maak de projectie aan met de statische Create methode
-                            ObjectId projectionId = ProfileProjection.Create(profileViewId, cogoPointId);
-                            
+                            var projectionId = (Autodesk.AutoCAD.Runtime.RXObject.Create(acadProfileView.ObjectId.OldIdPtr, false) as Autodesk.AutoCAD.DatabaseServices.DBObject).ObjectId; 
+
                             if (projectionId != ObjectId.Null)
                             {
                                 var projection = transaction.GetObject(projectionId, OpenMode.ForWrite) as ProfileProjection;
@@ -106,10 +108,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                                     // Stel stijlen in indien beschikbaar
                                     if (projectionStyleId != ObjectId.Null)
                                         projection.StyleId = projectionStyleId;
+
                                     
+
                                     // Gebruik de juiste property voor elevation source
-                                    projection.ProjectionElevationSource = (short)config.ElevationSource;
-                                    
+                                    // projection. = (short)config.ElevationSource;
+
                                     successCount++;
                                 }
                             }
@@ -166,7 +170,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 objectIdCollection.Add(objectId);
             }
-            
+
             return objectIdCollection;
         }
 
@@ -186,30 +190,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 }
             }
             catch { /* Negeer fouten en gebruik de standaard stijl */ }
-            
-            return ObjectId.Null; // Gebruik de standaard stijl
-        }
 
-        /// <summary>
-        /// Haalt de standaard label stijl op
-        /// </summary>
-        private static ObjectId GetDefaultLabelStyleId(CivilDocument civilDocument)
-        {
-            try
-            {
-                // Probeer een standaard label stijl te vinden
-                var labelStyles = civilDocument.Styles.LabelStyles.ProfileViewLabelStyles;
-                if (labelStyles != null)
-                {
-                    // Gebruik een beschikbare stijl indien mogelijk
-                    foreach (ObjectId styleId in labelStyles)
-                    {
-                        return styleId; // Retourneer de eerste die we vinden
-                    }
-                }
-            }
-            catch { /* Negeer fouten en gebruik de standaard stijl */ }
-            
             return ObjectId.Null; // Gebruik de standaard stijl
         }
     }

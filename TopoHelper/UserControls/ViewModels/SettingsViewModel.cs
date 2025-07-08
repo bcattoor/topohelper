@@ -259,9 +259,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownBlockNames == null)
                 {
                     _knownBlockNames = new ObservableCollection<string>();
-                    var stringCollection = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties;
-                    if (stringCollection != null)
+                    var stringCollectionXml = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties;
+                    if (!string.IsNullOrEmpty(stringCollectionXml))
                     {
+                        var stringCollection = DeserializeStringCollection(stringCollectionXml);
                         foreach (string item in stringCollection)
                         {
                             _knownBlockNames.Add(item);
@@ -281,9 +282,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownLayers == null)
                 {
                     _knownLayers = new ObservableCollection<string>();
-                    var stringCollection = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties;
-                    if (stringCollection != null)
+                    var stringCollectionXml = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties;
+                    if (!string.IsNullOrEmpty(stringCollectionXml))
                     {
+                        var stringCollection = DeserializeStringCollection(stringCollectionXml);
                         foreach (string item in stringCollection)
                         {
                             _knownLayers.Add(item);
@@ -303,9 +305,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 if (_knownAttributes == null)
                 {
                     _knownAttributes = new ObservableCollection<string>();
-                    var stringCollection = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties;
-                    if (stringCollection != null)
+                    var stringCollectionXml = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties;
+                    if (!string.IsNullOrEmpty(stringCollectionXml))
                     {
+                        var stringCollection = DeserializeStringCollection(stringCollectionXml);
                         foreach (string item in stringCollection)
                         {
                             _knownAttributes.Add(item);
@@ -458,37 +461,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         private void SaveClassificationSettings()
         {
             // Opslaan van KnownBlockNames
-            var blockNamesCollection = Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties;
-            if (blockNamesCollection != null)
-            {
-                blockNamesCollection.Clear();
-                foreach (var item in KnownBlockNames)
-                {
-                    blockNamesCollection.Add(item);
-                }
-            }
+            Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties = SerializeStringCollection(KnownBlockNames);
 
             // Opslaan van KnownLayers
-            var layersCollection = Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties;
-            if (layersCollection != null)
-            {
-                layersCollection.Clear();
-                foreach (var item in KnownLayers)
-                {
-                    layersCollection.Add(item);
-                }
-            }
+            Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties = SerializeStringCollection(KnownLayers);
 
             // Opslaan van KnownAttributes
-            var attributesCollection = Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties;
-            if (attributesCollection != null)
-            {
-                attributesCollection.Clear();
-                foreach (var item in KnownAttributes)
-                {
-                    attributesCollection.Add(item);
-                }
-            }
+            Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties = SerializeStringCollection(KnownAttributes);
         }
 
         public void ReloadSettings(object parameter)
@@ -844,6 +823,51 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 StatusMessage = "Geen blokken geselecteerd.";
             }
         }
+        #endregion
+
+        #region Helper Methods for String Collection Serialization
+
+        private List<string> DeserializeStringCollection(string xmlString)
+        {
+            if (string.IsNullOrEmpty(xmlString))
+                return new List<string>();
+
+            try
+            {
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(string[]));
+                using (var reader = new System.IO.StringReader(xmlString))
+                {
+                    var array = (string[])serializer.Deserialize(reader);
+                    return array?.ToList() ?? new List<string>();
+                }
+            }
+            catch
+            {
+                return new List<string>();
+            }
+        }
+
+        private string SerializeStringCollection(IEnumerable<string> collection)
+        {
+            if (collection == null)
+                return string.Empty;
+
+            try
+            {
+                var array = collection.ToArray();
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(string[]));
+                using (var writer = new System.IO.StringWriter())
+                {
+                    serializer.Serialize(writer, array);
+                    return writer.ToString();
+                }
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region Helper Methods

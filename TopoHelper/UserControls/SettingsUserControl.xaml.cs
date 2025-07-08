@@ -79,11 +79,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
                     {
                         if (item is CogoPointDisplay cogoPoint)
                         {
-                            cogoPoint.IsSelected = true;
+                            cogoPoint.IsSelected = !cogoPoint.IsSelected;
                         }
                         else if (item is BlockDisplay blockDisplay)
                         {
-                            blockDisplay.IsSelected = true;
+                            blockDisplay.IsSelected = !blockDisplay.IsSelected;
                         }
                     }
                     e.Handled = true;
@@ -94,18 +94,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
                 var dataGrid = sender as DataGrid;
                 if (dataGrid != null)
                 {
-                    if (dataGrid.Name == "CogoPointsDataGrid" && this.DataContext is ViewModels.SettingsViewModel vm)
+                    if (this.DataContext is ViewModels.SettingsViewModel viewModel)
                     {
-                        foreach (var item in vm.CogoPoints)
+                        if (dataGrid.Name == "CogoPointsDataGrid")
                         {
-                            item.IsSelected = false;
+                            foreach (var item in viewModel.CogoPoints)
+                            {
+                                item.IsSelected = false;
+                            }
                         }
-                    }
-                    else if (dataGrid.Name == "BlocksDataGrid" && this.DataContext is ViewModels.SettingsViewModel vm)
-                    {
-                        foreach (var item in vm.Blocks)
+                        else if (dataGrid.Name == "BlocksDataGrid")
                         {
-                            item.IsSelected = false;
+                            foreach (var item in viewModel.Blocks)
+                            {
+                                item.IsSelected = false;
+                            }
                         }
                     }
                     e.Handled = true;

@@ -145,7 +145,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         {
             try
             {
-                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName, SettingsDefault.FromBlockToCogo_DefaultLayerName);
+                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName);
             }
             catch (System.Exception exception)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -31,8 +32,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             PointStyleCollection pointStyles,
             ObjectId fallbackStyleId,
             ObjectId labelStyleId,
-            HashSet<string> existingNames,
-            string defaultLayerName)
+            HashSet<string> existingNames)
         {
             // First, determine the style and description from mappings.
             var (styleId, description) = PointStyleMappingManager.GetStyleForClassification(classification, styleMappings, pointStyles, fallbackStyleId);
@@ -56,17 +56,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             existingNames.Add(newName);
 
             // Set Layer
-            string layerName = !string.IsNullOrEmpty(defaultLayerName) ? defaultLayerName :
-                             (!string.IsNullOrEmpty(blockRef.Layer) ? blockRef.Layer :
-                             GetCurrentLayerName());
-            try
-            {
-                cgPoint.Layer = layerName;
-            }
-            catch
-            {
-                cgPoint.Layer = GetCurrentLayerName(); // Safe fallback
-            }
+            cgPoint.Layer = AutoCADCommon.Interactions.Layers.GetValidLayerNameOrCurrent(blockRef.Layer);
 
             // Set Styles
             if (styleId != ObjectId.Null)
@@ -77,7 +67,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return (styleId, description);
         }
 
-        public static void ExecuteCommand(string defaultLabelStyleName, string defaultLayerName)
+        public static void ExecuteCommand(string defaultLabelStyleName)
         {
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
@@ -108,8 +98,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 var styleMappings = PointStyleMappingManager.LoadStyleMappingsFromSettings();
                 PointStyleMappingManager.ValidateStyleMappings(styleMappings, civDoc.Styles.PointStyles); // Warnings are handled inside
 
-                var fallbackStyleId = GetPointStyleWithFallback(civDoc.Styles.PointStyles, Settings.Default.FromBlockToCogo_DefaultPointStyleName, Settings.Default.FromBlockToCogo_FallbackPointStyleName, tr);
-                var labelStyleId = GetLabelStyleIdByName(civDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles, defaultLabelStyleName, tr);
+                var fallbackStyleId = GetPointStyleIdWithFallback(civDoc.Styles.PointStyles, Settings.Default.FromBlockToCogo_DefaultPointStyleName, Settings.Default.FromBlockToCogo_FallbackPointStyleName);
+                var labelStyleId = GetLabelStyleIdByName(civDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles, defaultLabelStyleName);
                 var existingNames = GetAllCogoPointNames(civDoc, tr);
                 var conversionReport = new ConversionReport();
 
@@ -128,9 +118,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                         Classification = classification.Classification,
                         OriginalPosition = block.InsertionPoint3D
                     };
-                    
+
                     var (finalStyleId, appliedDescription) = SetCogoPointPropertiesWithReporting(cgPoint, blockRef, classification,
-                        namingSettings, styleMappings, civDoc.Styles.PointStyles, fallbackStyleId, labelStyleId, existingNames, defaultLayerName);
+                        namingSettings, styleMappings, civDoc.Styles.PointStyles, fallbackStyleId, labelStyleId, existingNames);
 
                     details.AppliedStyleId = finalStyleId;
                     details.AppliedDescription = appliedDescription;
@@ -140,12 +130,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 }
 
                 tr.Commit();
-                DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
+                // DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
             }
         }
-        
+
         #region Utility and Helper Methods (Unchanged)
-        
+
         private static void DisplayConversionReport(Editor editor, ConversionReport report, PointStyleCollection pointStyles, Transaction tr)
         {
             editor.WriteMessage("\n" + new string('=', 60));
@@ -155,11 +145,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             editor.WriteMessage($"\nTotal points converted: {report.TotalConverted}");
 
             editor.WriteMessage("\n\nConversions by Classification:");
-            foreach (var kvp in report.ConversionsByClassification.OrderBy(k=>k.Key))
+            foreach (var kvp in report.ConversionsByClassification.OrderBy(k => k.Key))
             {
                 editor.WriteMessage($"\n  {kvp.Key}: {kvp.Value} points");
             }
-            
+
             if (report.Details.Any())
             {
                 editor.WriteMessage("\n\nDetailed Conversion Results:");
@@ -172,7 +162,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     editor.WriteMessage($"\n{detail.FinalPointName,-10} | {detail.BlockName,-10} | {detail.BlockLayer,-10} | {detail.Classification,-15} | {styleName,-10} | {detail.AppliedDescription}");
                 }
             }
-            
+
             var styleUsage = report.Details.GroupBy(d => d.AppliedStyleId).ToDictionary(g => g.Key, g => g.Count());
             if (styleUsage.Any())
             {
@@ -190,15 +180,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
         private static string GetStyleNameById(PointStyleCollection pointStyles, ObjectId styleId, Transaction tr)
         {
-            if (styleId == ObjectId.Null) return "None";
-            try
+            if (styleId == ObjectId.Null) return "No style set.";
+
+            if (pointStyles.Contains(styleId))
             {
-                var style = (PointStyle)tr.GetObject(styleId, OpenMode.ForRead);
-                return style.Name;
+                var style = tr.GetObject(styleId, OpenMode.ForRead) as PointStyle;
+                if (style != null)
+                    return style.Name;
+
             }
-            catch { return "Unknown"; }
+            return "No style set.";
         }
-        
+
         public static Dictionary<ObjectId, ObjectId> AddCogoPoints(Point3dCollection locations, List<ObjectId> originalBlockIds, string description = "")
         {
             if (locations == null || !locations.Cast<Point3d>().Any()) throw new ArgumentNullException(nameof(locations));
@@ -207,7 +200,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             var returnDictionary = new Dictionary<ObjectId, ObjectId>();
             var doc = Application.DocumentManager.MdiActiveDocument;
-            using (var tr = doc.Database.TransactionManager.StartTransaction())
+            using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 var civilDoc = CivilApplication.ActiveDocument;
                 ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
@@ -220,7 +213,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return returnDictionary;
         }
 
-        private static ObjectId GetPointStyleWithFallback(PointStyleCollection pointStyles, string primaryStyleName, string fallbackStyleName, Transaction tr)
+        private static ObjectId GetPointStyleIdWithFallback(PointStyleCollection pointStyles, string primaryStyleName, string fallbackStyleName)
         {
             try { if (!string.IsNullOrEmpty(primaryStyleName) && pointStyles.Contains(primaryStyleName)) return pointStyles[primaryStyleName]; } catch { }
             try { if (!string.IsNullOrEmpty(fallbackStyleName) && pointStyles.Contains(fallbackStyleName)) return pointStyles[fallbackStyleName]; } catch { }
@@ -228,7 +221,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return ObjectId.Null;
         }
 
-        private static ObjectId GetLabelStyleIdByName(LabelStyleCollection labelStyles, string styleName, Transaction tr)
+        private static ObjectId GetLabelStyleIdByName(LabelStyleCollection labelStyles, string styleName)
         {
             if (!string.IsNullOrEmpty(styleName) && labelStyles.Contains(styleName))
                 return labelStyles[styleName];
@@ -246,24 +239,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return LastDigit.NotANumber;
         }
 
-        private static string GetCurrentLayerName()
-        {
-            try
-            {
-                var db = Application.DocumentManager.MdiActiveDocument.Database;
-                using (var tr = db.TransactionManager.StartTransaction())
-                {
-                    var layerRecord = (LayerTableRecord)tr.GetObject(db.Clayer, OpenMode.ForRead);
-                    var name = layerRecord.Name;
-                    tr.Commit();
-                    return name;
-                }
-            }
-            catch { return "0"; }
-        }
 
         private static HashSet<string> GetAllCogoPointNames(CivilDocument civDoc, Transaction tr)
         {
+            if (tr == null)
+                throw new ArgumentNullException(nameof(tr));
+
             var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (ObjectId cogoId in civDoc.CogoPoints)
             {
@@ -275,7 +256,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         }
 
         #endregion
-        
+
         #region Nested Classes (Unchanged)
         private enum LastDigit { NotANumber, Even, Odd }
         public enum Classifications { Unknown, KnownByLayer, KnownByAttibuteName, KnownByRealBlockName }
@@ -384,7 +365,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 var doc = Application.DocumentManager.MdiActiveDocument;
                 if (doc == null) return;
-                
+
                 foreach (var mapping in styleMappings.SelectMany(kvp => kvp.Value))
                 {
                     if (string.IsNullOrEmpty(mapping.PointStyleName) || !pointStyles.Contains(mapping.PointStyleName))

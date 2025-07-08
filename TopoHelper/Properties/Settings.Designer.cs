@@ -548,7 +548,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
@@ -557,98 +557,81 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Properties {
   <string>number</string>
   <string>name</string>
   <string>id</string>
+  <string>puntnummer</string>
 </ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties {
+        public string FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties"]));
+                return ((string)(this["FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties"]));
+            }
+            set {
+                this["FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties"] = value;
             }
         }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Standard")]
-        public string FromBlockToCogo_DefaultPointStyleName
-        {
-            get
-            {
-                return ((string)(this["FromBlockToCogo_DefaultPointStyleName"]));
-            }
-            set
-            {
-                this["FromBlockToCogo_DefaultPointStyleName"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Basic Point")]
-        public string FromBlockToCogo_FallbackPointStyleName
-        {
-            get
-            {
-                return ((string)(this["FromBlockToCogo_FallbackPointStyleName"]));
-            }
-            set
-            {
-                this["FromBlockToCogo_FallbackPointStyleName"] = value;
-            }
-        }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<PointStyleMappings>
-  <Mapping>
-    <Classification>KnownByRealBlockName</Classification>
-    <Identifier>KP</Identifier>
-    <PointStyleName>Standard</PointStyleName>
-    <Description>CATA</Description>
-    <Priority>1</Priority>
-  </Mapping>
-  <Mapping>
-    <Classification>KnownByRealBlockName</Classification>
-    <Identifier>HP</Identifier>
-    <PointStyleName>Standard</PointStyleName>
-    <Description>CATB</Description>
-    <Priority>2</Priority>
-  </Mapping>
-  <Mapping>
-    <Classification>KnownByRealBlockName</Classification>
-    <Identifier>CAT</Identifier>
-    <PointStyleName>Standard</PointStyleName>
-    <Description>822</Description>
-    <Priority>3</Priority>
-  </Mapping>
-  <Mapping>
-    <Classification>KnownByLayer</Classification>
-    <Identifier>410_pile_axis</Identifier>
-    <PointStyleName>Basic Point</PointStyleName>
-    <Description>PILE</Description>
-    <Priority>10</Priority>
-  </Mapping>
-  <Mapping>
-    <Classification>KnownByLayer</Classification>
-    <Identifier>173_pond_edge</Identifier>
-    <PointStyleName>Basic Point</PointStyleName>
-    <Description>POND</Description>
-    <Priority>11</Priority>
-  </Mapping>
-  <Mapping>
-    <Classification>Unknown</Classification>
-    <Identifier>*</Identifier>
-    <PointStyleName>Standard</PointStyleName>
-    <Description>822</Description>
-    <Priority>99</Priority>
-  </Mapping>
-</PointStyleMappings>")]
-        public string FromBlockToCogo_StyleMappingConfiguration
-        {
-            get
-            {
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>0</string>
+  <string>410_pile_axis</string>
+  <string>173_pond_edge</string>
+</ArrayOfString>")]
+        public string FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties {
+            get {
+                return ((string)(this["FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties"]));
+            }
+            set {
+                this["FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>KP</string>\r\n  <string>HP</string>\r\n  <string>CAT</string>\r\n</ArrayOfStrin" +
+            "g>")]
+        public string FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties {
+            get {
+                return ((string)(this["FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties"]));
+            }
+            set {
+                this["FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pointstyle")]
+        public string FromBlockToCogo_DefaultPointStyleName {
+            get {
+                return ((string)(this["FromBlockToCogo_DefaultPointStyleName"]));
+            }
+            set {
+                this["FromBlockToCogo_DefaultPointStyleName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<default>")]
+        public string FromBlockToCogo_FallbackPointStyleName {
+            get {
+                return ((string)(this["FromBlockToCogo_FallbackPointStyleName"]));
+            }
+            set {
+                this["FromBlockToCogo_FallbackPointStyleName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FromBlockToCogo_StyleMappingConfiguration {
+            get {
                 return ((string)(this["FromBlockToCogo_StyleMappingConfiguration"]));
             }
-            set
-            {
+            set {
                 this["FromBlockToCogo_StyleMappingConfiguration"] = value;
             }
         }

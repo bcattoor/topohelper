@@ -134,7 +134,7 @@
     <Setting Name="FromBlockToCogo_DefaultLayerName" Type="System.String" Scope="User">
       <Value Profile="(Default)">C3D_COGO</Value>
     </Setting>
-    <Setting Name="FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;string&gt;nr&lt;/string&gt;
@@ -142,7 +142,36 @@
   &lt;string&gt;number&lt;/string&gt;
   &lt;string&gt;name&lt;/string&gt;
   &lt;string&gt;id&lt;/string&gt;
+  &lt;string&gt;puntnummer&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;0&lt;/string&gt;
+  &lt;string&gt;410_pile_axis&lt;/string&gt;
+  &lt;string&gt;173_pond_edge&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;KP&lt;/string&gt;
+  &lt;string&gt;HP&lt;/string&gt;
+  &lt;string&gt;CAT&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_DefaultPointStyleName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pointstyle</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_FallbackPointStyleName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;default&gt;</Value>
+    </Setting>
+    <Setting Name="FromBlockToCogo_StyleMappingConfiguration" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CogoPointNamingConfiguration" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

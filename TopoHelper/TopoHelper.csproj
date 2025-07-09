@@ -201,6 +201,7 @@
     <Compile Include="CommandImplementations\ProjectCogoPointInProfile.cs" />
     <Compile Include="Csv\Converters\Point3dConverter.cs" />
     <Compile Include="Model\Naming\Naming.cs" />
+    <Compile Include="Model\Naming\PrefixPattern.cs" />
     <Compile Include="UserControls\ViewModels\BlockDisplay.cs" />
     <Compile Include="Model\IAPCogoPoint.cs" />
     <Compile Include="UserControls\ViewModels\CogoPointViewModel.cs" />

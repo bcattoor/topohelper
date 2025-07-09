@@ -23,26 +23,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Naming
         public string DefaultPattern { get; set; }
     }
 
-    [Serializable]
-    public class PrefixPattern : INotifyPropertyChanged
-    {
-        private string _prefix;
-        private string _pattern;
-
-        public string Prefix
-        {
-            get => _prefix;
-            set { _prefix = value; OnPropertyChanged(); }
-        }
-        public string Pattern
-        {
-            get => _pattern;
-            set { _pattern = value; OnPropertyChanged(); }
-        }
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
+   
 
     [Serializable]
     public class DescriptionMapping : INotifyPropertyChanged

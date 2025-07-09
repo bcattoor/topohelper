@@ -21,6 +21,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Threading;
 using Infrabel.AutodeskPlatform.TopoHelper.ViewModel;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
 
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
@@ -43,7 +44,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         private RelayCommand _addPrefixPattern, _addDescriptionMapping;
         private CollectionViewSource _dataGridView;
         private string _searchString;
-        private CogoPointNamingSettings _namingSettings;
+        private CogoPointNamingSettingsViewModel _namingSettings;
         private bool _isCogoNamingValid = true;
         private string _cogoNamingValidationError = "";
         private bool _isLoading;
@@ -218,7 +219,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             set { _searchString = value; FilterView(value); RaisePropertyChanged(nameof(SearchString)); RaisePropertyChanged(nameof(ClearSearchIsVisible)); }
         }
 
-        public CogoPointNamingSettings NamingSettings
+        public CogoPointNamingSettingsViewModel NamingSettings
         {
             get => _namingSettings;
             set { _namingSettings = value; RaisePropertyChanged(nameof(NamingSettings)); ValidateCogoNaming(); }

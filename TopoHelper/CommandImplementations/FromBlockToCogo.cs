@@ -59,7 +59,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         private static List<IapBlock> ExtractBlockProperties(List<ObjectId> blockIds, Database database, Document document, Transaction transaction)
         {
             if (!blockIds.Any())
-                return new List<IapBlock>();
+                throw new System.Exception(nameof(blockIds) + " has no items in it.");
                 
             return BlockScanner.GetPropertiesOfBlocksById(blockIds, database, document, null, transaction).ToList();
         }

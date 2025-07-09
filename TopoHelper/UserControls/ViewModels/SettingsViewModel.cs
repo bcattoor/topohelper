@@ -634,6 +634,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Error loading COGO point {cogoPoint.PointNumber}: {ex.Message}");
+                                        throw ex;
                                     }
                                 }
                             }
@@ -893,7 +894,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error getting style name for ID {styleId}: {ex.Message}");
-                return "Error";
+                throw ex;
             }
         }
 
@@ -902,7 +903,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             if (tr == null)
             {
                 Debug.WriteLine("Transaction is null in GetLayerName");
-                return "Unknown";
+                throw new Exception("Transaction is null in GetLayerName");
             }
 
             if (!layerId.IsValid)
@@ -918,7 +919,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error getting layer name for ID {layerId}: {ex.Message}");
-                return "Error";
+                throw ex;  
             }
         }
 

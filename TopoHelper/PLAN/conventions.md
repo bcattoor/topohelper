@@ -1,0 +1,2 @@
+- When using try catch in c#, u should always log the error, and then rethrow te exception. Unless you're in a top level Class, ea the Commands.cs Class.
+- Always try to use API functions from th AutoCAD / CIV3D official API's intead of reinventing the wheel.

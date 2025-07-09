@@ -491,10 +491,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     
                     return Classifications.Unknown;
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Debug.WriteLine($"Fout bij classificeren van object: {ex.Message}");
-                    return Classifications.Unknown;
+                    throw ex;
                 }
             }
 
@@ -516,10 +516,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                         return array.Select(item => item?.ToString() ?? string.Empty).ToList();
                     }
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Debug.WriteLine($"Fout bij deserialiseren van string collection: {ex.Message}");
-                    return new List<string>();
+                    throw ex;
                 }
             }
         }

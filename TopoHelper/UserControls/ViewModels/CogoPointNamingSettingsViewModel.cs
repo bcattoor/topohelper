@@ -10,7 +10,7 @@ using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {
-    public class CogoPointNamingSettings : INotifyPropertyChanged
+    public class CogoPointNamingSettingsViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<PrefixPattern> _prefixPatterns;
         private ObservableCollection<DescriptionMapping> _descriptionLookupTable;
@@ -32,7 +32,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             set { _defaultPattern = value; OnPropertyChanged(); }
         }
 
-        public CogoPointNamingSettings()
+        public CogoPointNamingSettingsViewModel()
         {
             PrefixPatterns = new ObservableCollection<PrefixPattern>();
             DescriptionLookupTable = new ObservableCollection<DescriptionMapping>();

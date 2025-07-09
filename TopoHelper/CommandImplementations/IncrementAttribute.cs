@@ -1,6 +1,6 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {

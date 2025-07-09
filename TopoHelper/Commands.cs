@@ -1,4 +1,12 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+﻿//todo: using Simplifynet; #disabled until original source code is found
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Controls;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -7,18 +15,9 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Windows;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
-using Simplifynet;
-
-//todo: using Simplifynet; #disabled until original source code is found
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using Infrabel.AutodeskPlatform.TopoHelper;
 using Infrabel.AutodeskPlatform.AutoCADCommon;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
+using Infrabel.AutodeskPlatform.TopoHelper;
 using Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations;
 using Infrabel.AutodeskPlatform.TopoHelper.Csv;
 using Infrabel.AutodeskPlatform.TopoHelper.Model;
@@ -28,10 +27,10 @@ using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 using Infrabel.AutodeskPlatform.TopoHelper.UserControls;
 using Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels;
+using Simplifynet;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Exception = System.Exception;
 using Point = Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry.Point;
-using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
 [assembly: CommandClass(typeof(Commands))]
 

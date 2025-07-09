@@ -1,11 +1,11 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.Runtime;
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Windows.Input;
-using Infrabel.AutodeskPlatform.TopoHelper.Model.String;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.Runtime;
 using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.String;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 {

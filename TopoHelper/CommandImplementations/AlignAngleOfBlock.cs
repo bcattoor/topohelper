@@ -1,6 +1,6 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using System;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {

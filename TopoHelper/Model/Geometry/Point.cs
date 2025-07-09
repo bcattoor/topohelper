@@ -1,5 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System.Globalization;
+﻿using System.Globalization;
+using Autodesk.AutoCAD.Geometry;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry
 {

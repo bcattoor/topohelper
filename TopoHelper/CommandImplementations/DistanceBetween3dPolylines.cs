@@ -1,9 +1,9 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
+using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {

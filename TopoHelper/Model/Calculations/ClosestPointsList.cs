@@ -1,8 +1,8 @@
-﻿using MoreLinq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry;
+using MoreLinq;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Calculations
 {

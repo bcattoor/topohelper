@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using Infrabel.AutodeskPlatform.TopoHelper.Model;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.ApplicationServices;
-using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
-using System.Threading;
-using Infrabel.AutodeskPlatform.TopoHelper.ViewModel;
+using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
+using Infrabel.AutodeskPlatform.TopoHelper.Properties;
+using Infrabel.AutodeskPlatform.TopoHelper.ViewModel;
 
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
@@ -638,7 +638,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Error loading COGO point {cogoPoint.PointNumber}: {ex.Message}");
-                                        throw ex;
+                                        throw;
                                     }
                                 }
                             }
@@ -898,7 +898,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error getting style name for ID {styleId}: {ex.Message}");
-                throw ex;
+                throw;
             }
         }
 
@@ -923,7 +923,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error getting layer name for ID {layerId}: {ex.Message}");
-                throw ex;  
+                throw;  
             }
         }
 

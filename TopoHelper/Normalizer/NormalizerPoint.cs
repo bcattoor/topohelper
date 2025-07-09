@@ -1,5 +1,5 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
+using Autodesk.AutoCAD.Geometry;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.Normalizer

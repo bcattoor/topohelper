@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -5,9 +8,6 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations

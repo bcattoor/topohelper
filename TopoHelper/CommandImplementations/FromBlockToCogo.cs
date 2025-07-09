@@ -3,37 +3,36 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Serialization;
+using Autodesk.Aec.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.Civil;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using Infrabel.AutodeskPlatform.AutoCADCommon.BlockScanner;
-using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 using MoreLinq;
+using BlockReference = Autodesk.AutoCAD.DatabaseServices.BlockReference;
+using ObjectId = Autodesk.AutoCAD.DatabaseServices.ObjectId;
+
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 {
     internal static class FromBlockToCogo
     {
         #region Configuration Classes
-        
+
         private class StyleConfiguration
         {
-            public Dictionary<Classifications, List<PointStyleMapping>> StyleMappings { get; set; }
+            public Dictionary<ClassificationsEnum, List<PointStyleMapping>> StyleMappings { get; set; }
             public ObjectId FallbackStyleId { get; set; }
             public ObjectId LabelStyleId { get; set; }
             public PointStyleCollection PointStyles { get; set; }
         }
-        
+
         #endregion
 
         #region Main Refactored Functions
@@ -46,10 +45,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             var pso = new PromptSelectionOptions { MessageForAdding = "\nSelecteer blocks: " };
             var filter = new SelectionFilter(new[] { new TypedValue((int)DxfCode.Start, "INSERT") });
             var psr = editor.GetSelection(pso, filter);
-            
-            if (psr.Status != PromptStatus.OK) 
+
+            if (psr.Status != PromptStatus.OK)
                 return new List<ObjectId>();
-                
+
             var selectedBlockIds = psr.Value.GetObjectIds().ToList();
             return selectedBlockIds.Any() ? selectedBlockIds : new List<ObjectId>();
         }
@@ -61,7 +60,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             if (!blockIds.Any())
                 throw new System.Exception(nameof(blockIds) + " has no items in it.");
-                
+
             return BlockScanner.GetPropertiesOfBlocksById(blockIds, database, document, null, transaction).ToList();
         }
 
@@ -71,12 +70,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         private static Dictionary<ObjectId, ObjectId> CreateCogoPointsFromBlocks(List<IapBlock> blocks)
         {
             if (!blocks.Any())
-                return new Dictionary<ObjectId, ObjectId>();
-                
+                throw new System.Exception("No blocks given, we need at least one block to call this function..");
+
             var locations = new Point3dCollection(blocks.Select(b => b.InsertionPoint3D).ToArray());
             var blockIds = blocks.Select(c => c.Id).ToList();
-            
-            return AddCogoPoints(locations, blockIds, "CogoPoint");
+
+            return AddCogoPoints(locations, blockIds, string.Empty);
         }
 
         /// <summary>
@@ -86,16 +85,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             var styleMappings = PointStyleMappingManager.LoadStyleMappingsFromSettings();
             PointStyleMappingManager.ValidateStyleMappings(styleMappings, civilDocument.Styles.PointStyles);
-            
+
             var fallbackStyleId = GetPointStyleIdWithFallback(
-                civilDocument.Styles.PointStyles, 
-                Settings.Default.FromBlockToCogo_DefaultPointStyleName, 
+                civilDocument.Styles.PointStyles,
+                Settings.Default.FromBlockToCogo_DefaultPointStyleName,
                 Settings.Default.FromBlockToCogo_FallbackPointStyleName);
-                
+
             var labelStyleId = GetLabelStyleIdByName(
-                civilDocument.Styles.LabelStyles.PointLabelStyles.LabelStyles, 
+                civilDocument.Styles.LabelStyles.PointLabelStyles.LabelStyles,
                 defaultLabelStyleName);
-            
+
             return new StyleConfiguration
             {
                 StyleMappings = styleMappings,
@@ -109,7 +108,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         /// Converteert een enkel block naar een CogoPoint
         /// </summary>
         private static ConversionDetails ConvertSingleBlockToCogoPoint(
-            IapBlock block, 
+            IapBlock block,
             Dictionary<ObjectId, ObjectId> cogoPointMapping,
             StyleConfiguration styleConfig,
             CogoPointNamingSettings namingSettings,
@@ -117,7 +116,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             Transaction transaction)
         {
             var blockRef = (BlockReference)transaction.GetObject(block.Id, OpenMode.ForRead, false, true);
-            if (blockRef == null) 
+            if (blockRef == null)
                 return null;
 
             var classification = CreateClassificationFromBlock(block, blockRef);
@@ -126,12 +125,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             var details = CreateInitialConversionDetails(block, blockRef, classification);
 
             var (finalStyleId, appliedDescription) = SetCogoPointPropertiesWithReporting(
-                cgPoint, blockRef, classification, namingSettings, 
-                styleConfig.StyleMappings, styleConfig.PointStyles, 
+                cgPoint, blockRef, classification, namingSettings,
+                styleConfig.StyleMappings, styleConfig.PointStyles,
                 styleConfig.FallbackStyleId, styleConfig.LabelStyleId, existingNames);
 
             CompleteConversionDetails(details, finalStyleId, appliedDescription, cgPoint);
-            
+
             return details;
         }
 
@@ -151,18 +150,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             using (var tr = database.TransactionManager.StartOpenCloseTransaction())
             {
                 var existingNames = GetAllCogoPointNames(civDoc, tr);
-                
+
                 foreach (var block in blockProperties)
                 {
                     var conversionDetails = ConvertSingleBlockToCogoPoint(
                         block, cogoPointMapping, styleConfig, namingSettings, existingNames, tr);
-                        
+
                     if (conversionDetails != null)
                         conversionReport.Details.Add(conversionDetails);
                 }
                 tr.Commit();
             }
-            
+
             return conversionReport;
         }
 
@@ -173,13 +172,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         /// <summary>
         /// Maakt een classificatie object aan op basis van block data
         /// </summary>
-        private static ClassificationObject CreateClassificationFromBlock(IapBlock block, BlockReference blockRef)
+        private static ClassificationObject CreateClassificationFromBlock(IapBlock iAPBlock, BlockReference blockReffrence)
         {
-            return new ClassificationObject(
-                block.Id, 
-                blockRef.Name, 
-                blockRef.Layer, 
-                block.Attributes.Select(blockN => blockN.Tag).ToList());
+            return new ClassificationObject(iAPBlock);
         }
 
         /// <summary>
@@ -214,7 +209,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             BlockReference blockRef,
             ClassificationObject classification,
             CogoPointNamingSettings namingSettings,
-            Dictionary<Classifications, List<PointStyleMapping>> styleMappings,
+            Dictionary<ClassificationsEnum, List<PointStyleMapping>> styleMappings,
             PointStyleCollection pointStyles,
             ObjectId fallbackStyleId,
             ObjectId labelStyleId,
@@ -237,7 +232,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             cgPoint.RawDescription = description;
 
             // Now, generate the point name using the new engine, which can use the description.
-            string newName = Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
+            string newName = Model.Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
             cgPoint.PointName = newName;
             existingNames.Add(newName);
 
@@ -261,28 +256,40 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             // Stap 1: Selecteer blocks van gebruiker
             var selectedBlockIds = SelectBlocksFromUser(doc.Editor);
-            if (!selectedBlockIds.Any()) return;
+            if (!selectedBlockIds.Any()) throw new System.Exception("No blocks found.");
 
             // Stap 2: Extraheer block eigenschappen
-            List<IapBlock> blockProperties;
+            List<IapBlock> iAPBlocksWithPropAndAttr;
             using (var tr = db.TransactionManager.StartOpenCloseTransaction())
             {
-                blockProperties = ExtractBlockProperties(selectedBlockIds, db, doc, tr);
+                iAPBlocksWithPropAndAttr = ExtractBlockProperties(selectedBlockIds, db, doc, tr);
                 tr.Commit();
             }
-            
-            if (!blockProperties.Any()) return;
+
+            if (!iAPBlocksWithPropAndAttr.Any()) throw new System.Exception("No blocks found.");
+
+            // Stap 3 Clasifficeer de IAPBlocken volgens de clasifficatie logica
+
+            var classifications = new List<ClassificationObject>();
+            foreach (var blk in iAPBlocksWithPropAndAttr)
+            {
+                classifications.Add(new ClassificationObject(blk));
+            }
+
 
             // Stap 3: Maak CogoPoints aan
-            var cogoPointMapping = CreateCogoPointsFromBlocks(blockProperties);
+            var cogoPointMapping = CreateCogoPointsFromBlocks(iAPBlocksWithPropAndAttr);
+
+
+
 
             // Stap 4: Configureer styles en naming
             var styleConfig = InitializeStyleConfiguration(civDoc, defaultLabelStyleName);
             var namingSettings = CogoPointNamingEngine.LoadSettings();
-            
+
             // Stap 5: Converteer elk block naar CogoPoint
             var conversionReport = ProcessBlockConversions(
-                blockProperties, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
+                iAPBlocksWithPropAndAttr, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
 
             // Stap 6: Toon resultaten (optioneel)
             DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
@@ -357,7 +364,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 var civilDoc = CivilApplication.ActiveDocument;
-                ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
+                Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
                 for (int i = 0; i < newPointIds.Count; i++)
                 {
                     returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
@@ -413,10 +420,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
         #region Nested Classes (Unchanged)
         private enum LastDigit { NotANumber, Even, Odd }
-        public enum Classifications { Unknown, KnownByLayer, KnownByAttibuteName, KnownByRealBlockName }
+
+
+        public enum ClassificationsEnum { UnknownEntity, KnownByLayer, KnownByAttibuteTag, KnownByRealBlockName }
         public class PointStyleMapping
         {
-            public Classifications Classification { get; set; }
+            public ClassificationsEnum Classification { get; set; }
             public string Identifier { get; set; }
             public string PointStyleName { get; set; }
             public string Description { get; set; }
@@ -433,7 +442,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             public string BlockName { get; set; }
             public string BlockLayer { get; set; }
-            public Classifications Classification { get; set; }
+            public ClassificationsEnum Classification { get; set; }
             public Point3d OriginalPosition { get; set; }
             public Point3d FinalPosition { get; set; }
             public string FinalPointName { get; set; }
@@ -446,58 +455,107 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             public List<ConversionDetails> Details { get; set; } = new List<ConversionDetails>();
             public DateTime ConversionTime { get; } = DateTime.Now;
             public int TotalConverted => Details.Count;
-            public Dictionary<Classifications, int> ConversionsByClassification => Details.GroupBy(d => d.Classification).ToDictionary(g => g.Key, g => g.Count());
+            public Dictionary<ClassificationsEnum, int> ConversionsByClassification => Details.GroupBy(d => d.Classification).ToDictionary(g => g.Key, g => g.Count());
         }
 
         class ClassificationObject
         {
-            public ObjectId ObjectId { get; }
-            public Classifications Classification { get; }
-            public string ObjectName { get; }
-            public string LayerName { get; }
-            public List<string> AttributeNames { get; }
+            public ObjectId ObjectId { get { return IAPBlock.Id; } }
+            public ClassificationsEnum Classification { get; private set; }
+            public string NewCogoPointName { get; private set; } = string.Empty;
+            public string IapBlockLayerName { get; private set; } = string.Empty;
+            public string NewCogoPointDescription { get; private set; } = string.Empty;
+            public List<IapBlockAttributes> AttributeTags { get { return IAPBlock?.Attributes; } }
+            public IapBlock IAPBlock { get; }
 
-            public ClassificationObject(ObjectId objectId, string objectName, string layerName, List<string> attributeNames)
+
+            public ClassificationObject(IapBlock iAPBlock)
             {
-                ObjectId = objectId;
-                ObjectName = objectName ?? string.Empty;
-                LayerName = layerName ?? string.Empty;
-                AttributeNames = attributeNames ?? new List<string>();
-                Classification = Classify();
+                IAPBlock = iAPBlock ?? throw new ArgumentNullException(nameof(iAPBlock));
+
+                // Eerst clasificeren we het object
+                Classification = Classify(iAPBlock);
+
+                // En nu kunnen we de eigenschappen instellen aan de hand van de classificatie
+                FillPropertiesByClassification(this);
             }
 
-            private Classifications Classify()
+            private static void FillPropertiesByClassification(ClassificationObject classification)
             {
-                try
-                {
-                    var knownRealBlockNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties);
-                    var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
-                    var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
+                var sw = classification.Classification;
 
-                    // Controleer of ObjectName voorkomt in de lijst van bekende bloknamen
-                    if (!string.IsNullOrEmpty(ObjectName) && 
-                        knownRealBlockNames.Any(name => string.Equals(name, ObjectName, StringComparison.OrdinalIgnoreCase)))
-                        return Classifications.KnownByRealBlockName;
-                    
-                    // Controleer of een van de attribuutnamen voorkomt in de lijst van bekende attribuutnamen
-                    if (AttributeNames != null && AttributeNames.Any() && 
-                        AttributeNames.Any(attr => !string.IsNullOrEmpty(attr) && 
-                                          knownAttributeNames.Any(name => string.Equals(name, attr, StringComparison.OrdinalIgnoreCase))))
-                        return Classifications.KnownByAttibuteName;
-                    
-                    // Controleer of LayerName voorkomt in de lijst van bekende laagnamen
-                    if (!string.IsNullOrEmpty(LayerName) && 
-                        knownLayers.Any(layer => string.Equals(layer, LayerName, StringComparison.OrdinalIgnoreCase)))
-                        return Classifications.KnownByLayer;
-                    
-                    return Classifications.Unknown;
-                }
-                catch (System.Exception ex)
+                switch (sw)
                 {
-                    Debug.WriteLine($"Fout bij classificeren van object: {ex.Message}");
-                    throw ex;
+                    case ClassificationsEnum.UnknownEntity:
+                        FillPropertiesUnknownEntity(classification);break;
+                    case ClassificationsEnum.KnownByLayer:
+                        FillPropertiesKnownByLayer(classification);  break;
+                    case ClassificationsEnum.KnownByAttibuteTag:
+                        FillPropertiesKnownByAttibuteTag(classification); break;
+                    case ClassificationsEnum.KnownByRealBlockName:
+                        FillPropertiesKnownByRealBlockName(classification); break;
+
                 }
+
             }
+
+            private static void FillPropertiesKnownByRealBlockName(ClassificationObject classification)
+            {
+                // this means we can use hardcoded convertion rules, because we know the block, and know what to expext
+                // ea. If this is a Hectometer Palen, Kilometer Palen, Katenapalen, Swithces, Seinen, AluminiumLassen, enz...
+                // opmeter kunnen op veschillende manieren hun block genoemd hebben, dus in de instellingen kunnen we
+                // deze mappen 'customname', map to KP/HP/CAT/SWITCH
+                // Bijvoorbeeld: Bij een switch moeten we 4 punten toevoegen als cogopoint
+
+                
+
+                throw new NotImplementedException();
+            }
+
+            private static void FillPropertiesKnownByAttibuteTag(ClassificationObject classification)
+            {
+                throw new NotImplementedException();
+            }
+
+            private static void FillPropertiesKnownByLayer(ClassificationObject classification)
+            {
+                throw new NotImplementedException();
+            }
+
+            private static void FillPropertiesUnknownEntity(ClassificationObject classification)
+            {
+                throw new NotImplementedException();
+            }
+
+            private static ClassificationsEnum Classify(IapBlock iAPBlock)
+            {
+
+                var knownRealBlockNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties);
+                var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
+                var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
+                var attributeTags = iAPBlock.Attributes;
+                // Controleer of ObjectName voorkomt in de lijst van bekende bloknamen
+                if (!string.IsNullOrEmpty(iAPBlock.RawAutoCadName) &&
+                    knownRealBlockNames.Any(knownName => string.Equals(knownName, iAPBlock.RawAutoCadName, StringComparison.OrdinalIgnoreCase)))
+                { return ClassificationsEnum.KnownByRealBlockName; }
+
+                // Controleer of een van de attribuutTags voorkomt in de lijst van bekende attribuutnamen
+                else if (attributeTags != null && attributeTags.Any() &&
+                     attributeTags.Any(attr => !string.IsNullOrEmpty(attr.Tag) &&
+                                       knownAttributeNames.Any(name => string.Equals(name, attr.Tag, StringComparison.OrdinalIgnoreCase))))
+                { return ClassificationsEnum.KnownByAttibuteTag; }
+
+                // Controleer of LayerName voorkomt in de lijst van bekende laagnamen
+                else if (!string.IsNullOrEmpty(iAPBlock.Layer) &&
+                     knownLayers.Any(layer => string.Equals(layer, iAPBlock.Layer, StringComparison.OrdinalIgnoreCase)))
+                { return ClassificationsEnum.KnownByLayer; }
+
+                // Geen gekend object, dus behandelen we deze als unkown
+                return ClassificationsEnum.UnknownEntity;
+
+
+            }
+
 
             private static List<string> DeserializeStringCollection(string xmlString)
             {
@@ -512,7 +570,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                         var array = (string[])serializer.Deserialize(reader);
                         if (array == null)
                             return new List<string>();
-                            
+
                         // Zorg ervoor dat alle items strings zijn (niet chars)
                         return array.Select(item => item?.ToString() ?? string.Empty).ToList();
                     }
@@ -520,18 +578,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 catch (System.Exception ex)
                 {
                     Debug.WriteLine($"Fout bij deserialiseren van string collection: {ex.Message}");
-                    throw ex;
+                    throw;
                 }
             }
         }
 
         private static class PointStyleMappingManager
         {
-            public static Dictionary<Classifications, List<PointStyleMapping>> LoadStyleMappingsFromSettings()
+            public static Dictionary<ClassificationsEnum, List<PointStyleMapping>> LoadStyleMappingsFromSettings()
             {
                 return LoadStyleMappingsFromXml(Settings.Default.FromBlockToCogo_StyleMappingConfiguration);
             }
-            private static Dictionary<Classifications, List<PointStyleMapping>> LoadStyleMappingsFromXml(string xmlConfig)
+            private static Dictionary<ClassificationsEnum, List<PointStyleMapping>> LoadStyleMappingsFromXml(string xmlConfig)
             {
                 if (string.IsNullOrWhiteSpace(xmlConfig)) return GetDefaultStyleMappings();
                 try
@@ -544,7 +602,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     {
                         foreach (System.Xml.XmlNode node in mappingNodes)
                         {
-                            if (System.Enum.TryParse<Classifications>(node.SelectSingleNode("Classification")?.InnerText, out var classification) &&
+                            if (System.Enum.TryParse<ClassificationsEnum>(node.SelectSingleNode("Classification")?.InnerText, out var classification) &&
                                 int.TryParse(node.SelectSingleNode("Priority")?.InnerText, out var priority))
                             {
                                 mappings.Add(new PointStyleMapping
@@ -562,7 +620,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 }
                 catch { return GetDefaultStyleMappings(); }
             }
-            public static void ValidateStyleMappings(Dictionary<Classifications, List<PointStyleMapping>> styleMappings, PointStyleCollection pointStyles)
+            public static void ValidateStyleMappings(Dictionary<ClassificationsEnum, List<PointStyleMapping>> styleMappings, PointStyleCollection pointStyles)
             {
                 var doc = Application.DocumentManager.MdiActiveDocument;
                 if (doc == null) return;
@@ -575,18 +633,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     }
                 }
             }
-            private static Dictionary<Classifications, List<PointStyleMapping>> GetDefaultStyleMappings()
+            private static Dictionary<ClassificationsEnum, List<PointStyleMapping>> GetDefaultStyleMappings()
             {
                 // Provide some sensible defaults
                 var mappings = new List<PointStyleMapping>
                 {
-                   new PointStyleMapping { Classification = Classifications.KnownByRealBlockName, Identifier = "KP", PointStyleName = "Standard", Description = "CATA", Priority = 1 },
-                   new PointStyleMapping { Classification = Classifications.KnownByRealBlockName, Identifier = "HP", PointStyleName = "Standard", Description = "CATB", Priority = 1 },
-                   new PointStyleMapping { Classification = Classifications.Unknown, Identifier = "*", PointStyleName = "Standard", Description = "822", Priority = 99 }
+                   new PointStyleMapping { Classification = ClassificationsEnum.KnownByRealBlockName, Identifier = "HP", PointStyleName = "Standard", Description = "CATA", Priority = 1 },
+                   new PointStyleMapping { Classification = ClassificationsEnum.KnownByRealBlockName, Identifier = "HP", PointStyleName = "Standard", Description = "CATB", Priority = 1 },
+                   new PointStyleMapping { Classification = ClassificationsEnum.UnknownEntity, Identifier = "*", PointStyleName = "Standard", Description = "822", Priority = 99 }
                 };
                 return mappings.GroupBy(m => m.Classification).ToDictionary(g => g.Key, g => g.ToList());
             }
-            public static (ObjectId styleId, string description) GetStyleForClassification(ClassificationObject classification, Dictionary<Classifications, List<PointStyleMapping>> styleMappings, PointStyleCollection pointStyles, ObjectId fallbackStyleId)
+            public static (ObjectId styleId, string description) GetStyleForClassification(ClassificationObject classification, Dictionary<ClassificationsEnum, List<PointStyleMapping>> styleMappings, PointStyleCollection pointStyles, ObjectId fallbackStyleId)
             {
                 if (styleMappings.TryGetValue(classification.Classification, out var mappings))
                 {
@@ -606,13 +664,14 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             }
             private static string GetIdentifierForClassification(ClassificationObject classification)
             {
-                switch (classification.Classification)
-                {
-                    case Classifications.KnownByRealBlockName: return classification.ObjectName;
-                    case Classifications.KnownByLayer: return classification.LayerName;
-                    case Classifications.KnownByAttibuteName: return classification.AttributeNames.FirstOrDefault();
-                    default: return "*";
-                }
+                //switch (classification.Classification)
+                //{
+                //    case ClassificationsEnum.KnownByRealBlockName: return classification.NewCogoPointName;
+                //    case ClassificationsEnum.KnownByLayer: return classification.NewLayerName;
+                //    case ClassificationsEnum.KnownByAttibuteTag: return classification.AttributeNames..FirstOrDefault();
+                //    default: return "*";
+                //} 
+                throw new NotImplementedException("This function should be removed!");
             }
             private static ObjectId TryGetPointStyleByName(PointStyleCollection pointStyles, string styleName)
             {

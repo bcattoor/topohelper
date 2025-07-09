@@ -7,8 +7,8 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using Autodesk.Civil.DatabaseServices;
+using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using Infrabel.AutodeskPlatform.TopoHelper.ViewModel;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls

@@ -1,8 +1,8 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.Geometry;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
 using Infrabel.AutodeskPlatform.TopoHelper.Normalizer;
 

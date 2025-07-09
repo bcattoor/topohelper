@@ -1,5 +1,5 @@
-using Autodesk.Civil.DatabaseServices;
 using System.ComponentModel;
+using Autodesk.Civil.DatabaseServices;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.ViewModel
 {

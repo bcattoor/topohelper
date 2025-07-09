@@ -1,11 +1,11 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.Geometry;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Results;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
-using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Calculations
 {

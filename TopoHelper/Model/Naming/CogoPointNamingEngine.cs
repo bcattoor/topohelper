@@ -86,8 +86,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Naming
             if (string.IsNullOrWhiteSpace(xmlConfig))
             {
                 var defaultSettings = new CogoPointNamingSettings();
-                defaultSettings.PrefixPatterns.Add(new PrefixPattern("CATA", "CATA-{Counter:3}"));
-                defaultSettings.PrefixPatterns.Add(new PrefixPattern("CATB", "CATB-{Counter:3}"));
+                defaultSettings.PrefixPatterns.Add(new PrefixPattern { Prefix = "CATA", Pattern = "CATA-{Counter:3}" });
+                defaultSettings.PrefixPatterns.Add(new PrefixPattern { Prefix = "CATB", Pattern = "CATB-{Counter:3}" });
                 return defaultSettings;
             }
             try

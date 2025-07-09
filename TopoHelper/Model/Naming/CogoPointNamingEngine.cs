@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 
-namespace Infrabel.AutodeskPlatform.TopoHelper.Model
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Naming
 {
 
     #region COGO Naming Engine

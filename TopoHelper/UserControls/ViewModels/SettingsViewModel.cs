@@ -20,6 +20,7 @@ using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Threading;
+using Infrabel.AutodeskPlatform.TopoHelper.ViewModel;
 
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
@@ -119,7 +120,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 RefreshView();
                 LoadCogoPointNamingSettings();
 
-                CogoPoints = new ObservableCollection<CogoPointDisplay>();
+                CogoPoints = new ObservableCollection<CogoPointViewModel>();
                 RefreshCogoPointsCommand = new RelayCommand(async _ => await LoadCogoPointsAsync());
 
                 Blocks = new RangeObservableCollection<BlockDisplay>();
@@ -157,8 +158,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
         #region Public Properties
 
-        private ObservableCollection<CogoPointDisplay> _cogoPoints;
-        public ObservableCollection<CogoPointDisplay> CogoPoints
+        private ObservableCollection<CogoPointViewModel> _cogoPoints;
+        public ObservableCollection<CogoPointViewModel> CogoPoints
         {
             get => _cogoPoints;
             set
@@ -172,9 +173,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         public ICommand RefreshBlocksCommand { get; }
 
         // Ensure CogoPoints is never null
-        public ObservableCollection<CogoPointDisplay> SafeCogoPoints
+        public ObservableCollection<CogoPointViewModel> SafeCogoPoints
         {
-            get => CogoPoints ?? (CogoPoints = new ObservableCollection<CogoPointDisplay>());
+            get => CogoPoints ?? (CogoPoints = new ObservableCollection<CogoPointViewModel>());
         }
 
 
@@ -607,7 +608,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                             throw new InvalidOperationException("Database is null");
                         }
 
-                        var points = new List<CogoPointDisplay>();
+                        var points = new List<CogoPointViewModel>();
                         using (var tr = db.TransactionManager.StartTransaction())
                         {
                             foreach (ObjectId cogoPointId in civilDoc.CogoPoints)
@@ -618,7 +619,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                                 {
                                     try
                                     {
-                                        points.Add(new CogoPointDisplay
+                                        points.Add(new CogoPointViewModel
                                         {
                                             PointNumber = cogoPoint.PointNumber,
                                             Name = cogoPoint.PointName,
@@ -646,7 +647,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                     // Update UI on the main thread
                     if (cogoPointsList.Count > 0)
                     {
-                        CogoPoints = new ObservableCollection<CogoPointDisplay>(cogoPointsList);
+                        CogoPoints = new ObservableCollection<CogoPointViewModel>(cogoPointsList);
                         RaisePropertyChanged(nameof(CogoPoints));
                         StatusMessage = $"Loaded {cogoPointsList.Count} COGO points.";
                     }

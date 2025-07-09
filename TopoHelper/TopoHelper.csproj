@@ -200,8 +200,10 @@
     <Compile Include="CommandImplementations\PlaceTextOnLineWithLength.cs" />
     <Compile Include="CommandImplementations\ProjectCogoPointInProfile.cs" />
     <Compile Include="Csv\Converters\Point3dConverter.cs" />
-    <Compile Include="Model\BlockDisplay.cs" />
-    <Compile Include="Model\CogoPointDisplay.cs" />
+    <Compile Include="Model\Naming\Naming.cs" />
+    <Compile Include="UserControls\ViewModels\BlockDisplay.cs" />
+    <Compile Include="Model\IAPCogoPoint.cs" />
+    <Compile Include="UserControls\ViewModels\CogoPointViewModel.cs" />
     <Compile Include="Model\Geometry\PolyLine.cs" />
     <Compile Include="Model\Results\DistanceBetween2PolylinesSectionResult.cs" />
     <Compile Include="Model\Enums\CantDirection.cs" />
@@ -227,11 +229,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="CommandImplementations\Rails2RailwayCenterLine.cs" />
-    <Compile Include="Model\CogoPointNamingEngine.cs" />
-    <Compile Include="Model\CogoPointNamingSettings.cs" />
+    <Compile Include="Model\Naming\CogoPointNamingEngine.cs" />
+    <Compile Include="Model\Naming\CogoPointNamingSettings.cs" />
     <Compile Include="UserControls\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UserControls\ViewModels\BaseViewModel.cs" />
     <Compile Include="UserControls\ViewModels\AutoCadCommandViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\CogoPointNamingSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\RelayCommand.cs" />
     <Compile Include="UserControls\ViewModels\SettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\SettingsEntryViewModel.cs" />
@@ -257,7 +260,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UseGlobalSettings="False" BuildVersion_StartDate="2000/1/1" />
+      <UserProperties BuildVersion_StartDate="2000/1/1" BuildVersion_UseGlobalSettings="False" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.Increment.DayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

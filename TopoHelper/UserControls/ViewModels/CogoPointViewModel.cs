@@ -1,15 +1,19 @@
+using Autodesk.Civil.DatabaseServices;
 using System.ComponentModel;
 
-namespace Infrabel.AutodeskPlatform.TopoHelper.Model
+namespace Infrabel.AutodeskPlatform.TopoHelper.ViewModel
 {
-    public class BlockDisplay : INotifyPropertyChanged
+    public class CogoPointViewModel : INotifyPropertyChanged
     {
+        public uint PointNumber { get; set; }
         public string Name { get; set; }
-        public string Handle { get; set; }
-        public string Layer { get; set; }
-        public double PositionX { get; set; }
-        public double PositionY { get; set; }
-        public double PositionZ { get; set; }
+        public double Easting { get; set; }
+        public double Northing { get; set; }
+        public double Elevation { get; set; }
+        public string RawDescription { get; set; }
+        public string LabelStyleName { get; set; }
+        public string PointStyleName { get; set; }
+        public string LayerName { get; set; }
 
         private bool _isSelected;
         public bool IsSelected

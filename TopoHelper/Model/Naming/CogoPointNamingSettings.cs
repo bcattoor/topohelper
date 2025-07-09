@@ -6,39 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Infrabel.AutodeskPlatform.TopoHelper.Model
 {
-    #region COGO Naming Model Classes
+    #region COGO Naming ViewModel Classes
 
-    public class CogoPointNamingSettings : INotifyPropertyChanged
-    {
-        private ObservableCollection<PrefixPattern> _prefixPatterns;
-        private ObservableCollection<DescriptionMapping> _descriptionLookupTable;
-        private string _defaultPattern;
-
-        public ObservableCollection<PrefixPattern> PrefixPatterns
-        {
-            get => _prefixPatterns;
-            set { _prefixPatterns = value; OnPropertyChanged(); }
-        }
-        public ObservableCollection<DescriptionMapping> DescriptionLookupTable
-        {
-            get => _descriptionLookupTable;
-            set { _descriptionLookupTable = value; OnPropertyChanged(); }
-        }
-        public string DefaultPattern
-        {
-            get => _defaultPattern;
-            set { _defaultPattern = value; OnPropertyChanged(); }
-        }
-
-        public CogoPointNamingSettings()
-        {
-            PrefixPatterns = new ObservableCollection<PrefixPattern>();
-            DescriptionLookupTable = new ObservableCollection<DescriptionMapping>();
-            DefaultPattern = "{Description}-{Counter:4}";
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
+    
 
     #endregion
 

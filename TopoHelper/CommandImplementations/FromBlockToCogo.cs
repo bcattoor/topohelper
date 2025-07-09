@@ -237,7 +237,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             cgPoint.RawDescription = description;
 
             // Now, generate the point name using the new engine, which can use the description.
-            string newName = Model.Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
+            string newName = Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
             cgPoint.PointName = newName;
             existingNames.Add(newName);
 

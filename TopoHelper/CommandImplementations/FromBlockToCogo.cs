@@ -467,14 +467,35 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             private Classifications Classify()
             {
-                var knownRealBlockNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties);
-                var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
-                var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
+                try
+                {
+                    var knownRealBlockNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_KnownRealBlockNames_ToSetCogoProperties);
+                    var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
+                    var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
 
-                if (knownRealBlockNames.Contains(ObjectName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByRealBlockName;
-                if (AttributeNames.Any(attr => knownAttributeNames.Contains(attr, StringComparer.OrdinalIgnoreCase))) return Classifications.KnownByAttibuteName;
-                if (knownLayers.Contains(LayerName, StringComparer.OrdinalIgnoreCase)) return Classifications.KnownByLayer;
-                return Classifications.Unknown;
+                    // Controleer of ObjectName voorkomt in de lijst van bekende bloknamen
+                    if (!string.IsNullOrEmpty(ObjectName) && 
+                        knownRealBlockNames.Any(name => string.Equals(name, ObjectName, StringComparison.OrdinalIgnoreCase)))
+                        return Classifications.KnownByRealBlockName;
+                    
+                    // Controleer of een van de attribuutnamen voorkomt in de lijst van bekende attribuutnamen
+                    if (AttributeNames != null && AttributeNames.Any() && 
+                        AttributeNames.Any(attr => !string.IsNullOrEmpty(attr) && 
+                                          knownAttributeNames.Any(name => string.Equals(name, attr, StringComparison.OrdinalIgnoreCase))))
+                        return Classifications.KnownByAttibuteName;
+                    
+                    // Controleer of LayerName voorkomt in de lijst van bekende laagnamen
+                    if (!string.IsNullOrEmpty(LayerName) && 
+                        knownLayers.Any(layer => string.Equals(layer, LayerName, StringComparison.OrdinalIgnoreCase)))
+                        return Classifications.KnownByLayer;
+                    
+                    return Classifications.Unknown;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Fout bij classificeren van object: {ex.Message}");
+                    return Classifications.Unknown;
+                }
             }
 
             private static List<string> DeserializeStringCollection(string xmlString)
@@ -488,11 +509,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     using (var reader = new System.IO.StringReader(xmlString))
                     {
                         var array = (string[])serializer.Deserialize(reader);
-                        return array?.ToList() ?? new List<string>();
+                        if (array == null)
+                            return new List<string>();
+                            
+                        // Zorg ervoor dat alle items strings zijn (niet chars)
+                        return array.Select(item => item?.ToString() ?? string.Empty).ToList();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine($"Fout bij deserialiseren van string collection: {ex.Message}");
                     return new List<string>();
                 }
             }

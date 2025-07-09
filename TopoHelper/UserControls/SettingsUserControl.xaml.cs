@@ -72,7 +72,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls
                 {
                     foreach (var item in dataGrid.SelectedItems)
                     {
-                        if (item is CogoPointDisplay cogoPoint)
+                        if (item is CogoPointViewModel cogoPoint)
                         {
                             cogoPoint.IsSelected = !cogoPoint.IsSelected;
                         }

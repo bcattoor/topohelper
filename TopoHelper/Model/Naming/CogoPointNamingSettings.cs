@@ -4,15 +4,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Infrabel.AutodeskPlatform.TopoHelper.Model
+namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Naming
 {
-    #region COGO Naming ViewModel Classes
-
-    
-
-    #endregion
-
     #region COGO Naming Model Classes
+
+    public class CogoPointNamingSettings
+    {
+        public ObservableCollection<PrefixPattern> PrefixPatterns { get; set; } = new ObservableCollection<PrefixPattern>();
+        public ObservableCollection<DescriptionMapping> DescriptionLookupTable { get; set; } = new ObservableCollection<DescriptionMapping>();
+        public string DefaultPattern { get; set; } = "{Description}-{Counter:4}";
+    }
 
     [Serializable]
     public class CogoPointNamingSettings_Serializable

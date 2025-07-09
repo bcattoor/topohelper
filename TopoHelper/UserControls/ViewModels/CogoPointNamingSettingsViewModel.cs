@@ -38,6 +38,59 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             DescriptionLookupTable = new ObservableCollection<DescriptionMapping>();
             DefaultPattern = "{Description}-{Counter:4}";
         }
+
+        public void CopyFrom(CogoPointNamingSettings settings)
+        {
+            DefaultPattern = settings.DefaultPattern;
+            
+            PrefixPatterns.Clear();
+            foreach (var pattern in settings.PrefixPatterns)
+            {
+                PrefixPatterns.Add(new PrefixPattern 
+                { 
+                    Prefix = pattern.Prefix, 
+                    Pattern = pattern.Pattern 
+                });
+            }
+            
+            DescriptionLookupTable.Clear();
+            foreach (var mapping in settings.DescriptionLookupTable)
+            {
+                DescriptionLookupTable.Add(new DescriptionMapping 
+                { 
+                    Description = mapping.Description, 
+                    Pattern = mapping.Pattern 
+                });
+            }
+        }
+
+        public CogoPointNamingSettings ToModel()
+        {
+            var settings = new CogoPointNamingSettings();
+            settings.DefaultPattern = DefaultPattern;
+            
+            settings.PrefixPatterns.Clear();
+            foreach (var pattern in PrefixPatterns)
+            {
+                settings.PrefixPatterns.Add(new PrefixPattern 
+                { 
+                    Prefix = pattern.Prefix, 
+                    Pattern = pattern.Pattern 
+                });
+            }
+            
+            settings.DescriptionLookupTable.Clear();
+            foreach (var mapping in DescriptionLookupTable)
+            {
+                settings.DescriptionLookupTable.Add(new DescriptionMapping 
+                { 
+                    Description = mapping.Description, 
+                    Pattern = mapping.Pattern 
+                });
+            }
+            
+            return settings;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

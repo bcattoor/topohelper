@@ -564,7 +564,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
         private void LoadCogoPointNamingSettings()
         {
-            NamingSettings = CogoPointNamingEngine.LoadSettings();
+            var modelSettings = CogoPointNamingEngine.LoadSettings();
+            NamingSettings = new CogoPointNamingSettingsViewModel();
+            NamingSettings.CopyFrom(modelSettings);
             NamingSettings.PropertyChanged += (s, e) => ValidateCogoNaming();
             foreach (var item in NamingSettings.PrefixPatterns) HookPropertyChanged(item);
             foreach (var item in NamingSettings.DescriptionLookupTable) HookPropertyChanged(item);
@@ -584,7 +586,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             };
         }
 
-        private void SaveCogoPointNamingSettings() => CogoPointNamingEngine.SaveSettings(NamingSettings);
+        private void SaveCogoPointNamingSettings() => CogoPointNamingEngine.SaveSettings(NamingSettings.ToModel());
         private CancellationTokenSource _cts;
 
         private async Task LoadCogoPointsAsync(int retryCount = 3)

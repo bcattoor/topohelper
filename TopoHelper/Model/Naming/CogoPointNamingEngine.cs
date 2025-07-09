@@ -92,10 +92,26 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.Model.Naming
             }
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(CogoPointNamingSettings));
+                XmlSerializer serializer = new XmlSerializer(typeof(CogoPointNamingSettings_Serializable));
                 using (var reader = new StringReader(xmlConfig))
                 {
-                    return (CogoPointNamingSettings)serializer.Deserialize(reader);
+                    var serializedSettings = (CogoPointNamingSettings_Serializable)serializer.Deserialize(reader);
+                    var settings = new CogoPointNamingSettings
+                    {
+                        DefaultPattern = serializedSettings.DefaultPattern
+                    };
+                    
+                    foreach (var pattern in serializedSettings.PrefixPatterns)
+                    {
+                        settings.PrefixPatterns.Add(pattern);
+                    }
+                    
+                    foreach (var mapping in serializedSettings.DescriptionLookupTable)
+                    {
+                        settings.DescriptionLookupTable.Add(mapping);
+                    }
+                    
+                    return settings;
                 }
             }
             catch { return new CogoPointNamingSettings(); }

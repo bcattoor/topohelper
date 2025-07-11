@@ -108,7 +108,8 @@
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="COGO Naming">
+            <!-- TODO: Make this work with the new way of setting the customisation -->
+            <!--<TabItem Header="COGO Naming">
                 <Grid Margin="5" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -136,7 +137,7 @@
                     <Label Grid.Row="4" FontWeight="Bold">Default Pattern</Label>
                     <TextBox Grid.Row="5" Text="{Binding NamingSettings.DefaultPattern, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
-                    <!-- Classificatie Instellingen -->
+                    --><!-- Classificatie Instellingen --><!--
                     <Label Grid.Row="6" FontWeight="Bold">Block Classificatie Instellingen</Label>
 
                     <TabControl Grid.Row="7" Margin="0,5,0,0">
@@ -198,7 +199,7 @@
 
                     </TabControl>
                 </Grid>
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="General Settings">
                 <Grid>
                     <Grid.RowDefinitions>

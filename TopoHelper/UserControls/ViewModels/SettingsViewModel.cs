@@ -67,11 +67,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
         }
 
         private RelayCommand _processSelectedCogoPointsCommand;
-        public ICommand ProcessSelectedCogoPointsCommand => _processSelectedCogoPointsCommand ?? 
+        public ICommand ProcessSelectedCogoPointsCommand => _processSelectedCogoPointsCommand ??
             (_processSelectedCogoPointsCommand = new RelayCommand(ProcessSelectedCogoPoints));
 
         private RelayCommand _processSelectedBlocksCommand;
-        public ICommand ProcessSelectedBlocksCommand => _processSelectedBlocksCommand ?? 
+        public ICommand ProcessSelectedBlocksCommand => _processSelectedBlocksCommand ??
             (_processSelectedBlocksCommand = new RelayCommand(ProcessSelectedBlocks));
 
         #endregion
@@ -505,11 +505,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
             RaisePropertyChanged(nameof(DataGridView));
         }
-            #endregion
+        #endregion
 
-            #region Private Methods
+        #region Private Methods
 
-            private bool CanSave(object parameter)
+        private bool CanSave(object parameter)
         {
             var source = DataGridView?.Source as ObservableCollection<SettingsEntryViewModel>;
             bool hasValidChanges = source?.Any(p => p.IsDirty && !p.HasErrors) ?? false;
@@ -798,35 +798,39 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
 
         private void ProcessSelectedCogoPoints(object parameter)
         {
-            var selectedPoints = CogoPoints.Where(p => p.IsSelected).ToList();
-            if (selectedPoints.Count > 0)
+            try
             {
-                StatusMessage = $"{selectedPoints.Count} COGO punten geselecteerd voor verwerking.";
-                // Hier kun je de geselecteerde punten verwerken
-                // Bijvoorbeeld:
-                // - Exporteren naar CSV
-                // - Eigenschappen wijzigen
-                // - Verwijderen
-                // - etc.
-            }
-            else
-            {
+                var selectedPoints = CogoPoints.Where(p => p.IsSelected).ToList();
+                if (selectedPoints.Count > 0)
+                {
+                    StatusMessage = $"{selectedPoints.Count} COGO punten geselecteerd voor verwerking.";
+                    // Hier kun je de geselecteerde punten verwerken
+
+                    throw new NotImplementedException("Functie nog niet geïmplementeerd!");
+                }
+
                 StatusMessage = "Geen COGO punten geselecteerd.";
             }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+
         }
 
         private void ProcessSelectedBlocks(object parameter)
         {
-            var selectedBlocks = Blocks.Where(b => b.IsSelected).ToList();
-            if (selectedBlocks.Count > 0)
+            try
             {
-                StatusMessage = $"{selectedBlocks.Count} blokken geselecteerd voor verwerking.";
-                // Hier kun je de geselecteerde blokken verwerken
-            }
-            else
-            {
+                var selectedBlocks = Blocks.Where(b => b.IsSelected).ToList();
+                if (selectedBlocks.Count > 0)
+                {
+                    StatusMessage = $"{selectedBlocks.Count} blokken geselecteerd voor verwerking.";
+                    // Hier kun je de geselecteerde blokken verwerken
+
+                    throw new NotImplementedException("Functie nog niet geïmplementeerd!");
+                }
+
                 StatusMessage = "Geen blokken geselecteerd.";
             }
+            catch (System.Exception exception) { HandleUnexpectedException(exception); }
         }
         #endregion
 
@@ -901,7 +905,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
                 throw;
             }
         }
+        // TODO: refactor this to a logical place, so we can reuse this.
+        private static void HandleUnexpectedException(System.Exception exception)
+        {
+            var currentDocument = Autodesk.AutoCAD.ApplicationServices.
+                Core.Application.DocumentManager.MdiActiveDocument;
+            string msg = "";
+#if DEBUG
+            msg = exception.Message + ".\r\n" + exception.Source + ".\r\n" + exception.StackTrace + ".\r\n" + exception.TargetSite + ".\r\n";
+#else
+            msg = exception.Message;
+#endif
+            currentDocument?.Editor?.WriteMessage(msg);
 
+            System.Diagnostics.Trace.TraceError(exception.Message);
+        }
         private string GetLayerName(Transaction tr, ObjectId layerId)
         {
             if (tr == null)
@@ -923,7 +941,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error getting layer name for ID {layerId}: {ex.Message}");
-                throw;  
+                throw;
             }
         }
 

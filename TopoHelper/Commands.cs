@@ -1097,6 +1097,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
         #region Private Methods
 
+        // TODO: refactor this to a place we can actually do something with it.
         private static void HandleUnexpectedException(System.Exception exception)
         {
             var currentDocument = Autodesk.AutoCAD.ApplicationServices.

@@ -162,12 +162,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         }
 
 
-        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+
         /// <summary>
         /// Removes non-survey vertices from a selected polyline based on points or block inserts present on a specified layer.
         /// The user is prompted to select a point or block insert, and then a 3D polyline to clean.
         /// Only vertices corresponding to the selected points or inserts are retained in the polyline.
         /// </summary>
+        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
         {
             var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
@@ -1097,7 +1098,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
         #region Private Methods
 
-        // TODO: refactor this to a place we can actually do something with it.
+        // TODO: refactor this to a logical place, so we can reuse this.
         private static void HandleUnexpectedException(System.Exception exception)
         {
             var currentDocument = Autodesk.AutoCAD.ApplicationServices.
@@ -1113,6 +1114,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             System.Diagnostics.Trace.TraceError(exception.Message);
         }
 
+        // TODO: refactor this to a logical place, so we can reuse this.
         private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
         {
             var result = new StringBuilder(Environment.NewLine);

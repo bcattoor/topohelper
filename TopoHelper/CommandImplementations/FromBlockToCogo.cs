@@ -67,15 +67,15 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         /// <summary>
         /// Maakt CogoPoints aan op basis van block data
         /// </summary>
-        private static Dictionary<ObjectId, ObjectId> CreateCogoPointsFromBlocks(List<IapBlock> blocks)
+        private static Dictionary<ObjectId, ObjectId> CreateCogoPointsFromBlocks(List<ClassificationObject> blocks)
         {
             if (!blocks.Any())
                 throw new System.Exception("No blocks given, we need at least one block to call this function..");
 
-            var locations = new Point3dCollection(blocks.Select(b => b.InsertionPoint3D).ToArray());
-            var blockIds = blocks.Select(c => c.Id).ToList();
-
-            return AddCogoPoints(locations, blockIds, string.Empty);
+            var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
+            var blockIds = blocks.Select(c => c.ObjectId).ToList();
+            throw new NotImplementedException();
+            //return AddCogoPoints(locations, blockIds, string.Empty);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
 
             // Stap 3: Maak CogoPoints aan
-            var cogoPointMapping = CreateCogoPointsFromBlocks(iAPBlocksWithPropAndAttr);
+            var cogoPointMapping = CreateCogoPointsFromBlocks(classifications);
 
 
 
@@ -353,26 +353,23 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return "No style set.";
         }
 
-        public static Dictionary<ObjectId, ObjectId> AddCogoPoints(Point3dCollection locations, List<ObjectId> originalBlockIds, string description = "")
-        {
-            if (locations == null || !locations.Cast<Point3d>().Any()) throw new ArgumentNullException(nameof(locations));
-            if (originalBlockIds == null || !originalBlockIds.Any()) throw new ArgumentNullException(nameof(originalBlockIds));
-            if (locations.Count != originalBlockIds.Count) throw new ArgumentException("Location and ID counts must match.");
+        //public static Dictionary<ObjectId, ObjectId> AddCogoPoints(List<ClassificationObject> blocks)
+        //{
 
-            var returnDictionary = new Dictionary<ObjectId, ObjectId>();
-            var doc = Application.DocumentManager.MdiActiveDocument;
-            using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
-            {
-                var civilDoc = CivilApplication.ActiveDocument;
-                Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
-                for (int i = 0; i < newPointIds.Count; i++)
-                {
-                    returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
-                }
-                tr.Commit();
-            }
-            return returnDictionary;
-        }
+        //    var returnDictionary = new Dictionary<ObjectId, ObjectId>();
+        //    var doc = Application.DocumentManager.MdiActiveDocument;
+        //    using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
+        //    {
+        //        var civilDoc = CivilApplication.ActiveDocument;
+        //        Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
+        //        for (int i = 0; i < newPointIds.Count; i++)
+        //        {
+        //            returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
+        //        }
+        //        tr.Commit();
+        //    }
+        //    return returnDictionary;
+        //}
 
         private static ObjectId GetPointStyleIdWithFallback(PointStyleCollection pointStyles, string primaryStyleName, string fallbackStyleName)
         {
@@ -462,11 +459,18 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             public ObjectId ObjectId { get { return IapBlock.Id; } }
             public ClassificationsEnum Classification { get; private set; }
+
+            /// <summary>
+            /// Dit is de text die gebruikt wordt om bij de projectie van een punt in het profileVew de zoals gedefinieerd in de projectie stijl I-AM_CAT(in infrabel template)
+            /// </summary>
             public string NewCogoPointName { get; private set; } = string.Empty;
             public string NewCogoPointLayerName { get; private set; } = string.Empty;
             public string NewCogoPointRawDescription { get; private set; } = string.Empty;
+            public string NewCogoPointStyleName { get; private set; } = "<default>";
+            public string NewCogoPointPointLabelStyleName { get; private set; } = "<default>";
             public List<IapBlockAttributes> AttributeTags { get { return IapBlock?.Attributes; } }
             private IapBlock IapBlock { get; }
+            public  IapBlock Block => IapBlock;
 
 
             public ClassificationObject(IapBlock iApBlock)
@@ -484,10 +488,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 Classification = Classify(iApBlock, allKnownBlocks);
 
                 // En nu kunnen we de eigenschappen instellen aan de hand van de classificatie
-                FillPropertiesByClassification(this,_knownBlocksCat,_knownBlocksKp, _knownBlocksHp, _knownBlocksSignal, _knownBlocksSwitch);
+                FillPropertiesByClassification(this, _knownBlocksCat, _knownBlocksKp, _knownBlocksHp, _knownBlocksSignal, _knownBlocksSwitch);
             }
 
-            private static void FillPropertiesByClassification(ClassificationObject classification,List<string> knownBlocksCat, List<string> knownBlocksKp, List<string> knownBlocksHp, List<string> knownBlocksSignal, List<string> knownBlocksSwitch)
+            private static void FillPropertiesByClassification(ClassificationObject classification, List<string> knownBlocksCat, List<string> knownBlocksKp, List<string> knownBlocksHp, List<string> knownBlocksSignal, List<string> knownBlocksSwitch)
             {
                 var sw = classification.Classification;
 
@@ -500,7 +504,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     case ClassificationsEnum.KnownByAttibuteTag:
                         FillPropertiesKnownByAttributeTag(classification); break;
                     case ClassificationsEnum.KnownByRealBlockName:
-                        FillPropertiesKnownByRealBlockName(classification,knownBlocksCat, knownBlocksKp, knownBlocksHp, knownBlocksSignal, knownBlocksSwitch);
+                        FillPropertiesKnownByRealBlockName(classification, knownBlocksCat, knownBlocksKp, knownBlocksHp, knownBlocksSignal, knownBlocksSwitch);
                         break;
 
                 }
@@ -509,8 +513,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
 
             // TODO Get this from setting instead of hardcoding
-            // these are the BrockDefinition Names.
-            private readonly List<string> _knownBlocksCat = new List<string>() { "CAT", "00_969T_GoujonRep_Stifbout", "00_969T_GoujonRep_Stifbout" };
+            // these are the BlockDefinition Names.
+            private readonly List<string> _knownBlocksCat = new List<string>() { "CAT", "811", "969_GoujonRep_Stifbout" };
             private readonly List<string> _knownBlocksKp = new List<string>() { "KP", "" };
             private readonly List<string> _knownBlocksHp = new List<string>() { "HP", "" };
             private readonly List<string> _knownBlocksSignal = new List<string>() { "Signal", "" };
@@ -522,14 +526,32 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 // this means we can use hardcoded convertion rules, because we know the block, and know what to expect
                 // ea. If this is a Hectometer Palen, Kilometer Palen, Katenapalen, Switches, Seinen, AluminiumLassen, enz...
                 // opmeter kunnen op veschillende manieren hun block genoemd hebben, dus in de instellingen kunnen we
-                // deze mappen 'customname', map to Kp, Hp, Cat, Signal, Switch
+                // deze mappen 'custom name', map to Kp, Hp, Cat, Signal, Switch
                 // Bijvoorbeeld: Bij een switch moeten we 4 punten toevoegen als cogopoint
                 // Deze implementeren is PRIO 1!!
 
-                // It's a CAT
+                //
+                // a CAT
                 if (knownBlocksCat.Contains(classification.IapBlock.BlockName))
-                    classification.NewCogoPointRawDescription = ";";
-                throw new NotImplementedException();
+                {
+                    classification.NewCogoPointLayerName = "C3D_COGO_E_CAT";
+                    classification.NewCogoPointName =
+                        classification.AttributeTags.Find(x => x.Tag.Equals("PUNTNUMMER")).Text;
+                    // Bij catena's moeten we er voor zorgen dat wanneer de naam achteraan een even nummer is, de punt
+                    // CATB (rechts van het spoor) heeft in de beschrijving, anders is het CATA(links van het spoor)
+                    var last = CheckLastDigit(classification.NewCogoPointName);
+                    switch (last)
+                    {
+                        case LastDigit.NotANumber:
+                        { classification.NewCogoPointRawDescription = ("CAT " + classification.NewCogoPointName).Trim(); break; }
+                        case LastDigit.Even:
+                            { classification.NewCogoPointRawDescription = ("CATB " + classification.NewCogoPointName).Trim(); break; }
+                        case LastDigit.Odd:
+                            { classification.NewCogoPointRawDescription = ("CATA " + classification.NewCogoPointName).Trim(); break; }
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
             }
 
 
@@ -553,24 +575,24 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 // We get all know block names from the hardcoded values
                 var knownRealBlockNames = allKnownBlocks;
-                var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
-                var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
-                var attributeTags = iApBlock.Attributes;
+                //var knownLayers = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Layer_Names_ToSetCogoProperties);
+                //var knownAttributeNames = DeserializeStringCollection(Settings.Default.FromBlockToCogo_Known_Block_Attributes_ToSetCogoProperties);
+                //var attributeTags = iApBlock.Attributes;
                 // Controleer of ObjectName voorkomt in de lijst van bekende bloknamen
                 if (!string.IsNullOrEmpty(iApBlock.RawAutoCadName) &&
                     knownRealBlockNames.Any(knownName => string.Equals(knownName, iApBlock.RawAutoCadName, StringComparison.OrdinalIgnoreCase)))
                 { return ClassificationsEnum.KnownByRealBlockName; }
 
-                // Controleer of een van de attribuutTags voorkomt in de lijst van bekende attribuutnamen
-                else if (attributeTags != null && attributeTags.Any() &&
-                     attributeTags.Any(attr => !string.IsNullOrEmpty(attr.Tag) &&
-                                       knownAttributeNames.Any(name => string.Equals(name, attr.Tag, StringComparison.OrdinalIgnoreCase))))
-                { return ClassificationsEnum.KnownByAttibuteTag; }
+                //// Controleer of een van de attribuutTags voorkomt in de lijst van bekende attribuutnamen
+                //else if (attributeTags != null && attributeTags.Any() &&
+                //     attributeTags.Any(attr => !string.IsNullOrEmpty(attr.Tag) &&
+                //                       knownAttributeNames.Any(name => string.Equals(name, attr.Tag, StringComparison.OrdinalIgnoreCase))))
+                //{ return ClassificationsEnum.KnownByAttibuteTag; }
 
-                // Controleer of LayerName voorkomt in de lijst van bekende laagnamen
-                else if (!string.IsNullOrEmpty(iApBlock.Layer) &&
-                     knownLayers.Any(layer => string.Equals(layer, iApBlock.Layer, StringComparison.OrdinalIgnoreCase)))
-                { return ClassificationsEnum.KnownByLayer; }
+                //// Controleer of LayerName voorkomt in de lijst van bekende laagnamen
+                //else if (!string.IsNullOrEmpty(iApBlock.Layer) &&
+                //     _knownLayers.Any(layer => string.Equals(layer, iApBlock.Layer, StringComparison.OrdinalIgnoreCase)))
+                //{ return ClassificationsEnum.KnownByLayer; }
 
                 // Geen gekend object, dus behandelen we deze als unknown
                 return ClassificationsEnum.UnknownEntity;

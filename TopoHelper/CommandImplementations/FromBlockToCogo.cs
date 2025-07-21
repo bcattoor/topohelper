@@ -70,10 +70,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             if (!blocks.Any())
                 throw new System.Exception("No blocks given, we need at least one block to call this function..");
 
-            var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
-            var blockIds = blocks.Select(c => c.ObjectId).ToList();
 
-            return AddCogoPoints(locations, blockIds, string.Empty);
+            return AddCogoPoints(blocks);
         }
 
         /// <summary>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using Autodesk.Aec.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -74,8 +72,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
             var blockIds = blocks.Select(c => c.ObjectId).ToList();
-            throw new NotImplementedException();
-            //return AddCogoPoints(locations, blockIds, string.Empty);
+
+            return AddCogoPoints(locations, blockIds, string.Empty);
         }
 
         /// <summary>
@@ -353,23 +351,50 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return "No style set.";
         }
 
-        //public static Dictionary<ObjectId, ObjectId> AddCogoPoints(List<ClassificationObject> blocks)
-        //{
+        public static Dictionary<ObjectId, ObjectId> AddCogoPoints(List<ClassificationObject> blocks)
+        {
+            var returnDictionary = new Dictionary<ObjectId, ObjectId>();
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            
+            // Extract locations and original block IDs from classification objects
+            var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
+            var originalBlockIds = blocks.Select(b => b.ObjectId).ToList();
 
-        //    var returnDictionary = new Dictionary<ObjectId, ObjectId>();
-        //    var doc = Application.DocumentManager.MdiActiveDocument;
-        //    using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
-        //    {
-        //        var civilDoc = CivilApplication.ActiveDocument;
-        //        Autodesk.AutoCAD.DatabaseServices.ObjectIdCollection newPointIds = civilDoc.CogoPoints.Add(locations, description, false, false, true);
-        //        for (int i = 0; i < newPointIds.Count; i++)
-        //        {
-        //            returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
-        //        }
-        //        tr.Commit();
-        //    }
-        //    return returnDictionary;
-        //}
+            using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
+            {
+                var civilDoc = CivilApplication.ActiveDocument;
+                
+                // Add CogoPoints with empty description, disable user interaction during creation
+                var newPointIds = civilDoc.CogoPoints.Add(
+                    locations, 
+                    string.Empty,  // Default empty description
+                    false,        // Disable "Check for duplicate points"
+                    false,        // Don't "Erase existing entities" 
+                    true);       // "Allow non-uniform scaling"
+
+                // Map original block IDs to new CogoPoint IDs
+                for (int i = 0; i < newPointIds.Count; i++)
+                {
+                    if (i >= originalBlockIds.Count) continue;
+                    // Now we need to set the properties that are not available in the CogoPoints.Add() function we have the id's of the new-objects, the properties values are available on the classification objects
+                    var cogoPoint = tr.GetObject(newPointIds[i], OpenMode.ForWrite) as CogoPoint;
+                    if (cogoPoint != null)
+                    {
+                        // Set properties based on ClassificationObject
+                        var blockClass = blocks[i];
+                        cogoPoint.PointName = blockClass.NewCogoPointName;
+                        cogoPoint.RawDescription = blockClass.NewCogoPointRawDescription;
+                        cogoPoint.Layer = AutoCADCommon.Interactions.Layers.GetValidLayerNameOrCurrent(blockClass.NewCogoPointLayerName);
+                    }
+                    returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
+                }
+
+                
+
+                tr.Commit();
+            }
+            return returnDictionary;
+        }
 
         private static ObjectId GetPointStyleIdWithFallback(PointStyleCollection pointStyles, string primaryStyleName, string fallbackStyleName)
         {
@@ -455,7 +480,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             public Dictionary<ClassificationsEnum, int> ConversionsByClassification => Details.GroupBy(d => d.Classification).ToDictionary(g => g.Key, g => g.Count());
         }
 
-        class ClassificationObject
+        internal class ClassificationObject
         {
             public ObjectId ObjectId { get { return IapBlock.Id; } }
             public ClassificationsEnum Classification { get; private set; }
@@ -470,7 +495,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             public string NewCogoPointPointLabelStyleName { get; private set; } = "<default>";
             public List<IapBlockAttributes> AttributeTags { get { return IapBlock?.Attributes; } }
             private IapBlock IapBlock { get; }
-            public  IapBlock Block => IapBlock;
+            public IapBlock Block => IapBlock;
 
 
             public ClassificationObject(IapBlock iApBlock)
@@ -543,7 +568,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     switch (last)
                     {
                         case LastDigit.NotANumber:
-                        { classification.NewCogoPointRawDescription = ("CAT " + classification.NewCogoPointName).Trim(); break; }
+                            { classification.NewCogoPointRawDescription = ("CAT " + classification.NewCogoPointName).Trim(); break; }
                         case LastDigit.Even:
                             { classification.NewCogoPointRawDescription = ("CATB " + classification.NewCogoPointName).Trim(); break; }
                         case LastDigit.Odd:

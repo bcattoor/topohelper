@@ -228,7 +228,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             cgPoint.RawDescription = description;
 
             // Now, generate the point name using the new engine, which can use the description.
-            string newName = Model.Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
+            var newName = Model.Naming.CogoPointNamingEngine.GeneratePointName(cgPoint, namingSettings, existingNames);
             cgPoint.PointName = newName;
             existingNames.Add(newName);
 
@@ -271,24 +271,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 classifications.Add(new ClassificationObject(blk));
             }
-
-
+            
             // Stap 3: Maak CogoPoints aan
             var cogoPointMapping = CreateCogoPointsFromBlocks(classifications);
 
-
-
-
-            //// Stap 4: Configureer styles en naming
-            //var styleConfig = InitializeStyleConfiguration(civDoc, defaultLabelStyleName);
-            //var namingSettings = CogoPointNamingEngine.LoadSettings();
-
-            //// Stap 5: Converteer elk block naar CogoPoint
-            //var conversionReport = ProcessBlockConversions(
-            //    iAPBlocksWithPropAndAttr, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
-
-            //// Stap 6: Toon resultaten (optioneel)
-            //DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
         }
 
         #region Utility and Helper Methods (Unchanged)
@@ -362,6 +348,17 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 var civilDoc = CivilApplication.ActiveDocument;
 
+                // Correcte manier om standaardstijlen op te halen
+                var defaultPointStyleId = civilDoc.Styles.PointStyles["<default>"];
+                var defaultLabelStyleId = ObjectId.Null;
+
+                // Specifieke manier voor labelstyles via LabelStyles eigenschap
+                if (civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles.Contains("<default>"))
+                {
+                    defaultLabelStyleId =
+                        civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles["<default>"];
+                }
+
                 // Add CogoPoints with empty description, disable user interaction during creation
                 var newPointIds = civilDoc.CogoPoints.Add(
                     locations,
@@ -371,7 +368,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                     true);
 
                 // Map original block IDs/properties  to new CogoPoint IDs/properties
-                for (int i = 0; i < newPointIds.Count; i++)
+                for (var i = 0; i < newPointIds.Count; i++)
                 {
                     if (i >= originalBlockIds.Count) continue;
                     // Now we need to set the properties that are not available in the CogoPoints.Add() function we have the id's of the new-objects, the properties values are available on the classification objects
@@ -384,7 +381,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                         cogoPoint.RawDescription = blockClass.NewCogoPointRawDescription;
                         // Create the layer if it does not exist.
                         cogoPoint.LayerId = AutoCADCommon.Interactions.Layers.CreateLayer(blockClass.NewCogoPointLayerName, 0, "");
-                        
+
+                        // Stijlen instellen
+                        if (!defaultPointStyleId.IsNull)
+                            cogoPoint.StyleId = defaultPointStyleId;
+
+                        if (!defaultLabelStyleId.IsNull)
+                            cogoPoint.LabelStyleId = defaultLabelStyleId;
                     }
                     returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
                 }
@@ -412,7 +415,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         private static LastDigit CheckLastDigit(string input)
         {
             if (string.IsNullOrEmpty(input)) return LastDigit.NotANumber;
-            char lastChar = input.Last();
+            var lastChar = input.Last();
             if (char.IsDigit(lastChar))
             {
                 return (int.Parse(lastChar.ToString()) % 2 == 0) ? LastDigit.Even : LastDigit.Odd;
@@ -427,7 +430,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                 throw new ArgumentNullException(nameof(tr));
 
             var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (ObjectId cogoId in civDoc.CogoPoints)
+            foreach (var cogoId in civDoc.CogoPoints)
             {
                 var cogo = (CogoPoint)tr.GetObject(cogoId, OpenMode.ForRead, false, true);
                 if (cogo != null && !string.IsNullOrEmpty(cogo.PointName))
@@ -616,7 +619,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
 
             }
-           
+
         }
 
         private static class PointStyleMappingManager

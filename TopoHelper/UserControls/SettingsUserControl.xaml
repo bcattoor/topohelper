@@ -52,7 +52,7 @@
                     <Button DockPanel.Dock="Top" Content="Refresh" Command="{Binding RefreshCogoPointsCommand}" Margin="5" Padding="5"/>
                     <DataGrid ItemsSource="{Binding CogoPoints}" 
                               IsReadOnly="False" 
-                              AutoGenerateColumns="False" 
+                              AutoGenerateColumns="False" EnableRowVirtualization="True"
                               CanUserAddRows="False" 
                               CanUserDeleteRows="False"
                               x:Name="CogoPointsDataGrid"
@@ -86,7 +86,7 @@
                               IsReadOnly="False" 
                               AutoGenerateColumns="False" 
                               CanUserAddRows="False" 
-                              CanUserDeleteRows="False"
+                              CanUserDeleteRows="False" EnableRowVirtualization="True"
                               x:Name="BlocksDataGrid"
                               KeyDown="DataGrid_KeyDown">
                         <DataGrid.Columns>
@@ -212,7 +212,7 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserSortColumns="True"
-                  
+                  EnableRowVirtualization="True"
                   CanUserReorderColumns="True"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   >

@@ -1,3 +1,5 @@
 - When using try catch in c#, u should always rethrow te exception. Unless you're in a top level Class, ea the Commands.cs Class.
 - Always try to use API functions from th AutoCAD / CIV3D official API's intead of reinventing the wheel.
 - When performing crud operations on files, meticulously adhere to the established folder structure logic. Use the provided tree and replicate it consistently. Furthermore, adopt the prevailing coding style present within the project, ensuring seamless integration and maintainability.
+- Use C# 8.x syntax conventions: ea: "var".
+- Do not use throw new exception for normal "application-logic flow", only for "real" exceptions!

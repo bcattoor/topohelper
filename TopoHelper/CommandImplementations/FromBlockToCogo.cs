@@ -279,16 +279,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
 
 
-            // Stap 4: Configureer styles en naming
-            var styleConfig = InitializeStyleConfiguration(civDoc, defaultLabelStyleName);
-            var namingSettings = CogoPointNamingEngine.LoadSettings();
+            //// Stap 4: Configureer styles en naming
+            //var styleConfig = InitializeStyleConfiguration(civDoc, defaultLabelStyleName);
+            //var namingSettings = CogoPointNamingEngine.LoadSettings();
 
-            // Stap 5: Converteer elk block naar CogoPoint
-            var conversionReport = ProcessBlockConversions(
-                iAPBlocksWithPropAndAttr, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
+            //// Stap 5: Converteer elk block naar CogoPoint
+            //var conversionReport = ProcessBlockConversions(
+            //    iAPBlocksWithPropAndAttr, cogoPointMapping, styleConfig, namingSettings, civDoc, db);
 
-            // Stap 6: Toon resultaten (optioneel)
-            DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
+            //// Stap 6: Toon resultaten (optioneel)
+            //DisplayConversionReport(doc.Editor, conversionReport, civDoc.Styles.PointStyles, db.TransactionManager.StartOpenCloseTransaction());
         }
 
         #region Utility and Helper Methods (Unchanged)
@@ -353,7 +353,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
         {
             var returnDictionary = new Dictionary<ObjectId, ObjectId>();
             var doc = Application.DocumentManager.MdiActiveDocument;
-            
+
             // Extract locations and original block IDs from classification objects
             var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
             var originalBlockIds = blocks.Select(b => b.ObjectId).ToList();
@@ -361,16 +361,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             using (var tr = doc.Database.TransactionManager.StartOpenCloseTransaction())
             {
                 var civilDoc = CivilApplication.ActiveDocument;
-                
+
                 // Add CogoPoints with empty description, disable user interaction during creation
                 var newPointIds = civilDoc.CogoPoints.Add(
-                    locations, 
-                    string.Empty,  // Default empty description
-                    false,        // Disable "Check for duplicate points"
-                    false,        // Don't "Erase existing entities" 
-                    true);       // "Allow non-uniform scaling"
+                    locations,
+                    string.Empty, // Default empty description
+                    false,
+                    false,
+                    true);
 
-                // Map original block IDs to new CogoPoint IDs
+                // Map original block IDs/properties  to new CogoPoint IDs/properties
                 for (int i = 0; i < newPointIds.Count; i++)
                 {
                     if (i >= originalBlockIds.Count) continue;
@@ -382,12 +382,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
                         var blockClass = blocks[i];
                         cogoPoint.PointName = blockClass.NewCogoPointName;
                         cogoPoint.RawDescription = blockClass.NewCogoPointRawDescription;
-                        cogoPoint.Layer = AutoCADCommon.Interactions.Layers.GetValidLayerNameOrCurrent(blockClass.NewCogoPointLayerName);
+                        // Create the layer if it does not exist.
+                        cogoPoint.LayerId = AutoCADCommon.Interactions.Layers.CreateLayer(blockClass.NewCogoPointLayerName, 0, "");
+                        
                     }
                     returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
                 }
-
-                
 
                 tr.Commit();
             }
@@ -622,32 +622,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
 
             }
-
-
-            private static List<string> DeserializeStringCollection(string xmlString)
-            {
-                if (string.IsNullOrEmpty(xmlString))
-                    return new List<string>();
-
-                try
-                {
-                    var serializer = new System.Xml.Serialization.XmlSerializer(typeof(string[]));
-                    using (var reader = new System.IO.StringReader(xmlString))
-                    {
-                        var array = (string[])serializer.Deserialize(reader);
-                        if (array == null)
-                            return new List<string>();
-
-                        // Zorg ervoor dat alle items strings zijn (niet chars)
-                        return array.Select(item => item?.ToString() ?? string.Empty).ToList();
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.WriteLine($"Fout bij deserialiseren van string collection: {ex.Message}");
-                    throw;
-                }
-            }
+           
         }
 
         private static class PointStyleMappingManager

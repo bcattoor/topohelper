@@ -451,12 +451,6 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             public string Description { get; set; }
             public int Priority { get; set; }
         }
-        public class StyleMappingValidationResult
-        {
-            public List<string> Warnings { get; set; } = new List<string>();
-            public List<string> Errors { get; set; } = new List<string>();
-            public bool IsValid => !Errors.Any();
-        }
 
         public class ConversionDetails
         {

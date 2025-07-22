@@ -1,13 +1,11 @@
 ﻿//todo: using Simplifynet; #disabled until original source code is found
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -15,7 +13,6 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Windows;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
-using Infrabel.AutodeskPlatform.AutoCADCommon;
 using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
 using Infrabel.AutodeskPlatform.TopoHelper;
 using Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations;
@@ -31,6 +28,7 @@ using Simplifynet;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using Exception = System.Exception;
 using Point = Infrabel.AutodeskPlatform.TopoHelper.Model.Geometry.Point;
+using Trace = System.Diagnostics.Trace;
 
 [assembly: CommandClass(typeof(Commands))]
 
@@ -75,8 +73,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         #region Public Methods
 
         /// <summary>
-        /// This command is used by user to align an inserted blocks angle
-        /// property to a selected polyline.
+        ///     This command is used by user to align an inserted blocks angle
+        ///     property to a selected polyline.
         /// </summary>
         [CommandMethod("IAMTopo_AlignAngleOfBlock", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_AlignAngleOfBlock()
@@ -88,7 +86,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             try
             {
                 if (IAMTopo_AlignAngleOfBlockLastSelectedPolylineId == ObjectId.Null)
-                {// Select the polyline
+                {
+                    // Select the polyline
                     var promptEntityOptions = new PromptEntityOptions("\nSelect 3D-polyline to align to.");
                     promptEntityOptions.SetRejectMessage("\nInvalid selection...");
                     promptEntityOptions.AddAllowedClass(typeof(Polyline3d), true);
@@ -101,7 +100,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 }
                 else
                 {
-                    editor.WriteMessage("Using last selected entity..., use the [IAMTopo_AlignAngleOfBlock_ResetEntity] to reset this.\r\n");
+                    editor.WriteMessage(
+                        "Using last selected entity..., use the [IAMTopo_AlignAngleOfBlock_ResetEntity] to reset this.\r\n");
                 }
 
                 // Select the blockreference to set angle
@@ -123,7 +123,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     transaction.Commit();
                 }
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
         [CommandMethod("IAMTopo_PlaceTextOnLineWithLength", CommandFlags.Modal)]
@@ -133,7 +136,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             {
                 PlaceTextOnLineWithLength.ExcecuteCommand(false, FunctionCanceled);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 HandleUnexpectedException(exception);
             }
@@ -160,10 +163,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 // Stap 3: Roep verwerking aan met de selectieset
                 FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName, pickFirstSet);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 HandleUnexpectedException(exception);
-
             }
         }
 
@@ -178,7 +180,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 return blockIds;
 
             // Filtreer alleen INSERT objecten
-            blockIds.AddRange(from SelectedObject selObj in pickFirstResult.Value where selObj.ObjectId.ObjectClass.DxfName == "INSERT" select selObj.ObjectId);
+            blockIds.AddRange(from SelectedObject selObj in pickFirstResult.Value
+                where selObj.ObjectId.ObjectClass.DxfName == "INSERT"
+                select selObj.ObjectId);
 
             return blockIds;
         }
@@ -194,33 +198,33 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             };
 
             // Behoud bestaande filter voor INSERT objecten
-            var filter = new SelectionFilter(new[] {
+            var filter = new SelectionFilter(new[]
+            {
                 new TypedValue((int)DxfCode.Start, "INSERT")
             });
 
             var psr = editor.GetSelection(pso, filter);
-            return psr.Status == PromptStatus.OK ?
-                psr.Value.GetObjectIds().ToList() :
-                new List<ObjectId>();
+            return psr.Status == PromptStatus.OK ? psr.Value.GetObjectIds().ToList() : new List<ObjectId>();
         }
 
         /// <summary>
-        /// This command is used by user to reset the objectid
+        ///     This command is used by user to reset the objectid
         /// </summary>
-        [CommandMethod("IAMTopo_AlignAngleOfBlock_ResetEntity", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        [CommandMethod("IAMTopo_AlignAngleOfBlock_ResetEntity",
+            CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_AlignAngleOfBlock_ResetEntity()
         {
             IAMTopo_AlignAngleOfBlockLastSelectedPolylineId = ObjectId.Null;
         }
 
 
-
         /// <summary>
-        /// Removes non-survey vertices from a selected polyline based on points or block inserts present on a specified layer.
-        /// The user is prompted to select a point or block insert, and then a 3D polyline to clean.
-        /// Only vertices corresponding to the selected points or inserts are retained in the polyline.
+        ///     Removes non-survey vertices from a selected polyline based on points or block inserts present on a specified layer.
+        ///     The user is prompted to select a point or block insert, and then a 3D polyline to clean.
+        ///     Only vertices corresponding to the selected points or inserts are retained in the polyline.
         /// </summary>
-        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        [CommandMethod("IAMTopo_CleanNonSurveyVertexFromPolyline",
+            CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_CleanNonSurveyVertexFromPolyline()
         {
             var document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
@@ -232,11 +236,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 //Clear selection
                 editor.SetImpliedSelection(Array.Empty<ObjectId>());
 
-                var promptOptions = new PromptEntityOptions("Please select one of the points that are on the polyline to clean.")
-                {
-                    AllowObjectOnLockedLayer = true,
-                    AllowNone = false
-                };
+                var promptOptions =
+                    new PromptEntityOptions("Please select one of the points that are on the polyline to clean.")
+                    {
+                        AllowObjectOnLockedLayer = true,
+                        AllowNone = false
+                    };
 
                 // Select an entity that is on the points-layer
                 var promptEntityResult = editor.GetEntity(promptOptions);
@@ -250,11 +255,14 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 var layerName = database.GetLayerNameFromEntityObjectId(promptEntityResult.ObjectId);
 
                 // Make sure object is supported (we support points and block inserts
-                if (!promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("INSERT", StringComparison.OrdinalIgnoreCase)
-                    && !promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("POINT", StringComparison.OrdinalIgnoreCase))
+                if (!promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("INSERT",
+                        StringComparison.OrdinalIgnoreCase)
+                    && !promptEntityResult.ObjectId.ObjectClass.DxfName.Equals("POINT",
+                        StringComparison.OrdinalIgnoreCase))
                     throw new Exception("Selected object not supported by function.");
                 // Get all entities on that layer, of selected type, in model-space
-                var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL", promptEntityResult.ObjectId.ObjectClass.DxfName);
+                var pointIdsOnLayer = editor.GetEntityIdsOnLayer(layerName, "MODEL",
+                    promptEntityResult.ObjectId.ObjectClass.DxfName);
 
                 // Go get the positions of all those points/inserts
                 var pointsToUseAsFilter = database.GetPoints(pointIdsOnLayer);
@@ -268,6 +276,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }
+
                 editor.SetImpliedSelection(new[] { selectedObjectId });
 
                 var pointsFromPolyline = database.GetPointsFromPolyline(selectedObjectId);
@@ -281,14 +290,19 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     return !res.Equals(Point3d.Origin);
                 });
 
-                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + pointsFromPolylineEArray.Length + " vertices's.\r\n");
+                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + pointsFromPolylineEArray.Length +
+                                    " vertices's.\r\n");
 
                 database.Create3dPolyline(newPolylineListOfPoint);
 
                 // Report
-                editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count + " vertices's.");
+                editor.WriteMessage("\r\n\t=>Polyline has been created with " + newPolylineListOfPoint.Count +
+                                    " vertices's.");
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
             finally
             {
                 // clear selection
@@ -297,7 +311,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         }
 
         /// <summary>
-        /// This method calculates the distance between 2 selected 3D polylines.
+        ///     This method calculates the distance between 2 selected 3D polylines.
         /// </summary>
         [CommandMethod("IAMTopo_DistanceBetween2Polylines", CommandFlags.DocReadLock | CommandFlags.NoUndoMarker)]
         public static void IAMTopo_DistanceBetween2Polylines()
@@ -320,6 +334,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }
+
                 editor.SetImpliedSelection(new[] { pl1Id });
                 var pl2Id = editor.Select3dPolyline("\r\nSelect second polyline.");
                 if (pl1Id == ObjectId.Null)
@@ -327,6 +342,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }
+
                 editor.SetImpliedSelection(new[] { pl1Id, pl2Id });
 
                 // Make sure we did not select the same polyline twice
@@ -342,12 +358,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 #region Calculation
 
                 editor.WriteMessage(Calculating);
-                var distanceResult = DistanceBetween3dPolylines.CalculateDistanceBetween3dPolylines(database, pl1Id, pl2Id);
-                var distanceBetween2PolylinesSectionResults = distanceResult as DistanceBetween2PolylinesSectionResult[] ?? distanceResult.ToArray();
+                var distanceResult =
+                    DistanceBetween3dPolylines.CalculateDistanceBetween3dPolylines(database, pl1Id, pl2Id);
+                var distanceBetween2PolylinesSectionResults =
+                    distanceResult as DistanceBetween2PolylinesSectionResult[] ?? distanceResult.ToArray();
                 if (!distanceBetween2PolylinesSectionResults.Any())
-                {
                     throw new InvalidOperationException("We failed to calculate any result.");
-                }
 
                 #endregion
 
@@ -361,7 +377,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                 #endregion
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
             finally
             {
                 // clear selection
@@ -370,8 +389,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         }
 
         /// <summary>
-        /// This command is used by user to increment an attribute within an
-        /// inserted block property to a selected polyline.
+        ///     This command is used by user to increment an attribute within an
+        ///     inserted block property to a selected polyline.
         /// </summary>
         [CommandMethod("IAMTopo_IncrementAttribute", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_IncrementAttribute()
@@ -397,7 +416,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 {
                     using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
                     {
-                        IncrementAttribute.ExecuteIncrementsByPatern(transaction, blockSelection.ObjectId, ref Patern, SettingsDefault.IncrementAttribute_Name);
+                        IncrementAttribute.ExecuteIncrementsByPatern(transaction, blockSelection.ObjectId, ref Patern,
+                            SettingsDefault.IncrementAttribute_Name);
                         transaction.Commit();
                         // Save used pater to settings
                         SettingsDefault.IncrementAttribute_Pattern = Patern;
@@ -411,10 +431,16 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                                     IAMTopo_AlignAngleOfBlockLastSelectedPolylineId,
                                     SettingsDefault.AlignAngleOfBlock_AddAngleValue_TimesPI,
                                     SettingsDefault.AlignAngleOfBlock_DynamicPropertyName);
-                            else throw new Exception("You cannot chain the allign command, without setting the polyline first. Use the [IAMTopo_AlignAngleOfBlock] command to set this.");
+                            else
+                                throw new Exception(
+                                    "You cannot chain the allign command, without setting the polyline first. Use the [IAMTopo_AlignAngleOfBlock] command to set this.");
                     }
                 }
-                catch (System.Exception exception) { HandleUnexpectedException(exception); }
+                catch (Exception exception)
+                {
+                    HandleUnexpectedException(exception);
+                }
+
                 // reselect next block
                 blockSelection = ed.GetEntity(peo2);
             }
@@ -462,12 +488,13 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             {
                 using (Transaction transaction = db.TransactionManager.StartOpenCloseTransaction())
                 {
-
                     var extraMessage = "";
-                    using (var sourcePolyline3d = transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Polyline3d)
+                    using (var sourcePolyline3d =
+                           transaction.GetObject(selectedEntityObjectId, OpenMode.ForWrite) as Polyline3d)
                     using (var polyline3dToAdd = transaction.GetObject(joinId, OpenMode.ForWrite) as Polyline3d)
                     {
-                        if (sourcePolyline3d == null || polyline3dToAdd == null) throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
+                        if (sourcePolyline3d == null || polyline3dToAdd == null)
+                            throw new NullReferenceException("sourcePolyline == null || polylineToAdd == null");
 
                         var sourcePolyline = new Topo_PolyLine3d(sourcePolyline3d);
                         var polyLineToAdd = new Topo_PolyLine3d(polyline3dToAdd);
@@ -487,7 +514,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                         var result = distance.OrderBy(i => i.Item2).FirstOrDefault();
 
-                        System.Diagnostics.Trace.Assert(result != null, nameof(result) + " != null");
+                        Trace.Assert(result != null, nameof(result) + " != null");
 
                         var nodeDistance = result.Item2;
 
@@ -496,33 +523,38 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                         {
                             if (nodeDistance < Settings.Default.JoinPolyline_MaximumGapToClose)
                             {
-                                extraMessage = $"We closed the gap (pulled to mid-between two points [{result.Item1}]) with distance:";
+                                extraMessage =
+                                    $"We closed the gap (pulled to mid-between two points [{result.Item1}]) with distance:";
                                 switch (result.Item1)
                                 {
                                     case "sp1:sp2":
-                                        {
-                                            var mid = startPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
-                                            sourcePolyline.StartPoint = mid; polyLineToAdd.StartPoint = mid;
-                                            break;
-                                        }
+                                    {
+                                        var mid = startPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
+                                        sourcePolyline.StartPoint = mid;
+                                        polyLineToAdd.StartPoint = mid;
+                                        break;
+                                    }
                                     case "sp1:ep2":
-                                        {
-                                            var mid = startPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
-                                            sourcePolyline.StartPoint = mid; polyLineToAdd.EndPoint = mid;
-                                            break;
-                                        }
+                                    {
+                                        var mid = startPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
+                                        sourcePolyline.StartPoint = mid;
+                                        polyLineToAdd.EndPoint = mid;
+                                        break;
+                                    }
                                     case "ep1:sp2":
-                                        {
-                                            var mid = endPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
-                                            sourcePolyline.EndPoint = mid; polyLineToAdd.StartPoint = mid;
-                                            break;
-                                        }
+                                    {
+                                        var mid = endPointCurve1.GetMidpointTo3dPoint(startPointCurve2);
+                                        sourcePolyline.EndPoint = mid;
+                                        polyLineToAdd.StartPoint = mid;
+                                        break;
+                                    }
                                     case "ep1:ep2":
-                                        {
-                                            var mid = endPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
-                                            sourcePolyline.EndPoint = mid; polyLineToAdd.EndPoint = mid;
-                                            break;
-                                        }
+                                    {
+                                        var mid = endPointCurve1.GetMidpointTo3dPoint(endPointCurve2);
+                                        sourcePolyline.EndPoint = mid;
+                                        polyLineToAdd.EndPoint = mid;
+                                        break;
+                                    }
                                 }
                             }
                             else
@@ -531,16 +563,27 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                                 switch (result.Item1)
                                 {
                                     case "sp1:sp2":
-                                        { sourcePolyline3d.JoinEntity(new Line(startPointCurve1, startPointCurve2)); break; }
+                                    {
+                                        sourcePolyline3d.JoinEntity(new Line(startPointCurve1, startPointCurve2));
+                                        break;
+                                    }
                                     case "sp1:ep2":
-                                        { sourcePolyline3d.JoinEntity(new Line(startPointCurve1, endPointCurve2)); break; }
+                                    {
+                                        sourcePolyline3d.JoinEntity(new Line(startPointCurve1, endPointCurve2));
+                                        break;
+                                    }
                                     case "ep1:sp2":
-                                        { sourcePolyline3d.JoinEntity(new Line(endPointCurve1, startPointCurve2)); break; }
+                                    {
+                                        sourcePolyline3d.JoinEntity(new Line(endPointCurve1, startPointCurve2));
+                                        break;
+                                    }
                                     case "ep1:ep2":
-                                        { sourcePolyline3d.JoinEntity(new Line(endPointCurve1, endPointCurve2)); break; }
+                                    {
+                                        sourcePolyline3d.JoinEntity(new Line(endPointCurve1, endPointCurve2));
+                                        break;
+                                    }
                                 }
                             }
-
                         }
 
                         sourcePolyline3d.JoinEntity(polyline3dToAdd);
@@ -553,12 +596,15 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                         var vertexCount = sourcePolyline3d.EndParam + 1;
                         ed.WriteMessage($"{Environment.NewLine}Both lines were joined together." +
-                            $"{Environment.NewLine}\tVertexes: {vertexCount}\t" +
-                            $"{extraMessage} {result.Item2:F6}{Environment.NewLine}");
+                                        $"{Environment.NewLine}\tVertexes: {vertexCount}\t" +
+                                        $"{extraMessage} {result.Item2:F6}{Environment.NewLine}");
                     }
                 }
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
         [CommandMethod("IAMTopo_OpenRailView", CommandFlags.Modal)]
@@ -567,29 +613,32 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             try
             {
                 Action action = () =>
-              {
-                  var currentDocument = Autodesk.AutoCAD.ApplicationServices.
-                        Core.Application.DocumentManager.MdiActiveDocument;
-                  var editor = currentDocument.Editor;
-                  var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
-                  if (promptResult.Status != PromptStatus.OK)
-                      return;
+                {
+                    var currentDocument = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager
+                        .MdiActiveDocument;
+                    var editor = currentDocument.Editor;
+                    var promptResult = editor.GetPoint(new PromptPointOptions("Select a location."));
+                    if (promptResult.Status != PromptStatus.OK)
+                        return;
 
-                  var selectedPoint = promptResult.Value;
-                  Process.Start(string.Format(
+                    var selectedPoint = promptResult.Value;
+                    Process.Start(string.Format(
                         @"http://georamses/GeoRamses/ImajnetViewer.aspx?COORDX={0}&COORDY={1}&LOCALE=nl",
                         Math.Floor(selectedPoint.X),
                         Math.Floor(selectedPoint.Y)));
-              };
+                };
                 action.WrapInWorldUcs();
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
         /// <summary>
-        /// This command is used by user to generate a 3d-polyline from a set of
-        /// selected points, it will connect the points with that line, using
-        /// points found inside buffer, wit a min, and max buffer radius.
+        ///     This command is used by user to generate a 3d-polyline from a set of
+        ///     selected points, it will connect the points with that line, using
+        ///     points found inside buffer, wit a min, and max buffer radius.
         /// </summary>
         [CommandMethod("IAMTopo_PointsToPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_PointsToPolyline()
@@ -619,9 +668,11 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }
+
                 editor.WriteMessage(Calculating);
                 var point3ds = points as Point3d[] ?? points.ToArray();
-                var result = ClosestPointsList.Calculate(point3ds.Select(a => new Point(a)).ToList(), new Point(point3ds.First()), minimumDistance, maxDistance);
+                var result = ClosestPointsList.Calculate(point3ds.Select(a => new Point(a)).ToList(),
+                    new Point(point3ds.First()), minimumDistance, maxDistance);
 
                 if (result.Count() < 2)
                 {
@@ -635,7 +686,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                 editor.WriteMessage($"\r\nPolyline created with {result.Count()} vertices's.");
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
             finally
             {
                 // clear selection
@@ -666,7 +720,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             // uses an existing Alignment Style and Label Set Style named "Basic" (for example, from
             // the Civil 3D (Imperial) NCS Base.dwt template.  This call will fail if the named styles
             // don't exist.
-            var testAlignmentID = Alignment.Create(doc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
+            var testAlignmentID =
+                Alignment.Create(doc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
         }
 
         [CommandMethod("IAMTopo_AlignemntFrom3DPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
@@ -686,8 +741,6 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             var res = ed.GetEntity(opt);
 
 
-
-
             using (Transaction tr = database.TransactionManager.StartOpenCloseTransaction())
             {
                 var poly = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline3d;
@@ -699,9 +752,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 poly3d.GetOrderedListOf2DPoints();
 
                 //Alignment alignment = Alignment.FromAcadObject(poly.GetGeCurve());
-
             }
-
 
 
             // create some polyline options for creating the new alignment
@@ -715,9 +766,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             // uses an existing Alignment Style and Label Set Style named "Basic" (for example, from
             // the Civil 3D (Imperial) NCS Base.dwt template.  This call will fail if the named styles
             // don't exist.
-            var testAlignmentID = Alignment.Create(civilDoc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
+            var testAlignmentID =
+                Alignment.Create(civilDoc, plops, "New Alignment", "0", "Standard", "Standard", "Standard");
         }
-
 
 
         [CommandMethod("IAMTopo_RailsToRailwayCenterLine", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
@@ -751,6 +802,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     editor.WriteMessage(FunctionCanceled);
                     return;
                 }
+
                 editor.SetImpliedSelection(new[] { leftRailId1, rightRailId });
                 // Make sure we did not select the same polyline twice
                 if (leftRailId1.Equals(rightRailId))
@@ -800,13 +852,14 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 IEnumerable<CalculateDisplacementSectionResult> calculateDisplacementSectionResults = null;
                 if (correctedResult != null)
                 {
-                    calculateDisplacementSectionResults = correctedResult as CalculateDisplacementSectionResult[] ?? correctedResult.ToArray();
+                    calculateDisplacementSectionResults = correctedResult as CalculateDisplacementSectionResult[] ??
+                                                          correctedResult.ToArray();
 
                     sections =
-                       Rails2RailwayCenterLine.CalculateRailwayCenterLine(
-                           calculateDisplacementSectionResults.Select(s => s.LeftRailPoint).ToList(),
-                           calculateDisplacementSectionResults.Select(s => s.RightRailPoint).ToList())
-                       ;
+                        Rails2RailwayCenterLine.CalculateRailwayCenterLine(
+                            calculateDisplacementSectionResults.Select(s => s.LeftRailPoint).ToList(),
+                            calculateDisplacementSectionResults.Select(s => s.RightRailPoint).ToList())
+                        ;
                 }
                 else
                 {
@@ -823,28 +876,32 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 if (SettingsDefault.RailsToRailwayCenterLine_Draw2DPolyline_CenterLine)
                     // create a 2-dimensional polyline for track-center-line 2D
                     database.Create2dPolyline(
-                        points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LayerNamePrefix_2DObjects + SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterline,
-                        layerColor: SettingsDefault.RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine);
+                        trackAxis3DPoints,
+                        SettingsDefault.LayerNamePrefix_2DObjects +
+                        SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterline,
+                        SettingsDefault.RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
                 if (SettingsDefault.RailsToRailwayCenterLine_Draw3DPolyline_CenterLine)
                     // create a 3-dimensional polyline for track-center-line 3D
                     database.Create3dPolyline(trackAxis3DPoints,
-                    SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterline,
-                    SettingsDefault.RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine);
+                        SettingsDefault.LayerNamePrefix_3DObjects +
+                        SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterline,
+                        SettingsDefault.RailsToRailwayCenterLine_LayerColorOfCenterline3DPolyLine);
 
                 if (SettingsDefault.RailsToRailwayCenterLine_DrawCenterline3DPoints)
                     // create 3-dimensional points
                     database.CreatePoints(
-                        points: trackAxis3DPoints,
-                        layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterLine3DPoints,
-                        layerColor: SettingsDefault.RailsToRailwayCenterLine_LayerColorCenterline3DPoints);
+                        trackAxis3DPoints,
+                        SettingsDefault.LayerNamePrefix_3DObjects +
+                        SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterLine3DPoints,
+                        SettingsDefault.RailsToRailwayCenterLine_LayerColorCenterline3DPoints);
 
                 if (SettingsDefault.RailsToRailwayCenterLine_DrawCenterline2DPoints)
                     // create 2-dimensional points
                     database.CreatePoints(
-                        points: trackAxis3DPoints.Select(p => p.To3dPoint(0)).ToArray(),
-                        layerName: SettingsDefault.LayerNamePrefix_2DObjects + SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterLine3DPoints);
+                        trackAxis3DPoints.Select(p => p.To3dPoint()).ToArray(),
+                        SettingsDefault.LayerNamePrefix_2DObjects +
+                        SettingsDefault.RailsToRailwayCenterLine_LayerNameCenterLine3DPoints);
 
                 if (SettingsDefault.RailsToRailwayCenterLine_Use_CalculateSurveyCorrection)
                 {
@@ -853,26 +910,31 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                     {
                         // RIGHT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
-                        SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
-                        SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
+                            SettingsDefault.LayerNamePrefix_3DObjects +
+                            SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
+                            SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
 
                         // LEFT --> create a 3-dimensional polyline for correctedResult
                         database.Create3dPolyline(calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
-                        SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
-                        SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
+                            SettingsDefault.LayerNamePrefix_3DObjects +
+                            SettingsDefault.CalculateSurveyCorrection_LayerNamePolylines_Rails,
+                            SettingsDefault.CalculateSurveyCorrection_LayerColorPolyline_Rails);
                     }
 
                     if (SettingsDefault.CalculateSurveyCorrection_Draw3DPoints_Rails)
-                    { // create 3-dimensional points
+                    {
+                        // create 3-dimensional points
                         database.CreatePoints(
-                            points: calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
-                            layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
-                            layerColor: SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
+                            calculateDisplacementSectionResults.Select(s => s.LeftRailPoint),
+                            SettingsDefault.LayerNamePrefix_3DObjects +
+                            SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
+                            SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
 
                         database.CreatePoints(
-                             points: calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
-                             layerName: SettingsDefault.LayerNamePrefix_3DObjects + SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
-                             layerColor: SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
+                            calculateDisplacementSectionResults.Select(s => s.RightRailPoint),
+                            SettingsDefault.LayerNamePrefix_3DObjects +
+                            SettingsDefault.CalculateSurveyCorrection_LayerNamePoints_Rails,
+                            SettingsDefault.CalculateSurveyCorrection_LayerColorPoints_Rails);
                     }
                 }
 
@@ -885,7 +947,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                 #endregion
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
             finally
             {
                 // clear selection
@@ -894,9 +959,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         }
 
         /// <summary>
-        /// This command is used by user to generate a 3d-polyline from a set of
-        /// selected points, it will connect the points with that line, using
-        /// points found inside buffer, with a min, and max buffer radius.
+        ///     This command is used by user to generate a 3d-polyline from a set of
+        ///     selected points, it will connect the points with that line, using
+        ///     points found inside buffer, with a min, and max buffer radius.
         /// </summary>
         [CommandMethod("IAMTopo_Settings", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_Settings()
@@ -937,7 +1002,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 if (PaletteSet.Visible && MySettingsViewModel.ReloadSettingsCommand.CanExecute(null))
                     MySettingsViewModel.ReloadSettingsCommand.Execute(null);
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
         [CommandMethod("IAMTopo_SimplifyPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
@@ -967,7 +1035,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
                 var points = database.GetPointsFromPolyline(selectedObjectId);
                 var enumerable = points as Point3d[] ?? points.ToArray();
-                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + enumerable.Length + " vertices's.\r\n");
+                editor.WriteMessage("\r\n\t=>Polyline has been selected with " + enumerable.Length +
+                                    " vertices's.\r\n");
 
                 // Make up our list
                 var simplePoints = enumerable.Select(p => new Simplifynet.Point(p.X, p.Y, p.Z)).ToArray();
@@ -975,7 +1044,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 // Simplify polyline
                 var utility = new SimplifyUtility3D();
 
-                var r = utility.Simplify(simplePoints, SettingsDefault.SimplifyPolyline_Tolerance, SettingsDefault.SimplifyPolyline_UseHighPrecision);
+                var r = utility.Simplify(simplePoints, SettingsDefault.SimplifyPolyline_Tolerance,
+                    SettingsDefault.SimplifyPolyline_UseHighPrecision);
                 if (r == null || r.Count <= 2)
                     throw new InvalidOperationException("We could not calculate sufficient points.");
 
@@ -984,7 +1054,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 // Report
                 editor.WriteMessage("\r\n\t=>Polyline has been created with " + r.Count + " vertices's.");
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
             finally
             {
                 // clear selection
@@ -999,10 +1072,10 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             {
                 Action action = () =>
                 {
-                    var currentDocument = Autodesk.AutoCAD.ApplicationServices.
-                   Core.Application.DocumentManager.MdiActiveDocument;
+                    var currentDocument = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager
+                        .MdiActiveDocument;
                     var editor = currentDocument.Editor;
-                    var promptResult = editor.GetPoint(new Autodesk.AutoCAD.EditorInput.PromptPointOptions("Select a location."));
+                    var promptResult = editor.GetPoint(new PromptPointOptions("Select a location."));
                     if (promptResult.Status != PromptStatus.OK)
                         return;
                     // New uri example: https://gis.infrabel.be/gis/?x=29721,7239233308&y=197964,403618005&scale=10000
@@ -1014,17 +1087,24 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 };
                 action.WrapInWorldUcs();
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
-        [CommandMethod("IAMTopo_ProjectCogoPointToLongProfile", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
+        [CommandMethod("IAMTopo_ProjectCogoPointToLongProfile",
+            CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         public static void IAMTopo_ProjectCogoPointToLongProfile()
         {
             try
             {
                 ProjectCogoPointInProfile.ExecuteCommand();
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (Exception exception)
+            {
+                HandleUnexpectedException(exception);
+            }
         }
 
         [CommandMethod("IAMTopo_OffsetPolyline")]
@@ -1045,9 +1125,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
 
             while (per.Status == PromptStatus.OK)
             {
-                using (DocumentLock dl = document.LockDocument())
+                using (var dl = document.LockDocument())
                 {
-                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (var tr = db.TransactionManager.StartTransaction())
                     {
                         //prompt to specify offset distance
                         var promptDistanceOptions = new PromptDistanceOptions("\nSpecify the offset distance:")
@@ -1094,19 +1174,21 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                                 var id = db.Create2dPolyline(curve2);
                             }
                         }
+
                         tr.Commit();
                     }
                 }
+
                 per = ed.GetEntity(promptEntityOptions);
             }
         }
 
         /// <summary>
-        /// This command weeds two polylines so that the resulting polylines
-        /// have fewer vertexes, but all vertexes are perpendiculary projected
-        /// from one polyline to the other, also a minimum distance is used to
-        /// make sure a point exists per minimum distance value (aka:
-        /// "WeedPolyline_MinDistance" in settings).
+        ///     This command weeds two polylines so that the resulting polylines
+        ///     have fewer vertexes, but all vertexes are perpendiculary projected
+        ///     from one polyline to the other, also a minimum distance is used to
+        ///     make sure a point exists per minimum distance value (aka:
+        ///     "WeedPolyline_MinDistance" in settings).
         /// </summary>
         //    [CommandMethod("IAMTopo_WeedPolyline", CommandFlags.DocExclusiveLock | CommandFlags.NoMultiple)]
         //    public static void IAMTopo_WeedPolyline()
@@ -1151,23 +1233,25 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
         #region Private Methods
 
         // TODO: refactor this to a logical place, so we can reuse this.
-        private static void HandleUnexpectedException(System.Exception exception)
+        private static void HandleUnexpectedException(Exception exception)
         {
-            var currentDocument = Autodesk.AutoCAD.ApplicationServices.
-                Core.Application.DocumentManager.MdiActiveDocument;
-            string msg = "";
+            var currentDocument =
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
+            var msg = "";
 #if DEBUG
-            msg = exception.Message + ".\r\n" + exception.Source + ".\r\n" + exception.StackTrace + ".\r\n" + exception.TargetSite + ".\r\n";
+            msg = exception.Message + ".\r\n" + exception.Source + ".\r\n" + exception.StackTrace + ".\r\n" +
+                  exception.TargetSite + ".\r\n";
 #else
             msg = exception.Message;
 #endif
             currentDocument?.Editor?.WriteMessage(msg);
 
-            System.Diagnostics.Trace.TraceError(exception.Message);
+            Trace.TraceError(exception.Message);
         }
 
         // TODO: refactor this to a logical place, so we can reuse this.
-        private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult, IList<MeasuredSectionResult> sections)
+        private static string WriteResultToFile(IEnumerable<CalculateDisplacementSectionResult> correctedResult,
+            IList<MeasuredSectionResult> sections)
         {
             var result = new StringBuilder(Environment.NewLine);
             if (SettingsDefault.RailsToRailwayCenterLine_WriteResultToCSVFile)
@@ -1176,7 +1260,8 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 csv.FilePath = SettingsDefault.RailsToRailwayCenterLine_PathToCSVFile;
                 // create csv from result
                 csv.WriteMeasuredSections(sections);
-                result.AppendLine($"Rails to Railway Center-Line, result: CSV-file has been written to: {csv.FilePath}");
+                result.AppendLine(
+                    $"Rails to Railway Center-Line, result: CSV-file has been written to: {csv.FilePath}");
             }
 
             if (!SettingsDefault.RailsToRailwayCenterLine_Use_CalculateSurveyCorrection) return result.ToString();

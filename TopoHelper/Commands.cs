@@ -139,17 +139,69 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
             }
         }
 
-        [CommandMethod("IAMTopo_ConvertBlockToCogoPoint", CommandFlags.Modal)]
+        [CommandMethod("IAMTopo_ConvertBlockToCogoPoint", CommandFlags.Modal | CommandFlags.UsePickSet)]
         public static void IAMTopo_ConvertBlockToCogoPoint()
         {
             try
             {
-                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName);
+                var doc = Application.DocumentManager.MdiActiveDocument;
+                var ed = doc.Editor;
+
+                // Stap 1: Controleer op pickfirst-selectie
+                var pickFirstSet = GetPickFirstBlocks(ed);
+
+                // Stap 2: Als pickfirst-set leeg is, vraag selectie
+                if (pickFirstSet.Count == 0)
+                {
+                    pickFirstSet = SelectBlocksFromUser(ed);
+                    if (pickFirstSet.Count == 0) return;
+                }
+
+                // Stap 3: Roep verwerking aan met de selectieset
+                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName, pickFirstSet);
             }
             catch (System.Exception exception)
             {
                 HandleUnexpectedException(exception);
+
             }
+        }
+
+        private static List<ObjectId> GetPickFirstBlocks(Editor editor)
+        {
+            var blockIds = new List<ObjectId>();
+
+            // Gebruik AutoCAD's ingebouwde pickfirst mechanisme
+            var pickFirstResult = editor.SelectImplied();
+
+            if (pickFirstResult.Status != PromptStatus.OK)
+                return blockIds;
+
+            // Filtreer alleen INSERT objecten
+            blockIds.AddRange(from SelectedObject selObj in pickFirstResult.Value where selObj.ObjectId.ObjectClass.DxfName == "INSERT" select selObj.ObjectId);
+
+            return blockIds;
+        }
+
+
+        private static List<ObjectId> SelectBlocksFromUser(Editor editor)
+        {
+            var pso = new PromptSelectionOptions
+            {
+                MessageForAdding = "\nSelecteer blocks: ",
+                AllowDuplicates = false,
+                RejectObjectsFromNonCurrentSpace = true
+            };
+
+            // Behoud bestaande filter voor INSERT objecten
+            var filter = new SelectionFilter(new[] {
+                new TypedValue((int)DxfCode.Start, "INSERT")
+            });
+
+            var psr = editor.GetSelection(pso, filter);
+            return psr.Status == PromptStatus.OK ?
+                psr.Value.GetObjectIds().ToList() :
+                new List<ObjectId>();
         }
 
         /// <summary>

@@ -244,14 +244,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return (styleId, description);
         }
 
-        public static void ExecuteCommand(string defaultLabelStyleName)
+        public static void ExecuteCommand(string defaultLabelStyleName, List<ObjectId> selectedBlockIds)
         {
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
             var civDoc = CivilApplication.ActiveDocument;
 
-            // Stap 1: Selecteer blocks van gebruiker
-            var selectedBlockIds = SelectBlocksFromUser(doc.Editor);
             if (!selectedBlockIds.Any()) throw new System.Exception("No blocks found.");
 
             // Stap 2: Extraheer block eigenschappen

@@ -18,6 +18,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Infrabel.AutodeskPlatform.AutoCADCommon.Extensions;
+using Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations;
 using Infrabel.AutodeskPlatform.TopoHelper.Model;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
@@ -814,23 +815,54 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.UserControls.ViewModels
             catch (System.Exception exception) { HandleUnexpectedException(exception); }
 
         }
-
         private void ProcessSelectedBlocks(object parameter)
         {
             try
             {
                 var selectedBlocks = Blocks.Where(b => b.IsSelected).ToList();
-                if (selectedBlocks.Count > 0)
+                if (selectedBlocks.Count == 0)
                 {
-                    StatusMessage = $"{selectedBlocks.Count} blokken geselecteerd voor verwerking.";
-                    // Hier kun je de geselecteerde blokken verwerken
-
-                    throw new NotImplementedException("Functie nog niet geïmplementeerd!");
+                    StatusMessage = "Geen blokken geselecteerd.";
+                    return;
                 }
 
-                StatusMessage = "Geen blokken geselecteerd.";
+                var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                var db = doc.Database;
+
+                using (doc.LockDocument())
+                {
+                    var objectIds = selectedBlocks
+                        .Select(block =>
+                        {
+                            var handle = StringToHandle(block.Handle);
+                            return db.GetObjectId(false, handle, 0);
+                        })
+                        .ToList();
+
+                    FromBlockToCogo.ExecuteCommand(objectIds);
+                    StatusMessage = $"Succesvol {objectIds.Count} blokken geconverteerd naar COGO punten.";
+                }
             }
-            catch (System.Exception exception) { HandleUnexpectedException(exception); }
+            catch (System.Exception exception)
+            {
+                HandleUnexpectedException(exception);
+                StatusMessage = $"Fout tijdens conversie: {exception.Message}";
+            }
+        }
+
+        private static Handle StringToHandle(string strHandle)
+        {
+            Handle handle = new Handle();
+            try
+            {
+                long nHandle = Convert.ToInt64(strHandle, 16);
+                handle = new Handle(nHandle);
+            }
+            catch (System.FormatException)
+            {
+                // Handle exception indien nodig
+            }
+            return handle;
         }
         #endregion
 

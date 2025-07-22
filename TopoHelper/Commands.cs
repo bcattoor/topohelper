@@ -161,7 +161,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper
                 }
 
                 // Stap 3: Roep verwerking aan met de selectieset
-                FromBlockToCogo.ExecuteCommand(SettingsDefault.FromBlockToCogo_DefaultLabelStyleName, pickFirstSet);
+                FromBlockToCogo.ExecuteCommand( pickFirstSet);
             }
             catch (Exception exception)
             {

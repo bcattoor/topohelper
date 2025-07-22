@@ -9,7 +9,9 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
+using Autodesk.Civil.Settings;
 using Infrabel.AutodeskPlatform.AutoCADCommon.BlockScanner;
+using Infrabel.AutodeskPlatform.AutoCADCommon.Interactions;
 using Infrabel.AutodeskPlatform.TopoHelper.Model.Naming;
 using Infrabel.AutodeskPlatform.TopoHelper.Properties;
 using MoreLinq;
@@ -244,7 +246,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             return (styleId, description);
         }
 
-        public static void ExecuteCommand(string defaultLabelStyleName, List<ObjectId> selectedBlockIds)
+        public static void ExecuteCommand(List<ObjectId> selectedBlockIds)
         {
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
@@ -269,7 +271,7 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 classifications.Add(new ClassificationObject(blk));
             }
-            
+
             // Stap 3: Maak CogoPoints aan
             var cogoPointMapping = CreateCogoPointsFromBlocks(classifications);
 
@@ -335,10 +337,12 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
         public static Dictionary<ObjectId, ObjectId> AddCogoPoints(List<ClassificationObject> blocks)
         {
-            var returnDictionary = new Dictionary<ObjectId, ObjectId>();
+            var result = new Dictionary<ObjectId, ObjectId>();
             var doc = Application.DocumentManager.MdiActiveDocument;
+            if (blocks == null || !blocks.Any())
+                return result;
 
-            // Extract locations and original block IDs from classification objects
+            // Extract data
             var locations = new Point3dCollection(blocks.Select(b => b.Block.InsertionPoint3D).ToArray());
             var originalBlockIds = blocks.Select(b => b.ObjectId).ToList();
 
@@ -346,54 +350,77 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
             {
                 var civilDoc = CivilApplication.ActiveDocument;
 
-                // Correcte manier om standaardstijlen op te halen
-                var defaultPointStyleId = civilDoc.Styles.PointStyles["<default>"];
+                // Haal default point en label style namen op via feature-instellingen
+                var pointSettings = civilDoc.Settings.GetSettings<SettingsPoint>();
+                var defaultPointStyleName = pointSettings?.Styles.Point.Value;
+                var defaultLabelStyleName = pointSettings?.Styles.PointLabel.Value;
+
+                // Haal bijbehorende ObjectIds uit de stijlencollecties; vang fouten af
+                var defaultPointStyleId = ObjectId.Null;
                 var defaultLabelStyleId = ObjectId.Null;
 
-                // Specifieke manier voor labelstyles via LabelStyles eigenschap
-                if (civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles.Contains("<default>"))
+                try
                 {
-                    defaultLabelStyleId =
-                        civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles["<default>"];
+                    if (!string.IsNullOrEmpty(defaultPointStyleName) &&
+                        civilDoc.Styles.PointStyles.Contains(defaultPointStyleName))
+                        defaultPointStyleId = civilDoc.Styles.PointStyles[defaultPointStyleName];
+                }
+                catch
+                {
+                    // fallback naar Null, of todo:log voor troubleshooting
+                    
                 }
 
-                // Add CogoPoints with empty description, disable user interaction during creation
+                try
+                {
+                    if (!string.IsNullOrEmpty(defaultLabelStyleName) &&
+                        civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles.Contains(defaultLabelStyleName))
+                        defaultLabelStyleId =
+                            civilDoc.Styles.LabelStyles.PointLabelStyles.LabelStyles[defaultLabelStyleName];
+                }
+                catch
+                {
+                    // fallback naar Null, of todo:log voor troubleshooting
+                }
+
+                // Voeg COGO-punten toe zonder user interaction
                 var newPointIds = civilDoc.CogoPoints.Add(
                     locations,
-                    string.Empty, // Default empty description
+                    string.Empty, // lege beschrijving bij inizialisatie
                     false,
                     false,
-                    true);
+                    true
+                );
 
-                // Map original block IDs/properties  to new CogoPoint IDs/properties
+                // Mapping blokken naar nieuwe punten
                 for (var i = 0; i < newPointIds.Count; i++)
                 {
                     if (i >= originalBlockIds.Count) continue;
-                    // Now we need to set the properties that are not available in the CogoPoints.Add() function we have the id's of the new-objects, the properties values are available on the classification objects
                     var cogoPoint = tr.GetObject(newPointIds[i], OpenMode.ForWrite) as CogoPoint;
                     if (cogoPoint != null)
                     {
-                        // Set properties based on ClassificationObject
+                        // Vul properties in
                         var blockClass = blocks[i];
                         cogoPoint.PointName = blockClass.NewCogoPointName;
                         cogoPoint.RawDescription = blockClass.NewCogoPointRawDescription;
-                        // Create the layer if it does not exist.
-                        cogoPoint.LayerId = AutoCADCommon.Interactions.Layers.CreateLayer(blockClass.NewCogoPointLayerName, 0, "");
+                        cogoPoint.LayerId = Layers.CreateLayer(blockClass.NewCogoPointLayerName, 0, "");
 
-                        // Stijlen instellen
+                        // Style instellen (point en label)
                         if (!defaultPointStyleId.IsNull)
                             cogoPoint.StyleId = defaultPointStyleId;
-
                         if (!defaultLabelStyleId.IsNull)
                             cogoPoint.LabelStyleId = defaultLabelStyleId;
                     }
-                    returnDictionary.Add(originalBlockIds[i], newPointIds[i]);
+
+                    result.Add(originalBlockIds[i], newPointIds[i]);
                 }
 
                 tr.Commit();
             }
-            return returnDictionary;
+
+            return result;
         }
+
 
         private static ObjectId GetPointStyleIdWithFallback(PointStyleCollection pointStyles, string primaryStyleName, string fallbackStyleName)
         {

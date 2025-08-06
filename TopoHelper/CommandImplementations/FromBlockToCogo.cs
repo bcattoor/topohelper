@@ -274,7 +274,9 @@ namespace Infrabel.AutodeskPlatform.TopoHelper.CommandImplementations
 
             // Stap 3: Maak CogoPoints aan
             var cogoPointMapping = CreateCogoPointsFromBlocks(classifications);
-
+            
+            // Log to commandline
+            doc.Editor.WriteMessage($"{cogoPointMapping.Count} CogoPoint(s) have been created.");
         }
 
         #region Utility and Helper Methods (Unchanged)
